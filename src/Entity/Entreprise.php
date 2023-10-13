@@ -1,0 +1,180 @@
+<?php
+
+namespace App\Entity;
+
+use App\Repository\EntrepriseRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
+
+#[ORM\Entity(repositoryClass: EntrepriseRepository::class)]
+class Entreprise
+{
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    private ?int $id = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $logo = null;
+
+    #[ORM\Column(length: 40)]
+    private ?string $raisonSocial = null;
+
+    #[ORM\Column(length: 20)]
+    private ?string $taille = null;
+
+    #[ORM\Column(length: 30)]
+    private ?string $secteur = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $website = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $banniere = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $kbis = null;
+
+    #[ORM\Column]
+    private ?bool $isVerified = null;
+
+    #[ORM\OneToMany(mappedBy: 'entreprise', targetEntity: Represente::class)]
+    private Collection $representants;
+
+    public function __construct()
+    {
+        $this->representants = new ArrayCollection();
+    }
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getLogo(): ?string
+    {
+        return $this->logo;
+    }
+
+    public function setLogo(?string $logo): static
+    {
+        $this->logo = $logo;
+
+        return $this;
+    }
+
+    public function getRaisonSocial(): ?string
+    {
+        return $this->raisonSocial;
+    }
+
+    public function setRaisonSocial(string $raisonSocial): static
+    {
+        $this->raisonSocial = $raisonSocial;
+
+        return $this;
+    }
+
+    public function getTaille(): ?string
+    {
+        return $this->taille;
+    }
+
+    public function setTaille(string $taille): static
+    {
+        $this->taille = $taille;
+
+        return $this;
+    }
+
+    public function getSecteur(): ?string
+    {
+        return $this->secteur;
+    }
+
+    public function setSecteur(string $secteur): static
+    {
+        $this->secteur = $secteur;
+
+        return $this;
+    }
+
+    public function getWebsite(): ?string
+    {
+        return $this->website;
+    }
+
+    public function setWebsite(?string $website): static
+    {
+        $this->website = $website;
+
+        return $this;
+    }
+
+    public function getBanniere(): ?string
+    {
+        return $this->banniere;
+    }
+
+    public function setBanniere(?string $banniere): static
+    {
+        $this->banniere = $banniere;
+
+        return $this;
+    }
+
+    public function getKbis(): ?string
+    {
+        return $this->kbis;
+    }
+
+    public function setKbis(string $kbis): static
+    {
+        $this->kbis = $kbis;
+
+        return $this;
+    }
+
+    public function isIsVerified(): ?bool
+    {
+        return $this->isVerified;
+    }
+
+    public function setIsVerified(bool $isVerified): static
+    {
+        $this->isVerified = $isVerified;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Represente>
+     */
+    public function getRepresentants(): Collection
+    {
+        return $this->representants;
+    }
+
+    public function addRepresentant(Represente $representant): static
+    {
+        if (!$this->representants->contains($representant)) {
+            $this->representants->add($representant);
+            $representant->setEntreprise($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRepresentant(Represente $representant): static
+    {
+        if ($this->representants->removeElement($representant)) {
+            // set the owning side to null (unless already changed)
+            if ($representant->getEntreprise() === $this) {
+                $representant->setEntreprise(null);
+            }
+        }
+
+        return $this;
+    }
+}

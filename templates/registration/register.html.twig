@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inscription{% endblock %}
+
+{% block body %}
+    <div class="wrapper">
+        <div class="container mt-4">
+            <h1>Inscription</h1><br>
+    
+            {{ form_errors(registrationForm) }}
+    
+            {{ form_start(registrationForm) }}
+            <div class="form-group">
+                {{ form_label(registrationForm.email) }}
+                {{ form_widget(registrationForm.email, {'attr': {'class': 'form-control'}}) }}
+            </div>
+            <div class="form-group">
+                {{ form_label(registrationForm.plainPassword.first, 'Mot de passe', {'label_attr': {'class': 'custom-label'}}) }}
+                {{ form_widget(registrationForm.plainPassword.first, {'attr': {'class': 'form-control', 'type': 'password'}}) }}
+            </div>
+            <div class="form-group">
+                {{ form_label(registrationForm.plainPassword.second, 'Confirmer le mot de passe', {'label_attr': {'class': 'custom-label'}}) }}
+                {{ form_widget(registrationForm.plainPassword.second, {'attr': {'class': 'form-control', 'type': 'password'}}) }}
+            </div>
+            <div class="form-check">
+                {{ form_widget(registrationForm.agreeTerms, {'attr': {'class': 'form-check-input'}}) }}
+                {{ form_label(registrationForm.agreeTerms, 'J\'accepte les termes et les conditions', {'label_attr': {'class': 'form-check-label'}}) }}
+            </div><br>
+    
+            <button type="submit" class="btn btn-primary mt-3">Register</button>
+            {{ form_end(registrationForm) }}
+        </div>
+    </div>
+{% endblock %}
