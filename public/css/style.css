@@ -1,0 +1,127 @@
+* {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    box-sizing: border-box;
+    font-family: sans-serif;
+    text-decoration: none;
+}
+
+header nav:first-child {
+    padding: 20px;
+}
+
+header nav:first-child ul {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+header nav:first-child ul li:first-child {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+header img.logo {
+    height: 40px;
+}
+
+header nav:first-child ul .fa-bars {
+    font-size: 30px;
+}
+
+header nav:first-child ul .fa-magnifying-glass {
+    font-size: 25px;
+}
+
+header nav.slide-menu div:first-child {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgb(231, 231, 231);
+    padding: 27px;
+}
+
+header nav.slide-menu div:first-child i:nth-child(2) {
+    font-size: 25px;
+}
+
+header nav.slide-menu div:first-child a {
+    color: rgb(81, 81, 81);
+}
+
+header nav.slide-menu {
+    background-color: #fff;
+    height: 100vh;
+    width: 80%;
+    position: absolute;
+    top: 0;
+    left: -80%;
+    transition: all 0.3s ease-in-out;
+    z-index: 10;
+}
+
+header nav.slide-menu-active {
+    left: 0;
+}
+
+header nav.slide-menu > ul {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+header nav.slide-menu ul li {
+    color: #636363;
+    margin-block: 12px;
+}
+
+header nav.slide-menu a.post-offre {
+    background-color: #007456;
+    border-radius: 20px;
+    padding: 12px 18px;
+    color: #fff;
+    margin-top: 20px;
+    display: block;
+    width: fit-content;
+}
+header nav.slide-menu .sub-menu {
+    margin-left: 20px;
+    display: grid;
+    grid-template-rows: 0fr;
+    overflow: hidden;
+    transition: grid-template-rows 200ms;
+}
+
+header nav.slide-menu .sub-menu > ul {
+    min-height: 0;
+}
+
+header nav.slide-menu .sub-menu-active {
+    grid-template-rows: 1fr;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    background-color: #171d22;
+    z-index: 1; 
+    transition: all 700ms ease-in-out;
+    visibility: hidden;
+}
+
+.active-overlay {
+    opacity: 0.80;
+    visibility: visible;
+}
+
+.bg {
+    background-color: #007456;
+    height: 300px;
+    width: 100%;
+}

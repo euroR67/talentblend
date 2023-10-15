@@ -2,8 +2,11 @@
 <html>
     <head>
         <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>{% block title %}Welcome!{% endblock %}</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+        <link rel="stylesheet" href="{{asset('css/style.css')}}">
         {% block stylesheets %}
         {% endblock %}
 
@@ -11,6 +14,40 @@
         {% endblock %}
     </head>
     <body>
+        <header>
+            <nav>
+                <ul>
+                    <li>
+                        <i class="fa-solid fa-bars" style="color: #007456;"></i>
+                        <img class="logo" src="{{ asset('img/logo.png') }}" alt="logo">
+                    </li>
+                    <li><i class="fa-solid fa-magnifying-glass" style="color: #5d5d5d;"></i></li>
+                </ul>
+            </nav>
+            <nav class="slide-menu">
+                <div>
+                    <a href=""><i class="fa-solid fa-right-to-bracket"></i> Connexion</a>
+                    <i class="fa-solid fa-xmark" style="color: #666666;"></i>
+                </div>
+                <ul>
+                    <li>Accueil</li>
+                    <li class="categorie">Catégorie <i class="fa-solid fa-chevron-down fa-xs"></i></li>
+                    <li class="sub-menu">
+                        <ul>
+                            <li>Informatique & Technologie</li>
+                            <li>Batiment</li>
+                            <li>Commercial</li>
+                        </ul>
+                    </li>
+                    <li>Offres d'emploi</li>
+                    <li>Déposer CV</li>
+                    <li><a class="post-offre" href="">Poster une offre</a></li>
+                </ul>
+            </nav>
+            <div class="overlay"></div>
+        </header>
+        <div class="bg"></div>
         {% block body %}{% endblock %}
+        <script src="{{ asset('js/script.js') }}"></script>
     </body>
 </html>
