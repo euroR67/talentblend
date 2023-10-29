@@ -88,6 +88,7 @@ header nav.slide-menu a.post-offre {
 }
 header nav.slide-menu .sub-menu {
     margin-left: 20px;
+    margin-block: 0;
     display: grid;
     grid-template-rows: 0fr;
     overflow: hidden;
