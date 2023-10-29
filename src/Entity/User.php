@@ -72,7 +72,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToOne]
     private ?Ville $villes = null;
 
-    #[ORM\ManyToOne(inversedBy: 'Expediteur')]
+    #[ORM\ManyToOne(inversedBy: 'expediteur')]
     private ?Message $messagesEnvoyes = null;
 
     #[ORM\ManyToOne(inversedBy: 'destinataire')]
@@ -84,6 +84,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'userEntreprise', targetEntity: Represente::class)]
     private Collection $representants;
 
+    #[ORM\ManyToMany(targetEntity: Emploi::class, inversedBy: 'users')]
+    private Collection $emploiSauvegarder;
+
     public function __construct()
     {
         $this->metiers = new ArrayCollection();
@@ -92,6 +95,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->langues = new ArrayCollection();
         $this->postulations = new ArrayCollection();
         $this->representants = new ArrayCollection();
+        $this->emploiSauvegarder = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -460,6 +464,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $representant->setUserEntreprise(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Emploi>
+     */
+    public function getEmploiSauvegarder(): Collection
+    {
+        return $this->emploiSauvegarder;
+    }
+
+    public function addEmploiSauvegarder(Emploi $emploiSauvegarder): static
+    {
+        if (!$this->emploiSauvegarder->contains($emploiSauvegarder)) {
+            $this->emploiSauvegarder->add($emploiSauvegarder);
+        }
+
+        return $this;
+    }
+
+    public function removeEmploiSauvegarder(Emploi $emploiSauvegarder): static
+    {
+        $this->emploiSauvegarder->removeElement($emploiSauvegarder);
 
         return $this;
     }

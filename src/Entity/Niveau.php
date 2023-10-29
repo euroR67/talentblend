@@ -21,9 +21,13 @@ class Niveau
     #[ORM\OneToMany(mappedBy: 'niveau', targetEntity: User::class)]
     private Collection $users;
 
+    #[ORM\OneToMany(mappedBy: 'niveau', targetEntity: Emploi::class, orphanRemoval: true)]
+    private Collection $emplois;
+
     public function __construct()
     {
         $this->users = new ArrayCollection();
+        $this->emplois = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -67,6 +71,36 @@ class Niveau
             // set the owning side to null (unless already changed)
             if ($user->getNiveau() === $this) {
                 $user->setNiveau(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Emploi>
+     */
+    public function getEmplois(): Collection
+    {
+        return $this->emplois;
+    }
+
+    public function addEmploi(Emploi $emploi): static
+    {
+        if (!$this->emplois->contains($emploi)) {
+            $this->emplois->add($emploi);
+            $emploi->setNiveau($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEmploi(Emploi $emploi): static
+    {
+        if ($this->emplois->removeElement($emploi)) {
+            // set the owning side to null (unless already changed)
+            if ($emploi->getNiveau() === $this) {
+                $emploi->setNiveau(null);
             }
         }
 

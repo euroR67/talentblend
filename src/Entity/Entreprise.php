@@ -42,9 +42,17 @@ class Entreprise
     #[ORM\OneToMany(mappedBy: 'entreprise', targetEntity: Represente::class)]
     private Collection $representants;
 
+    #[ORM\OneToMany(mappedBy: 'entreprise', targetEntity: Emploi::class, orphanRemoval: true)]
+    private Collection $emplois;
+
+    #[ORM\ManyToOne(inversedBy: 'entreprises')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Ville $ville = null;
+
     public function __construct()
     {
         $this->representants = new ArrayCollection();
+        $this->emplois = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -174,6 +182,48 @@ class Entreprise
                 $representant->setEntreprise(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Emploi>
+     */
+    public function getEmplois(): Collection
+    {
+        return $this->emplois;
+    }
+
+    public function addEmploi(Emploi $emploi): static
+    {
+        if (!$this->emplois->contains($emploi)) {
+            $this->emplois->add($emploi);
+            $emploi->setEntreprise($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEmploi(Emploi $emploi): static
+    {
+        if ($this->emplois->removeElement($emploi)) {
+            // set the owning side to null (unless already changed)
+            if ($emploi->getEntreprise() === $this) {
+                $emploi->setEntreprise(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getVille(): ?Ville
+    {
+        return $this->ville;
+    }
+
+    public function setVille(?Ville $ville): static
+    {
+        $this->ville = $ville;
 
         return $this;
     }

@@ -45,9 +45,25 @@ class Emploi
     #[ORM\OneToMany(mappedBy: 'emploi', targetEntity: Postule::class)]
     private Collection $postulations;
 
+    #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'emploiSauvegarder')]
+    private Collection $users;
+
+    #[ORM\ManyToOne(inversedBy: 'emplois')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Ville $ville = null;
+
+    #[ORM\ManyToOne(inversedBy: 'emplois')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Niveau $niveau = null;
+
+    #[ORM\ManyToOne(inversedBy: 'emplois')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Entreprise $entreprise = null;
+
     public function __construct()
     {
         $this->postulations = new ArrayCollection();
+        $this->users = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -177,6 +193,69 @@ class Emploi
                 $postulation->setEmploi(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
+
+    public function addUser(User $user): static
+    {
+        if (!$this->users->contains($user)) {
+            $this->users->add($user);
+            $user->addEmploiSauvegarder($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUser(User $user): static
+    {
+        if ($this->users->removeElement($user)) {
+            $user->removeEmploiSauvegarder($this);
+        }
+
+        return $this;
+    }
+
+    public function getVille(): ?Ville
+    {
+        return $this->ville;
+    }
+
+    public function setVille(?Ville $ville): static
+    {
+        $this->ville = $ville;
+
+        return $this;
+    }
+
+    public function getNiveau(): ?Niveau
+    {
+        return $this->niveau;
+    }
+
+    public function setNiveau(?Niveau $niveau): static
+    {
+        $this->niveau = $niveau;
+
+        return $this;
+    }
+
+    public function getEntreprise(): ?Entreprise
+    {
+        return $this->entreprise;
+    }
+
+    public function setEntreprise(?Entreprise $entreprise): static
+    {
+        $this->entreprise = $entreprise;
 
         return $this;
     }
