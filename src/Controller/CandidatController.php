@@ -21,27 +21,21 @@ class CandidatController extends AbstractController
 
     // Méthode pour modifier le profil du candidat
     #[Route('/candidat/{id}/edit', name: 'app_candidat_edit')]
-    public function edit(Request $request, User $user = null, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, User $user, EntityManagerInterface $entityManager): Response
     {
-
-        if (!$user) {
-            $user = new User();
-        }
-        // dd($user);
-
         $form = $this->createForm(CandidatType::class, $user);
-        
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_candidat_profil');
+            return $this->redirectToRoute('app_candidat_edit', ['id' => $user->getId()]);
         }
-
+        
+        // Si le formulaire n'est pas soumis, on affiche le formulaire
         return $this->render('candidat/profil.html.twig', [
+            'user' => $user,
             'form' => $form,
-            'edit' => $user->getId()
         ]);
     }
 }

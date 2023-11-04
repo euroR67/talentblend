@@ -31,8 +31,54 @@
                     {{ form_row(form.cv) }}
                 </div>
 
-            {{ form_end(form) }}
+                <div class="form-group">
+                    <label for="inputNom">Nom</label>
+                    {{ form_row(form.nom) }}
+                </div>
 
+                <div class="form-group">
+                    <label for="inputPrenom">Prénom</label>
+                    {{ form_row(form.prenom) }}
+                </div>
+
+                <div class="form-group">
+                    <label for="inputEmail">Adresse email</label>
+                    {{ form_row(form.email) }}
+                </div>
+
+                <div class="form-group">
+                    <label for="selectMetier">Metier</label>
+                    {{ form_row(form.metiers) }}
+                </div>
+            
+                <div class="form-group">
+                    <label for="inputDescription">A propos de vous</label>
+                    {{ form_row(form.description) }}
+                </div>
+
+                <div class="form-group">
+                    <label for="selectNiveau">Année d'expérience</label>
+                    {{ form_row(form.niveau) }}
+                </div>
+
+                <div class="form-group">
+                    <label for="selectLangue">Langue</label>
+                    {{ form_row(form.langues) }}
+                </div>
+
+                <div class="form-group">
+                    <label for="selectVille">Ville</label>
+                    {{ form_row(form.villes) }}
+                </div>
+
+                <div class="form-group">
+                    <label for="choice">Déployer mon CV</label>
+                    {{ form_row(form.active) }}
+                </div>
+                
+                <button>Annuler</button>
+                <button class="btn btn-lg btn-primary" type="submit">Appliquer</button>
+                {{ form_end(form) }}
         </div>
 
         <div class="formation" style="display: none;">
