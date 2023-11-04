@@ -43,6 +43,17 @@ header nav.slide-menu div:first-child {
     padding: 27px;
 }
 
+header nav.slide-menu div:first-child img {
+    height: 50px;
+    border-radius: 50%;
+}
+
+header nav.slide-menu div:first-child span {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
 header nav.slide-menu div:first-child i:nth-child(2) {
     font-size: 25px;
 }
@@ -179,7 +190,7 @@ div.wrapper form h2 {
     width: 100%;
 }
 
-div.wrapper form p:last-child {
+div.wrapper .haveacc {
     text-align: center;
     margin-top: 20px;
     font-size: 14px;

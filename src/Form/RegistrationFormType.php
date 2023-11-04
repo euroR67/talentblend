@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
@@ -23,14 +24,15 @@ class RegistrationFormType extends AbstractType
         $builder
             ->add('role', ChoiceType::class, [
                 'choices' => [
-                    'Candidat' => 'ROLE_CANDIDATE',
-                    'Recruteur' => 'ROLE_RECRUITER',
+                    'Candidat' => 'ROLE_CANDIDAT',
+                    'Recruteur' => 'ROLE_RECRUTEUR',
                 ],
-                'expanded' => true,
                 'mapped' => false,
+                'expanded' => true,
                 'required' => true,
                 'attr' => ['class' => 'custom-choice'],
-                'data' => 'ROLE_CANDIDATE',
+                'data' => 'ROLE_CANDIDAT',
+                'multiple' => false,
             ])
             ->add('email', EmailType::class)
             ->add('nom', TextType::class)

@@ -55,7 +55,8 @@
 
                 <button class="btn btn-lg btn-primary" type="submit">Inscription</button>
 
-                <p>Vous avez déjà un compte ? <a href="{{ path('app_login') }}">Connectez-vous</a></p>
+                <p class="haveacc">Vous avez déjà un compte ? <a href="{{ path('app_login') }}">Connectez-vous</a></p>
+                {{ form_rest(registrationForm) }}
             </form>
         </div>
     </div>

@@ -1,0 +1,50 @@
+{% extends 'dashboard.html.twig' %}
+
+{% block title %}Profil{% endblock %}
+
+{% block body %}
+
+<div class="wrapper">
+
+    <h2>Paramètres du profil</h2>
+
+    <ul class="tab">
+        <li class="active">Votre profil</li>
+        <li>Formation</li>
+        <li>Expérience</li>
+    </ul>
+
+    <div class="section-wrapper">
+
+        <div class="profil">
+            <h3>Vos informations</h3>
+
+            {{ form_start(form) }}
+
+                <div class="form-group">
+                    <label for="uploadPhoto">Votre photo</label>
+                    {{ form_row(form.photo) }}
+                </div>
+
+                <div class="form-group">
+                    <label for="uploadCV">Votre CV</label>
+                    {{ form_row(form.cv) }}
+                </div>
+
+            {{ form_end(form) }}
+
+        </div>
+
+        <div class="formation" style="display: none;">
+            <h3>Formations</h3>
+        </div>
+
+        <div class="experience" style="display: none;">
+            <h3>Expériences</h3>
+        </div>
+        
+    </div>
+
+</div>
+
+{% endblock %}

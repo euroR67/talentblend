@@ -32,6 +32,19 @@ class RegistrationController extends AbstractController
                 )
             );
 
+            // Récupérer le rôle sélectionné dans le formulaire
+            $role = $form->get('role')->getData();
+            
+            $roles = [];
+            
+            $roles[] = $role;
+            
+            // Ajouter le rôle à l'utilisateur
+            $user->setRoles($roles);
+
+            // Définir false pour la propriété active
+            $user->setActive(false);
+
             $entityManager->persist($user);
             $entityManager->flush();
             // do anything else you need here, like send an email

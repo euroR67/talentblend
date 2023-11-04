@@ -54,8 +54,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?bool $active = null;
 
-    #[ORM\ManyToMany(targetEntity: Metier::class, inversedBy: 'users')]
-    private Collection $metiers;
+    #[ORM\ManyToOne(inversedBy: 'users')]
+    private ?Metier $metiers;
 
     #[ORM\OneToMany(mappedBy: 'userExp', targetEntity: Experience::class, orphanRemoval: true)]
     private Collection $experiences;
@@ -89,7 +89,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function __construct()
     {
-        $this->metiers = new ArrayCollection();
         $this->experiences = new ArrayCollection();
         $this->formations = new ArrayCollection();
         $this->langues = new ArrayCollection();
@@ -253,30 +252,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @return Collection<int, Metier>
-     */
-    public function getMetiers(): Collection
-    {
-        return $this->metiers;
-    }
-
-    public function addMetier(Metier $metier): static
-    {
-        if (!$this->metiers->contains($metier)) {
-            $this->metiers->add($metier);
-        }
-
-        return $this;
-    }
-
-    public function removeMetier(Metier $metier): static
-    {
-        $this->metiers->removeElement($metier);
-
-        return $this;
-    }
-
-    /**
      * @return Collection<int, Experience>
      */
     public function getExperiences(): Collection
@@ -356,6 +331,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function removeLangue(Langue $langue): static
     {
         $this->langues->removeElement($langue);
+
+        return $this;
+    }
+
+    public function getMetiers(): ?Metier
+    {
+        return $this->metiers;
+    }
+
+    public function setMetiers(?Metier $metiers): static
+    {
+        $this->metiers = $metiers;
 
         return $this;
     }

@@ -26,10 +26,26 @@
             </nav>
             <nav class="slide-menu">
                 <div>
-                    <a href=""><i class="fa-solid fa-right-to-bracket"></i> Connexion</a>
+                    {# Afficher un lien pour se connecter si l'utilisateur n'est pas connecté #}
+                    {% if not app.user %}
+                        <span>
+                            <a href="{{ path('app_login') }}">Se connecter</a>
+                            <a href="{{ path('app_register') }}">S'inscrire</a>
+                        </span>
+                    {% endif %}
+                    {# Afficher la photo de profil de l'utilisateur et son nom s'il est connecté #}
+                    {% if app.user %}
+                        <span>
+                            <img src="{{ asset('img/profil.jpg') }}" alt="avatar">
+                            {{ app.user.prenom }} {{ app.user.nom }}
+                        </span>
+                    {% endif %}
                     <i class="fa-solid fa-xmark" style="color: #666666; cursor: pointer;"></i>
                 </div>
                 <ul>
+                    {% if app.user %}
+                        <li><a href="{{ path('app_candidat_edit', {'id': user.id }) }}">Mon profil</a></li>
+                    {% endif %}
                     <li>Accueil</li>
                     <li class="categorie">Catégorie <i class="fa-solid fa-chevron-down fa-xs"></i></li>
                     <li class="sub-menu">
@@ -41,6 +57,9 @@
                     </li>
                     <li>Offres d'emploi</li>
                     <li>Déposer CV</li>
+                    {% if app.user %}
+                        <li><a href="{{ path('app_logout') }}">Déconnexion</a></li>
+                    {% endif %}
                     <li><a class="post-offre" href="">Poster une offre</a></li>
                 </ul>
             </nav>
