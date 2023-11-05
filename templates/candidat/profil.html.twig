@@ -92,21 +92,51 @@
                     {{ form_row(form.active) }}
                 </div>
                 
-                <button>Annuler</button>
-                <button type="submit">Appliquer</button>
-                {{ form_end(form) }}
-        </div>
-
+            </div>
+            
         <div class="formation" style="display: none;">
             <h3>Formations</h3>
-        </div>
+            <div class="formation-form" id="formation_list">
+                {% for key, formation in form.formations %}
+                <div class="form-group">
+                    <label for="inputTitre">Titre</label>
+                    {{ form_row(formation.titre) }}
+                </div>
 
+                <div class="form-group">
+                    <label for="addEntreprise">Entreprise</label>
+                    {{ form_row(formation.qualification) }}
+                </div>
+
+                <div class="form-group">
+                    <label for="inputDateDebut">Date de début</label>
+                    {{ form_row(formation.dateDebut) }}
+                </div>
+
+                <div class="form-group">
+                    <label for="inputDateFin">Date de fin</label>
+                    {{ form_row(formation.dateFin) }}
+                </div>
+
+                <div class="form-group">
+                    <label for="inputDescription">Description</label>
+                    {{ form_row(formation.description) }}
+                </div>
+            {% endfor %}
+            </div>
+
+        </div>
+        
         <div class="experience" style="display: none;">
             <h3>Expériences</h3>
         </div>
         
     </div>
+    <button>Annuler</button>
+    <button type="submit">Appliquer</button>
+    {{ form_end(form) }}
 
+    
 </div>
 
 {% endblock %}

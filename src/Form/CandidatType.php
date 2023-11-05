@@ -7,6 +7,7 @@ use App\Entity\Ville;
 use App\Entity\Langue;
 use App\Entity\Metier;
 use App\Entity\Niveau;
+use App\Form\FormationType;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\AbstractType;
@@ -20,6 +21,7 @@ use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
 class CandidatType extends AbstractType
 {
@@ -121,6 +123,14 @@ class CandidatType extends AbstractType
                 ],
                 'expanded' => true,
                 'multiple' => false,
+                'label' => false,
+            ])
+            ->add('formations', CollectionType::class, [
+                'entry_type' => FormationType::class,
+                'entry_options' => ['label' => false],
+                'allow_add' => true,
+                'allow_delete' => true,
+                'delete_empty' => true,
                 'label' => false,
             ])
             // Add an event listener to conditionally display deletePhoto

@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\UserType;
+use App\Entity\Formation;
 use App\Form\CandidatType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,6 +25,7 @@ class CandidatController extends AbstractController
     #[Route('/candidat/{id}/edit', name: 'app_candidat_edit')]
     public function edit(Request $request, User $user, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
+
         $form = $this->createForm(CandidatType::class, $user);
         $form->handleRequest($request);
 
