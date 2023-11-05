@@ -24,6 +24,14 @@
                 <div class="form-group">
                     <label for="uploadPhoto">Votre photo</label>
                     {{ form_row(form.photo) }}
+                    <div class="col-sm-3">
+                        {# Si l'utilisateur a déjà une photo de profil, on l'affiche #}
+                        {% if app.user.photo %}
+                            <img src="{{ asset('pdp/' ~ app.user.photo) }}" alt="avatar">
+                            <label for="deletePhoto">Supprimer la photo</label>
+                            {{ form_row(form.deletePhoto) }}
+                        {% endif %}
+                    </div>
                 </div>
 
                 <div class="form-group">
@@ -77,7 +85,7 @@
                 </div>
                 
                 <button>Annuler</button>
-                <button class="btn btn-lg btn-primary" type="submit">Appliquer</button>
+                <button type="submit">Appliquer</button>
                 {{ form_end(form) }}
         </div>
 
