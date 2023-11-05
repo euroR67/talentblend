@@ -37,6 +37,14 @@
                 <div class="form-group">
                     <label for="uploadCV">Votre CV</label>
                     {{ form_row(form.cv) }}
+                    <div class="col-sm-3">
+                        {# Si l'utilisateur a déjà un CV, on l'affiche #}
+                        {% if app.user.cv %}
+                            <a href="{{ asset('cv/' ~ app.user.cv) }}" target="_blank">Voir le CV</a>
+                            <label for="deleteCV">Supprimer le CV</label>
+                            {{ form_row(form.deleteCV) }}
+                        {% endif %}
+                    </div>
                 </div>
 
                 <div class="form-group">

@@ -53,6 +53,25 @@ class CandidatType extends AbstractType
             ->add('cv', FileType::class, [
                 'required' => false,
                 'label' => false,
+                'mapped' => false,
+                'constraints' => [
+                    new File([
+                        'maxSize' => '5M',
+                        'mimeTypes' => [
+                            'application/pdf',
+                            'application/x-pdf',
+                        ],
+                        'mimeTypesMessage' => 'Le format du CV n\'est pas valide !',
+                    ])
+                ],
+            ])
+            ->add('deleteCV', CheckboxType::class, [
+                'required' => false,
+                'label' => false,
+                'mapped' => false, 
+                'attr' => [
+                    'style' => 'display: none;', // Hide the field initially
+                ],
             ])
             ->add('nom', TextType::class, [
                 'label' => false,
@@ -120,6 +139,25 @@ class CandidatType extends AbstractType
                     'mapped' => false, 
                     'attr' => [
                         'style' => $hasPhoto ? 'display: block;' : 'display: none;',
+                    ],
+                ]);
+            });
+            // Add an event listener to conditionally display deleteCV
+            $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
+                $user = $event->getData();
+                $form = $event->getForm();
+    
+                // Check if the user has a cv
+                $hasCV = $user && $user->getCv();
+    
+                // if hasCV is true , set deleteCV attr style to display: block
+                // else set it to display: none
+                $form->add('deleteCV', CheckboxType::class, [
+                    'required' => false,
+                    'label' => false,
+                    'mapped' => false, 
+                    'attr' => [
+                        'style' => $hasCV ? 'display: block;' : 'display: none;',
                     ],
                 ]);
             });
