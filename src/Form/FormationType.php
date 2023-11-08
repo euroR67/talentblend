@@ -15,27 +15,15 @@ class FormationType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('titre', TextType::class, [
-                'label' => false,
-            ])
-            ->add('qualification', TextType::class, [
-                'label' => false,
-            ])
+            ->add('titre', TextType::class)
+            ->add('qualification', TextType::class)
             ->add('dateDebut', DateType::class, [
                 'widget' => 'single_text',
-                'format' => 'dd-MM-yyyy',
-                'html5' => false,
-                'label' => false,
             ])
             ->add('dateFin', DateType::class, [
                 'widget' => 'single_text',
-                'format' => 'dd-MM-yyyy',
-                'html5' => false,
-                'label' => false,
             ])
-            ->add('description', TextareaType::class, [
-                'label' => false,
-            ])
+            ->add('description', TextareaType::class)
         ;
     }
 

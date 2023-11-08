@@ -8,6 +8,7 @@ use App\Entity\Langue;
 use App\Entity\Metier;
 use App\Entity\Niveau;
 use App\Form\FormationType;
+use App\Form\ExperienceType;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\AbstractType;
@@ -30,7 +31,7 @@ class CandidatType extends AbstractType
         $builder
             ->add('photo', FileType::class, [
                 'required' => false,
-                'label' => false,
+                'label' => 'Votre photo',
                 'mapped' => false,
                 'constraints' => [
                     new File([
@@ -46,7 +47,7 @@ class CandidatType extends AbstractType
             ])
             ->add('deletePhoto', CheckboxType::class, [
                 'required' => false,
-                'label' => false,
+                'label' => 'Supprimer la photo',
                 'mapped' => false, 
                 'attr' => [
                     'style' => 'display: none;', // Hide the field initially
@@ -54,7 +55,7 @@ class CandidatType extends AbstractType
             ])
             ->add('cv', FileType::class, [
                 'required' => false,
-                'label' => false,
+                'label' => 'Votre CV',
                 'mapped' => false,
                 'constraints' => [
                     new File([
@@ -69,20 +70,20 @@ class CandidatType extends AbstractType
             ])
             ->add('deleteCV', CheckboxType::class, [
                 'required' => false,
-                'label' => false,
+                'label' => 'Supprimer le CV',
                 'mapped' => false, 
                 'attr' => [
                     'style' => 'display: none;', // Hide the field initially
                 ],
             ])
             ->add('nom', TextType::class, [
-                'label' => false,
+                'label' => 'Nom',
             ])
             ->add('prenom', TextType::class, [
-                'label' => false,
+                'label' => 'Prénom',
             ])
             ->add('email', EmailType::class, [
-                'label' => false,
+                'label' => 'Adresse email',
                 'disabled' => true,
             ])
             ->add('metiers', EntityType::class, [
@@ -90,31 +91,31 @@ class CandidatType extends AbstractType
                 'choice_label' => 'nomMetier',
                 'multiple' => false,
                 'expanded' => false,
-                'label' => false,
+                'label' => 'Métier',
             ])
             ->add('description', TextareaType::class, [
-                'label' => false,
+                'label' => 'A propos de vous',
             ])
             ->add('niveau', EntityType::class, [
                 'class' => Niveau::class,
                 'choice_label' => 'anneeExperience',
                 'multiple' => false,
                 'expanded' => false,
-                'label' => false,
+                'label' => 'Années d\'expérience',
             ])
             ->add('langues', EntityType::class, [
                 'class' => Langue::class,
                 'choice_label' => 'langage',
                 'multiple' => true,
                 'expanded' => false,
-                'label' => false,
+                'label' => 'Langues',
             ])
             ->add('villes', EntityType::class, [
                 'class' => Ville::class,
                 'choice_label' => 'nomVille',
                 'multiple' => false,
                 'expanded' => false,
-                'label' => false,
+                'label' => 'Ville',
             ])
             ->add('active', ChoiceType::class, [
                 'choices' => [
@@ -123,7 +124,7 @@ class CandidatType extends AbstractType
                 ],
                 'expanded' => true,
                 'multiple' => false,
-                'label' => false,
+                'label' => 'Activer mon profil',
             ])
             ->add('formations', CollectionType::class, [
                 'entry_type' => FormationType::class,
@@ -132,6 +133,18 @@ class CandidatType extends AbstractType
                 'allow_delete' => true,
                 'delete_empty' => true,
                 'label' => false,
+                'by_reference' => false,
+                'error_bubbling' => false,
+            ])
+            ->add('experiences', CollectionType::class, [
+                'entry_type' => ExperienceType::class,
+                'entry_options' => ['label' => false],
+                'allow_add' => true,
+                'allow_delete' => true,
+                'delete_empty' => true,
+                'label' => false,
+                'by_reference' => false,
+                'error_bubbling' => false,
             ])
             // Add an event listener to conditionally display deletePhoto
             ->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
@@ -151,9 +164,9 @@ class CandidatType extends AbstractType
                         'style' => $hasPhoto ? 'display: block;' : 'display: none;',
                     ],
                 ]);
-            });
+            })
             // Add an event listener to conditionally display deleteCV
-            $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
+            ->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
                 $user = $event->getData();
                 $form = $event->getForm();
     

@@ -20,9 +20,9 @@
             <h3>Vos informations</h3>
 
             {{ form_start(form) }}
-
+                {{ form_widget(form._token) }}
+                {{ form_errors(form) }}
                 <div class="form-group">
-                    <label for="uploadPhoto">Votre photo</label>
                     {{ form_row(form.photo) }}
                     <div class="col-sm-3">
                         {# Si l'utilisateur a déjà une photo de profil, on l'affiche #}
@@ -35,7 +35,6 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="uploadCV">Votre CV</label>
                     {{ form_row(form.cv) }}
                     <div class="col-sm-3">
                         {# Si l'utilisateur a déjà un CV, on l'affiche #}
@@ -48,94 +47,121 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="inputNom">Nom</label>
                     {{ form_row(form.nom) }}
                 </div>
 
                 <div class="form-group">
-                    <label for="inputPrenom">Prénom</label>
                     {{ form_row(form.prenom) }}
                 </div>
 
                 <div class="form-group">
-                    <label for="inputEmail">Adresse email</label>
                     {{ form_row(form.email) }}
                 </div>
 
                 <div class="form-group">
-                    <label for="selectMetier">Metier</label>
                     {{ form_row(form.metiers) }}
                 </div>
             
                 <div class="form-group">
-                    <label for="inputDescription">A propos de vous</label>
                     {{ form_row(form.description) }}
                 </div>
 
                 <div class="form-group">
-                    <label for="selectNiveau">Année d'expérience</label>
                     {{ form_row(form.niveau) }}
                 </div>
 
                 <div class="form-group">
-                    <label for="selectLangue">Langue</label>
                     {{ form_row(form.langues) }}
                 </div>
 
                 <div class="form-group">
-                    <label for="selectVille">Ville</label>
                     {{ form_row(form.villes) }}
                 </div>
 
                 <div class="form-group">
-                    <label for="choice">Déployer mon CV</label>
                     {{ form_row(form.active) }}
                 </div>
                 
             </div>
             
         <div class="formation" style="display: none;">
+
             <h3>Formations</h3>
-            <div class="formation-form" id="formation_list">
-                {% for key, formation in form.formations %}
-                <div class="form-group">
-                    <label for="inputTitre">Titre</label>
-                    {{ form_row(formation.titre) }}
-                </div>
 
-                <div class="form-group">
-                    <label for="addEntreprise">Entreprise</label>
-                    {{ form_row(formation.qualification) }}
-                </div>
+            <div id="formations" 
+            data-prototype="{{ include("candidat/_formation.html.twig", {form: form.formations.vars.prototype})|e("html_attr") }}" 
+            data-index="{{ form.formations|length > 0 ? form.formations|last.vars.name + 1 : 0}}">
 
-                <div class="form-group">
-                    <label for="inputDateDebut">Date de début</label>
-                    {{ form_row(formation.dateDebut) }}
-                </div>
+                {% for formation in form.formations %}
+                    <div class="col-4">
+                        {{ include("candidat/_formation.html.twig", {form: formation}) }}
+                    </div>
+                {% endfor %}
 
-                <div class="form-group">
-                    <label for="inputDateFin">Date de fin</label>
-                    {{ form_row(formation.dateFin) }}
-                </div>
-
-                <div class="form-group">
-                    <label for="inputDescription">Description</label>
-                    {{ form_row(formation.description) }}
-                </div>
-            {% endfor %}
             </div>
+            {# {{ form_row(form.formations) }} #}
+            <button type="button" class="btn btn-primary btn-new" data-collection="#formations" id="new-formation">New Formation</button>
 
         </div>
-        
+        {{ form_errors(form.formations) }}
         <div class="experience" style="display: none;">
+
             <h3>Expériences</h3>
+
+            <div id="experiences" 
+            data-prototype="{{ include("candidat/_experience.html.twig", {form: form.experiences.vars.prototype})|e("html_attr") }}" 
+            data-index="{{ form.experiences|length > 0 ? form.experiences|last.vars.name + 1 : 0}}">
+
+                {% for experience in form.experiences %}
+                    <div class="col-4">
+                        {{ include("candidat/_experience.html.twig", {form: experience}) }}
+                    </div>
+                {% endfor %}
+
+            </div>
+            {# {{ form_row(form.experiences) }} #}
+            <button type="button" class="btn btn-primary btn-new" data-collection="#experiences" id="new-experience">New Experience</button>
+
         </div>
-        
+        {{ form_errors(form.experiences) }}
     </div>
     <button>Annuler</button>
     <button type="submit">Appliquer</button>
-    {{ form_end(form) }}
+    {{ form_end(form, {render_rest: false}) }}
 
+    <script>
+
+        const newItem = (e) => {
+            // On récupère l'id du bouton btn-new qui est cliqué 
+            const collectionHolder = document.querySelector(e.currentTarget.dataset.collection);
+
+            const item = document.createElement('div');
+            item.classList.add('col-4');
+            item.innerHTML = collectionHolder
+            .dataset
+            .prototype
+            .replace(
+                /__name__/g, 
+                collectionHolder.dataset.index
+            );
+            item.querySelector(".btn-remove").addEventListener('click', () => item.remove());
+
+            collectionHolder.appendChild(item);
+
+            collectionHolder.dataset.index++;
+
+            
+        };
+ 
+        document
+        .querySelectorAll('.btn-remove')
+        .forEach(btn => btn.addEventListener('click', (e) => e.currentTarget.closest('.col-4').remove()));
+
+        document
+        .querySelectorAll('.btn-new')
+        .forEach(btn => btn.addEventListener('click', newItem));
+
+    </script>
     
 </div>
 

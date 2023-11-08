@@ -10,6 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints\Valid;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
@@ -57,10 +58,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToOne(inversedBy: 'users')]
     private ?Metier $metiers;
 
-    #[ORM\OneToMany(mappedBy: 'userExp', targetEntity: Experience::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'userExp', targetEntity: Experience::class, orphanRemoval: true, cascade: ['persist'])]
+    #[Valid]
     private Collection $experiences;
 
-    #[ORM\OneToMany(mappedBy: 'userFormation', targetEntity: Formation::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'userFormation', targetEntity: Formation::class, orphanRemoval: true, cascade: ['persist'])]
+    #[Valid]
     private Collection $formations;
 
     #[ORM\ManyToMany(targetEntity: Langue::class)]

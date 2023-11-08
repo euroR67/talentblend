@@ -10,6 +10,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -25,8 +26,17 @@ class CandidatController extends AbstractController
     #[Route('/candidat/{id}/edit', name: 'app_candidat_edit')]
     public function edit(Request $request, User $user, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
+        $originalFormations = new ArrayCollection();
+
+        $formation = new Formation();
+
+        // Créez un tableau contenant les formations actuelles de l'utilisateur
+        foreach ($user->getFormations() as $formation) {
+            $originalFormations->add($formation);
+        }
 
         $form = $this->createForm(CandidatType::class, $user);
+
         $form->handleRequest($request);
 
         // Si le formulaire est soumis et valide
@@ -105,7 +115,7 @@ class CandidatController extends AbstractController
                 // instead of its contents
                 $user->setCv($newFilename);
             }
-
+            $entityManager->persist($user);
             $entityManager->flush();
 
             return $this->redirectToRoute('app_candidat_edit', ['id' => $user->getId()]);
