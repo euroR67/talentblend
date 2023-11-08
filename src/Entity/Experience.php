@@ -29,7 +29,7 @@ class Experience
     #[ORM\Column(type: Types::TEXT)]
     private ?string $description = null;
 
-    #[ORM\ManyToOne(inversedBy: 'experiences')]
+    #[ORM\ManyToOne(inversedBy: 'experiences', cascade: ['persist'])]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $userExp = null;
 
