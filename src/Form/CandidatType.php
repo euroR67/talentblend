@@ -135,6 +135,7 @@ class CandidatType extends AbstractType
                 'label' => false,
                 'by_reference' => false,
                 'error_bubbling' => false,
+                'prototype' => true,
             ])
             ->add('experiences', CollectionType::class, [
                 'entry_type' => ExperienceType::class,

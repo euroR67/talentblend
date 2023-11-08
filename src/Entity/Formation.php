@@ -30,7 +30,7 @@ class Formation
     private ?string $description = null;
 
     #[ORM\ManyToOne(inversedBy: 'formations', cascade: ['persist'])]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: false, referencedColumnName: 'id')]
     private ?User $userFormation = null;
 
     public function getId(): ?int

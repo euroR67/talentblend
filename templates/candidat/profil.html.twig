@@ -20,8 +20,6 @@
             <h3>Vos informations</h3>
 
             {{ form_start(form) }}
-                {{ form_widget(form._token) }}
-                {{ form_errors(form) }}
                 <div class="form-group">
                     {{ form_row(form.photo) }}
                     <div class="col-sm-3">
@@ -85,81 +83,36 @@
             </div>
             
         <div class="formation" style="display: none;">
-
             <h3>Formations</h3>
-
-            <div id="formations" 
-            data-prototype="{{ include("candidat/_formation.html.twig", {form: form.formations.vars.prototype})|e("html_attr") }}" 
-            data-index="{{ form.formations|length > 0 ? form.formations|last.vars.name + 1 : 0}}">
-
+            <div class="formation-form" id="formation_list" 
+            data-prototype="{{ form_widget(form.formations.vars.prototype)|e('html_attr') }}">
                 {% for formation in form.formations %}
-                    <div class="col-4">
-                        {{ include("candidat/_formation.html.twig", {form: formation}) }}
+                    <div class="panel panel-warning">
+                        <div class="panel-heading">
+                            {{ formation.vars.value.titre }}
+                        </div>
+                        <div class="panel-body">
+                            {{ form_row(formation) }}
+                        </div>
                     </div>
                 {% endfor %}
-
             </div>
-            {# {{ form_row(form.formations) }} #}
-            <button type="button" class="btn btn-primary btn-new" data-collection="#formations" id="new-formation">New Formation</button>
-
         </div>
-        {{ form_errors(form.formations) }}
+
         <div class="experience" style="display: none;">
-
             <h3>Expériences</h3>
-
-            <div id="experiences" 
-            data-prototype="{{ include("candidat/_experience.html.twig", {form: form.experiences.vars.prototype})|e("html_attr") }}" 
-            data-index="{{ form.experiences|length > 0 ? form.experiences|last.vars.name + 1 : 0}}">
-
-                {% for experience in form.experiences %}
-                    <div class="col-4">
-                        {{ include("candidat/_experience.html.twig", {form: experience}) }}
-                    </div>
-                {% endfor %}
-
-            </div>
-            {# {{ form_row(form.experiences) }} #}
-            <button type="button" class="btn btn-primary btn-new" data-collection="#experiences" id="new-experience">New Experience</button>
-
         </div>
-        {{ form_errors(form.experiences) }}
+
     </div>
+
     <button>Annuler</button>
     <button type="submit">Appliquer</button>
-    {{ form_end(form, {render_rest: false}) }}
+
+    {{ form_end(form) }}
 
     <script>
 
-        const newItem = (e) => {
-            // On récupère l'id du bouton btn-new qui est cliqué 
-            const collectionHolder = document.querySelector(e.currentTarget.dataset.collection);
-
-            const item = document.createElement('div');
-            item.classList.add('col-4');
-            item.innerHTML = collectionHolder
-            .dataset
-            .prototype
-            .replace(
-                /__name__/g, 
-                collectionHolder.dataset.index
-            );
-            item.querySelector(".btn-remove").addEventListener('click', () => item.remove());
-
-            collectionHolder.appendChild(item);
-
-            collectionHolder.dataset.index++;
-
-            
-        };
- 
-        document
-        .querySelectorAll('.btn-remove')
-        .forEach(btn => btn.addEventListener('click', (e) => e.currentTarget.closest('.col-4').remove()));
-
-        document
-        .querySelectorAll('.btn-new')
-        .forEach(btn => btn.addEventListener('click', newItem));
+        
 
     </script>
     

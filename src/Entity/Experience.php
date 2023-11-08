@@ -30,7 +30,7 @@ class Experience
     private ?string $description = null;
 
     #[ORM\ManyToOne(inversedBy: 'experiences', cascade: ['persist'])]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: false, referencedColumnName: 'id')]
     private ?User $userExp = null;
 
     public function getId(): ?int
