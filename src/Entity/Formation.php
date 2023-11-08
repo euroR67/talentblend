@@ -29,8 +29,8 @@ class Formation
     #[ORM\Column(type: Types::TEXT)]
     private ?string $description = null;
 
-    #[ORM\ManyToOne(inversedBy: 'formations', cascade: ['persist'])]
-    #[ORM\JoinColumn(nullable: false, referencedColumnName: 'id')]
+    #[ORM\ManyToOne(inversedBy: 'formations')]
+    #[ORM\JoinColumn(nullable: false)]
     private ?User $userFormation = null;
 
     public function getId(): ?int

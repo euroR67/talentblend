@@ -13,94 +13,108 @@
         <li>Formation</li>
         <li>Expérience</li>
     </ul>
-
+    
+    {{ form_start(form) }}
     <div class="section-wrapper">
-
+        
         <div class="profil">
             <h3>Vos informations</h3>
-
-            {{ form_start(form) }}
-                <div class="form-group">
-                    {{ form_row(form.photo) }}
-                    <div class="col-sm-3">
-                        {# Si l'utilisateur a déjà une photo de profil, on l'affiche #}
-                        {% if app.user.photo %}
-                            <img src="{{ asset('pdp/' ~ app.user.photo) }}" alt="avatar">
-                            <label for="deletePhoto">Supprimer la photo</label>
-                            {{ form_row(form.deletePhoto) }}
-                        {% endif %}
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    {{ form_row(form.cv) }}
-                    <div class="col-sm-3">
-                        {# Si l'utilisateur a déjà un CV, on l'affiche #}
-                        {% if app.user.cv %}
-                            <a href="{{ asset('cv/' ~ app.user.cv) }}" target="_blank">Voir le CV</a>
-                            <label for="deleteCV">Supprimer le CV</label>
-                            {{ form_row(form.deleteCV) }}
-                        {% endif %}
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    {{ form_row(form.nom) }}
-                </div>
-
-                <div class="form-group">
-                    {{ form_row(form.prenom) }}
-                </div>
-
-                <div class="form-group">
-                    {{ form_row(form.email) }}
-                </div>
-
-                <div class="form-group">
-                    {{ form_row(form.metiers) }}
-                </div>
             
-                <div class="form-group">
-                    {{ form_row(form.description) }}
+            <div class="form-group">
+                {{ form_row(form.photo) }}
+                <div class="col-sm-3">
+                    {# Si l'utilisateur a déjà une photo de profil, on l'affiche #}
+                    {% if app.user.photo %}
+                        <img src="{{ asset('pdp/' ~ app.user.photo) }}" alt="avatar">
+                        <label for="deletePhoto">Supprimer la photo</label>
+                        {{ form_row(form.deletePhoto) }}
+                    {% endif %}
                 </div>
-
-                <div class="form-group">
-                    {{ form_row(form.niveau) }}
-                </div>
-
-                <div class="form-group">
-                    {{ form_row(form.langues) }}
-                </div>
-
-                <div class="form-group">
-                    {{ form_row(form.villes) }}
-                </div>
-
-                <div class="form-group">
-                    {{ form_row(form.active) }}
-                </div>
-                
             </div>
+
+            <div class="form-group">
+                {{ form_row(form.cv) }}
+                <div class="col-sm-3">
+                    {# Si l'utilisateur a déjà un CV, on l'affiche #}
+                    {% if app.user.cv %}
+                        <a href="{{ asset('cv/' ~ app.user.cv) }}" target="_blank">Voir le CV</a>
+                        <label for="deleteCV">Supprimer le CV</label>
+                        {{ form_row(form.deleteCV) }}
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="form-group">
+                {{ form_row(form.nom) }}
+            </div>
+
+            <div class="form-group">
+                {{ form_row(form.prenom) }}
+            </div>
+
+            <div class="form-group">
+                {{ form_row(form.email) }}
+            </div>
+
+            <div class="form-group">
+                {{ form_row(form.metiers) }}
+            </div>
+        
+            <div class="form-group">
+                {{ form_row(form.description) }}
+            </div>
+
+            <div class="form-group">
+                {{ form_row(form.niveau) }}
+            </div>
+
+            <div class="form-group">
+                {{ form_row(form.langues) }}
+            </div>
+
+            <div class="form-group">
+                {{ form_row(form.villes) }}
+            </div>
+
+            <div class="form-group">
+                {{ form_row(form.active) }}
+            </div>
+        </div>
             
-        <div class="formation" style="display: none;">
+        <div class="formation" style="display: none">
             <h3>Formations</h3>
-            <div class="formation-form" id="formation_list" 
-            data-prototype="{{ form_widget(form.formations.vars.prototype)|e('html_attr') }}">
+            <div class="formations"
+                data-index="{{ form.formations|length}}"
+                data-prototype="{{ form_widget(form.formations.vars.prototype)|e('html_attr') }}">
                 {% for formation in form.formations %}
-                    <div class="panel panel-warning">
-                        <div class="panel-heading">
-                            {{ formation.vars.value.titre }}
-                        </div>
-                        <div class="panel-body">
-                            {{ form_row(formation) }}
-                        </div>
+                    <div class="formfield">
+                        {{ form_row(formation.titre) }}
+                        {{ form_row(formation.qualification) }}
+                        {{ form_row(formation.dateDebut) }}
+                        {{ form_row(formation.dateFin) }}
+                        {{ form_row(formation.description) }}
                     </div>
                 {% endfor %}
             </div>
+            <button type="button" class="add_formation_link" data-collection-holder-class="formations">Add formation</button>
         </div>
 
-        <div class="experience" style="display: none;">
+        <div class="experience" style="display: none">
             <h3>Expériences</h3>
+            <div class="experiences"
+            data-index="{{ form.experiences|length }}"
+            data-prototype="{{ form_widget(form.experiences.vars.prototype)|e('html_attr') }}">
+                {% for experience in form.experiences %}
+                    <div class="formfield">
+                        {{ form_row(experience.titre) }}
+                        {{ form_row(experience.entreprise) }}
+                        {{ form_row(experience.dateDebut) }}
+                        {{ form_row(experience.dateFin) }}
+                        {{ form_row(experience.description) }}
+                    </div>
+                {% endfor %}
+            </div>
+            <button type="button" class="add_experience_link" data-collection-holder-class="experiences">Add experience</button>
         </div>
 
     </div>
@@ -109,12 +123,6 @@
     <button type="submit">Appliquer</button>
 
     {{ form_end(form) }}
-
-    <script>
-
-        
-
-    </script>
     
 </div>
 

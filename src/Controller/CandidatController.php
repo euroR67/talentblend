@@ -26,38 +26,14 @@ class CandidatController extends AbstractController
     #[Route('/candidat/{id}/edit', name: 'app_candidat_edit')]
     public function edit(Request $request, User $user, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
-        $originalFormations = new ArrayCollection();
 
-        // Création d'un ArrayCollection des objets Formation chargés depuis la BDD
-        foreach ($user->getFormations() as $formation) {
-            $originalFormations->add($formation);
-        }
-
+       
         $form = $this->createForm(CandidatType::class, $user);
 
         $form->handleRequest($request);
-
+        
         // Si le formulaire est soumis et valide
         if ($form->isSubmitted() && $form->isValid()) {
-
-            // Processing the saving of the Formation entities
-            foreach ($user->getFormations() as $formation) {
-                // If the Formation entity is not in the originalFormation array, it is a new Formation
-                if (false === $originalFormations->contains($formation)) {
-                    // Set the owning side of the relation if necessary
-                    if ($formation->getUserFormation() !== $user) {
-                        $formation->setUserFormation($user);
-                    }
-                    $entityManager->persist($formation);
-                }
-            }
-
-            // Suppression des formations qui ne sont plus présentes dans le formulaire
-            foreach ($originalFormations as $formation) {
-                if (false === $user->getFormations()->contains($formation)) {
-                    $entityManager->remove($formation);
-                }
-            }
 
             $deletePhoto = $form->get('deletePhoto')->getData();
 
@@ -135,7 +111,7 @@ class CandidatController extends AbstractController
 
             $entityManager->persist($user);
             $entityManager->flush();
-
+            // dd($form->getData());
             return $this->redirectToRoute('app_candidat_edit', ['id' => $user->getId()]);
         }
         

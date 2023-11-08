@@ -146,6 +146,7 @@ class CandidatType extends AbstractType
                 'label' => false,
                 'by_reference' => false,
                 'error_bubbling' => false,
+                'prototype' => true,
             ])
             // Add an event listener to conditionally display deletePhoto
             ->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
