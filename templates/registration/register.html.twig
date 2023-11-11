@@ -6,14 +6,10 @@
     <div class="container mt-4">
         <div class="wrapper">
             <form method="post">
+                {{ form_start(registrationForm) }}
                 {{ form_errors(registrationForm) }}
                 
                 <h2>Créer un compte gratuitement</h2>
-
-                {# <div class="choice">
-                    <span><i class="fa-solid fa-user"></i> Candidat</span>
-                    <span><i class="fa-solid fa-briefcase"></i> Recruteur</span>
-                </div> #}
                 
                 <div class="choice">
                     {{ form_widget(registrationForm.role, {'id': 'inputRole'}) }}
@@ -47,6 +43,9 @@
                         {{ form_widget(registrationForm.plainPassword.second, {'attr': {'class': 'form-control', 'placeholder': 'Confirmer le mot de passe', 'type': 'password'}, 'id': 'inputConfirmPassword'}) }}
                     </div>
                 </div>
+                <div>
+                    {{ form_errors(registrationForm.plainPassword.first, {'attr': {'class': 'form-control'}}) }}
+                </div>
 
                 <div class="form-check">
                     {{ form_widget(registrationForm.agreeTerms, {'attr': {'class': 'form-check-input'}}) }}
@@ -57,6 +56,7 @@
 
                 <p class="haveacc">Vous avez déjà un compte ? <a href="{{ path('app_login') }}">Connectez-vous</a></p>
                 {{ form_rest(registrationForm) }}
+                {{ form_end(registrationForm) }}
             </form>
         </div>
     </div>
