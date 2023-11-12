@@ -26,7 +26,7 @@
                 <div class="col-sm-3">
                     {# Si l'utilisateur a déjà une photo de profil, on l'affiche #}
                     {% if app.user.photo %}
-                        <img src="{{ asset('pdp/' ~ app.user.photo) }}" alt="avatar">
+                        <img src="{{ asset('pdp/' ~ app.user.photo) }}" alt="avatar" style="width: 150px; height: 150px;object-fit: cover;">
                         <label for="deletePhoto">Supprimer la photo</label>
                         {{ form_row(form.deletePhoto) }}
                     {% endif %}
