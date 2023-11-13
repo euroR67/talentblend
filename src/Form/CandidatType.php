@@ -31,7 +31,7 @@ class CandidatType extends AbstractType
         $builder
             ->add('photo', FileType::class, [
                 'required' => false,
-                'label' => 'Votre photo',
+                'label' => false,
                 'mapped' => false,
                 'constraints' => [
                     new File([
@@ -55,7 +55,7 @@ class CandidatType extends AbstractType
             ])
             ->add('cv', FileType::class, [
                 'required' => false,
-                'label' => 'Votre CV',
+                'label' => false,
                 'mapped' => false,
                 'constraints' => [
                     new File([
@@ -77,13 +77,13 @@ class CandidatType extends AbstractType
                 ],
             ])
             ->add('nom', TextType::class, [
-                'label' => 'Nom',
+                'label' => false,
             ])
             ->add('prenom', TextType::class, [
-                'label' => 'Prénom',
+                'label' => false,
             ])
             ->add('email', EmailType::class, [
-                'label' => 'Adresse email',
+                'label' => false,
                 'disabled' => true,
             ])
             ->add('metiers', EntityType::class, [
@@ -91,40 +91,41 @@ class CandidatType extends AbstractType
                 'choice_label' => 'nomMetier',
                 'multiple' => false,
                 'expanded' => false,
-                'label' => 'Métier',
+                'label' => false,
             ])
             ->add('description', TextareaType::class, [
-                'label' => 'A propos de vous',
+                'label' => false,
             ])
             ->add('niveau', EntityType::class, [
                 'class' => Niveau::class,
                 'choice_label' => 'anneeExperience',
                 'multiple' => false,
                 'expanded' => false,
-                'label' => 'Années d\'expérience',
+                'label' => false,
             ])
             ->add('langues', EntityType::class, [
                 'class' => Langue::class,
                 'choice_label' => 'langage',
                 'multiple' => true,
                 'expanded' => false,
-                'label' => 'Langues',
+                'label' => false,
             ])
             ->add('villes', EntityType::class, [
                 'class' => Ville::class,
                 'choice_label' => 'nomVille',
                 'multiple' => false,
                 'expanded' => false,
-                'label' => 'Ville',
+                'label' => false,
             ])
             ->add('active', ChoiceType::class, [
                 'choices' => [
                     'Oui' => true,
                     'Non' => false,
                 ],
+                'attr' => ['class' => 'custom-choice'],
                 'expanded' => true,
                 'multiple' => false,
-                'label' => 'Activer mon profil',
+                'label' => false,
             ])
             ->add('formations', CollectionType::class, [
                 'entry_type' => FormationType::class,

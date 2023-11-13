@@ -22,63 +22,80 @@
             <h3>Vos informations</h3>
             
             <div class="form-group">
-                {{ form_row(form.photo) }}
-                <div class="col-sm-3">
-                    {# Si l'utilisateur a déjà une photo de profil, on l'affiche #}
+                <div>
+                    <label for="selectPhoto">Votre photo</label>
+                    {{ form_widget(form.photo, {'attr': {'class': 'form-control'}, 'id': 'selectPhoto'}) }}
                     {% if app.user.photo %}
                         <img src="{{ asset('pdp/' ~ app.user.photo) }}" alt="avatar" style="width: 150px; height: 150px;object-fit: cover;">
                         <label for="deletePhoto">Supprimer la photo</label>
                         {{ form_row(form.deletePhoto) }}
                     {% endif %}
                 </div>
-            </div>
-
-            <div class="form-group">
-                {{ form_row(form.cv) }}
-                <div class="col-sm-3">
-                    {# Si l'utilisateur a déjà un CV, on l'affiche #}
+                {# Si l'utilisateur a déjà une photo de profil, on l'affiche #}
+        
+                <div>
+                    <label for="selectCv">Votre CV</label>
+                    {{ form_widget(form.cv, {'attr': {'class': 'form-control'}, 'id': 'selectCv'}) }}
                     {% if app.user.cv %}
                         <a href="{{ asset('cv/' ~ app.user.cv) }}" target="_blank">Voir le CV</a>
                         <label for="deleteCV">Supprimer le CV</label>
                         {{ form_row(form.deleteCV) }}
                     {% endif %}
                 </div>
+                {# Si l'utilisateur a déjà un CV, on l'affiche #}
+                
             </div>
 
             <div class="form-group">
-                {{ form_row(form.nom) }}
+                <div>
+                    <label for="inputNom">Nom</label>
+                    {{ form_widget(form.nom, {'attr': {'class': 'form-control'}, 'id': 'inputNom'}) }}
+                </div>
+                <div>
+                    <label for="inputPrenom">Prénom</label>
+                    {{ form_widget(form.prenom, {'attr': {'class': 'form-control'}, 'id': 'inputPrenom'}) }}
+                </div>
             </div>
 
             <div class="form-group">
-                {{ form_row(form.prenom) }}
+                <div>
+                    <label for="inputEmail">Adresse email</label>
+                    {{ form_widget(form.email, {'attr': {'class': 'form-control'}, 'id': 'inputEmail'}) }}
+                </div>
             </div>
 
             <div class="form-group">
-                {{ form_row(form.email) }}
-            </div>
-
-            <div class="form-group">
-                {{ form_row(form.metiers) }}
+                <div>
+                    <label for="selectMetier">Métier</label>
+                    {{ form_widget(form.metiers, {'attr': {'class': 'form-control'}, 'id': 'selectMetier'}) }}
+                </div>
+                <div>
+                    <label for="selectNiveau">Niveau d'expérience</label>
+                    {{ form_widget(form.niveau, {'attr': {'class': 'form-control'}, 'id': 'selectNiveau'}) }}
+                </div>
             </div>
         
             <div class="form-group">
-                {{ form_row(form.description) }}
+                <div>
+                    <label for="selectLangues">Langues</label>
+                    {{ form_widget(form.langues, {'attr': {'class': 'form-control'}, 'id': 'selectLangues'}) }}
+                </div>
+                <div>
+                    <label for="selectVille">Ville</label>
+                    {{ form_widget(form.villes, {'attr': {'class': 'form-control'}, 'id': 'selectVille'}) }}
+                </div>
+            </div>
+
+            <div class="choice">
+                <label for="inputRole">Activer mon profil</label>
+                {{ form_widget(form.active, {'id': 'inputRole'}) }}
             </div>
 
             <div class="form-group">
-                {{ form_row(form.niveau) }}
-            </div>
-
-            <div class="form-group">
-                {{ form_row(form.langues) }}
-            </div>
-
-            <div class="form-group">
-                {{ form_row(form.villes) }}
-            </div>
-
-            <div class="form-group">
-                {{ form_row(form.active) }}
+                <div>
+                    <label for="inputDescription">Description</label>
+                    {{ form_widget(form.description, {'attr': {'class': 'form-control', 'rows': 10}, 'id': 'inputDescription'}) }}
+                </div>
             </div>
         </div>
             

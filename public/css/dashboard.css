@@ -74,6 +74,7 @@ div.section-wrapper {
     background-color: #fff;
     border: 1px solid #E8E8E8;
     padding: 20px;
+    max-width: 900px;
 }
 
 div.wrapper ul {
@@ -95,4 +96,71 @@ div.wrapper ul li.active {
 div.wrapper ul li:hover {
     border-bottom: 2px solid #007456;
     color: #007456;
+}
+
+/* ========== Formulaire ============ */
+
+.form-group {
+    margin-bottom: 15px;
+    display: flex;
+    gap: 20px;
+}
+
+.form-control {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #e1e1e1;
+    border-radius: 3px;
+    font-size: 14px;
+    outline: none;
+    margin-top: 5px;
+}
+
+.form-group div {
+    width: 100%;
+}
+
+/* Champ Rôle */
+
+div.custom-choice {
+    display: flex;
+    gap: 10px;
+    margin-top: 5px;
+}
+
+.custom-choice label {
+    background-color: #e0e0e0;
+    padding: 10px 30px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.custom-choice input[type="radio"] {
+    display: none;
+}
+
+.custom-choice input[type="radio"] + label {
+    background-color: #EDEDED;
+    color: #858585;
+    font-weight: 600;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.custom-choice input[type="radio"]:hover + label {
+    background-color: #DFEDE7;
+    color: #007456;
+    font-weight: 600;
+}
+
+.custom-choice input[type="radio"]:checked + label {
+    background-color: #DFEDE7; /* Couleur pour l'option sélectionnée */
+    color: #007456;
+    font-weight: 600;
+}
+
+.form-check-input {
+    accent-color: #007456;
 }

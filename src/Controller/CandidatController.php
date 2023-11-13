@@ -16,18 +16,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class CandidatController extends AbstractController
 {
-    #[Route('/candidat', name: 'app_candidat_profil')]
-    public function profil(): Response
-    {
-        return $this->render('candidat/profil.html.twig');
-    }
-
     // Méthode pour modifier le profil du candidat
     #[Route('/candidat/{id}/edit', name: 'app_candidat_edit')]
     public function edit(Request $request, User $user, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
-
-       
         $form = $this->createForm(CandidatType::class, $user);
 
         $form->handleRequest($request);
@@ -109,7 +101,6 @@ class CandidatController extends AbstractController
                 $user->setCv($newFilename);
             }
 
-            $entityManager->persist($user);
             $entityManager->flush();
             // dd($form->getData());
             return $this->redirectToRoute('app_candidat_edit', ['id' => $user->getId()]);
