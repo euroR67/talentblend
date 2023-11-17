@@ -8,7 +8,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class RecruteurController extends AbstractController
 {
-    #[Route('/recruteur', name: 'app_recruteur')]
+    #[Route('/recruteur', name: 'app_emplois')]
     public function index(): Response
     {
         return $this->render('recruteur/index.html.twig', [

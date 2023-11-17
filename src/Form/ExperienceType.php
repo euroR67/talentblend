@@ -15,15 +15,23 @@ class ExperienceType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('titre', TextType::class)
-            ->add('entreprise', TextType::class)
+            ->add('titre', TextType::class, [
+                'label' => false,
+            ])
+            ->add('entreprise', TextType::class, [
+                'label' => false,
+            ])
             ->add('dateDebut', DateType::class, [
                 'widget' => 'single_text',
+                'label' => false,
             ])
             ->add('dateFin', DateType::class, [
                 'widget' => 'single_text',
+                'label' => false,
             ])
-            ->add('description', TextareaType::class)
+            ->add('description', TextareaType::class, [
+                'label' => false,
+            ])
         ;
     }
 

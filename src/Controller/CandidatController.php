@@ -20,6 +20,18 @@ class CandidatController extends AbstractController
     #[Route('/candidat/{id}/edit', name: 'app_candidat_edit')]
     public function edit(Request $request, User $user, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
+        // Si l'utilisateur n'est pas connecté
+        if(!$this->getUser()) {
+            // On renvoi vers la page d'accueil
+            return $this->redirectToRoute('app_login');
+        }
+
+        // Si l'utilisateur courant est différent de l'utilisateur dont on veut modifier le profil
+        if($this->getUser() !== $user) {
+            // On renvoi vers la page d'accueil
+            return $this->redirectToRoute('app_home');
+        }
+
         $form = $this->createForm(CandidatType::class, $user);
 
         $form->handleRequest($request);
@@ -102,7 +114,6 @@ class CandidatController extends AbstractController
             }
 
             $entityManager->flush();
-            // dd($form->getData());
             return $this->redirectToRoute('app_candidat_edit', ['id' => $user->getId()]);
         }
         

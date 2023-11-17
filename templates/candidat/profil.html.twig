@@ -106,11 +106,36 @@
                 data-prototype="{{ form_widget(form.formations.vars.prototype)|e('html_attr') }}">
                 {% for formation in form.formations %}
                     <div class="formfield">
-                        {{ form_row(formation.titre) }}
-                        {{ form_row(formation.qualification) }}
-                        {{ form_row(formation.dateDebut) }}
-                        {{ form_row(formation.dateFin) }}
-                        {{ form_row(formation.description) }}
+                        <div class="form-group">
+                            <div>
+                                <label for="inputTitre">Titre</label>
+                                {{ form_widget(formation.titre, {'attr': {'class': 'form-control'}, 'id': 'inputTitre'}) }}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div>
+                                <label for="inputQualification">Qualification</label>
+                                {{ form_widget(formation.qualification, {'attr': {'class': 'form-control'}, 'id': 'inputQualification'}) }}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div>
+                                <label for="inputDateDebut">Date de début</label>
+                                {{ form_widget(formation.dateDebut, {'attr': {'class': 'form-control'}, 'id': 'inputDateDebut'}) }}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div>
+                                <label for="inputDateFin">Date de fin</label>
+                                {{ form_widget(formation.dateFin, {'attr': {'class': 'form-control'}, 'id': 'inputDateFin'}) }}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div>
+                                <label for="inputDescription">Description</label>
+                                {{ form_widget(formation.description, {'attr': {'class': 'form-control'}, 'id': 'inputDescription'}) }}
+                            </div>
+                        </div>
                     </div>
                 {% endfor %}
             </div>
@@ -124,11 +149,36 @@
             data-prototype="{{ form_widget(form.experiences.vars.prototype)|e('html_attr') }}">
                 {% for experience in form.experiences %}
                     <div class="formfield">
-                        {{ form_row(experience.titre) }}
-                        {{ form_row(experience.entreprise) }}
-                        {{ form_row(experience.dateDebut) }}
-                        {{ form_row(experience.dateFin) }}
-                        {{ form_row(experience.description) }}
+                        <div class="form-group">
+                            <div>
+                                <label for="inputTitre">Titre</label>
+                                {{ form_row(experience.titre, {'attr': {'class': 'form-control'}, 'id': 'inputTitre'}) }}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div>
+                                <label for="inputEntreprise">Entreprise</label>
+                                {{ form_row(experience.entreprise, {'attr': {'class': 'form-control'}, 'id': 'inputEntreprise'}) }}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div>
+                                <label for="inputDateDebut">Date de début</label>
+                                {{ form_row(experience.dateDebut, {'attr': {'class': 'form-control'}, 'id': 'inputDateDebut'}) }}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div>
+                                <label for="inputDateFin">Date de fin</label>
+                                {{ form_row(experience.dateFin, {'attr': {'class': 'form-control'}, 'id': 'inputDateFin'}) }}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div>
+                                <label for="inputDescription">Description</label>
+                                {{ form_row(experience.description, {'attr': {'class': 'form-control'}, 'id': 'inputDescription'}) }}
+                            </div>
+                        </div>
                     </div>
                 {% endfor %}
             </div>

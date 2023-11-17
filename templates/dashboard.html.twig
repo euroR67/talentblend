@@ -20,13 +20,25 @@
                     <img src="{{ asset('img/logo.png') }}" alt="logo">
                 </div>
                 <nav>
-                    <ul>
-                        <li><a href="{{ path('app_candidat_edit', {'id': app.user.id}) }}">Profil</a></li>
-                        <li><a href="">Candidatures</a></li>
-                        <li><a href="">Messages</a></li>
-                        <li><a href="">Paramètre</a></li>
-                        <li><a href="{{ path('app_logout') }}">Se déconnecter</a></li>
-                    </ul>
+                    {% if is_granted('ROLE_RECRUTEUR') %}
+                        <ul>
+                            <li><a href="{{ path('app_candidat_edit', {'id': app.user.id}) }}">Emplois</a></li>
+                            <li><a href="">Candidatures</a></li>
+                            <li><a href="">Entreprise</a></li>
+                            <li><a href="">Messages</a></li>
+                            <li><a href="{{ path('app_edit_password', {'id': app.user.id}) }}">Paramètre</a></li>
+                            <li><a href="{{ path('app_logout') }}">Se déconnecter</a></li>
+                        </ul>
+                    {% endif %}
+                    {% if is_granted('ROLE_CANDIDAT') %}
+                        <ul>
+                            <li><a href="{{ path('app_candidat_edit', {'id': app.user.id}) }}">Profil</a></li>
+                            <li><a href="">Candidatures</a></li>
+                            <li><a href="">Messages</a></li>
+                            <li><a href="{{ path('app_edit_password', {'id': app.user.id}) }}">Paramètre</a></li>
+                            <li><a href="{{ path('app_logout') }}">Se déconnecter</a></li>
+                        </ul>
+                    {% endif %}
                 </nav>
             </aside>
             <div class="nav-wrapper">
@@ -44,6 +56,33 @@
                         </ul>
                     </nav>
                 </header>
+                {# Vérifier et afficher le message flash d'erreur #}
+        {% set errorFlashes = app.flashes('error') %}
+        {% if errorFlashes is not empty %}
+            <div class="alert-danger">
+                {{ errorFlashes[0] }}
+            </div>
+            {# Masquer le message après 6 secondes (6 seconde) #}
+            <script>
+                setTimeout(function() {
+                    document.querySelector('.alert-danger').style.display = 'none';
+                }, 6000); // Masquer le message après 6 secondes (6000 millisecondes)
+            </script>
+        {% endif %}
+
+        {# Vérifier et afficher le message flash de succès #}
+        {% set successFlashes = app.flashes('success') %}
+        {% if successFlashes is not empty %}
+            <div class="alert-success">
+                {{ successFlashes[0] }}
+            </div>
+            {# Masquer le message après 6 secondes (6 seconde) #}
+            <script>
+                setTimeout(function() {
+                    document.querySelector('.alert-success').style.display = 'none';
+                }, 6000); // Masquer le message après 6 secondes (6000 millisecondes)
+            </script>
+        {% endif %}
                 {% block body %}{% endblock %}
             </div>
         </main>
