@@ -164,3 +164,60 @@ div.custom-choice {
 .form-check-input {
     accent-color: #007456;
 }
+
+/* Tableau */
+
+div.table-wrapper {
+    background-color: #fff;
+    border: 1px solid rgb(233, 230, 230);
+    margin-block: 15px;
+}
+
+div.table-wrapper table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+div.table-wrapper table tr th{
+    text-align: start;
+    padding: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+div.table-wrapper table tr td {
+    padding: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+td.td-action {
+    position: relative;
+}
+
+div.action {
+    position: absolute;
+    background-color: #fff;
+    box-shadow: 0px 0px 1px 0px rgba(0,0,0,0.2);
+    top: 30px;
+    right: 35px;
+    display: none;
+}
+
+div.action.active {
+    display: block;
+}
+
+div.action a {
+    font-size: 14px;
+    padding: 5px;
+    transition: all 0.1s ease;
+    display: inline-block;
+    width: 100%;
+}
+
+.fa-ellipsis {
+    cursor: pointer;
+}
+
+div.action a:hover {
+    background-color:#DFEDE7;
+}

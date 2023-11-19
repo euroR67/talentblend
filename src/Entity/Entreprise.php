@@ -21,9 +21,6 @@ class Entreprise
     #[ORM\Column(length: 40)]
     private ?string $raisonSocial = null;
 
-    #[ORM\Column(length: 20)]
-    private ?string $taille = null;
-
     #[ORM\Column(length: 30)]
     private ?string $secteur = null;
 
@@ -48,6 +45,9 @@ class Entreprise
     #[ORM\ManyToOne(inversedBy: 'entreprises')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Ville $ville = null;
+
+    #[ORM\ManyToOne(inversedBy: 'entreprises')]
+    private ?Taille $tailles = null;
 
     public function __construct()
     {
@@ -80,18 +80,6 @@ class Entreprise
     public function setRaisonSocial(string $raisonSocial): static
     {
         $this->raisonSocial = $raisonSocial;
-
-        return $this;
-    }
-
-    public function getTaille(): ?string
-    {
-        return $this->taille;
-    }
-
-    public function setTaille(string $taille): static
-    {
-        $this->taille = $taille;
 
         return $this;
     }
@@ -224,6 +212,18 @@ class Entreprise
     public function setVille(?Ville $ville): static
     {
         $this->ville = $ville;
+
+        return $this;
+    }
+
+    public function getTailles(): ?Taille
+    {
+        return $this->tailles;
+    }
+
+    public function setTailles(?Taille $tailles): static
+    {
+        $this->tailles = $tailles;
 
         return $this;
     }

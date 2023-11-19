@@ -22,7 +22,7 @@
                 <nav>
                     {% if is_granted('ROLE_RECRUTEUR') %}
                         <ul>
-                            <li><a href="{{ path('app_candidat_edit', {'id': app.user.id}) }}">Emplois</a></li>
+                            <li><a href="{{ path('app_emplois', {'id': app.user.id}) }}">Emplois</a></li>
                             <li><a href="">Candidatures</a></li>
                             <li><a href="">Entreprise</a></li>
                             <li><a href="">Messages</a></li>

@@ -31,9 +31,6 @@ class Emploi
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $dateOffre = null;
 
-    #[ORM\Column(length: 40)]
-    private ?string $type = null;
-
     #[ORM\ManyToOne(inversedBy: 'emplois')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Categorie $categories = null;
@@ -59,6 +56,14 @@ class Emploi
     #[ORM\ManyToOne(inversedBy: 'emplois')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Entreprise $entreprise = null;
+
+    #[ORM\ManyToOne(inversedBy: 'emplois')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?TypeEmploi $types = null;
+
+    #[ORM\ManyToOne(inversedBy: 'emplois')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $user = null;
 
     public function __construct()
     {
@@ -127,18 +132,6 @@ class Emploi
     public function setDateOffre(\DateTimeInterface $dateOffre): static
     {
         $this->dateOffre = $dateOffre;
-
-        return $this;
-    }
-
-    public function getType(): ?string
-    {
-        return $this->type;
-    }
-
-    public function setType(string $type): static
-    {
-        $this->type = $type;
 
         return $this;
     }
@@ -256,6 +249,30 @@ class Emploi
     public function setEntreprise(?Entreprise $entreprise): static
     {
         $this->entreprise = $entreprise;
+
+        return $this;
+    }
+
+    public function getTypes(): ?TypeEmploi
+    {
+        return $this->types;
+    }
+
+    public function setTypes(?TypeEmploi $types): static
+    {
+        $this->types = $types;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        $this->user = $user;
 
         return $this;
     }

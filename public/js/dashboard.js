@@ -117,3 +117,16 @@ document.addEventListener('DOMContentLoaded', function () {
         .forEach((formation) => {
             addFormationFormDeleteLink(formation)
         });
+
+// ============================ Action edit / delet emploi ============================ //
+
+document.addEventListener('DOMContentLoaded', function () {
+    const ellipsis = document.querySelectorAll('.fa-ellipsis');
+    const action = document.querySelectorAll('.action');
+
+    ellipsis.forEach((el, index) => {
+        el.addEventListener('click', () => {
+            action[index].classList.toggle('active');
+        });
+    });
+});

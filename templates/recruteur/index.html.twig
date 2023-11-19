@@ -1,20 +1,58 @@
-{% extends 'base.html.twig' %}
+{% extends 'dashboard.html.twig' %}
 
 {% block title %}Hello RecruteurController!{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
-
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/laragon/www/talentblend/src/Controller/RecruteurController.php'|file_link(0) }}">src/Controller/RecruteurController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/laragon/www/talentblend/templates/recruteur/index.html.twig'|file_link(0) }}">templates/recruteur/index.html.twig</a></code></li>
-    </ul>
+<div class="wrapper">
+    <h2>Gérez vos offres d'emploi</h2>
+    <div class="table-wrapper">
+        <table>
+            <colgroup span="5"></colgroup>
+            <thead>
+                <tr>
+                    <th>Titre</th>
+                    <th>Candidatures</th>
+                    <th>Status</th>
+                    <th>Date</th>
+                    <th>Expire</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for emploi in emplois %}
+                <tr>
+                    <td>{{ emploi.poste }}</td>
+                    <td>{{ emploi.postulations|length }}</td>
+                    <td>
+                        {# Si la date de l'offre a plus d'un mois, on la considère comme expirée #}
+                        {% if emploi.dateOffre|date_modify('+1 month', 'Europe/Paris') < date() %}
+                            Fermer
+                        {% elseif emploi.dateOffre > date() %}
+                            Bientôt
+                        {% else %}
+                            En ligne
+                        {% endif %}
+                    </td>
+                    
+                    <td>{{ emploi.dateOffre|format_datetime('short', 'none', locale='fr') }}</td>
+                    <td>
+                        {% if emploi.dateOffre|date_modify('+1 month', 'Europe/Paris') < date() %}
+                            Expirée
+                        {% else %}
+                            {{ emploi.dateOffre|date_modify('+1 month', 'Europe/Paris')|format_datetime('long', 'none', locale='fr') }}
+                        {% endif %}
+                    </td>
+                    <td class="td-action">
+                        <i class="fa-solid fa-ellipsis"></i>
+                        <div class="action">
+                            <a href="">Modifier</a>
+                            <a href="">Supprimer</a>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </div>
 {% endblock %}

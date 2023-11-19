@@ -90,6 +90,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToMany(targetEntity: Emploi::class, inversedBy: 'users')]
     private Collection $emploiSauvegarder;
 
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Emploi::class, orphanRemoval: true)]
+    private Collection $emplois;
+
     public function __construct()
     {
         $this->experiences = new ArrayCollection();
@@ -98,6 +101,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->postulations = new ArrayCollection();
         $this->representants = new ArrayCollection();
         $this->emploiSauvegarder = new ArrayCollection();
+        $this->emplois = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -478,6 +482,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function removeEmploiSauvegarder(Emploi $emploiSauvegarder): static
     {
         $this->emploiSauvegarder->removeElement($emploiSauvegarder);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Emploi>
+     */
+    public function getEmplois(): Collection
+    {
+        return $this->emplois;
+    }
+
+    public function addEmploi(Emploi $emploi): static
+    {
+        if (!$this->emplois->contains($emploi)) {
+            $this->emplois->add($emploi);
+            $emploi->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEmploi(Emploi $emploi): static
+    {
+        if ($this->emplois->removeElement($emploi)) {
+            // set the owning side to null (unless already changed)
+            if ($emploi->getUser() === $this) {
+                $emploi->setUser(null);
+            }
+        }
 
         return $this;
     }
