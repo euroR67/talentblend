@@ -55,6 +55,15 @@ class Entreprise
         $this->emplois = new ArrayCollection();
     }
 
+    public function __toString(): string
+    {
+        if($this->raisonSocial) {
+            return $this->raisonSocial;
+        }
+
+        return '';
+    }
+
     public function getId(): ?int
     {
         return $this->id;

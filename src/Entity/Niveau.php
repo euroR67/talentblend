@@ -30,6 +30,15 @@ class Niveau
         $this->emplois = new ArrayCollection();
     }
 
+    public function __toString(): string
+    {
+        if($this->anneeExperience) {
+            return $this->anneeExperience;
+        }
+
+        return '';
+    }
+
     public function getId(): ?int
     {
         return $this->id;

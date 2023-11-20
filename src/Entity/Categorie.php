@@ -31,6 +31,15 @@ class Categorie
         return $this->id;
     }
 
+    public function __toString(): string
+    {
+        if($this->nom) {
+            return $this->nom;
+        }
+
+        return '';
+    }
+
     public function getNom(): ?string
     {
         return $this->nom;

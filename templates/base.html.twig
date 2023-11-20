@@ -39,7 +39,12 @@
                 </div>
                 <ul>
                     {% if app.user %}
-                        <li><a href="{{ path('app_candidat_edit', {'id': app.user.id}) }}">Mon profil</a></li>
+                        {% if is_granted('ROLE_CANDIDAT') %}
+                            <li><a href="{{ path('app_candidat_edit', {'id': app.user.id}) }}">Mon profil</a></li>
+                        {% endif %}
+                        {% if is_granted('ROLE_RECRUTEUR') %}
+                            <li><a href="{{ path('app_emplois') }}">Tableau de bord</a></li>
+                        {% endif %}
                     {% endif %}
                     <li>Accueil</li>
                     <li class="categorie">Catégorie <i class="fa-solid fa-chevron-down fa-xs"></i></li>

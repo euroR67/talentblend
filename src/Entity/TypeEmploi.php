@@ -26,6 +26,15 @@ class TypeEmploi
         $this->emplois = new ArrayCollection();
     }
 
+    public function __toString(): string
+    {
+        if($this->type) {
+            return $this->type;
+        }
+
+        return '';
+    }
+
     public function getId(): ?int
     {
         return $this->id;

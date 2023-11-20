@@ -39,6 +39,21 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->getEntityManager()->flush();
     }
 
+    // Requête DQL pour afficher les entreprise que représente un recruteur (utilisateur)
+    public function findRecruteurEntreprises(int $id): array
+    {
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            'SELECT e
+            FROM App\Entity\Entreprise e
+            WHERE e.recruteur = :id'
+        )->setParameter('id', $id);
+
+        // retourner les résultats sous forme d'un tableau d'objets Entreprise
+        return $query->getResult();
+    }
+
 //    /**
 //     * @return User[] Returns an array of User objects
 //     */

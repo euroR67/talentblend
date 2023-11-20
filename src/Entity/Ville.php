@@ -30,6 +30,15 @@ class Ville
         $this->entreprises = new ArrayCollection();
     }
 
+    public function __toString(): string
+    {
+        if($this->nomVille) {
+            return $this->nomVille;
+        }
+
+        return '';
+    }
+
     public function getId(): ?int
     {
         return $this->id;

@@ -45,8 +45,8 @@
                     <td class="td-action">
                         <i class="fa-solid fa-ellipsis"></i>
                         <div class="action">
-                            <a href="">Modifier</a>
-                            <a href="">Supprimer</a>
+                            <a href="{{ path('app_edit_emploi', {'id': emploi.id}) }}"><i class="fa-solid fa-pen-to-square"></i> Modifier</a>
+                            <a href="{{ path('app_delete_emploi', {'id': emploi.id}) }}"><i class="fa-solid fa-xmark"></i> Supprimer</a>
                         </div>
                     </td>
                 </tr>

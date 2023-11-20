@@ -104,6 +104,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->emplois = new ArrayCollection();
     }
 
+    public function __toString(): string
+    {
+        if($this->nom) {
+            return $this->nom;
+        }
+
+        return '';
+    }
+
     public function getId(): ?int
     {
         return $this->id;

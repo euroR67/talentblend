@@ -204,13 +204,16 @@ div.action {
 
 div.action.active {
     display: block;
+    z-index: 5;
 }
 
 div.action a {
     font-size: 14px;
     padding: 5px;
     transition: all 0.1s ease;
-    display: inline-block;
+    display: flex;
+    align-items: center;
+    gap: 5px;
     width: 100%;
 }
 
