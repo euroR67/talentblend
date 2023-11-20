@@ -27,6 +27,15 @@ class Represente
         return $this->id;
     }
 
+    public function __toString(): string
+    {
+        if($this->entreprise) {
+            return $this->entreprise;
+        }
+
+        return '';
+    }
+
     public function isStatus(): ?bool
     {
         return $this->status;

@@ -1,0 +1,45 @@
+{% extends 'dashboard.html.twig' %}
+
+{% block title %}Liste represente{% endblock %}
+
+{% block body %}
+<div class="wrapper">
+    <h2>Gérez vos represente</h2>
+    <div class="table-wrapper">
+        <table>
+            <colgroup span="5"></colgroup>
+            <thead>
+                <tr>
+                    <th>represente</th>
+                    <th>Status</th>
+                    <th>Emploi active</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for represente in representes %}
+                <tr>
+                    <td>{{ represente }}</td>
+                    <td>
+                        {% if represente.status == true %}
+                            <span style="color: green;">Approuvé</span>
+                        {% elseif represente.status == false %}
+                            <span style="color: rgb(245, 205, 47);">Vérification</span>
+                        {% endif %}
+                    </td>
+                    {# On affiche le nombre d'emploi actif de l'represente créer par le recruteur #}
+                    <td>{{ emploisParEntreprise[represente.id] }}</td>
+                    <td class="td-action">
+                        <i class="fa-solid fa-ellipsis"></i>
+                        <div class="action">
+                            {# <a href="{{ path('app_edit_emploi', {'id': emploi.id}) }}"><i class="fa-solid fa-pen-to-square"></i> Modifier</a> #}
+                            {# <a href="{{ path('app_delete_emploi', {'id': emploi.id}) }}"><i class="fa-solid fa-xmark"></i> Supprimer</a> #}
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

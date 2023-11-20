@@ -12,7 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
-#[IsGranted('ROLE_RECRUTEUR')]
+
 #[Route('/recruteur/emploi')]
 class EmploiController extends AbstractController
 {
@@ -20,23 +20,12 @@ class EmploiController extends AbstractController
     #[Route('/liste', name: 'app_emplois')]
     public function index(Request $request, EntityManagerInterface $entityManager): Response
     {
-        // $this->denyAccessUnlessGranted('ROLE_RECRUTEUR');
+        $this->denyAccessUnlessGranted('ROLE_RECRUTEUR');
 
         // Récupère l'utilisateur en session
         $user = $this->getUser();
 
-        // Si l'utilisateur n'est pas connecté
-        if(!$this->getUser()) {
-            // On renvoi vers la page d'accueil
-            return $this->redirectToRoute('app_login');
-        }
-
-        // Si l'utilisateur courant est différent de l'utilisateur dont on veut afficher les emplois
-        if($this->getUser() !== $user) {
-            // On renvoi vers la page d'accueil
-            return $this->redirectToRoute('app_home');
-        }
-
+        // Récupère les emplois de l'utilisateur
         $emplois = $user->getEmplois();
 
         return $this->render('recruteur/index.html.twig', [
@@ -49,21 +38,18 @@ class EmploiController extends AbstractController
     #[Route('/edit/{id}', name: 'app_edit_emploi')]
     public function new_edit_emploi(Emploi $emploi = null, Request $request,EntityManagerInterface $entityManager) : Response
     {
-        // Récupère l'utilisateur en session
-        $user = $this->getUser();
+        $this->denyAccessUnlessGranted('ROLE_RECRUTEUR');
 
-        // Si l'utilisateur n'est pas connecté
-        if(!$this->getUser()) {
-            // On renvoi vers la page d'accueil
-            return $this->redirectToRoute('app_login');
-        }
-
-        // Si l'utilisateur courant est différent de l'utilisateur
-        if($this->getUser() !== $user) {
-            // On renvoi vers la page d'accueil
+        // Vérfie si l'emploi appartient à l'utilisateur connecté
+        $hasAccess = $emploi->getUser() === $this->getUser();
+        
+        // Vérifie si l'utilisateur connecté a le droit de modifier l'emploi
+        if(!$hasAccess) {
+            $this->addFlash('danger', 'Vous n\'avez pas le droit de modifier cet emploi.');
             return $this->redirectToRoute('app_home');
         }
 
+        // Vérifie si l'emploi existe, sinon on en crée un nouveau
         if(!$emploi) {
             $emploi = new Emploi();
             $emploi->setUser($this->getUser());
@@ -81,7 +67,7 @@ class EmploiController extends AbstractController
 
             $this->addFlash('success', 'Le nouvelle emploi a bien été ajouter.');
 
-            return $this->redirectToRoute('app_emplois', ['id' => $user->getId()]);
+            return $this->redirectToRoute('app_emplois', ['id' => $this->getUser()->getId()]);
 
         }
 
@@ -95,13 +81,14 @@ class EmploiController extends AbstractController
     #[Route('/delete/{id}', name: 'app_delete_emploi')]
     public function delete_emploi(Emploi $emploi = null, Request $request,EntityManagerInterface $entityManager) : Response
     {
-        // Récupère l'utilisateur en session
-        $user = $this->getUser();
+        $this->denyAccessUnlessGranted('ROLE_RECRUTEUR');
         
-        // Si l'utilisateur n'est pas connecté
-        if(!$this->getUser()) {
-            // On renvoi vers la page login
-            return $this->redirectToRoute('app_login');
+        // Vérfie si l'emploi appartient à l'utilisateur connecté
+        $hasAccess = $emploi->getUser() === $this->getUser();
+        
+        if(!$hasAccess) {
+            $this->addFlash('danger', 'Vous n\'avez pas le droit de supprimer cet emploi.');
+            return $this->redirectToRoute('app_home');
         }
 
         // Vérifie si l'emploi existe
@@ -111,10 +98,12 @@ class EmploiController extends AbstractController
 
         // Vérifie si l'utilisateur connecté est différent du créateur de l'emploi
         if($emploi->getUser() !== $user) {
-            throw new AccessDeniedHttpException('Vous n\'avez pas le droit de supprimer cet emploi.');
+            $this->addFlash('danger', 'Vous n\'avez pas le droit de supprimer cet emploi.');
+            return $this->redirectToRoute('app_home');
         }
 
         $entityManager->remove($emploi);
+        
         $entityManager->flush();
 
         // Ajoute un message de succès
