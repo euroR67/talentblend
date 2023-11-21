@@ -22,6 +22,9 @@ class Represente
     #[ORM\ManyToOne(inversedBy: 'representants')]
     private ?User $userEntreprise = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $motifRefus = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -68,6 +71,18 @@ class Represente
     public function setUserEntreprise(?User $userEntreprise): static
     {
         $this->userEntreprise = $userEntreprise;
+
+        return $this;
+    }
+
+    public function getMotifRefus(): ?string
+    {
+        return $this->motifRefus;
+    }
+
+    public function setMotifRefus(?string $motifRefus): static
+    {
+        $this->motifRefus = $motifRefus;
 
         return $this;
     }

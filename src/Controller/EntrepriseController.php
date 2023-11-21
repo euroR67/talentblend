@@ -16,6 +16,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 #[Route('/recruteur/entreprise')]
 class EntrepriseController extends AbstractController
 {
+    // Méthode pour afficher la liste des entreprises
     #[Route('/liste', name: 'app_entreprises')]
     public function liste(Request $request, EntityManagerInterface $entityManager): Response
     {
@@ -24,15 +25,8 @@ class EntrepriseController extends AbstractController
         // Récupère l'utilisateur en session
         $user = $this->getUser();
 
-        // Récupérer les entreprise qui sont vérifier que représente l'utilisateur / recruteur
-        $entrepriseRepresenter = $user->getEntrepriseRepresenter()->filter(function ($represente) {
-            return $represente->getEntreprise()->IsIsVerified();
-        });
-
-        // Récupérer les entreprise non vérifier que représente l'utilisateur / recruteur
-        $entrepriseRepresenterNonVerifie = $user->getEntrepriseRepresenter()->filter(function ($represente) {
-            return !$represente->getEntreprise()->IsIsVerified();
-        });
+        // Récupérer les entreprise que représente l'utilisateur / recruteur
+        $entrepriseRepresenter = $user->getEntrepriseRepresenter();
 
         // Pour chaque entreprise, compter le nombre d'emplois créés par l'utilisateur
         $emploisParEntreprise = [];
@@ -46,11 +40,10 @@ class EntrepriseController extends AbstractController
         return $this->render('entreprise/index.html.twig', [
             'entrepriseRepresenter' => $entrepriseRepresenter,
             'emploisParEntreprise' => $emploisParEntreprise,
-            'entrepriseRepresenterNonVerifie' => $entrepriseRepresenterNonVerifie,
         ]);
     }
 
-    // Méthode pour ajouter / supprimer un entreprise
+    // Méthode pour ajouter / modifier une entreprise
     #[Route('/new', name: 'app_new_entreprise')]
     #[Route('/edit/{id}', name: 'app_edit_entreprise')]
     public function new_edit_entreprise(Entreprise $entreprise = null, Request $request,EntityManagerInterface $entityManager,SluggerInterface $slugger) : Response
@@ -184,5 +177,33 @@ class EntrepriseController extends AbstractController
             'form' => $form,
             'edit' => $entreprise->getId(),
         ]);
+    }
+
+    // Méthode pour supprimer une entreprise
+    #[Route('/delete/{id}', name: 'app_delete_entreprise')]
+    public function delete_entreprise(Entreprise $entreprise, EntityManagerInterface $entityManager) : Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_RECRUTEUR');
+
+        $hasAccess = $entreprise->getUser() === $this->getUser();
+
+        if(!$hasAccess) {
+            $this->addFlash('danger', 'Vous n\'avez pas le droit de supprimer cet entreprise.');
+            return $this->redirectToRoute('app_home');
+        }
+
+        if(!$entreprise) {
+            $this->addFlash('danger', 'L\'entreprise n\'existe pas.');
+            return $this->redirectToRoute('app_home');
+        }
+
+        $entityManager->remove($entreprise);
+
+        $entityManager->flush();
+
+        // Ajoute un message de succès
+        $this->addFlash('success', 'L\'entreprise a été supprimé avec succès.');
+
+        return $this->redirectToRoute('app_entreprises');
     }
 }
