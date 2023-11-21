@@ -1,34 +1,34 @@
 {% extends 'dashboard.html.twig' %}
 
-{% block title %}Liste represente{% endblock %}
+{% block title %}Liste Entreprise{% endblock %}
 
 {% block body %}
 <div class="wrapper">
-    <h2>Gérez vos represente</h2>
+    <h2>Gérez vos Entreprise</h2>
     <div class="table-wrapper">
         <table>
-            <colgroup span="5"></colgroup>
+            <colgroup span="4"></colgroup>
             <thead>
                 <tr>
-                    <th>represente</th>
+                    <th>Entreprise</th>
                     <th>Status</th>
                     <th>Emploi active</th>
                     <th></th>
                 </tr>
             </thead>
             <tbody>
-            {% for represente in representes %}
+            {% for entreprise in entrepriseRepresenter %}
                 <tr>
-                    <td>{{ represente }}</td>
+                    <td>{{ entreprise }}</td>
                     <td>
-                        {% if represente.status == true %}
+                        {% if entreprise.status == true %}
                             <span style="color: green;">Approuvé</span>
-                        {% elseif represente.status == false %}
+                        {% elseif entreprise.status == false %}
                             <span style="color: rgb(245, 205, 47);">Vérification</span>
                         {% endif %}
                     </td>
-                    {# On affiche le nombre d'emploi actif de l'represente créer par le recruteur #}
-                    <td>{{ emploisParEntreprise[represente.id] }}</td>
+                    {# On affiche le nombre d'emploi actif de l'entreprise créer par le recruteur #}
+                    <td>{{ emploisParEntreprise[entreprise.id] }}</td>
                     <td class="td-action">
                         <i class="fa-solid fa-ellipsis"></i>
                         <div class="action">
@@ -40,6 +40,22 @@
             {% endfor %}
             </tbody>
         </table>
+        <table>
+            <colgroup span="1"></colgroup>
+            <thead>
+                <tr>
+                    <th><i class="fa-regular fa-clock" style="color: #ebd805;"></i> Entreprise en attente de validation</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for entreprise in entrepriseRepresenterNonVerifie %}
+                <tr>
+                    <td>{{ entreprise }}</td>
+                </tr>
+            {% endfor %} 
+            </tbody>
+        </table>
     </div>
+    <a href="{{ path('app_new_entreprise') }}">Ajouter une entreprise</a>
 </div>
 {% endblock %}

@@ -13,7 +13,7 @@ class Represente
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?bool $status = null;
 
     #[ORM\ManyToOne(inversedBy: 'representants')]

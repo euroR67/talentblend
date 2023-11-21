@@ -26,6 +26,15 @@ class Taille
         $this->entreprises = new ArrayCollection();
     }
 
+    public function __toString(): string
+    {
+        if($this->taille) {
+            return $this->taille;
+        }
+
+        return '';
+    }
+
     public function getId(): ?int
     {
         return $this->id;

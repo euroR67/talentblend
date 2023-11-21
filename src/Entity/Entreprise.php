@@ -33,10 +33,10 @@ class Entreprise
     #[ORM\Column(length: 255)]
     private ?string $kbis = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?bool $isVerified = null;
 
-    #[ORM\OneToMany(mappedBy: 'entreprise', targetEntity: Represente::class)]
+    #[ORM\OneToMany(mappedBy: 'entreprise', targetEntity: Represente::class, cascade: ['persist'])]
     private Collection $representants;
 
     #[ORM\OneToMany(mappedBy: 'entreprise', targetEntity: Emploi::class, orphanRemoval: true)]
@@ -48,6 +48,9 @@ class Entreprise
 
     #[ORM\ManyToOne(inversedBy: 'entreprises')]
     private ?Taille $tailles = null;
+
+    #[ORM\ManyToOne(inversedBy: 'entrepriseCreator')]
+    private ?User $user = null;
 
     public function __construct()
     {
@@ -233,6 +236,18 @@ class Entreprise
     public function setTailles(?Taille $tailles): static
     {
         $this->tailles = $tailles;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        $this->user = $user;
 
         return $this;
     }

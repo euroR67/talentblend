@@ -40,6 +40,12 @@ class EmploiController extends AbstractController
     {
         $this->denyAccessUnlessGranted('ROLE_RECRUTEUR');
 
+        // Vérifie si l'emploi existe, sinon on en crée un nouveau
+        if(!$emploi) {
+            $emploi = new Emploi();
+            $emploi->setUser($this->getUser());
+        }
+
         // Vérfie si l'emploi appartient à l'utilisateur connecté
         $hasAccess = $emploi->getUser() === $this->getUser();
         
@@ -47,12 +53,6 @@ class EmploiController extends AbstractController
         if(!$hasAccess) {
             $this->addFlash('danger', 'Vous n\'avez pas le droit de modifier cet emploi.');
             return $this->redirectToRoute('app_home');
-        }
-
-        // Vérifie si l'emploi existe, sinon on en crée un nouveau
-        if(!$emploi) {
-            $emploi = new Emploi();
-            $emploi->setUser($this->getUser());
         }
 
         $form = $this->createForm(EmploiType::class, $emploi);
@@ -67,11 +67,11 @@ class EmploiController extends AbstractController
 
             $this->addFlash('success', 'Le nouvelle emploi a bien été ajouter.');
 
-            return $this->redirectToRoute('app_emplois', ['id' => $this->getUser()->getId()]);
+            return $this->redirectToRoute('app_emplois');
 
         }
 
-        return $this->render('recruteur/new-emploi.html.twig', [
+        return $this->render('emploi/new.html.twig', [
             'form' => $form,
             'edit' => $emploi->getId()
         ]);

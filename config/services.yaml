@@ -6,6 +6,9 @@
 parameters:
     photo_profil: '%kernel.project_dir%/public/pdp'
     cv_directory: '%kernel.project_dir%/public/cv'
+    logo_directory: '%kernel.project_dir%/public/logo'
+    banniere_directory: '%kernel.project_dir%/public/banniere'
+    kbis_directory: '%kernel.project_dir%/public/kbis'
 services:
     # default configuration for services in *this* file
     _defaults:

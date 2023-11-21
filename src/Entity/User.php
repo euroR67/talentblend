@@ -85,7 +85,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private Collection $postulations;
 
     #[ORM\OneToMany(mappedBy: 'userEntreprise', targetEntity: Represente::class)]
-    private Collection $representants;
+    private Collection $entrepriseRepresenter;
 
     #[ORM\ManyToMany(targetEntity: Emploi::class, inversedBy: 'users')]
     private Collection $emploiSauvegarder;
@@ -93,15 +93,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Emploi::class, orphanRemoval: true)]
     private Collection $emplois;
 
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Entreprise::class)]
+    private Collection $entrepriseCreator;
+
     public function __construct()
     {
         $this->experiences = new ArrayCollection();
         $this->formations = new ArrayCollection();
         $this->langues = new ArrayCollection();
         $this->postulations = new ArrayCollection();
-        $this->representants = new ArrayCollection();
+        $this->entrepriseRepresenter = new ArrayCollection();
         $this->emploiSauvegarder = new ArrayCollection();
         $this->emplois = new ArrayCollection();
+        $this->entrepriseCreator = new ArrayCollection();
     }
 
     public function __toString(): string
@@ -444,24 +448,24 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @return Collection<int, Represente>
      */
-    public function getRepresentants(): Collection
+    public function getEntrepriseRepresenter(): Collection
     {
-        return $this->representants;
+        return $this->entrepriseRepresenter;
     }
 
-    public function addRepresentant(Represente $representant): static
+    public function addEntrepriseRepresenter(Represente $representant): static
     {
-        if (!$this->representants->contains($representant)) {
-            $this->representants->add($representant);
+        if (!$this->entrepriseRepresenter->contains($representant)) {
+            $this->entrepriseRepresenter->add($representant);
             $representant->setUserEntreprise($this);
         }
 
         return $this;
     }
 
-    public function removeRepresentant(Represente $representant): static
+    public function removeEntrepriseRepresenter(Represente $representant): static
     {
-        if ($this->representants->removeElement($representant)) {
+        if ($this->entrepriseRepresenter->removeElement($representant)) {
             // set the owning side to null (unless already changed)
             if ($representant->getUserEntreprise() === $this) {
                 $representant->setUserEntreprise(null);
@@ -519,6 +523,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($emploi->getUser() === $this) {
                 $emploi->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Entreprise>
+     */
+    public function getEntrepriseCreator(): Collection
+    {
+        return $this->entrepriseCreator;
+    }
+
+    public function addEntrepriseCreator(Entreprise $entrepriseCreator): static
+    {
+        if (!$this->entrepriseCreator->contains($entrepriseCreator)) {
+            $this->entrepriseCreator->add($entrepriseCreator);
+            $entrepriseCreator->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEntrepriseCreator(Entreprise $entrepriseCreator): static
+    {
+        if ($this->entrepriseCreator->removeElement($entrepriseCreator)) {
+            // set the owning side to null (unless already changed)
+            if ($entrepriseCreator->getUser() === $this) {
+                $entrepriseCreator->setUser(null);
             }
         }
 
