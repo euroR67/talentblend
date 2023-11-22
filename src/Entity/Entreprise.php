@@ -52,6 +52,9 @@ class Entreprise
     #[ORM\ManyToOne(inversedBy: 'entrepriseCreator')]
     private ?User $user = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $motifRefus = null;
+
     public function __construct()
     {
         $this->representants = new ArrayCollection();
@@ -248,6 +251,18 @@ class Entreprise
     public function setUser(?User $user): static
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getMotifRefus(): ?string
+    {
+        return $this->motifRefus;
+    }
+
+    public function setMotifRefus(?string $motifRefus): static
+    {
+        $this->motifRefus = $motifRefus;
 
         return $this;
     }

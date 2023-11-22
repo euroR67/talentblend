@@ -11,7 +11,7 @@
             <thead>
                 <tr>
                     <th>Entreprise</th>
-                    <th>Status</th>
+                    <th>Status représentation</th>
                     <th>Emploi active</th>
                     <th></th>
                 </tr>
@@ -24,8 +24,22 @@
                     <td>
                         {% if entreprise.status == true %}
                             <span style="color: green;">Approuvé</span>
-                        {% elseif entreprise.status == false %}
+                        {% elseif entreprise.status is null %}
                             <span style="color: rgb(245, 205, 47);">Vérification</span>
+                        {% elseif entreprise.status == 0 %}
+                            <span style="color: rgb(243, 63, 63);">
+                                Rejeter 
+                                <i class="fa-solid fa-circle-info"></i>
+                                <div class="motif">
+                                    <div>
+                                        <strong>Motif de rejet :</strong>
+                                        <p>- {{ entreprise.motifRefus }}</p>
+                                        <p><em>Vous pouvez demander une nouvelle vérification en cliquant sur le bouton ci-dessous.</em></p>
+                                        <a href="{{ path('app_reverify_represente', {'id': entreprise.id}) }}">Demander une nouvelle vérification</a>
+                                    </div>
+                                </div>
+                                <div class="overlay"></div>
+                            </span>
                         {% endif %}
                     </td>
 
@@ -53,7 +67,7 @@
             <thead>
                 <tr>
                     <th><i class="fa-regular fa-clock" style="color: #ebd805;"></i> Entreprise non vérifié</th>
-                    <th>Status</th>
+                    <th>Status Entreprise</th>
                 </tr>
             </thead>
             <tbody>
@@ -73,7 +87,7 @@
                                     <div class="motif">
                                         <div>
                                             <strong>Motif de rejet :</strong>
-                                            <p>- {{ entreprise.motifRefus }}</p>
+                                            <p>- {{ entreprise.entreprise.motifRefus }}</p>
                                             <p><em>Vous pouvez demander une nouvelle vérification en cliquant sur le bouton ci-dessous.</em></p>
                                             <a href="{{ path('app_edit_entreprise', {'id': entreprise.entreprise.id}) }}">Demander une nouvelle vérification</a>
                                         </div>

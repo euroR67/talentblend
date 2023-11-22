@@ -16,7 +16,7 @@ class RepresenteController extends AbstractController
 {
     // Méthode pour représenter une entreprise ( ajout / réexamination )
     #[Route('/new', name: 'app_new_represente')]
-    #[Route('/reverify', name: 'app_reverify_represente')]
+    #[Route('/reverify/{id}', name: 'app_reverify_represente')]
     public function new_reverify(Represente $represente = null,Request $request,EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
         $this->denyAccessUnlessGranted('ROLE_RECRUTEUR');
