@@ -71,6 +71,11 @@ class Emploi
         $this->users = new ArrayCollection();
     }
 
+    public function __toString(): string
+    {
+        return (string)$this->getPoste();
+    }
+
     public function getId(): ?int
     {
         return $this->id;

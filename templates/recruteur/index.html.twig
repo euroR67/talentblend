@@ -33,13 +33,15 @@
                             En ligne
                         {% endif %}
                     </td>
-                    
-                    <td>{{ emploi.dateOffre|format_datetime('short', 'none', locale='fr') }}</td>
+                    <td>{{ emploi.dateOffre|format_datetime('long', 'none', locale='fr') }}</td>
                     <td>
-                        {% if emploi.dateOffre|date_modify('+1 month', 'Europe/Paris') < date() %}
+                        {% set expirationDate = emploi.dateOffre|date_modify('+1 month', 'Europe/Paris') %}
+                        {% set daysRemaining = (expirationDate.diff(date())).days %}
+                    
+                        {% if daysRemaining < 0 %}
                             Expirée
                         {% else %}
-                            {{ emploi.dateOffre|date_modify('+1 month', 'Europe/Paris')|format_datetime('long', 'none', locale='fr') }}
+                            {{ daysRemaining }} jour(s)
                         {% endif %}
                     </td>
                     <td class="td-action">

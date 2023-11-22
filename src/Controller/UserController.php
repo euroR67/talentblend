@@ -11,6 +11,8 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
@@ -18,45 +20,77 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 
 class UserController extends AbstractController
 {
-    // Méthode pour permettre la modification du mot de passe de l'utilisateur
-    #[Route('/user/edition-mot-de-passe/{id}', name: 'app_edit_password')]
-public function editPassword(User $user, Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher): Response
-{
-    $form = $this->createForm(UserPasswordType::class);
 
-    $form->handleRequest($request);
+    // Méthode pour télécharger le CV d'un utilisateur
+    public function downloadCV(int $userId, EntityManagerInterface $entityManager): Response
+    {
+        // Récupérez l'utilisateur à partir de l'ID
+        $user = $entityManager->getRepository(User::class)->find($userId);
 
-    // Si le formulaire est soumis et valide
-    if ($form->isSubmitted() && $form->isValid()) {
-        // Vérifier le mot de passe actuel
-        $currentPassword = $form->get('currentPassword')->getData();
-        if (!$passwordHasher->isPasswordValid($user, $currentPassword)) {
-            $form->get('currentPassword')->addError(new FormError('Le mot de passe actuel est incorrect.'));
-            return $this->render('security/edit_password.html.twig', [
-                'form' => $form->createView(),
-            ]);
+        if (!$user) {
+            throw $this->createNotFoundException('Utilisateur non trouvé');
         }
 
-        // Hasher et mettre à jour le mot de passe
-        $newPassword = $form->get('newPassword')->getData();
-        $hashedPassword = $passwordHasher->hashPassword($user, $newPassword);
-        $user->setPassword($hashedPassword);
+        // Récupérez le chemin du CV
+        $cvPath = $this->getParameter('cv_directory') . '/' . $user->getCv();
 
-        // Enregistrer l'utilisateur mis à jour
-        $entityManager->persist($user);
-        $entityManager->flush();
+        // Vérifiez si le fichier existe
+        if (!file_exists($cvPath)) {
+            throw $this->createNotFoundException('CV non trouvé');
+        }
 
-        // Rediriger ou ajouter un message de succès, selon vos besoins
-        $this->addFlash('success', 'Le mot de passe a été modifié avec succès.');
-        return $this->redirectToRoute('app_edit_password', ['id' => $user->getId()]);
+        // Créez une réponse pour le téléchargement du fichier
+        $response = new BinaryFileResponse($cvPath);
+
+        // Configurez le nom du fichier pour le téléchargement
+        $response->setContentDisposition(
+            ResponseHeaderBag::DISPOSITION_ATTACHMENT,
+            'cv_' . $user->getNom() . '_' . $user->getPrenom() . '.pdf'
+        );
+
+        return $response;
     }
 
-    // Si le formulaire n'est pas soumis, on affiche le formulaire
-    return $this->render('security/edit_password.html.twig', [
-        'form' => $form->createView(),
-    ]);
-}
+    // Méthode pour permettre la modification du mot de passe de l'utilisateur
+    #[Route('/user/edition-mot-de-passe/{id}', name: 'app_edit_password')]
+    public function editPassword(User $user, Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher): Response
+    {
+        $form = $this->createForm(UserPasswordType::class);
 
+        $form->handleRequest($request);
+
+        // Si le formulaire est soumis et valide
+        if ($form->isSubmitted() && $form->isValid()) {
+            // Vérifier le mot de passe actuel
+            $currentPassword = $form->get('currentPassword')->getData();
+            if (!$passwordHasher->isPasswordValid($user, $currentPassword)) {
+                $form->get('currentPassword')->addError(new FormError('Le mot de passe actuel est incorrect.'));
+                return $this->render('security/edit_password.html.twig', [
+                    'form' => $form->createView(),
+                ]);
+            }
+
+            // Hasher et mettre à jour le mot de passe
+            $newPassword = $form->get('newPassword')->getData();
+            $hashedPassword = $passwordHasher->hashPassword($user, $newPassword);
+            $user->setPassword($hashedPassword);
+
+            // Enregistrer l'utilisateur mis à jour
+            $entityManager->persist($user);
+            $entityManager->flush();
+
+            // Rediriger ou ajouter un message de succès, selon vos besoins
+            $this->addFlash('success', 'Le mot de passe a été modifié avec succès.');
+            return $this->redirectToRoute('app_edit_password', ['id' => $user->getId()]);
+        }
+
+        // Si le formulaire n'est pas soumis, on affiche le formulaire
+        return $this->render('security/edit_password.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+
+    // Méthode pour supprimer un utilisateur
     #[Route('/user/{id}/delete', name: 'app_delete_user')]
     public function deleteUser(Request $request, User $user, EntityManagerInterface $entityManager, TokenStorageInterface $tokenStorage): Response
     {
@@ -80,5 +114,4 @@ public function editPassword(User $user, Request $request, EntityManagerInterfac
             return $this->redirectToRoute('app_home');
         }
     }
-
 }

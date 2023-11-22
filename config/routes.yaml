@@ -7,3 +7,9 @@ controllers:
 app_home:
     path: /
     controller: App\Controller\HomeController::index
+
+download_cv:
+    path: '/download-cv/{userId}'
+    controller: 'App\Controller\UserController::downloadCV'
+    requirements:
+        userId: '\d+'

@@ -31,6 +31,11 @@ class Postule
         return $this->id;
     }
 
+    public function __toString(): string
+    {
+        return (string)$this->getUserPostulant();
+    }
+
     public function getDatePostulation(): ?\DateTimeInterface
     {
         return $this->datePostulation;

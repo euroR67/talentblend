@@ -110,11 +110,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function __toString(): string
     {
-        if($this->nom) {
-            return $this->nom;
-        }
-
-        return '';
+        return $this->getNom() . ' ' . $this->getPrenom();
     }
 
     public function getId(): ?int
