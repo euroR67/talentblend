@@ -28,18 +28,8 @@ class EntrepriseController extends AbstractController
         // Récupérer les entreprise que représente l'utilisateur / recruteur
         $entrepriseRepresenter = $user->getEntrepriseRepresenter();
 
-        // Pour chaque entreprise, compter le nombre d'emplois créés par l'utilisateur
-        $emploisParEntreprise = [];
-        foreach ($entrepriseRepresenter as $entreprise) {
-            $emplois = $entreprise->getEntreprise()->getEmplois()->toArray();
-            $emploisParEntreprise[$entreprise->getId()] = count(array_filter($emplois, function($emploi) use ($user) {
-                return $emploi->getUser() === $user;
-            }));
-        }
-
         return $this->render('entreprise/index.html.twig', [
             'entrepriseRepresenter' => $entrepriseRepresenter,
-            'emploisParEntreprise' => $emploisParEntreprise,
         ]);
     }
 

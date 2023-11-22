@@ -25,6 +25,9 @@ class Represente
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $motifRefus = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $kbis = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -83,6 +86,18 @@ class Represente
     public function setMotifRefus(?string $motifRefus): static
     {
         $this->motifRefus = $motifRefus;
+
+        return $this;
+    }
+
+    public function getKbis(): ?string
+    {
+        return $this->kbis;
+    }
+
+    public function setKbis(?string $kbis): static
+    {
+        $this->kbis = $kbis;
 
         return $this;
     }

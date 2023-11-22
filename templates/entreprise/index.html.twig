@@ -28,8 +28,11 @@
                             <span style="color: rgb(245, 205, 47);">Vérification</span>
                         {% endif %}
                     </td>
-                    {# On affiche le nombre d'emploi actif de l'entreprise créer par le recruteur #}
-                    <td>{{ emploisParEntreprise[entreprise.id] }}</td>
+
+                    {# Filtrer les emplois par l'utilisateur en session #}
+                    {# Afficher le nombre d'emplois créés par l'utilisateur en session #}
+                    <td>{{ entreprise.entreprise.emplois|filter(emploi => emploi.user.id == app.user.id)|length }}</td>
+
                     <td class="td-action">
                         <i class="fa-solid fa-ellipsis"></i>
                         <div class="action">
@@ -84,7 +87,7 @@
             </tbody>
         </table>
     </div>
-    <a href="{{ path('app_new_entreprise') }}">Ajouter une entreprise</a>
+    <a href="{{ path('app_new_represente') }}">Ajouter une entreprise</a>
 </div>
 <style>
     .fa-circle-info {
