@@ -18,105 +18,105 @@ document.addEventListener('DOMContentLoaded', function () {
 
 // Script pour l'ajout de formations
 
-        // Ajouter un lien de suppression à toutes les formations
-        const addFormationFormDeleteLink = (item) => {
-            const removeFormButton = document.createElement('button');
-            removeFormButton.innerHTML = 'Remove this formation';
+    // Ajouter un lien de suppression à toutes les formations
+    const addFormationFormDeleteLink = (item) => {
+        const removeFormButton = document.createElement('button');
+        removeFormButton.innerHTML = 'Remove this formation';
 
-            item.appendChild(removeFormButton);
+        item.appendChild(removeFormButton);
 
-            removeFormButton.addEventListener('click', (e) => {
-                e.preventDefault();
-                item.remove();
-            });
-        }
-
-        // Ajouter un lien de suppression à toutes les expériences
-        const addExperienceFormDeleteLink = (item) => {
-            const removeFormButton = document.createElement('button');
-            removeFormButton.innerHTML = 'Remove this experience';
-
-            item.appendChild(removeFormButton);
-
-            removeFormButton.addEventListener('click', (e) => {
-                e.preventDefault();
-                item.remove();
-            });
-        }
-
-        // Ajouter le formulaire d'ajout de formation au collectionHolder
-        const addFormToCollection = (e) => {
-            const collectionHolder = document.querySelector('.' + e.currentTarget.dataset.collectionHolderClass);
-          
-            const item = document.createElement('li');
-          
-            item.innerHTML = collectionHolder
-              .dataset
-              .prototype
-              .replace(
-                /__name__/g,
-                collectionHolder.dataset.index
-              );
-          
-            collectionHolder.appendChild(item);
-          
-            collectionHolder.dataset.index++;
-            
-            // add a delete link to the new form
-            addFormationFormDeleteLink(item);
-
-        };
-
-        // Ajouter le formulaire d'ajout d'expérience au collectionHolder
-        const addFormToCollection2 = (e) => {
-            const collectionHolder = document.querySelector('.' + e.currentTarget.dataset.collectionHolderClass);
-          
-            const item = document.createElement('li');
-          
-            item.innerHTML = collectionHolder
-              .dataset
-              .prototype
-              .replace(
-                /__name__/g,
-                collectionHolder.dataset.index
-              );
-          
-            collectionHolder.appendChild(item);
-          
-            collectionHolder.dataset.index++;
-            
-            // add a delete link to the new form
-            addExperienceFormDeleteLink(item);
-
-        };
-
-        // Ajouter un écouteur d'évènement sur le bouton d'ajout de formation
-        document
-        .querySelectorAll('.add_formation_link')
-        .forEach(btn => {
-            btn.addEventListener("click", addFormToCollection)
+        removeFormButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            item.remove();
         });
+    }
 
-        // Ajouter un écouteur d'évènement sur le bouton d'ajout d'expérience  
-        document
-        .querySelectorAll('.add_experience_link')
-        .forEach(btn => {
-            btn.addEventListener("click", addFormToCollection2)
-        });
+    // Ajouter un lien de suppression à toutes les expériences
+    const addExperienceFormDeleteLink = (item) => {
+        const removeFormButton = document.createElement('button');
+        removeFormButton.innerHTML = 'Remove this experience';
 
-        // Ajouter un bouton de suppression à tout les formulaires d'expérience
-        document
-        .querySelectorAll('div.experiences .formfield')
-        .forEach((experience) => {
-            addExperienceFormDeleteLink(experience)
-        });
+        item.appendChild(removeFormButton);
 
-        // Ajouter un bouton de suppression à tout les formulaires de formation
-        document
-        .querySelectorAll('div.formations .formfield')
-        .forEach((formation) => {
-            addFormationFormDeleteLink(formation)
+        removeFormButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            item.remove();
         });
+    }
+
+    // Ajouter le formulaire d'ajout de formation au collectionHolder
+    const addFormToCollection = (e) => {
+        const collectionHolder = document.querySelector('.' + e.currentTarget.dataset.collectionHolderClass);
+        
+        const item = document.createElement('li');
+        
+        item.innerHTML = collectionHolder
+            .dataset
+            .prototype
+            .replace(
+            /__name__/g,
+            collectionHolder.dataset.index
+            );
+        
+        collectionHolder.appendChild(item);
+        
+        collectionHolder.dataset.index++;
+        
+        // add a delete link to the new form
+        addFormationFormDeleteLink(item);
+
+    };
+
+    // Ajouter le formulaire d'ajout d'expérience au collectionHolder
+    const addFormToCollection2 = (e) => {
+        const collectionHolder = document.querySelector('.' + e.currentTarget.dataset.collectionHolderClass);
+        
+        const item = document.createElement('li');
+        
+        item.innerHTML = collectionHolder
+            .dataset
+            .prototype
+            .replace(
+            /__name__/g,
+            collectionHolder.dataset.index
+            );
+        
+        collectionHolder.appendChild(item);
+        
+        collectionHolder.dataset.index++;
+        
+        // add a delete link to the new form
+        addExperienceFormDeleteLink(item);
+
+    };
+
+    // Ajouter un écouteur d'évènement sur le bouton d'ajout de formation
+    document
+    .querySelectorAll('.add_formation_link')
+    .forEach(btn => {
+        btn.addEventListener("click", addFormToCollection)
+    });
+
+    // Ajouter un écouteur d'évènement sur le bouton d'ajout d'expérience  
+    document
+    .querySelectorAll('.add_experience_link')
+    .forEach(btn => {
+        btn.addEventListener("click", addFormToCollection2)
+    });
+
+    // Ajouter un bouton de suppression à tout les formulaires d'expérience
+    document
+    .querySelectorAll('div.experiences .formfield')
+    .forEach((experience) => {
+        addExperienceFormDeleteLink(experience)
+    });
+
+    // Ajouter un bouton de suppression à tout les formulaires de formation
+    document
+    .querySelectorAll('div.formations .formfield')
+    .forEach((formation) => {
+        addFormationFormDeleteLink(formation)
+    });
 
 // ============================ Action edit / delet emploi ============================ //
 
@@ -125,8 +125,15 @@ document.addEventListener('DOMContentLoaded', function () {
     const action = document.querySelectorAll('.action');
 
     ellipsis.forEach((el, index) => {
-        el.addEventListener('click', () => {
+        el.addEventListener('click', (event) => {
+            event.stopPropagation(); // Prevent this click from triggering the document click event below
             action[index].classList.toggle('active');
+        });
+    });
+
+    document.addEventListener('click', () => {
+        action.forEach((el) => {
+            el.classList.remove('active');
         });
     });
 });

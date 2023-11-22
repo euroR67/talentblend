@@ -75,6 +75,12 @@ class EntrepriseController extends AbstractController
             return $this->redirectToRoute('app_home');
         }
 
+        // Vérifie si l'entreprise existe
+        if(!$entreprise) {
+            $this->addFlash('danger', 'L\'entreprise n\'existe pas.');
+            return $this->redirectToRoute('app_home');
+        }
+
         $form = $this->createForm(EntrepriseType::class, $entreprise);
 
         $form->handleRequest($request);
@@ -164,11 +170,25 @@ class EntrepriseController extends AbstractController
                 $entreprise->setKbis($newFilename);
             }
 
-            $entityManager->persist($entreprise);
+            // Message dans le cas ou l'entreprise vient d'être ajoutée
+            $message = 'L\'Entreprise a bien été ajoutée, elle est en cours de vérification.';
 
+            // Dans le cas ou le recruteur demande une réexamination de l'entreprise
+            // On remet le statut de l'entreprise à NULL (en attente de vérification)
+            if($entreprise->isIsVerified() == 0) {
+                $entreprise->setIsVerified(NULL);
+                $entityManager->flush();
+                // Message dans le cas ou il s'agit d'une réexamination
+                $message = 'La demande de réexamination de l\'entreprise a bien été envoyée.';
+            } elseif ($entreprise->getId()) {
+                // Message dans le cas ou l'entreprise vient d'être modifiée
+                $message = 'L\'Entreprise a bien été modifiée.';
+            }
+
+            $entityManager->persist($entreprise);
             $entityManager->flush();
 
-            $this->addFlash('success', 'L\'Entreprise a bien été ajouter, il est en cours de vérification.');
+            $this->addFlash('success', $message);
 
             return $this->redirectToRoute('app_entreprises');
         }

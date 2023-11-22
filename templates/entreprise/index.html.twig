@@ -33,8 +33,11 @@
                     <td class="td-action">
                         <i class="fa-solid fa-ellipsis"></i>
                         <div class="action">
-                            <a href="{{ path('app_edit_entreprise', {'id': entreprise.id}) }}"><i class="fa-solid fa-pen-to-square"></i> Modifier</a>
-                            <a href="{{ path('app_delete_entreprise', {'id': entreprise.id}) }}"><i class="fa-solid fa-xmark"></i> Supprimer</a>
+                            {% if entreprise.entreprise.user == app.user %}
+                                <a href="{{ path('app_edit_entreprise', {'id': entreprise.entreprise.id}) }}"><i class="fa-solid fa-pen-to-square"></i> Modifier</a>
+                                <a href="{{ path('app_delete_entreprise', {'id': entreprise.entreprise.id}) }}"><i class="fa-solid fa-xmark"></i> Supprimer</a>
+                            {% endif %}
+                                <a href=""><i class="fa-solid fa-expand"></i> Voir</a>
                         </div>
                     </td>
                 </tr>
@@ -69,7 +72,7 @@
                                             <strong>Motif de rejet :</strong>
                                             <p>- {{ entreprise.motifRefus }}</p>
                                             <p><em>Vous pouvez demander une nouvelle vérification en cliquant sur le bouton ci-dessous.</em></p>
-                                            <a href="">Nouvelle vérification</a>
+                                            <a href="{{ path('app_edit_entreprise', {'id': entreprise.entreprise.id}) }}">Demander une nouvelle vérification</a>
                                         </div>
                                     </div>
                                     <div class="overlay"></div>

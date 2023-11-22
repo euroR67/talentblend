@@ -149,7 +149,7 @@ class Entreprise
         return $this->isVerified;
     }
 
-    public function setIsVerified(bool $isVerified): static
+    public function setIsVerified(?bool $isVerified): self
     {
         $this->isVerified = $isVerified;
 
