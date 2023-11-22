@@ -36,16 +36,16 @@
                     <td>{{ candidature.datePostulation|format_datetime('long', 'none', locale='fr') }}</td>
                     <td class="td-action">
                         {# Icon download pour télécharger le CV du candidat #}
-                        <a href="{{ path('download_cv', {'userId': candidature.userPostulant.id}) }}"><i class="fa-solid fa-download"></i></a>
+                        <a style="margin-right: 10px;" title="Télécharger le CV" href="{{ path('download_cv', {'userId': candidature.userPostulant.id}) }}"><i class="fa-solid fa-download"></i></a>
                         <i class="fa-solid fa-ellipsis"></i>
                         <div class="action">
                             {% if candidature.status is null %}
-                                <a href="">Approuvé</a>
-                                <a href="">Rejeter</a>
+                                <a href={{ path('app_approuver', {'id': candidature.id}) }}>Approuvé</a>
+                                <a href="{{ path('app_rejeter', {'id': candidature.id}) }}">Rejeter</a>
                             {% elseif candidature.status == 1 %}
-                                <a href="">Rejeter</a>
+                                <a href="{{ path('app_rejeter', {'id': candidature.id}) }}">Rejeter</a>
                             {% elseif candidature.status == 0 %}
-                                <a href="">Approuvé</a>
+                                <a href={{ path('app_approuver', {'id': candidature.id}) }}>Approuvé</a>
                             {% endif %}
                         </div>
                     </td>

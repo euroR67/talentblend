@@ -31,13 +31,13 @@ class UserController extends AbstractController
             throw $this->createNotFoundException('Utilisateur non trouvé');
         }
 
+        // Vérifiez si la propriété cv de l'utilisateur est vide
+        if (empty($user->getCv())) {
+            return new Response('CV non trouvé', 404);
+        }
+
         // Récupérez le chemin du CV
         $cvPath = $this->getParameter('cv_directory') . '/' . $user->getCv();
-
-        // Vérifiez si le fichier existe
-        if (!file_exists($cvPath)) {
-            throw $this->createNotFoundException('CV non trouvé');
-        }
 
         // Créez une réponse pour le téléchargement du fichier
         $response = new BinaryFileResponse($cvPath);

@@ -4,7 +4,9 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Entity\Emploi;
+use App\Entity\Postule;
 use App\Form\EmploiType;
+use App\Repository\PostuleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -39,5 +41,57 @@ class RecruteurController extends AbstractController
         return $this->render('recruteur/liste_candidatures.html.twig', [
             'candidatures' => $candidatures,
         ]);
+    }
+
+    // Méthode pour approuvé une candidature
+    #[Route('/approuver/{id}', name: 'app_approuver')]
+    public function approuver($id, Request $request, EntityManagerInterface $entityManager, PostuleRepository $postuleRepository): Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_RECRUTEUR');
+
+        // Récupère l'utilisateur en session
+        $user = $this->getUser();
+
+        // Récupère la postulation à partir de l'ID
+        $postulation = $postuleRepository->find($id);
+
+        if (!$postulation) {
+            throw $this->createNotFoundException('La postulation demandée n\'existe pas');
+        }
+
+        // Approuve la candidature
+        $postulation->setStatus(true);
+
+        // Enregistre les modifications
+        $entityManager->flush();
+
+        // Redirige vers la liste des candidatures
+        return $this->redirectToRoute('app_candidatures_recu');
+    }
+
+    // Méthode pour rejeter une candidature
+    #[Route('/rejeter/{id}', name: 'app_rejeter')]
+    public function rejeter($id, Request $request, EntityManagerInterface $entityManager, PostuleRepository $postuleRepository): Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_RECRUTEUR');
+
+        // Récupère l'utilisateur en session
+        $user = $this->getUser();
+
+        // Récupère la postulation à partir de l'ID
+        $postulation = $postuleRepository->find($id);
+
+        if (!$postulation) {
+            throw $this->createNotFoundException('La postulation demandée n\'existe pas');
+        }
+
+        // Approuve la candidature
+        $postulation->setStatus(0);
+
+        // Enregistre les modifications
+        $entityManager->flush();
+
+        // Redirige vers la liste des candidatures
+        return $this->redirectToRoute('app_candidatures_recu');
     }
 }
