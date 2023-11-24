@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Entity\Emploi;
 use App\Form\UserType;
+use App\Entity\Postule;
 use App\Entity\Formation;
 use App\Form\CandidatType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -14,12 +16,15 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
+#[Route('/candidat')]
 class CandidatController extends AbstractController
 {
     // Méthode pour modifier le profil du candidat
-    #[Route('/candidat/{id}/edit', name: 'app_candidat_edit')]
+    #[Route('/edit/{id}', name: 'app_candidat_edit')]
     public function edit(Request $request, User $user, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_CANDIDAT');
+
         // Si l'utilisateur n'est pas connecté
         if(!$this->getUser()) {
             // On renvoi vers la page d'accueil
@@ -122,5 +127,98 @@ class CandidatController extends AbstractController
             'user' => $user,
             'form' => $form,
         ]);
+    }
+
+    // Méthode pour afficher la liste des candidatures envoyées et les emplois sauvegardés par le candidat
+    #[Route('/liste', name: 'app_candidatures')]
+    public function index(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_CANDIDAT');
+
+        // Récupère l'utilisateur en session
+        $user = $this->getUser();
+
+        // Récupère les candidatures envoyées par l'utilisateur
+        $candidatures = $user->getPostulations();
+
+        // Récupère les emplois sauvegardés par l'utilisateur
+        $emplois = $user->getEmploiSauvegarder();
+
+        return $this->render('candidat/liste_candidatures.html.twig', [
+            'candidatures' => $candidatures,
+            'emplois' => $emplois,
+        ]);
+    }
+
+    // Méthode pour postuler
+    #[Route('/postuler/emploi/{id}', name: 'app_postuler')]
+    public function postuler(Postule $candidature, Request $request, EntityManagerInterface $entityManager, $id): Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_CANDIDAT');
+
+        // Récupère l'utilisateur en session
+        $user = $this->getUser();
+
+        
+    }
+
+    // Méthode pour supprimer une candidature
+    #[Route('/delete/candidature/{id}', name: 'app_candidature_delete')]
+    public function delete(Postule $candidature, Request $request, EntityManagerInterface $entityManager, $id): Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_CANDIDAT');
+
+        // Récupère l'utilisateur en session
+        $user = $this->getUser();
+
+        // Si la candidature n'existe pas
+        if(!$candidature) {
+            // On renvoi vers la page d'accueil
+            return $this->redirectToRoute('app_home');
+        }
+
+        // Si l'utilisateur courant est différent de l'utilisateur dont on veut supprimer la candidature
+        if($this->getUser() !== $candidature->getUserPostulant()) {
+            // On renvoi vers la page d'accueil
+            return $this->redirectToRoute('app_home');
+        }
+
+        // Suppression de la candidature
+        $entityManager->remove($candidature);
+        $entityManager->flush();
+
+        // On renvoi vers la page de la liste des candidatures
+        return $this->redirectToRoute('app_candidatures');
+    }
+
+    // Méthode pour supprimer un emploi sauvegardé
+    #[Route('/delete/emploi/{id}', name: 'app_emploi_delete')]
+    public function deleteEmploi(Emploi $emploi, Request $request, EntityManagerInterface $entityManager, $id): Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_CANDIDAT');
+
+        // Récupère l'utilisateur en session
+        $user = $this->getUser();
+
+        // Si l'emploi n'existe pas
+        if(!$emploi) {
+            // On renvoi vers la page d'accueil
+            return $this->redirectToRoute('app_home');
+        }
+        
+        // Si l'utilisateur courant n'appartient pas à la collection d'utilisateurs de l'emploi
+        if (!$emploi->getUsers()->contains($user)) {
+            // On renvoie vers la page d'accueil
+            return $this->redirectToRoute('app_home');
+        }
+
+        // On retire l'emploi de la liste des emplois sauvegardés par l'utilisateur
+        $user->removeEmploiSauvegarder($emploi);
+
+        // On enregistre les modifications
+        $entityManager->flush();
+
+        // On renvoi vers la page de la liste des candidatures
+        return $this->redirectToRoute('app_candidatures');
     }
 }

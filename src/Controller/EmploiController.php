@@ -4,111 +4,61 @@ namespace App\Controller;
 
 use App\Entity\Emploi;
 use App\Form\EmploiType;
+use App\Entity\Categorie;
+use App\Entity\Entreprise;
+use App\Repository\EmploiRepository;
+use App\Repository\EntrepriseRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
-
-#[Route('/recruteur/emploi')]
+#[Route('/emploi')]
 class EmploiController extends AbstractController
 {
-    // Méthode pour afficher la liste des emplois créers par le recruteur
-    #[Route('/liste', name: 'app_emplois')]
-    public function index(Request $request, EntityManagerInterface $entityManager): Response
+    // Méthode pour lister les offres d'emplois par catégorie
+    #[Route('/categorie/{id}', name: 'app_emplois_par_categorie')]
+    public function emploisParCategorie(Categorie $categorie, EntityManagerInterface $entityManager): Response
     {
-        $this->denyAccessUnlessGranted('ROLE_RECRUTEUR');
+        // Récupérer les emplois par catégorie
+        $emplois = $entityManager->getRepository(Emploi::class)->findBy(['categories' => $categorie]);
 
-        // Récupère l'utilisateur en session
-        $user = $this->getUser();
-
-        // Récupère les emplois de l'utilisateur
-        $emplois = $user->getEmplois();
-
-        return $this->render('recruteur/index.html.twig', [
+        return $this->render('emploi/emplois_par_categorie.html.twig', [
             'emplois' => $emplois,
+            'categorie' => $categorie,
         ]);
     }
 
-    // Méthode pour ajouter / supprimer un emploi
-    #[Route('/new', name: 'app_new_emploi')]
-    #[Route('/edit/{id}', name: 'app_edit_emploi')]
-    public function new_edit_emploi(Emploi $emploi = null, Request $request,EntityManagerInterface $entityManager) : Response
+    // Méthode pour lister les offres d'emplois par entreprise
+    #[Route('/entreprise/{id}', name: 'app_emplois_par_entreprise')]
+    public function emploisParEntreprise(Entreprise $entreprise, EntityManagerInterface $entityManager): Response
     {
-        $this->denyAccessUnlessGranted('ROLE_RECRUTEUR');
+        // Récupérer les emplois par catégorie
+        $emplois = $entityManager->getRepository(Emploi::class)->findBy(['entreprise' => $entreprise]);
 
-        // Vérifie si l'emploi existe, sinon on en crée un nouveau
-        if(!$emploi) {
-            $emploi = new Emploi();
-            $emploi->setUser($this->getUser());
-        }
-
-        // Vérfie si l'emploi appartient à l'utilisateur connecté
-        $hasAccess = $emploi->getUser() === $this->getUser();
-        
-        // Vérifie si l'utilisateur connecté a le droit de modifier l'emploi
-        if(!$hasAccess) {
-            $this->addFlash('danger', 'Vous n\'avez pas le droit de modifier cet emploi.');
-            return $this->redirectToRoute('app_home');
-        }
-
-        $form = $this->createForm(EmploiType::class, $emploi);
-
-        $form->handleRequest($request);
-
-        if($form->isSubmitted() && $form->isValid()) {
-
-            $entityManager->persist($emploi);
-
-            $entityManager->flush();
-
-            $this->addFlash('success', 'Le nouvelle emploi a bien été ajouter.');
-
-            return $this->redirectToRoute('app_emplois');
-
-        }
-
-        return $this->render('emploi/new.html.twig', [
-            'form' => $form,
-            'edit' => $emploi->getId()
+        return $this->render('emploi/emplois_par_entreprise.html.twig', [
+            'emplois' => $emplois,
+            'entreprise' => $entreprise,
         ]);
     }
 
-    // Fonction pour supprimer un emploi
-    #[Route('/delete/{id}', name: 'app_delete_emploi')]
-    public function delete_emploi(Emploi $emploi = null, Request $request,EntityManagerInterface $entityManager) : Response
+    // Méthode pour afficher le détail d'une offre d'emploi
+    #[Route('/detail/{id}', name: 'app_show_emploi')]
+    public function showEmploi($id, EntityManagerInterface $entityManager, EmploiRepository $er): Response
     {
-        $this->denyAccessUnlessGranted('ROLE_RECRUTEUR');
-        
-        // Vérfie si l'emploi appartient à l'utilisateur connecté
-        $hasAccess = $emploi->getUser() === $this->getUser();
-        
-        if(!$hasAccess) {
-            $this->addFlash('danger', 'Vous n\'avez pas le droit de supprimer cet emploi.');
-            return $this->redirectToRoute('app_home');
-        }
+        // Récupère l'emploi en question
+        $emploi = $er->find($id);
 
-        // Vérifie si l'emploi existe
-        if(!$emploi) {
-            throw $this->createNotFoundException('L\'emploi n\'existe pas.');
-        }
+        // Récupérer tout les emplois de l'entreprise de cet emplois
+        $entreprise = $emploi->getEntreprise();
+        $emploisDeLEntreprise = $entreprise->getEmplois();
 
-        // Vérifie si l'utilisateur connecté est différent du créateur de l'emploi
-        if($emploi->getUser() !== $user) {
-            $this->addFlash('danger', 'Vous n\'avez pas le droit de supprimer cet emploi.');
-            return $this->redirectToRoute('app_home');
-        }
-
-        $entityManager->remove($emploi);
-        
-        $entityManager->flush();
-
-        // Ajoute un message de succès
-        $this->addFlash('success', 'L\'emploi a été supprimé avec succès.');
-
-        return $this->redirectToRoute('app_emplois');
+        return $this->render('emploi/show.html.twig', [
+            'emploi' => $emploi,
+            'emploisDeLEntreprise' => $emploisDeLEntreprise,
+        ]);
     }
 }

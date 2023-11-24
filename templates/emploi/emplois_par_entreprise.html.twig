@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Emplois par entreprise{% endblock %}
+
+{% block body %}
+
+    <h1>Emplois par entreprise : {{ entreprise }}</h1>
+
+    {% for emploi in emplois %}
+        <a href="{{ path('app_show_emploi', {'id': emploi.id}) }}">{{ emploi }}</a> <br>        
+    {% endfor %}
+
+{% endblock %}

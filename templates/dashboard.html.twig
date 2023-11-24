@@ -33,7 +33,7 @@
                     {% if is_granted('ROLE_CANDIDAT') %}
                         <ul>
                             <li><a href="{{ path('app_candidat_edit', {'id': app.user.id}) }}">Profil</a></li>
-                            <li><a href="">Candidatures</a></li>
+                            <li><a href="{{ path('app_candidatures') }}">Candidatures</a></li>
                             <li><a href="">Messages</a></li>
                             <li><a href="{{ path('app_edit_password', {'id': app.user.id}) }}">Paramètre</a></li>
                             <li><a href="{{ path('app_logout') }}">Se déconnecter</a></li>

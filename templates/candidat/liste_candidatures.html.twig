@@ -1,0 +1,75 @@
+{% extends 'dashboard.html.twig' %}
+
+{% block title %}Candidatures{% endblock %}
+
+{% block body %}
+<div class="wrapper">
+    <h2>Vos candidatures</h2>
+    <div class="table-wrapper">
+        <table>
+            <colgroup span="4"></colgroup>
+            <thead>
+                <tr>
+                    <th>Emploi</th>
+                    <th>Status</th>
+                    <th>Date de candidature</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for candidature in candidatures %}
+                <tr>
+                    <td>
+                        <a style="color: #007456;" href="">{{ candidature.emploi }}</a>
+                    </td>
+                    <td>
+                        {% if candidature.status is null %}
+                            Vérification
+                        {% elseif candidature.status == 1 %}
+                            Approuvé
+                        {% elseif candidature.status == 0 %}
+                            Rejeter
+                        {% endif %}
+                    </td>
+                    
+                    <td>{{ candidature.datePostulation|format_datetime('long', 'none', locale='fr') }}</td>
+                    <td class="td-action">
+                        <i class="fa-solid fa-ellipsis"></i>
+                        <div class="action">
+                            <a href="{{ path('app_candidature_delete', {'id': candidature.id }) }}">Retirer ma candidature</a>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <table>
+            <colgroup span="4"></colgroup>
+            <thead>
+                <tr>
+                    <th>Emploi</th>
+                    <th>Date de l'offre</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for emploi in emplois %}
+                <tr>
+                    <td>
+                        <a style="color: #007456;" href="">{{ emploi }}</a>
+                    </td>
+                    
+                    <td>{{ emploi.dateOffre|format_datetime('long', 'none', locale='fr') }}</td>
+                    <td class="td-action">
+                        <i class="fa-solid fa-ellipsis"></i>
+                        <div class="action">
+                            <a href="{{ path('app_emploi_delete', {'id': emploi.id }) }}">Retirer ma candidature</a>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
