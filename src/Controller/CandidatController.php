@@ -159,7 +159,6 @@ class CandidatController extends AbstractController
         // Récupère l'utilisateur en session
         $user = $this->getUser();
 
-        
     }
 
     // Méthode pour supprimer une candidature
