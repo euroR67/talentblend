@@ -120,7 +120,7 @@ class EmploiType extends AbstractType
                 'class' => Entreprise::class,
                 'multiple' => false,
                 'expanded' => false,
-                'choices' => $user->getRepresentants()->map(function ($representant) {
+                'choices' => $user->getEntrepriseRepresenter()->map(function ($representant) {
                     return $representant->getEntreprise();
                 })->toArray(),
                 'attr' => [

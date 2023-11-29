@@ -57,32 +57,32 @@
                     </nav>
                 </header>
                 {# Vérifier et afficher le message flash d'erreur #}
-        {% set errorFlashes = app.flashes('error') %}
-        {% if errorFlashes is not empty %}
-            <div class="alert-danger">
-                {{ errorFlashes[0] }}
-            </div>
-            {# Masquer le message après 6 secondes (6 seconde) #}
-            <script>
-                setTimeout(function() {
-                    document.querySelector('.alert-danger').style.display = 'none';
-                }, 6000); // Masquer le message après 6 secondes (6000 millisecondes)
-            </script>
-        {% endif %}
+                {% set errorFlashes = app.flashes('error') %}
+                {% if errorFlashes is not empty %}
+                    <div class="alert-danger">
+                        {{ errorFlashes[0] }}
+                    </div>
+                    {# Masquer le message après 6 secondes (6 seconde) #}
+                    <script>
+                        setTimeout(function() {
+                            document.querySelector('.alert-danger').style.display = 'none';
+                        }, 6000); // Masquer le message après 6 secondes (6000 millisecondes)
+                    </script>
+                {% endif %}
 
-        {# Vérifier et afficher le message flash de succès #}
-        {% set successFlashes = app.flashes('success') %}
-        {% if successFlashes is not empty %}
-            <div class="alert-success">
-                {{ successFlashes[0] }}
-            </div>
-            {# Masquer le message après 6 secondes (6 seconde) #}
-            <script>
-                setTimeout(function() {
-                    document.querySelector('.alert-success').style.display = 'none';
-                }, 6000); // Masquer le message après 6 secondes (6000 millisecondes)
-            </script>
-        {% endif %}
+                {# Vérifier et afficher le message flash de succès #}
+                {% set successFlashes = app.flashes('success') %}
+                {% if successFlashes is not empty %}
+                    <div class="alert-success">
+                        {{ successFlashes[0] }}
+                    </div>
+                    {# Masquer le message après 6 secondes (6 seconde) #}
+                    <script>
+                        setTimeout(function() {
+                            document.querySelector('.alert-success').style.display = 'none';
+                        }, 6000); // Masquer le message après 6 secondes (6000 millisecondes)
+                    </script>
+                {% endif %}
                 {% block body %}{% endblock %}
             </div>
         </main>

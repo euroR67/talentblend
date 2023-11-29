@@ -14,6 +14,10 @@
     {% endfor %}
     
     <br>
-    <a href="">Intéresser ? postuler !</a>
+    {% if not dejaPostuler %}
+        <a href="{{ path('app_postuler', {'id': emploi.id}) }}">Intéresser ? postuler !</a>
+    {% else %}
+        <a href="{{ path('app_postuler', {'id': emploi.id}) }}">Retirer ma candidature</a>
+    {% endif %}
 
 {% endblock %}

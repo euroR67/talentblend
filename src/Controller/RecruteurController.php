@@ -112,7 +112,7 @@ class RecruteurController extends AbstractController
         ]);
     }
 
-    // Méthode pour ajouter / supprimer un emploi
+    // Méthode pour ajouter / editer une emploi
     #[Route('emploi/new', name: 'app_new_emploi')]
     #[Route('emploi/edit/{id}', name: 'app_edit_emploi')]
     public function new_edit_emploi(Emploi $emploi = null, Request $request,EntityManagerInterface $entityManager) : Response

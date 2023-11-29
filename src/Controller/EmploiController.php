@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Emploi;
+use App\Entity\Postule;
 use App\Form\EmploiType;
 use App\Entity\Categorie;
 use App\Entity\Entreprise;
@@ -52,13 +53,20 @@ class EmploiController extends AbstractController
         // Récupère l'emploi en question
         $emploi = $er->find($id);
 
+        $user = $this->getUser();
+
         // Récupérer tout les emplois de l'entreprise de cet emplois
         $entreprise = $emploi->getEntreprise();
         $emploisDeLEntreprise = $entreprise->getEmplois();
 
+        // Vérifiez si l'utilisateur a déjà postulé à cet emploi
+        $dejaPostuler = $entityManager->getRepository(Postule::class)
+        ->findOneBy(['userPostulant' => $user, 'emploi' => $emploi]);
+
         return $this->render('emploi/show.html.twig', [
             'emploi' => $emploi,
             'emploisDeLEntreprise' => $emploisDeLEntreprise,
+            'dejaPostuler' => $dejaPostuler,
         ]);
     }
 }

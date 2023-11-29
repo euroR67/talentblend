@@ -152,18 +152,41 @@ class CandidatController extends AbstractController
 
     // Méthode pour postuler
     #[Route('/postuler/emploi/{id}', name: 'app_postuler')]
-    public function postuler(Postule $candidature, Request $request, EntityManagerInterface $entityManager, $id): Response
+    public function postuler(Emploi $emploi,Request $request, EntityManagerInterface $entityManager): Response
     {
         $this->denyAccessUnlessGranted('ROLE_CANDIDAT');
 
         // Récupère l'utilisateur en session
         $user = $this->getUser();
 
+        // Vérifiez si l'utilisateur a déjà postulé à cet emploi
+        $dejaPostuler = $entityManager->getRepository(Postule::class)
+        ->findOneBy(['userPostulant' => $user, 'emploi' => $emploi]);
+
+        // Si l'utilisateur a déjà postulé
+        if ($dejaPostuler) {
+            $this->addFlash('error', 'Vous avez déjà postulé à cet emploi.');
+            return $this->redirectToRoute('app_show_emploi', ['id' => $emploi->getId()]);
+        }
+
+        $candidature = new Postule();
+        $candidature->setUserPostulant($user);
+        $candidature->setEmploi($emploi);
+        $candidature->setDatePostulation(new \DateTime());
+
+        $entityManager->persist($candidature);
+        $entityManager->flush();
+
+        $this->addFlash('success', 'Votre candidature est envoyée');
+
+        // Redirigez si tout ce passe bien
+        return $this->redirectToRoute('app_show_emploi', ['id' => $emploi->getId()]);
+
     }
 
     // Méthode pour supprimer une candidature
     #[Route('/delete/candidature/{id}', name: 'app_candidature_delete')]
-    public function delete(Postule $candidature, Request $request, EntityManagerInterface $entityManager, $id): Response
+    public function delete(Postule $candidature, Request $request, EntityManagerInterface $entityManager): Response
     {
         $this->denyAccessUnlessGranted('ROLE_CANDIDAT');
 
@@ -191,8 +214,8 @@ class CandidatController extends AbstractController
     }
 
     // Méthode pour supprimer un emploi sauvegardé
-    #[Route('/delete/emploi/{id}', name: 'app_emploi_delete')]
-    public function deleteEmploi(Emploi $emploi, Request $request, EntityManagerInterface $entityManager, $id): Response
+    #[Route('/delete/emploi-sauvegarder/{id}', name: 'app_emploi_delete')]
+    public function deleteEmploi(Emploi $emploi, Request $request, EntityManagerInterface $entityManager): Response
     {
         $this->denyAccessUnlessGranted('ROLE_CANDIDAT');
 
