@@ -12,6 +12,7 @@ use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -38,8 +39,14 @@ class RepresenteType extends AbstractType
                 'class' => Entreprise::class,
                 'multiple' => false,
                 'expanded' => false,
+                'required' => true,
                 'attr' => [
                     'class' => 'form-control'
+                ],
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Veuillez choisir une entreprise.',
+                    ]),
                 ],
                 'query_builder' => function (EntityRepository $er) use ($user, $isEditMode, $representation) {
                     $qb = $er->createQueryBuilder('e')
@@ -64,6 +71,7 @@ class RepresenteType extends AbstractType
                 ],
                 'required' => false,
                 'mapped' => false,
+                'required' => true,
                 'constraints' => [
                     new File([
                         'maxSize' => '5M',
@@ -77,13 +85,6 @@ class RepresenteType extends AbstractType
             ])
             ->add('submit', SubmitType::class)
         ;
-        // Si status de Represente est égal a 0, on disable le champ Entreprise
-        // Car il s'agit donc d'une demande de réaxamination de représentation
-        // Et donc l'utilisateur n'est pas censé pouvoir changer l'entreprise a représenter
-
-        // Dans le champ Entreprise, afficher uniquement les entreprise dont le status de la méthode isIsVerified
-        // Est égal a TRUE ou 1 , et aussi , ne pas afficher les entreprise que l'utilisateur en session
-        // Représente déjà.
         
     }
 

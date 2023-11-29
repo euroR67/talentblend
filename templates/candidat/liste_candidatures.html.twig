@@ -36,7 +36,7 @@
                     <td class="td-action">
                         <i class="fa-solid fa-ellipsis"></i>
                         <div class="action">
-                            <a href="{{ path('app_candidature_delete', {'id': candidature.id }) }}">Retirer ma candidature</a>
+                            <a href="{{ path('app_candidature_delete', {'id': candidature.id, 'origin': 'dashboard' }) }}">Retirer ma candidature</a>
                         </div>
                     </td>
                 </tr>
@@ -63,7 +63,7 @@
                     <td class="td-action">
                         <i class="fa-solid fa-ellipsis"></i>
                         <div class="action">
-                            <a href="{{ path('app_emploi_delete', {'id': emploi.id }) }}">Retirer ma candidature</a>
+                            <a href="{{ path('app_emploi_delete', {'id': emploi.id, 'origin': 'dashboard'}) }}">Retirer ma candidature</a>
                         </div>
                     </td>
                 </tr>

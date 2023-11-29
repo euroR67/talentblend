@@ -20,25 +20,24 @@
                     <img src="{{ asset('img/logo.png') }}" alt="logo">
                 </div>
                 <nav>
+                    <ul>
+                        <li><a href="{{ path('app_home') }}">Accueil</a></li>
                     {% if is_granted('ROLE_RECRUTEUR') %}
-                        <ul>
-                            <li><a href="{{ path('app_emplois') }}">Emplois</a></li>
-                            <li><a href="{{ path('app_candidatures_recu') }}">Candidatures</a></li>
-                            <li><a href="{{ path('app_entreprises') }}">Entreprise</a></li>
-                            <li><a href="">Messages</a></li>
-                            <li><a href="{{ path('app_edit_password', {'id': app.user.id}) }}">Paramètre</a></li>
-                            <li><a href="{{ path('app_logout') }}">Se déconnecter</a></li>
-                        </ul>
+                        <li><a href="{{ path('app_emplois') }}">Emplois</a></li>
+                        <li><a href="{{ path('app_candidatures_recu') }}">Candidatures</a></li>
+                        <li><a href="{{ path('app_entreprises') }}">Entreprise</a></li>
+                        <li><a href="">Messages</a></li>
+                        <li><a href="{{ path('app_edit_password', {'id': app.user.id}) }}">Paramètre</a></li>
+                        <li><a href="{{ path('app_logout') }}">Se déconnecter</a></li>
                     {% endif %}
                     {% if is_granted('ROLE_CANDIDAT') %}
-                        <ul>
-                            <li><a href="{{ path('app_candidat_edit', {'id': app.user.id}) }}">Profil</a></li>
-                            <li><a href="{{ path('app_candidatures') }}">Candidatures</a></li>
-                            <li><a href="">Messages</a></li>
-                            <li><a href="{{ path('app_edit_password', {'id': app.user.id}) }}">Paramètre</a></li>
-                            <li><a href="{{ path('app_logout') }}">Se déconnecter</a></li>
-                        </ul>
+                        <li><a href="{{ path('app_candidat_edit', {'id': app.user.id}) }}">Profil</a></li>
+                        <li><a href="{{ path('app_candidatures') }}">Candidatures</a></li>
+                        <li><a href="">Messages</a></li>
+                        <li><a href="{{ path('app_edit_password', {'id': app.user.id}) }}">Paramètre</a></li>
+                        <li><a href="{{ path('app_logout') }}">Se déconnecter</a></li>
                     {% endif %}
+                    </ul>
                 </nav>
             </aside>
             <div class="nav-wrapper">

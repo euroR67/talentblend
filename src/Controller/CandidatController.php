@@ -8,6 +8,7 @@ use App\Form\UserType;
 use App\Entity\Postule;
 use App\Entity\Formation;
 use App\Form\CandidatType;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -184,9 +185,40 @@ class CandidatController extends AbstractController
 
     }
 
+    // Méthode pour sauvegarder un emploi
+    #[Route('/saveEmploi/{id}', name: 'app_emploi_save')]
+    public function sauvegarderEmploi(Emploi $emploi,Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_CANDIDAT');
+
+        $user = $this->getUser();
+
+        // Vérifier si l'utilisateur n'a pas déjà sauvegarder cet emploi
+        $alreadySaved = $emploi->getUsers()->contains($user);
+        
+        // Si l'utilisateur a déjà sauvegarder cet emploi
+        if ($alreadySaved) {
+            $this->addFlash('error', 'Vous avez déjà sauvegarder cet emploi.');
+            return $this->redirectToRoute('app_show_emploi', ['id' => $emploi->getId()]);
+        }
+
+        $user->addEmploiSauvegarder($emploi);
+        $emploi->addUser($user);
+
+        $entityManager->persist($user);
+        $entityManager->persist($emploi);
+
+        $entityManager->flush();
+
+        $this->addFlash('success', 'Emploi sauvegarder avec succès');
+
+        // Redirigez si tout ce passe bien
+        return $this->redirectToRoute('app_show_emploi', ['id' => $emploi->getId()]);
+    }
+
     // Méthode pour supprimer une candidature
-    #[Route('/delete/candidature/{id}', name: 'app_candidature_delete')]
-    public function delete(Postule $candidature, Request $request, EntityManagerInterface $entityManager): Response
+    #[Route('/delete/candidature/{id}/{origin}', name: 'app_candidature_delete')]
+    public function delete(Postule $candidature, string $origin, Request $request, EntityManagerInterface $entityManager): Response
     {
         $this->denyAccessUnlessGranted('ROLE_CANDIDAT');
 
@@ -209,13 +241,22 @@ class CandidatController extends AbstractController
         $entityManager->remove($candidature);
         $entityManager->flush();
 
+        // Message de succès
+        $this->addFlash('success', 'Candidature retirer avec succès.');
+
         // On renvoi vers la page de la liste des candidatures
-        return $this->redirectToRoute('app_candidatures');
+        if($origin === 'dashboard') {
+            return $this->redirectToRoute('app_candidatures');
+        } else if ($origin === 'detail') {
+            return $this->redirectToRoute('app_show_emploi', ['id' => $candidature->getEmploi()->getId()]);
+        } else {
+            return $this->redirectToRoute('app_home');
+        }
     }
 
     // Méthode pour supprimer un emploi sauvegardé
-    #[Route('/delete/emploi-sauvegarder/{id}', name: 'app_emploi_delete')]
-    public function deleteEmploi(Emploi $emploi, Request $request, EntityManagerInterface $entityManager): Response
+    #[Route('/delete/emploi-save/{id}/{origin}', name: 'app_emploi_delete')]
+    public function deleteEmploiSauvegarder(Emploi $emploi, string $origin, Request $request, EntityManagerInterface $entityManager): Response
     {
         $this->denyAccessUnlessGranted('ROLE_CANDIDAT');
 
@@ -240,7 +281,16 @@ class CandidatController extends AbstractController
         // On enregistre les modifications
         $entityManager->flush();
 
-        // On renvoi vers la page de la liste des candidatures
-        return $this->redirectToRoute('app_candidatures');
+        $this->addFlash('success', 'Emploi retirer des sauvegarder avec succès');
+
+        // On renvoi vers la page de la liste des candidatures ou la page de détail de l'emploi en fonction de l'origine
+        if ($origin === 'dashboard') {
+            return $this->redirectToRoute('app_candidatures');
+        } else if ($origin === 'detail') {
+            return $this->redirectToRoute('app_show_emploi', ['id' => $emploi->getId()]);
+        } else {
+            return $this->redirectToRoute('app_home');
+        }
     }
+
 }

@@ -7,6 +7,8 @@
         <div class="section-wrapper">
             <h2>Représenter une entreprise</h2>
             {{form(form)}}
+            <p>Votre entreprise ne figure par dans la liste ?</p>
+            <a href="{{ path('app_new_entreprise') }}">Ajouter une entreprise</a>
         </div>
     </div>
 {% endblock %}

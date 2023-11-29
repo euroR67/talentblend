@@ -4,6 +4,12 @@
 
 {% block body %}
 
+<div class="file-ariane" style="display: flex;">
+    <a href="{{ path('app_home')}}">Accueil</a>
+    >
+    <p>{{ categorie }}</p>
+</div>
+
     <h1>Emplois par catégorie {{ categorie }}</h1>
 
     {% for emploi in emplois %}

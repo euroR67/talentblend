@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Entity\Emploi;
 use App\Entity\Postule;
 use App\Form\EmploiType;
+use App\Repository\UserRepository;
 use App\Repository\PostuleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -189,5 +190,19 @@ class RecruteurController extends AbstractController
         $this->addFlash('success', 'L\'emploi a été supprimé avec succès.');
 
         return $this->redirectToRoute('app_emplois');
+    }
+
+    // Méthode pour afficher le détail d'un candidat
+    #[Route('/detail_candidat/{id}', name: 'app_show_candidat')]
+    public function showCandidat($id ,Request $request, EntityManagerInterface $entityManager, UserRepository $ur): Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_RECRUTEUR');
+
+        // Récupère le candidat en question
+        $candidat = $ur->find($id);
+
+        return $this->render('recruteur/show.html.twig', [
+            'candidat' => $candidat,
+        ]);
     }
 }

@@ -60,13 +60,16 @@ class EmploiController extends AbstractController
         $emploisDeLEntreprise = $entreprise->getEmplois();
 
         // Vérifiez si l'utilisateur a déjà postulé à cet emploi
-        $dejaPostuler = $entityManager->getRepository(Postule::class)
-        ->findOneBy(['userPostulant' => $user, 'emploi' => $emploi]);
+        $dejaPostuler = $entityManager->getRepository(Postule::class)->findOneBy(['userPostulant' => $user, 'emploi' => $emploi]);
+
+        // Vérifier si l'utilisateur n'a pas déjà sauvegarder cet emploi
+        $alreadySaved = $emploi->getUsers()->contains($user);
 
         return $this->render('emploi/show.html.twig', [
             'emploi' => $emploi,
             'emploisDeLEntreprise' => $emploisDeLEntreprise,
             'dejaPostuler' => $dejaPostuler,
+            'alreadySaved' => $alreadySaved,
         ]);
     }
 }

@@ -36,7 +36,7 @@ class Entreprise
     #[ORM\Column(nullable: true)]
     private ?bool $isVerified = null;
 
-    #[ORM\OneToMany(mappedBy: 'entreprise', targetEntity: Represente::class, cascade: ['persist'])]
+    #[ORM\OneToMany(mappedBy: 'entreprise', targetEntity: Represente::class, cascade: ['persist', 'remove'])]
     private Collection $representants;
 
     #[ORM\OneToMany(mappedBy: 'entreprise', targetEntity: Emploi::class, orphanRemoval: true)]

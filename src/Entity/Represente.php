@@ -17,9 +17,11 @@ class Represente
     private ?bool $status = null;
 
     #[ORM\ManyToOne(inversedBy: 'representants')]
+    #[ORM\JoinColumn(nullable: false)]
     private ?Entreprise $entreprise = null;
 
     #[ORM\ManyToOne(inversedBy: 'representants')]
+    #[ORM\JoinColumn(name: 'user_entreprise_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
     private ?User $userEntreprise = null;
 
     #[ORM\Column(length: 255, nullable: true)]

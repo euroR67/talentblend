@@ -1,8 +1,15 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Détail{% endblock %}
+{% block title %}Détail de {{ emploi }}{% endblock %}
 
 {% block body %}
+<div class="file-ariane" style="display: flex;">
+    <a href="{{ path('app_home')}}">Accueil</a>
+    >
+    <a href="{{ path('app_emplois_par_categorie', {'id': 1 }) }}">{{ emploi.categories }}</a>
+    >
+    <p>{{ emploi }}</p>
+</div>
 
     <h1>Détail de {{ emploi }}</h1>
 
@@ -17,7 +24,13 @@
     {% if not dejaPostuler %}
         <a href="{{ path('app_postuler', {'id': emploi.id}) }}">Intéresser ? postuler !</a>
     {% else %}
-        <a href="{{ path('app_postuler', {'id': emploi.id}) }}">Retirer ma candidature</a>
+        <a href="{{ path('app_candidature_delete', {'id': dejaPostuler.id, 'origin': 'detail'}) }}">Retirer ma candidature</a>
+    {% endif %}
+    <br>
+    {% if not alreadySaved %}
+        <a href="{{ path('app_emploi_save', {'id': emploi.id}) }}">Sauvegarder cet emploi</a>
+    {% else %}
+        <a href="{{ path('app_emploi_delete', {'id': emploi.id, 'origin': 'detail'}) }}">Retirer des sauvegarde</a>
     {% endif %}
 
 {% endblock %}

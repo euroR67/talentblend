@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détail de {{ candidat }}{% endblock %}
+
+{% block body %}
+<div class="file-ariane" style="display: flex;">
+    <a href="{{ path('app_home')}}">Accueil</a>
+    >
+    {# <a href="{{ path('app_emplois_par_categorie', {'id': 1 }) }}">{{ emploi.categories }}</a> #}
+    {# > #}
+    {# <p>{{ emploi }}</p> #}
+</div>
+
+    <h1>Détail de {{ candidat }}</h1>
+
+{% endblock %}

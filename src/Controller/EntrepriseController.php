@@ -206,8 +206,22 @@ class EntrepriseController extends AbstractController
             $this->addFlash('danger', 'L\'entreprise n\'existe pas.');
             return $this->redirectToRoute('app_home');
         }
-
         $entityManager->remove($entreprise);
+
+        // Suppression du logo du serveur
+        if($entreprise->getLogo()) {
+            unlink($this->getParameter('logo_directory').'/'.$entreprise->getLogo());
+        }
+
+        // Suppression de la banniere du serveur
+        if($entreprise->getBanniere()) {
+            unlink($this->getParameter('logo_directory').'/'.$entreprise->getBanniere());
+        }
+
+        // Suppression du KBIS du serveur
+        if($entreprise->getKbis()) {
+            unlink($this->getParameter('kbis_directory').'/'.$entreprise->getKbis());
+        }
 
         $entityManager->flush();
 
