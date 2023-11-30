@@ -3,10 +3,10 @@
 {% block title %}Résultat pour {{ searchInfo }}{% endblock %}
 
 {% block body %}
-
+<div class="bg"></div>
 {{ form_start(form) }}
-{{ form_row(form.poste, {'value': data.poste}) }}
-{{ form_row(form.ville, {'value': data.ville}) }}
+{{ form_row(form.metiers, {'value': data.metiers}) }}
+{{ form_row(form.villes, {'value': data.villes}) }}
 <button type="submit">Rechercher</button>
 {{ form_end(form) }}
 
@@ -20,7 +20,7 @@
 
     {% if results is not empty %}
         {% for result in results %}
-            <a href="{{ path('app_show_emploi', {'id': result.id}) }}">{{ result }}</a> <br>
+            <a href="{{ path('app_show_candidat', {'id': result.id}) }}">{{ result }}</a> <br>
         {% endfor %}
     {% else %}
         <p>Aucun résultat pour votre recherche</p>

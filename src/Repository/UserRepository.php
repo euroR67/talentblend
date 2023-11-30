@@ -54,28 +54,25 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         return $query->getResult();
     }
 
-//    /**
-//     * @return User[] Returns an array of User objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('u')
-//            ->andWhere('u.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('u.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    /** Fonction de recherche offre d'emploi par poste et ville
+     * @return Emploi[] Returns an array of Emploi objects
+     */
+    public function searchByMetiersAndVilles($metiers, $villes)
+    {
+        $qb = $this->createQueryBuilder('e');
 
-//    public function findOneBySomeField($value): ?User
-//    {
-//        return $this->createQueryBuilder('u')
-//            ->andWhere('u.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+        if ($metiers) {
+            $qb->join('e.metiers', 'm')
+                ->andWhere('m.nomMetier LIKE :metiers')
+                ->setParameter('metiers', '%'.$metiers.'%');
+        }
+
+        if ($villes) {
+            $qb->join('e.villes', 'v')
+                ->andWhere('v.nomVille LIKE :villes')
+                ->setParameter('villes', '%'.$villes.'%');
+        }
+
+        return $qb->getQuery()->getResult();
+    }
 }

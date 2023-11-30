@@ -7,18 +7,18 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
-class SearchEmploiType extends AbstractType
+class SearchCandidatType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('poste', TextType::class, [
+            ->add('metiers', TextType::class, [
                 'required' => false,
                 'attr' => [
-                    'placeholder' => 'Rechercher emplois',
+                    'placeholder' => 'Rechercher candidats',
                 ],
             ])
-            ->add('ville', TextType::class, [
+            ->add('villes', TextType::class, [
                 'required' => false,
                 'attr' => [
                     'placeholder' => 'Saisir un lieu',

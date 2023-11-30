@@ -16,20 +16,33 @@ class HomeController extends AbstractController
     public function search(Request $request, EntityManagerInterface $entityManager)
     {
         $form = $this->createForm(SearchEmploiType::class);
+
+        $data = []; // initialisez le tableau des données
+
         $form->handleRequest($request);
+
+        $searchInfo = '';
 
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
 
-            $searchInfo = sprintf('%s - %s', $data['poste'], $data['ville']);
+            // Vérifiez si au moins un champ est renseigné
+            if (!empty($data['poste']) || !empty($data['ville'])) {
+                $searchInfo = sprintf('%s - %s', $data['poste'], $data['ville']);
 
-            // Utilisez Doctrine pour effectuer la recherche en fonction du poste et de la ville
-            $results = $entityManager->getRepository(Emploi::class)
-                ->searchByPosteAndVille($data['poste'], $data['ville']);
+                // Utilisez Doctrine pour effectuer la recherche en fonction du poste et de la ville
+                $results = $entityManager->getRepository(Emploi::class)
+                    ->searchByPosteAndVille($data['poste'], $data['ville']);
+            } else {
+                // Aucun champ renseigné, ne lancez pas la recherche
+                $results = [];
+            }
 
             return $this->render('emploi/emploi_results.html.twig', [
                 'results' => $results,
                 'searchInfo' => $searchInfo,
+                'form' => $form->createView(), // Passez le formulaire à la vue
+                'data' => $data, // Passez les données pré-remplies à la vue
             ]);
         }
 

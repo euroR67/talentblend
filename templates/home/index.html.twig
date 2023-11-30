@@ -9,4 +9,9 @@
     <button type="submit">Rechercher</button>
 {{ form_end(form) }}
 
+{# Afficher un formulaire de recherche de candidat si l'utilisateur est un recruteur #}
+{% if is_granted('ROLE_RECRUTEUR') %}
+    <a href="{{ path('app_search_candidat') }}">Rechercher un candidat</a>
+{% endif %}
+
 {% endblock %}

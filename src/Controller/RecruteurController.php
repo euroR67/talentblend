@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Entity\Emploi;
 use App\Entity\Postule;
 use App\Form\EmploiType;
+use App\Form\SearchCandidatType;
 use App\Repository\UserRepository;
 use App\Repository\PostuleRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -203,6 +204,45 @@ class RecruteurController extends AbstractController
 
         return $this->render('recruteur/show.html.twig', [
             'candidat' => $candidat,
+        ]);
+    }
+
+    #[Route('/search_candidat', name: 'app_search_candidat')]
+    public function search(Request $request, EntityManagerInterface $entityManager)
+    {
+        $form = $this->createForm(SearchCandidatType::class);
+
+        $data = []; // initialisez le tableau des données
+
+        $form->handleRequest($request);
+
+        $searchInfo = '';
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+
+            // Vérifiez si au moins un champ est renseigné
+            if (!empty($data['metiers']) || !empty($data['villes'])) {
+                $searchInfo = sprintf('%s - %s', $data['metiers'], $data['villes']);
+
+                // Utilisez Doctrine pour effectuer la recherche en fonction du metiers et de la villes
+                $results = $entityManager->getRepository(User::class)
+                    ->searchByMetiersAndVilles($data['metiers'], $data['villes']);
+            } else {
+                // Aucun champ renseigné, ne lancez pas la recherche
+                $results = [];
+            }
+
+            return $this->render('recruteur/candidat_results.html.twig', [
+                'results' => $results,
+                'searchInfo' => $searchInfo,
+                'form' => $form->createView(), // Passez le formulaire à la vue
+                'data' => $data, // Passez les données pré-remplies à la vue
+            ]);
+        }
+
+        return $this->render('recruteur/search_candidat.html.twig', [
+            'form' => $form->createView(),
         ]);
     }
 }
