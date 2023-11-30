@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Résultat pour {{ searchInfo }}{% endblock %}
+
+{% block body %}
+
+<div class="file-ariane" style="display: flex;">
+    <a href="{{ path('app_home')}}">Accueil</a>
+    >
+    <p>{{ searchInfo }}</p>
+</div>
+
+    <h2>Résultats de recherche pour <span style="color: rgb(74, 6, 137);">{{ searchInfo }}</span></h2>
+
+    {% if results is not empty %}
+        {% for result in results %}
+            <a href="{{ path('app_show_emploi', {'id': result.id}) }}">{{ result }}</a> <br>
+        {% endfor %}
+    {% else %}
+        <p>Aucun résultat pour votre recherche</p>
+    {% endif %}
+
+{% endblock %}

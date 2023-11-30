@@ -5,8 +5,8 @@ controllers:
     type: attribute
     
 app_home:
-    path: /
-    controller: App\Controller\HomeController::index
+    path: /home
+    controller: App\Controller\HomeController::search
 
 download_cv:
     path: '/download-cv/{userId}'

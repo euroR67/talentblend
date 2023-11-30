@@ -21,6 +21,27 @@ class EmploiRepository extends ServiceEntityRepository
         parent::__construct($registry, Emploi::class);
     }
 
+    /** Fonction de recherche offre d'emploi par poste et ville
+     * @return Emploi[] Returns an array of Emploi objects
+     */
+    public function searchByPosteAndVille($poste, $ville)
+    {
+        $qb = $this->createQueryBuilder('e');
+
+        if ($poste) {
+            $qb->andWhere('e.poste LIKE :poste')
+                ->setParameter('poste', '%'.$poste.'%');
+        }
+
+        if ($ville) {
+            $qb->join('e.ville', 'v')
+                ->andWhere('v.nomVille LIKE :ville')
+                ->setParameter('ville', '%'.$ville.'%');
+        }
+
+        return $qb->getQuery()->getResult();
+    }
+
 //    /**
 //     * @return Emploi[] Returns an array of Emploi objects
 //     */
