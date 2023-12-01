@@ -40,9 +40,11 @@ overlay.addEventListener('click', () => {
 const pseudo = document.querySelector('.pseudo');
 const dashSubmenu = document.querySelector('.dash-submenu');
 
-pseudo.addEventListener('click', () => {
-    dashSubmenu.classList.toggle('dash-submenu-active');
-});
+if (pseudo) {
+    pseudo.addEventListener('click', () => {
+        dashSubmenu.classList.toggle('dash-submenu-active')
+    })
+}
 
 // Pour le submenu déroulant //
 const categorie = document.querySelector('.categorie');

@@ -36,6 +36,30 @@ header nav.slide-menu > div {
     padding: 15px;
 }
 
+span.auth-public a:first-of-type {
+    background-color: #007456;
+    color: #fff;
+}
+
+span.auth-public a {
+    color: #007456;
+    transition: all 0.2s ease-in-out;
+    font-size: 16px;
+    border: 1px solid #007456;
+    padding: 8px 15px;
+} 
+
+span.auth-public a:last-child:hover {
+    color: #fff;
+    background-color: #007456;
+    border: 1px solid #007456;
+}
+
+span.auth-public a:first-child:hover {
+    color: #fff;
+    background-color: #016046;
+}
+
 div.pseudo-div {
     display: flex;
     align-items: center;
