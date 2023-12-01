@@ -1,0 +1,144 @@
+/* Formulaires */
+
+.container {
+    max-width: 700px;
+    margin: 30px auto;
+    padding: 20px;
+    border: 1px solid #e9e9e9;
+    border-radius: 5px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+    display: flex;
+    gap: 20px;
+}
+
+.form-control {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #e1e1e1;
+    border-radius: 3px;
+    font-size: 14px;
+    outline: none;
+    margin-top: 5px;
+}
+
+.form-group div {
+    width: 100%;
+}
+
+.form-control::placeholder {
+    color: #aaa;
+    font-size: 14px;
+}
+
+div.wrapper form h2 {
+    text-align: center;
+    margin: 10px 0 30px 0;
+    font-weight: 600;
+}
+
+.btn-primary {
+    background-color: #007456;
+    color: #fff;
+    font-weight: 600;
+    border: none;
+    border-radius: 3px;
+    padding: 15px;
+    cursor: pointer;
+    width: 100%;
+}
+
+div.wrapper .haveacc {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 14px;
+}
+
+div.wrapper form p:last-child a {
+    color: #007456;
+    font-weight: 600;
+}
+
+.btn-primary:hover {
+    background-color: #018c67;
+}
+
+.alert-danger {
+    background-color: rgb(222, 222, 222);
+    padding: 10px;
+    width: 300px;
+    margin: auto;
+    margin-block: 20px;
+    border-radius: 3px;
+    border-left: 10px solid #ff0000;
+}
+
+.alert-success {
+    background-color: rgb(222, 222, 222);
+    padding: 10px;
+    width: 300px;
+    margin: auto;
+    margin-block: 20px;
+    border-radius: 3px;
+    border-left: 10px solid #00ff00;
+}
+
+.form-group label::after {
+    content: ' *';
+    color: red;
+}
+
+.form-check-label {
+    font-size: 14px;
+    color: #646464;
+}
+
+.form-check-label span {
+    color: #007456;
+    font-weight: 600;
+}
+
+.form-check {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* Champ Rôle */
+
+div.custom-choice {
+    display: flex;
+    gap: 20px;
+}
+
+.custom-choice label {
+    width: 100%;
+    background-color: #e0e0e0;
+    padding-block: 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.custom-choice input[type="radio"] {
+    display: none;
+}
+
+.custom-choice input[type="radio"] + label {
+    background-color: #EDEDED;
+    color: #858585;
+    font-weight: 600;
+}
+
+.custom-choice input[type="radio"]:checked + label {
+    background-color: #DFEDE7; /* Couleur pour l'option sélectionnée */
+    color: #007456;
+    font-weight: 600;
+}
+
+.form-check-input {
+    accent-color: #007456;
+}

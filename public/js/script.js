@@ -36,6 +36,14 @@ overlay.addEventListener('click', () => {
     document.body.style.overflow = 'auto';
 })
 
+// Pour le submenu du dashboard pseudo //
+const pseudo = document.querySelector('.pseudo');
+const dashSubmenu = document.querySelector('.dash-submenu');
+
+pseudo.addEventListener('click', () => {
+    dashSubmenu.classList.toggle('dash-submenu-active');
+});
+
 // Pour le submenu déroulant //
 const categorie = document.querySelector('.categorie');
 const subMenu = document.querySelector('.sub-menu');

@@ -292,5 +292,4 @@ class CandidatController extends AbstractController
             return $this->redirectToRoute('app_home');
         }
     }
-
 }
