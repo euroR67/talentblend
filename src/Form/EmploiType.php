@@ -115,12 +115,18 @@ class EmploiType extends AbstractType
         // Permet l'affichage des entreprises que représente un recruteur
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) use ($user): void {
             $form = $event->getForm();
-
+        
             $form->add('entreprise', EntityType::class, [
                 'class' => Entreprise::class,
                 'multiple' => false,
                 'expanded' => false,
-                'choices' => $user->getEntrepriseRepresenter()->map(function ($representant) {
+                // On récupère les entreprises que représente l'utilisateur
+                'choices' => $user->getEntrepriseRepresenter()->filter(function ($representant) {
+                    $entreprise = $representant->getEntreprise();
+                    
+                    // On renvoie les entreprises qui sont validées et dont la représentation est validé
+                    return $representant->isStatus() && $entreprise->isIsVerified();
+                })->map(function ($representant) {
                     return $representant->getEntreprise();
                 })->toArray(),
                 'attr' => [
