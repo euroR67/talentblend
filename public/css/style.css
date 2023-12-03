@@ -15,6 +15,22 @@
 
 /* Formulaire de recherche */
 
+div.bg {
+    padding: 40px 20px;
+    height: fit-content;
+}
+
+div.bg h1 {
+    color: #B2FFDA;
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 30px;
+}
+
+div.bg h1 span {
+    color: #fff;
+}
+
 form.search-form {
     width: 100%;
     margin: 0 auto;
@@ -76,4 +92,100 @@ button.submit-search {
     border:none;
     border-radius: 30px;
     text-align: center;
+}
+
+/* Homepage utilisateur non authentifié */
+
+div.vous-etes {
+    width: 95%;
+    margin: 0 auto;
+    margin-block: 30px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+div.vous-etes div {
+    background-color: #FAF6EB;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+div.vous-etes div h2 {
+    margin-block: 20px;
+}
+
+div.vous-etes div a {
+    display: block;
+    width: fit-content;
+    background-color: #007456;
+    padding: 10px 20px;
+    color: #fff;
+    border-radius: 30px;
+    margin-block: 20px;
+    border: none;
+}
+
+div.vous-etes div a:hover {
+    background-color: #016046;
+}
+
+div.vous-etes div img {
+    float: right;
+    height: 160px;
+}
+
+/* Newsletter */
+
+div.newsletter {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    flex-direction: column;
+    padding: 20px;
+    text-align: center;
+}
+
+div.newsletter img {
+    height: 80px;
+    margin-bottom: 20px;
+}
+
+div.newsletter h3 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+div.newsletter p {
+    margin-bottom: 20px;
+    opacity: 0.8;
+}
+
+div.newsletter form {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+}
+
+div.newsletter form input {
+    padding: 15px 20px;
+    border-radius: 30px;
+    border: 1px solid #ccc;
+    outline: none;
+    margin-bottom: 10px;
+}
+
+div.newsletter form button {
+    padding: 15px 20px;
+    border-radius: 30px;
+    border: none;
+    outline: none;
+    background-color: #007456;
+    color: #fff;
+    cursor: pointer;
+    display: block;
+}
+
+div.newsletter form button:hover {
+    background-color: #016046;
 }

@@ -8,23 +8,25 @@
     {{ render(controller('App\\Controller\\FormController::searchForm')) }}
 </div>
 
-<style>
-    div.bg {
-        padding: 40px 20px;
-        height: fit-content;
-    }
+{# Si aucun utilisateur n'est connecter #}
+{% if not app.user %}
+    <div class="vous-etes">
+        <div class="candidat">
+            <h2>Pour les recruteurs</h2>
+            <p>Trouvez des professionnels en France et dans divers domaines de compétence.</p>
+            <a href="{{ path('app_register') }}">Publier une offre</a>
+            <img src="{{ asset('img/recruteur.svg') }}" alt="Illustration d'une recruteuse">
+        </div>
+        <div class="recruteur">
+            <h2>Pour les candidats</h2>
+            <p>Créer votre profil professionnel, trouvez de nouvelles opportunités d’emploi.</p>
+            <a href="{{ path('app_register') }}">Déposer mon CV</a>
+            <img src="{{ asset('img/candidat.svg') }}" alt="Illustration d'un candidat qui rédige son cv">
+        </div>
+    </div>
+{% endif %}
 
-    div.bg h1 {
-        color: #B2FFDA;
-        text-align: center;
-        font-size: 24px;
-        margin-bottom: 30px;
-    }
-
-    div.bg h1 span {
-        color: #fff;
-    }
-</style>
+{# Afficher les offres d'emploi #}
 
 {# Afficher un formulaire de recherche de candidat si l'utilisateur est un recruteur #}
 {% if is_granted('ROLE_RECRUTEUR') %}

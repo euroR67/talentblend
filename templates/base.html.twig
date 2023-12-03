@@ -134,6 +134,80 @@
             </script>
         {% endif %}
         {% block body %}{% endblock %}
+        <div class="newsletter">
+            <img src="{{ asset('img/newsletter.png')}}" alt="">
+            <h3>Abonnez-vous à notre newsletter</h3>
+            <p>Nous vous enverrons les dernières offres d'emploi correspondant à vos critères</p>
+            <form action="">
+                <input type="email" placeholder="Votre adresse email">
+                <button type="submit" class="abonner">S'abonner</button>
+            </form>
+        </div>
+        <footer>
+            <div class="footer-container">
+                <div class="about-us">
+                    <h3>À propos de nous</h3>
+                    <p>TalentBlend est une plateforme de recrutement en ligne qui permet aux recruteurs de trouver des candidats qualifiés.
+                    TalentBlend est également un site d'emploi pour les demandeurs d'emploi qui souhaitent trouver un emploi.
+                    </p>
+                    <p>Tél : (+33) 3 88 10 30 66</p>
+                    <p>Email : contact@talentblend.com</p>
+                </div>
+                <div class="footer-dropdown">
+                    <div class="footer-dropdown-head">
+                        <h4>Espace candidats</h4>
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </div>
+                    <div class="footer-dropdown-body">
+                        <ul>
+                            <li><a href="">Offres d'emploi</a></li>
+                            <li><a href="">Entreprises</a></li>
+                            <li><a href="">Déposer un CV</a></li>
+                            <li><a href="">Aide</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-dropdown-head">
+                        <h4>Espace recruteurs</h4>
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </div>
+                    <div class="footer-dropdown-body">
+                        <ul>
+                            <li><a href="">Poster une offre</a></li>
+                            <li><a href="">Mes offres</a></li>
+                            <li><a href="">Candidatures</a></li>
+                            <li><a href="">Aide</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-dropdown-head">
+                        <h4>Liens utiles</h4>
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </div>
+                    <div class="footer-dropdown-body">
+                        <ul>
+                            <li><a href="">Mentions légales</a></li>
+                            <li><a href="">Conditions d'utilisation</a></li>
+                            <li><a href="">Données personnelles</a></li>
+                            <li><a href="">Paramètres des cookies</a></li>
+                            <li><a href="">Accessibilité</a></li>
+                            <li><a href="">Centre de sécurité</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <script>
+
+            // Gérer les dropdowns du footer
+            const dropdowns = document.querySelectorAll('.footer-dropdown-head');
+            dropdowns.forEach(dropdown => {
+                dropdown.addEventListener('click', () => {
+                    dropdown.nextElementSibling.classList.toggle('active');
+                    dropdown.lastElementChild.classList.toggle('active');
+                });
+            });
+            
+
+        </script>
         <script src="{{ asset('js/script.js') }}"></script>
     </body>
 </html>

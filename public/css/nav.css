@@ -231,13 +231,15 @@ nav.dash-submenu ul li a i {
     padding: 10px 15px;
     border-radius: 25px;
     display: block;
-    max-width: 180px;
+    max-width: 200px;
     transition: all 0.2s ease-in-out;
+    margin-block: 5px;
 }
 
 .dash-submenu ul li a:hover,
 .dash-submenu ul li:first-child a {
     color: #007456;
+    padding: 10px;
     background-color: rgba(0,116,86,0.05);
 }
 
