@@ -7,6 +7,11 @@
     text-decoration: none;
 }
 
+body {
+    padding-top: 70px;
+    min-height: 100vh;
+}
+
 .bg {
     background-color: #007456;
     height: 300px;

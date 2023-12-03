@@ -1,7 +1,12 @@
 header nav:first-child {
     padding: 15px;
-    /* Ombre vers le bottom */
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #fff;
+    z-index: 10;
 }
 
 header nav:first-child ul {
@@ -105,13 +110,15 @@ header nav.slide-menu div:first-child > i:nth-child(2) {
 
 header nav.slide-menu {
     background-color: #fff;
-    min-height: 100vh;
+    height: 100vh;
     width: 80%;
-    position: absolute;
+    position: fixed;
     top: 0;
     left: -80%;
     transition: all 0.3s ease-in-out;
-    z-index: 10;
+    z-index: 30;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
 header nav.slide-menu-active {
@@ -253,7 +260,7 @@ nav.dash-submenu ul li a i {
     height: 100%;
     opacity: 0;
     background-color: #171d22;
-    z-index: 1; 
+    z-index: 20; 
     transition: all 400ms ease-in-out;
     visibility: hidden;
 }
