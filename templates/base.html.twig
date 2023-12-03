@@ -194,20 +194,11 @@
                     </div>
                 </div>
             </div>
+            <div class="copyright">
+                <p>© 2023 TalentBlend. Tous droits réservés.</p>
+                <p>Conçu et développé par <a href="https://www.linkedin.com/in/mansour-chamaev/">Chamaev Mansour</a></p>
+            </div>
         </footer>
-        <script>
-
-            // Gérer les dropdowns du footer
-            const dropdowns = document.querySelectorAll('.footer-dropdown-head');
-            dropdowns.forEach(dropdown => {
-                dropdown.addEventListener('click', () => {
-                    dropdown.nextElementSibling.classList.toggle('active');
-                    dropdown.lastElementChild.classList.toggle('active');
-                });
-            });
-            
-
-        </script>
         <script src="{{ asset('js/script.js') }}"></script>
     </body>
 </html>

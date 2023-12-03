@@ -68,3 +68,16 @@ overlay.addEventListener('click', () => {
     searchModal.style.display = 'none';
     overlay.classList.remove('active-overlay');
 });
+
+// ========================= Dropdown du footer ======================================== //
+
+// Gérer les dropdowns du footer et les chevrons
+const dropdowns = document.querySelectorAll('.footer-dropdown-head');
+const chevron = document.querySelectorAll('.footer-dropdown-head i');
+
+dropdowns.forEach((dropdown, index) => {
+    dropdown.addEventListener('click', () => {
+        dropdown.nextElementSibling.classList.toggle('active');
+        chevron[index].classList.toggle('active');
+    });
+});
