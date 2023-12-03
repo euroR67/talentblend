@@ -16,8 +16,9 @@ header nav:first-child ul li:first-child {
     gap: 15px;
 }
 
-header img.logo {
-    height: 30px;
+header img.logo,
+header nav:first-child ul li:first-child a {
+    height: 40px;
 }
 
 header nav:first-child ul .fa-bars {
@@ -33,7 +34,7 @@ header nav.slide-menu > div {
     justify-content: space-between;
     align-items: center;
     border-bottom: 1px solid rgb(231, 231, 231);
-    padding: 15px;
+    padding: 23px;
 }
 
 span.auth-public a:first-of-type {
@@ -104,7 +105,7 @@ header nav.slide-menu div:first-child > i:nth-child(2) {
 
 header nav.slide-menu {
     background-color: #fff;
-    height: 100vh;
+    min-height: 100vh;
     width: 80%;
     position: absolute;
     top: 0;
@@ -251,11 +252,40 @@ nav.dash-submenu ul li a i {
     opacity: 0;
     background-color: #171d22;
     z-index: 1; 
-    transition: all 700ms ease-in-out;
+    transition: all 400ms ease-in-out;
     visibility: hidden;
 }
 
 .active-overlay {
     opacity: 0.80;
     visibility: visible;
+}
+
+/* Modal formulaire de recherche */
+.search-modal {
+    position: absolute;
+    z-index: 20;
+    display: none; 
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 85%;
+}
+
+.search-modal > div {
+    position: relative;
+    width: 100%;
+}
+.search-modal > div > i {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    color: rgb(55, 55, 55);
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.search-modal > div > i:hover {
+    color: #007456;
 }

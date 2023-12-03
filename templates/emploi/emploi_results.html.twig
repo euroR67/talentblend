@@ -4,12 +4,6 @@
 
 {% block body %}
 
-{{ form_start(form) }}
-{{ form_row(form.poste, {'value': data.poste}) }}
-{{ form_row(form.ville, {'value': data.ville}) }}
-<button type="submit">Rechercher</button>
-{{ form_end(form) }}
-
 <div class="file-ariane" style="display: flex;">
     <a href="{{ path('app_home')}}">Accueil</a>
     >

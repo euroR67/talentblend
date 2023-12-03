@@ -224,3 +224,64 @@ div.action a {
 div.action a:hover {
     background-color:#DFEDE7;
 }
+
+/* Modal motif de refus */
+
+.fa-circle-info {
+    cursor: pointer;
+}
+
+div.motif div {
+    position: absolute;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, .3);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: fit-content;
+    z-index: 5;
+    display: none;
+}
+
+div.motif div.active {
+    display: block;
+}
+
+div.motif div p:first-of-type {
+    margin-block: 20px;
+    color: rgb(241, 51, 51);
+}
+
+div.motif div a {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #007456;
+    color: #fff;
+    border-radius: 20px;
+    text-decoration: none;
+    margin-top: 20px;
+}
+
+div.motif div a:hover {
+    background-color: #02644a;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    background-color: #171d22;
+    z-index: 1; 
+    transition: all 300ms ease-in-out;
+    visibility: hidden;
+}
+
+.active-overlay {
+    opacity: 0.50;
+    visibility: visible;
+}

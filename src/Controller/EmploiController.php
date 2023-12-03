@@ -7,6 +7,7 @@ use App\Entity\Postule;
 use App\Form\EmploiType;
 use App\Entity\Categorie;
 use App\Entity\Entreprise;
+use App\Form\SearchEmploiType;
 use App\Repository\EmploiRepository;
 use App\Repository\EntrepriseRepository;
 use Doctrine\ORM\EntityManagerInterface;

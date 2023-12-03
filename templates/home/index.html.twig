@@ -3,11 +3,28 @@
 {% block title %}TalentBlend - Accueil{% endblock %}
 
 {% block body %}
-<div class="bg"></div>
-{{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button type="submit">Rechercher</button>
-{{ form_end(form) }}
+<div class="bg">
+    <h1>Talentueux ?<br>Rencontrez l'<span>Opportunité</span>.</h1>
+    {{ render(controller('App\\Controller\\FormController::searchForm')) }}
+</div>
+
+<style>
+    div.bg {
+        padding: 40px 20px;
+        height: fit-content;
+    }
+
+    div.bg h1 {
+        color: #B2FFDA;
+        text-align: center;
+        font-size: 24px;
+        margin-bottom: 30px;
+    }
+
+    div.bg h1 span {
+        color: #fff;
+    }
+</style>
 
 {# Afficher un formulaire de recherche de candidat si l'utilisateur est un recruteur #}
 {% if is_granted('ROLE_RECRUTEUR') %}

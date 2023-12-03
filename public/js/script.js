@@ -12,8 +12,6 @@ bars.addEventListener('click', () => {
     slideMenu.classList.add('slide-menu-active');
     // On ajoute la classe active sur l'overlay
     overlay.classList.add('active-overlay');
-    // On désactive le scroll du body
-    document.body.style.overflow = 'hidden';
 })
 
 // Ecouteur d'evenement pour fermer le menu
@@ -22,8 +20,6 @@ close.addEventListener('click', () => {
     slideMenu.classList.remove('slide-menu-active');
     // On ajoute la classe active sur l'overlay
     overlay.classList.remove('active-overlay');
-    // On désactive le scroll du body
-    document.body.style.overflow = 'auto';
 })
 
 // Ecouteur d'evenement pour fermer le menu si on clique sur l'overlay
@@ -32,8 +28,6 @@ overlay.addEventListener('click', () => {
     slideMenu.classList.remove('slide-menu-active');
     // On ajoute la classe active sur l'overlay
     overlay.classList.remove('active-overlay');
-    // On désactive le scroll du body
-    document.body.style.overflow = 'auto';
 })
 
 // Pour le submenu du dashboard pseudo //
@@ -54,5 +48,23 @@ categorie.addEventListener('click', () => {
     subMenu.classList.toggle('sub-menu-active')
 })
 
-// ================================================================= //
+// ========================= Modal formulaire de recherche ======================================== //
 
+const glass = document.querySelector('.fa-magnifying-glass');
+const searchModal = document.querySelector('.search-modal');
+const closeSearchModal = document.querySelector('.search-modal .fa-times');
+
+glass.addEventListener('click', () => {
+    searchModal.style.display = 'flex';
+    overlay.classList.add('active-overlay');
+});
+
+closeSearchModal.addEventListener('click', () => {
+    searchModal.style.display = 'none';
+    overlay.classList.remove('active-overlay');
+});
+
+overlay.addEventListener('click', () => {
+    searchModal.style.display = 'none';
+    overlay.classList.remove('active-overlay');
+});

@@ -16,13 +16,17 @@ class SearchEmploiType extends AbstractType
                 'required' => false,
                 'attr' => [
                     'placeholder' => 'Rechercher emplois',
+                    'class' => 'form-control-search',
                 ],
+                'label' => false,
             ])
             ->add('ville', TextType::class, [
                 'required' => false,
                 'attr' => [
                     'placeholder' => 'Saisir un lieu',
+                    'class' => 'form-control-search',
                 ],
+                'label' => false,
             ])
         ;
     }

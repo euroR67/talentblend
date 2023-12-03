@@ -3,7 +3,7 @@
     margin: 0;
     list-style: none;
     box-sizing: border-box;
-    font-family: sans-serif;
+    font-family: 'Inter', 'Poppins';
     text-decoration: none;
 }
 
@@ -11,4 +11,69 @@
     background-color: #007456;
     height: 300px;
     width: 100%;
+}
+
+/* Formulaire de recherche */
+
+form.search-form {
+    width: 100%;
+    margin: 0 auto;
+}
+
+div.input-group {
+    position: relative;
+    border-radius: 20px;
+}
+
+div.input-group i {
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    transform: translateY(-50%);
+    color: #999;
+    font-size: 20px;
+    padding-left: 10px;
+}
+
+div.form-group-search {
+    background-color: #fff;
+    border-radius: 16px 16px 0 0;
+}
+
+div.form-group-search:last-of-type {
+    padding: 20px;
+    text-align: center;
+    border-radius:0 0 16px 16px ;
+}
+
+#search_emploi_poste {
+    border-radius: 16px 16px 0 0;
+}
+
+input.form-control-search {
+    width: 100%;
+    padding: 25px;
+    border: none;
+    border-bottom: 1px solid #ccc;
+    font-size: 14px;
+    outline: none;
+    padding-left: 50px;
+}
+
+input.form-control-search::placeholder {
+    color: rgb(77, 77, 77);
+    opacity: 0.5;
+    font-size: 14px;
+}
+
+button.submit-search {
+    padding: 15px 30px;
+    outline: none;
+    background-color: #007456;
+    color: #fff;
+    cursor: pointer;
+    width: fit-content;
+    border:none;
+    border-radius: 30px;
+    text-align: center;
 }
