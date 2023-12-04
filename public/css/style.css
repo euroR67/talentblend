@@ -194,3 +194,81 @@ div.newsletter form button {
 div.newsletter form button:hover {
     background-color: #016046;
 }
+
+/* Section catégorie */
+
+div.categories {
+    width: 95%;
+    margin: 0 auto;
+    margin-block: 30px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+div.categories .cat-head {
+    text-align: center;
+}
+
+div.categories .cat-head h3 {
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+div.categories .cat-head p {
+    opacity: 0.8;
+}
+
+div.categories .cat-body {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+div.categories .cat-body .item {
+    background-color: rgba(0,116,86,0.05);
+    padding: 30px;
+    border-radius: 10px;
+    border: 1px solid rgba(163, 163, 163, 0.139);
+    width: 100%;
+    color: black;
+    transition: all 200ms ease;
+}
+
+div.categories .cat-body .item:hover {
+    box-shadow: 0 2px 10px rgba(126, 126, 126, 0.2);
+}
+
+div.categories .cat-body .item p:first-of-type {
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+div.categories .cat-footer {
+    width: 100%;
+    text-align: center;
+    margin-top: 20px;
+}
+
+div.categories .cat-footer a {
+    margin-block: 20px;
+    color: #007456;
+    font-weight: 500;
+    display: block;
+    width: fit-content;
+    margin: 0 auto;
+}
+
+div.categories .cat-footer a:after {
+    display: block;
+    content: '';
+    border-bottom: solid 2px #007456;
+    transform: scaleX(0);
+    transition: .5s ease, .5s ease;
+    transform-origin: 0% 50%
+}
+
+div.categories .cat-footer a:hover:after {
+    transform: scaleX(1);
+}

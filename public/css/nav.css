@@ -246,7 +246,7 @@ nav.dash-submenu ul li a i {
 .dash-submenu ul li a:hover,
 .dash-submenu ul li:first-child a {
     color: #007456;
-    padding: 10px;
+    margin-left: 5px;
     background-color: rgba(0,116,86,0.05);
 }
 

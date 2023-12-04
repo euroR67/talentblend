@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Emploi;
+use App\Entity\Categorie;
 use App\Form\SearchEmploiType;
+use App\Repository\CategorieRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

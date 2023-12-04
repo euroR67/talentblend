@@ -21,6 +21,19 @@ class CategorieRepository extends ServiceEntityRepository
         parent::__construct($registry, Categorie::class);
     }
 
+    public function findCategoriesPopulaires(): array
+    {
+        return $this->createQueryBuilder('c')
+            ->select('c.id, c.nom, COUNT(e.id) AS nbEmplois')
+            ->leftJoin('c.emplois', 'e')
+            ->groupBy('c.id')
+            ->orderBy('nbEmplois', 'DESC')
+            ->setMaxResults(6)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
 //    /**
 //     * @return Categorie[] Returns an array of Categorie objects
 //     */

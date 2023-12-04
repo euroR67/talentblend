@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Toutes les catégories{% endblock %}
+
+{% block body %}
+
+    <div class="categories">
+        <div class="cat-head">
+            <h3>Catégorie populaire</h3>
+            <p>Trouvez des offres d'emploi selon votre domaine de compétence.</p>
+        </div>
+        <div class="cat-body">
+            {% for categorie in categories %}
+                <a href="{{ path('app_emplois_par_categorie', {'id': categorie.id }) }}" class="item">
+                    <p>{{ categorie.nom }}</p>
+                    <p>{{ categorie.emplois|length }} emplois</p>
+                </a>
+            {% endfor %}
+        </div>
+    </div>
+
+{% endblock %}

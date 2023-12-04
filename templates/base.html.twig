@@ -87,7 +87,6 @@
                         </ul>
                     </li>
                     <li><a href="">Offres d'emploi</a></li>
-                    <li><a href="">Candidats</a></li>
                     {% if is_granted('ROLE_RECRUTEUR') %}
                         <li><a class="post-offre" href="{{ path('app_new_emploi') }}">Poster une offre</a></li>
                     {% elseif is_granted('ROLE_CANDIDAT') %}
