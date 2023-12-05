@@ -12,108 +12,26 @@ body {
     min-height: 100vh;
 }
 
-.bg {
-    background-color: #007456;
-    height: 300px;
-    width: 100%;
-}
-
-/* Formulaire de recherche */
-
-div.bg {
-    padding: 40px 20px;
-    height: fit-content;
-}
-
-div.bg h1 {
-    color: #B2FFDA;
-    text-align: center;
-    font-size: 24px;
-    margin-bottom: 30px;
-}
-
-div.bg h1 span {
-    color: #fff;
-}
-
-form.search-form {
-    width: 100%;
-    margin: 0 auto;
-}
-
-div.input-group {
-    position: relative;
-    border-radius: 20px;
-}
-
-div.input-group i {
-    position: absolute;
-    top: 50%;
-    left: 10px;
-    transform: translateY(-50%);
-    color: #999;
-    font-size: 20px;
-    padding-left: 10px;
-}
-
-div.form-group-search {
-    background-color: #fff;
-    border-radius: 16px 16px 0 0;
-}
-
-div.form-group-search:last-of-type {
-    padding: 20px;
-    text-align: center;
-    border-radius:0 0 16px 16px ;
-}
-
-#search_emploi_poste {
-    border-radius: 16px 16px 0 0;
-}
-
-input.form-control-search {
-    width: 100%;
-    padding: 25px;
-    border: none;
-    border-bottom: 1px solid #ccc;
-    font-size: 14px;
-    outline: none;
-    padding-left: 50px;
-}
-
-input.form-control-search::placeholder {
-    color: rgb(77, 77, 77);
-    opacity: 0.5;
-    font-size: 14px;
-}
-
-button.submit-search {
-    padding: 15px 30px;
-    outline: none;
-    background-color: #007456;
-    color: #fff;
-    cursor: pointer;
-    width: fit-content;
-    border:none;
-    border-radius: 30px;
-    text-align: center;
-}
-
 /* Homepage utilisateur non authentifié */
 
+.content-wrapper{
+    width: 97%;
+    margin: 0 auto;
+}
+
 div.vous-etes {
-    width: 95%;
+    display: flex;
+    flex-direction: column;
     margin: 0 auto;
     margin-block: 30px;
-    display: flex;
     gap: 10px;
-    flex-wrap: wrap;
 }
 
 div.vous-etes div {
     background-color: #FAF6EB;
     padding: 20px;
     border-radius: 10px;
+    width: 100%;
 }
 
 div.vous-etes div h2 {
@@ -151,6 +69,10 @@ div.newsletter {
     text-align: center;
 }
 
+div.newsletter > div {
+    width: 100%;
+}
+
 div.newsletter img {
     height: 80px;
     margin-bottom: 20px;
@@ -169,7 +91,6 @@ div.newsletter p {
 div.newsletter form {
     display: flex;
     flex-direction: column;
-    width: 80%;
 }
 
 div.newsletter form input {
@@ -178,6 +99,20 @@ div.newsletter form input {
     border: 1px solid #ccc;
     outline: none;
     margin-bottom: 10px;
+    transition: all 200ms ease;
+}
+
+div.newsletter form input:hover {
+    border-color: #007456;
+}
+
+div.newsletter form input:focus {
+    box-shadow: 0 0px 5px #007456;
+}
+
+/* Quand on focus l'input, on met un box-shadow au bouton */
+div.newsletter form input:focus + button {
+    box-shadow: 0 0px 5px #007456;
 }
 
 div.newsletter form button {
@@ -189,6 +124,7 @@ div.newsletter form button {
     color: #fff;
     cursor: pointer;
     display: block;
+    transition: all 200ms ease;
 }
 
 div.newsletter form button:hover {
@@ -271,4 +207,67 @@ div.categories .cat-footer a:after {
 
 div.categories .cat-footer a:hover:after {
     transform: scaleX(1);
+}
+
+@media screen and (min-width: 550px) {
+    /* Section newsletter */
+    div.newsletter {
+        border-top: 1px solid #ccc;
+        border-bottom: 1px solid #ccc;
+        padding-block: 80px;
+    }
+
+    div.newsletter > div {
+        width: fit-content;
+    }
+
+    div.newsletter div.news-head {
+        display: flex;
+        text-align: left;
+        gap: 20px;
+        align-items: center;
+    }
+
+    div.newsletter form {
+        flex-direction: row;
+        width: fit-content;
+        margin-left: 100px;
+    }
+
+    div.newsletter form input {
+        margin-bottom: initial;
+        border-radius: 20px 0px 0px 20px;
+    }
+
+    div.newsletter form button {
+        border-radius: 0px 20px 20px 0px;
+    }
+}
+
+@media screen and (min-width: 768px) {
+
+    /* Section vous êtes */*
+
+    div.vous-etes {
+        flex-direction: row;
+    }
+
+    div.vous-etes > div {
+        width: 50%;
+    }
+
+    /* Section catégories */
+    div.categories .cat-body {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        width: 100%;
+    }
+
+    div.categories .cat-body .item {
+        width: 100%;
+    }
+
+    div.cat-head {
+        width: 100%;
+    }
 }

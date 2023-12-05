@@ -4,60 +4,62 @@
 
 {% block body %}
 <div class="bg">
-    <h1>Talentueux ?<br>Rencontrez l'<span>Opportunité</span>.</h1>
+    <h1>Talentueux ? Rencontrez l'<span>Opportunité</span>.</h1>
     {{ render(controller('App\\Controller\\FormController::searchForm')) }}
 </div>
 
-<div class="vous-etes">
-    <div class="candidat">
-        <h2>Pour les recruteurs</h2>
-        <p>Trouvez des professionnels en France et dans divers domaines de compétence.</p>
-        {% if is_granted('ROLE_RECRUTEUR') %}
-            <a href="{{ path('app_new_emploi') }}">Publier une offre</a>
-        {% elseif is_granted('ROLE_CANDIDAT') %}
-            <a href="#">Inscription recruteur requis</a>
-        {% else %}
-            <a href="{{ path('app_emplois') }}">Publier une offre</a>
-        {% endif %}
-        <img src="{{ asset('img/recruteur.svg') }}" alt="Illustration d'une recruteuse">
+<div class="content-wrapper">
+    <div class="vous-etes">
+        <div class="candidat">
+            <h2>Pour les recruteurs</h2>
+            <p>Trouvez des professionnels en France et dans divers domaines de compétence.</p>
+            {% if is_granted('ROLE_RECRUTEUR') %}
+                <a href="{{ path('app_new_emploi') }}">Publier une offre</a>
+            {% elseif is_granted('ROLE_CANDIDAT') %}
+                <a href="#">Inscription recruteur requis</a>
+            {% else %}
+                <a href="{{ path('app_emplois') }}">Publier une offre</a>
+            {% endif %}
+            <img src="{{ asset('img/recruteur.svg') }}" alt="Illustration d'une recruteuse">
+        </div>
+        <div class="recruteur">
+            <h2>Pour les candidats</h2>
+            <p>Créer votre profil professionnel, trouvez de nouvelles opportunités d’emploi.</p>
+            {% if is_granted('ROLE_CANDIDAT') %}
+                <a href="{{ path('app_candidat_edit', {'id': app.user.id}) }}">Déposer mon CV</a>
+            {% elseif is_granted('ROLE_RECRUTEUR') %}
+                <a href="#">Inscription candidat requis</a>
+            {% else %}
+                <a href="{{ path('app_register') }}">Déposer mon CV</a>
+            {% endif %}
+            <img src="{{ asset('img/candidat.svg') }}" alt="Illustration d'un candidat qui rédige son cv">
+        </div>
     </div>
-    <div class="recruteur">
-        <h2>Pour les candidats</h2>
-        <p>Créer votre profil professionnel, trouvez de nouvelles opportunités d’emploi.</p>
-        {% if is_granted('ROLE_CANDIDAT') %}
-            <a href="{{ path('app_candidat_edit', {'id': app.user.id}) }}">Déposer mon CV</a>
-        {% elseif is_granted('ROLE_RECRUTEUR') %}
-            <a href="#">Inscription candidat requis</a>
-        {% else %}
-            <a href="{{ path('app_register') }}">Déposer mon CV</a>
-        {% endif %}
-        <img src="{{ asset('img/candidat.svg') }}" alt="Illustration d'un candidat qui rédige son cv">
+    
+    <div class="categories">
+        <div class="cat-head">
+            <h3>Catégorie populaire</h3>
+            <p>Trouvez des offres d'emploi selon votre domaine de compétence.</p>
+        </div>
+        <div class="cat-body">
+            {% for categorie in categories %}
+                <a href="{{ path('app_emplois_par_categorie', {'id': categorie.id }) }}" class="item">
+                    <p>{{ categorie.nom }}</p>
+                    <p>{{ categorie.nbEmplois }} emplois</p>
+                </a>
+            {% endfor %}
+        </div>
+        <div class="cat-footer">
+            <a href="{{ path('app_categories') }}">Voir toutes les catégories</a>
+        </div>
     </div>
+    
+    {# Afficher les offres d'emploi #}
+    
+    {# Afficher un formulaire de recherche de candidat si l'utilisateur est un recruteur #}
+    {% if is_granted('ROLE_RECRUTEUR') %}
+        <a href="{{ path('app_search_candidat') }}">Rechercher un candidat</a>
+    {% endif %}
 </div>
-
-<div class="categories">
-    <div class="cat-head">
-        <h3>Catégorie populaire</h3>
-        <p>Trouvez des offres d'emploi selon votre domaine de compétence.</p>
-    </div>
-    <div class="cat-body">
-        {% for categorie in categories %}
-            <a href="{{ path('app_emplois_par_categorie', {'id': categorie.id }) }}" class="item">
-                <p>{{ categorie.nom }}</p>
-                <p>{{ categorie.nbEmplois }} emplois</p>
-            </a>
-        {% endfor %}
-    </div>
-    <div class="cat-footer">
-        <a href="{{ path('app_categories') }}">Voir toutes les catégories</a>
-    </div>
-</div>
-
-{# Afficher les offres d'emploi #}
-
-{# Afficher un formulaire de recherche de candidat si l'utilisateur est un recruteur #}
-{% if is_granted('ROLE_RECRUTEUR') %}
-    <a href="{{ path('app_search_candidat') }}">Rechercher un candidat</a>
-{% endif %}
 
 {% endblock %}

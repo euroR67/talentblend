@@ -142,3 +142,146 @@ div.custom-choice {
 .form-check-input {
     accent-color: #007456;
 }
+
+/* Formulaire de recherche */
+
+div.bg {
+    padding: 40px 20px;
+    height: calc(100vh - 70px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-image: url(../img/Revised.png);
+    background-size:cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+div.bg h1 {
+    color: #fff;
+    text-align: center;
+    font-size: 34px;
+    margin-bottom: 30px;
+    font-weight: 500;
+}
+
+div.bg h1 span {
+    color: #FFD75E;
+}
+
+form.search-form {
+    width: 100%;
+    margin: 0 auto;
+}
+
+div.input-group {
+    position: relative;
+    border-radius: 20px;
+}
+
+div.input-group i {
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    transform: translateY(-50%);
+    color: #999;
+    font-size: 20px;
+    padding-left: 10px;
+}
+
+div.form-group-search {
+    background-color: #fff;
+    border-radius: 16px 16px 0 0;
+    width: 100%;
+}
+
+div.form-group-search:last-of-type {
+    padding: 20px;
+    text-align: center;
+    border-radius:0 0 16px 16px;
+}
+
+#search_emploi_poste {
+    border-radius: 16px 16px 0 0;
+}
+
+input.form-control-search {
+    width: 100%;
+    padding: 25px;
+    border: none;
+    border-bottom: 1px solid #ccc;
+    font-size: 14px;
+    outline: none;
+    padding-left: 50px;
+}
+
+input.form-control-search::placeholder {
+    color: rgb(77, 77, 77);
+    opacity: 0.5;
+    font-size: 14px;
+}
+
+button.submit-search {
+    padding: 15px 30px;
+    outline: none;
+    background-color: #007456;
+    color: #fff;
+    cursor: pointer;
+    width: fit-content;
+    border:none;
+    border-radius: 30px;
+    text-align: center;
+    transition: all 0.2s ease-in-out;
+}
+
+button.submit-search:hover {
+    background-color: #018c67;
+}
+
+@media screen and (min-width: 600px) {
+    /* formulaire de recherche */
+    .search-form {
+        display: flex;
+        border-radius: 40px;
+    }
+
+    #search_emploi_poste {
+        border-radius: 40px 0 0 40px;
+    }
+
+    div.form-group-search:last-of-type {
+        border-radius: 0 40px 40px 0;
+        padding: 10px;
+        background-color: #fff;
+    }
+    
+    div.form-group-search {
+        background-color: transparent;
+    }
+
+    input.form-control-search {
+        border-bottom: none;
+        border-right: 1px solid #ccc;
+    }
+
+    div.form-group-search:last-of-type {
+        text-align: right;
+        width: fit-content;
+    }
+}
+
+@media screen and (min-width: 768px) {
+    /* formulaire de recherche */
+    div.bg {
+        background-image: url(../img/Revised.png);
+        background-size:cover;
+        background-position: center;
+    }
+}
+
+@media screen and (min-width: 1092px) {
+    /* formulaire de recherche */
+    form.search-form {
+        max-width: 1033px;
+    }
+}
