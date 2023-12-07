@@ -57,16 +57,22 @@ const closeSearchModal = document.querySelector('.search-modal .fa-times');
 glass.addEventListener('click', () => {
     searchModal.style.display = 'flex';
     overlay.classList.add('active-overlay');
+    // disable scroll
+    document.body.style.overflow = 'hidden';
 });
 
 closeSearchModal.addEventListener('click', () => {
     searchModal.style.display = 'none';
     overlay.classList.remove('active-overlay');
+    // enable scroll
+    document.body.style.overflow = 'auto';
 });
 
 overlay.addEventListener('click', () => {
     searchModal.style.display = 'none';
     overlay.classList.remove('active-overlay');
+    // enable scroll
+    document.body.style.overflow = 'auto';
 });
 
 // ========================= Dropdown du footer ======================================== //

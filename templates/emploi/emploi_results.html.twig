@@ -4,20 +4,76 @@
 
 {% block body %}
 
-<div class="file-ariane" style="display: flex;">
-    <a href="{{ path('app_home')}}">Accueil</a>
-    >
-    <p>{{ searchInfo }}</p>
+<div class="bg result">
+    {{ form_start(form, {'attr': {'class': 'search-form'}}) }}
+    <div class="form-group-search">
+        <div class="input-group">
+            {{ form_row(form.poste, {'value': data.poste}) }}
+            <i class="fa-solid fa-magnifying-glass"></i>
+        </div>
+    </div>
+    <div class="form-group-search">
+        <div class="input-group">
+            {{ form_row(form.ville, {'value': data.ville}) }}
+            <i class="fa-solid fa-location-dot"></i>
+        </div>
+    </div>
+    <div class="form-group-search">
+        <button class="submit-search" type="submit">Rechercher</button>
+    </div>
+    {{ form_end(form) }}
 </div>
 
-    <h2>Résultats de recherche pour <span style="color: rgb(74, 6, 137);">{{ searchInfo }}</span></h2>
+    <div class="search-result">
+        <h2>Résultats de recherche pour <span>{{ searchInfo }}</span></h2>
+    </div>
 
-    {% if results is not empty %}
-        {% for result in results %}
-            <a href="{{ path('app_show_emploi', {'id': result.id}) }}">{{ result }}</a> <br>
-        {% endfor %}
-    {% else %}
-        <p>Aucun résultat pour votre recherche</p>
-    {% endif %}
+    <div class="filter">
+        <p>Tous les résultats</p>
+        <button><i class="fa-solid fa-sliders"></i> Filtrer</button>
+    </div>
+
+    <div class="result-container">
+        {% if results is not empty %}
+            {% for emploi in results %}
+                <div class="result" data-url="{{ path('app_show_emploi', {'id': emploi.id}) }}">
+                    <div class="result-head">
+                        <img src="{{ asset('logo/' ~ emploi.entreprise.logo) }}" alt="Logo de l'entreprise">
+                        {# Si l'emploi est déjà sauvegardé par l'utilisateur en session avec savedEmplois #}
+                        {% if emploi in savedEmplois  %}
+                            <a href="{{ path('app_emploi_delete', {'id': emploi.id, 'origin': 'resultats'}) }}"><i class="fa-solid fa-heart"></i></a>
+                        {% else %}
+                            <a href="{{ path('app_emploi_save', {'id': emploi.id}) }}"><i class="fa-regular fa-heart"></i></a>
+                        {% endif %}
+                    </div>
+                    <div class="result-body">
+                        <h3>{{ emploi }}</h3>
+                        <p>Par 
+                            <a href="{{ path('app_emplois_par_entreprise', {'id': emploi.entreprise.id}) }}">{{ emploi.entreprise }}</a>
+                             dans 
+                             <a href="{{ path('app_emplois_par_categorie', {'id': emploi.categories.id }) }}">{{ emploi.categories }}</a>
+                        </p>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>Aucun résultat pour votre recherche</p>
+        {% endif %}
+    </div>
+    
+    <script>
+        document.querySelectorAll('.result').forEach(function(element) {
+            element.addEventListener('click', function() {
+                var url = this.getAttribute('data-url');
+                if (url) {
+                    window.location = url;
+                }
+            });
+        });
+    </script>
+    
+</div>
+
+    
 
 {% endblock %}

@@ -22,15 +22,4 @@ class CategorieController extends AbstractController
             'categories' => $categories,
         ]);
     }
-
-    // Méthode pour lister les catégories d'emplois les plus populaires
-    #[Route('/home', name: 'app_categorie_populaire')]
-    public function listCategories(CategorieRepository $categorieRepository): Response
-    {
-        $categories = $categorieRepository->findCategoriesPopulaires();
-
-        return $this->render('home/index.html.twig', [
-            'categories' => $categories,
-        ]);
-    }
 }

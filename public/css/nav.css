@@ -305,3 +305,14 @@ nav.dash-submenu ul li a i {
     }
     
 }
+
+@media screen and (min-width: 600px) {
+    .search-modal > div > i {
+        top: -40px;
+        right: 10px;
+        background-color: #fff;
+        border-radius: 5px;
+        padding: 5px;
+    }
+    
+}

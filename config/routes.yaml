@@ -5,7 +5,7 @@ controllers:
     type: attribute
     
 app_home:
-    path: /home
+    path: /
     controller: App\Controller\HomeController::search
 
 download_cv:

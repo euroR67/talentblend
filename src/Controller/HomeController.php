@@ -15,7 +15,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class HomeController extends AbstractController
 {
     #[Route('/', name: 'app_search')]
-    public function search(Request $request, EntityManagerInterface $entityManager)
+    public function search(Request $request, EntityManagerInterface $entityManager, CategorieRepository $categorieRepository)
     {
         $form = $this->createForm(SearchEmploiType::class);
 
@@ -24,6 +24,12 @@ class HomeController extends AbstractController
         $form->handleRequest($request);
 
         $searchInfo = '';
+
+        // Récupérez l'utilisateur connecté
+        $user = $this->getUser();
+
+        // Récupérez les emplois sauvegardés par l'utilisateur connecté
+        $savedEmplois = $user->getEmploiSauvegarder();
 
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
@@ -45,13 +51,17 @@ class HomeController extends AbstractController
                 'searchInfo' => $searchInfo,
                 'form' => $form->createView(), // Passez le formulaire à la vue
                 'data' => $data, // Passez les données pré-remplies à la vue
+                'savedEmplois' => $savedEmplois, // Passez la variable alreadySaved à la vue
             ]);
         }
+
+        $categories = $categorieRepository->findCategoriesPopulaires();
 
         return $this->render('home/index.html.twig', [
             'form' => $form->createView(),
             'data' => $data,
             'searchInfo' => $searchInfo,
+            'categories' => $categories,
         ]);
     }
 }

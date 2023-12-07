@@ -288,6 +288,9 @@ class CandidatController extends AbstractController
             return $this->redirectToRoute('app_candidatures');
         } else if ($origin === 'detail') {
             return $this->redirectToRoute('app_show_emploi', ['id' => $emploi->getId()]);
+        } else if ($origin === 'resultats') {
+            // Recharger juste la page actuelle
+            return $this->redirect($request->headers->get('referer'));
         } else {
             return $this->redirectToRoute('app_home');
         }
