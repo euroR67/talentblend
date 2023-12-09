@@ -8,6 +8,11 @@ app_home:
     path: /
     controller: App\Controller\HomeController::search
 
+app_search_form:
+    path: '/form-search'
+    controller: App\Controller\FormController::searchForm
+    methods: ['GET', 'POST']
+
 download_cv:
     path: '/download-cv/{userId}'
     controller: 'App\Controller\UserController::downloadCV'

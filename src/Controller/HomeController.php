@@ -23,13 +23,17 @@ class HomeController extends AbstractController
 
         $form->handleRequest($request);
 
-        $searchInfo = '';
+        $searchInfo = ''; // initialisez la variable de recherche
 
         // Récupérez l'utilisateur connecté
         $user = $this->getUser();
 
         // Récupérez les emplois sauvegardés par l'utilisateur connecté
-        $savedEmplois = $user->getEmploiSauvegarder();
+        if ($user) {
+            $savedEmplois = $user->getEmploiSauvegarder();
+        } else {
+            $savedEmplois = [];
+        }
 
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
