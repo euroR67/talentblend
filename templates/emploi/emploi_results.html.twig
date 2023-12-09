@@ -29,7 +29,7 @@
     </div>
 
     <div class="filter">
-        <p>Tous les résultats</p>
+        <p>Tous les résultats - {{ results|length }} emplois</p>
         <button><i class="fa-solid fa-sliders"></i> Filtrer</button>
     </div>
 
@@ -38,12 +38,20 @@
             {% for emploi in results %}
                 <div class="result" data-url="{{ path('app_show_emploi', {'id': emploi.id}) }}">
                     <div class="result-head">
-                        <img src="{{ asset('logo/' ~ emploi.entreprise.logo) }}" alt="Logo de l'entreprise">
+                        <div class="logo-new">
+                            <img src="{{ asset('logo/' ~ emploi.entreprise.logo) }}" alt="Logo de l'entreprise">
+                            {# Si la date de publication de l'emploi date d'aujourd'hui #}
+                            {% if emploi.dateOffre|date('Y-m-d') == 'now'|date('Y-m-d') %}
+                                <span>Nouveau!</span>
+                            {% endif %}
+                        </div>
                         {# Si l'emploi est déjà sauvegardé par l'utilisateur en session avec savedEmplois #}
                         {% if emploi in savedEmplois  %}
-                            <a href="{{ path('app_emploi_delete', {'id': emploi.id, 'origin': 'resultats'}) }}"><i class="fa-solid fa-heart"></i></a>
+                            {# <a href="{{ path('app_emploi_delete', {'id': emploi.id, 'origin': 'resultats'}) }}"><i class="fa-solid fa-heart"></i></a> #}
+                            <i class="fa-solid fa-heart"></i>
                         {% else %}
-                            <a href="{{ path('app_emploi_save', {'id': emploi.id}) }}"><i class="fa-regular fa-heart"></i></a>
+                            {# <a href="{{ path('app_emploi_save', {'id': emploi.id}) }}"><i class="fa-regular fa-heart"></i></a> #}
+                            <i class="fa-regular fa-heart"></i>
                         {% endif %}
                     </div>
                     <div class="result-body">
@@ -52,7 +60,18 @@
                             <a href="{{ path('app_emplois_par_entreprise', {'id': emploi.entreprise.id}) }}">{{ emploi.entreprise }}</a>
                              dans 
                              <a href="{{ path('app_emplois_par_categorie', {'id': emploi.categories.id }) }}">{{ emploi.categories }}</a>
+                             {% if emploi.dateOffre|date('Y-m-d') == 'now'|date('Y-m-d') %}
+                                <span>Aujourd'hui</span>
+                            {% else %}
+                                <span>Il y'a {{ emploi.dateOffre|date('d') }} jours</span>
+                            {% endif %}
                         </p>
+                    </div>
+                    <div class="result-footer">
+                        <span>{{ emploi.types }}</span>
+                        <span>{{ emploi.contrats }}</span>
+                        <span>{{ emploi.ville }}</span>
+                        <span>{{ emploi.salaire }} € Par an</span>
                     </div>
                 </div>
             {% endfor %}

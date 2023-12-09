@@ -23,7 +23,7 @@ header nav:first-child ul li:first-child {
 
 header img.logo,
 header nav:first-child ul li:first-child a {
-    height: 40px;
+    height: 35px;
 }
 
 header nav:first-child ul .fa-bars {
@@ -39,7 +39,7 @@ header nav.slide-menu > div {
     justify-content: space-between;
     align-items: center;
     border-bottom: 1px solid rgb(231, 231, 231);
-    padding: 23px;
+    padding: 15px;
 }
 
 span.auth-public a:first-of-type {
@@ -147,6 +147,11 @@ header nav.slide-menu > ul > li > a:hover {
     color: #007456;
 }
 
+header nav.slide-menu > ul > li > a > i,
+body > header > nav.slide-menu.slide-menu-active > ul > li.categorie > i.fa-solid.fa-list {
+    min-width: 23px;
+}
+
 header nav.slide-menu a.post-offre {
     background-color: #007456;
     border-radius: 20px;
@@ -177,12 +182,17 @@ header nav.slide-menu .sub-menu > ul {
     min-height: 0;
 }
 
+
 header nav.slide-menu .sub-menu-active {
     grid-template-rows: 1fr;
 }
 
 .sub-menu ul li {
     margin-block: 20px;
+}
+
+.sub-menu ul li i {
+    min-width: 23px;
 }
 
 .sub-menu ul li a {

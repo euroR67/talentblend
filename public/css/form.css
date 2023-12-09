@@ -147,7 +147,7 @@ div.custom-choice {
 
 div.bg {
     padding: 40px 20px;
-    height: calc(100vh - 70px);
+    min-height: 507px;
     display: flex;
     flex-direction: column;
     justify-content: center;

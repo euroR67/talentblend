@@ -8,7 +8,7 @@
 }
 
 body {
-    padding-top: 70px;
+    padding-top: 65px;
     min-height: 100vh;
     background-color: #f2f2f2;
 }
@@ -68,6 +68,7 @@ div.newsletter {
     flex-direction: column;
     padding: 20px;
     text-align: center;
+    background-color: #fff;
 }
 
 div.newsletter > div {
@@ -150,6 +151,7 @@ div.categories .cat-head {
 div.categories .cat-head h3 {
     font-weight: 600;
     margin-bottom: 20px;
+    font-size: 28px;
 }
 
 div.categories .cat-head p {
@@ -200,7 +202,7 @@ div.categories .cat-footer a {
 div.categories .cat-footer a:after {
     display: block;
     content: '';
-    border-bottom: solid 2px #007456;
+    border-bottom: solid 1px #007456;
     transform: scaleX(0);
     transition: .5s ease, .5s ease;
     transform-origin: 0% 50%
@@ -279,7 +281,7 @@ div.filter button:hover {
 }
 
 div.result-container {
-    padding: 10px;
+    padding: 0 10px 20px;
     display: flex;
     flex-direction: column;
     gap: 20px;
@@ -313,18 +315,49 @@ div.result img {
     width: 54px;
     object-fit: contain;
     border-radius: 100px;
-    border: 1px solid #ccc;
+    border: 1px solid #cccccc7e;
 }
 
 div.result-head {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+div.result-head .logo-new {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+div.result-head .logo-new span {
+    color: rgb(0, 120, 140);
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 12px;
+    line-height: 1;
+    letter-spacing: 0.05em;
 }
 
 div.result-head i {
     font-size: 21px;
     color: black;
+}
+
+div.result-body span:before {
+    content: "";
+    width: 3px;
+    height: 3px;
+    background: currentcolor;
+    border-radius: 50%;
+    display: inline-block;
+    margin: 0px 8px;
+    transform: translateY(-0.2em);
+}
+
+div.result-head i.fa-solid.fa-heart {
+    color: #007456;
 }
 
 div.result-body p a {
@@ -333,8 +366,32 @@ div.result-body p a {
     transition: all 200ms ease;
 }
 
+div.result-body {
+    line-height: 1.5;
+}
+
+div.result-body p {
+    font-size: 14px;
+}
+
 div.result-body p a:hover {
     color: #038e69;
+}
+
+div.result-footer {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+div.result-footer span {
+    font-size: 12px;
+    background-color: rgba(0,116,86,0.05);
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid rgba(163, 163, 163, 0.139);
 }
 
 
