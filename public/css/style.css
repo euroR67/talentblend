@@ -460,3 +460,9 @@ div.result-footer span {
         width: 100%;
     }
 }
+
+@media screen and (min-width: 800px) {
+    body {
+        padding-top: inherit;
+    }
+}

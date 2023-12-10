@@ -16,7 +16,8 @@
         <link rel="stylesheet" href="{{asset('css/footer.css')}}">
     </head>
     <body>
-        <header>
+
+        <header class="mobile-header">
             <nav>
                 <ul>
                     <li>
@@ -96,6 +97,72 @@
             </nav>
             <div class="overlay"></div>
         </header>
+
+        <header class="desk-header">
+            <nav>
+                <ul>
+                    <li class="logo-resp"><a href="{{ path('app_home') }}"><img class="logo" width="100%" src="{{ asset('img/logo.png') }}" alt="logo"></a></li>
+                    {% if isHomePage is defined and isHomePage %}
+                        {# Ne pas afficher le formulaire sur la page d'accueil #}
+                    {% else %}
+                        {{ render(controller('App\\Controller\\FormController::searchForm')) }}
+                    {% endif %}
+                    <li>
+                        {% if not app.user %}
+                            <span class="auth-public">
+                                <a href="{{ path('app_register') }}">Inscription</a>
+                                <a href="{{ path('app_login') }}">Connexion</a>
+                            </span>
+                        {% endif %}
+                        {% if app.user %}
+                            <span class="authentified">
+                                <img src="{{ asset('img/profil.jpg') }}" alt="avatar">
+                                <p>
+                                    {{ app.user.prenom }}<i class="fa-solid fa-chevron-down"></i>
+                                </p>
+                                <ul>
+                                    {% if is_granted('ROLE_RECRUTEUR') %}
+                                    <li><a href="{{ path('app_emplois') }}"><i class="fa-solid fa-gauge"></i> Tableau de bord</a></li>
+                                    <li><a href="{{ path('app_emplois') }}"><i class="fa-solid fa-briefcase"></i> Emplois</a></li>
+                                    <li><a href="{{ path('app_candidatures_recu') }}"><i class="fa-solid fa-list"></i> Candidatures</a></li>
+                                    <li><a href="{{ path('app_entreprises') }}"><i class="fa-solid fa-building-shield"></i> Entreprise</a></li>
+                                    <li><a href=""><i class="fa-regular fa-message"></i> Messages</a></li>
+                                    <li><a href="{{ path('app_edit_password', {'id': app.user.id}) }}"><i class="fa-solid fa-gear"></i> Paramètre</a></li>
+                                    {% endif %}
+                                    {% if is_granted('ROLE_CANDIDAT') %}
+                                    <li><a href="{{ path('app_candidat_edit', {'id': app.user.id}) }}"><i class="fa-solid fa-user"></i> Profil</a></li>
+                                    <li><a href="{{ path('app_candidatures') }}"><i class="fa-solid fa-list-check"></i> Candidatures</a></li>
+                                    <li><a href=""><i class="fa-regular fa-message"></i> Messages</a></li>
+                                    <li><a href="{{ path('app_edit_password', {'id': app.user.id}) }}"><i class="fa-solid fa-gear"></i> Paramètre</a></li>
+                                    {% endif %}
+                                    <li><a href="{{ path('app_logout') }}"><i class="fa-solid fa-arrow-right-from-bracket"></i> Se déconnecter</a></li>
+                                </ul>
+                            </span>
+                    {% endif %}
+                    </li>
+                </ul>
+                <div>
+                    <div class="mt4">
+                        <ul>
+                            <li><a href="{{ path('app_home')}}">Accueil</a></li>
+                            <li class="desk-categorie">Catégorie <i class="fa-solid fa-chevron-down fa-xs"></i></li>
+                            <li><a href="">Offres d'emploi</a></li>
+                        </ul>
+                        <span>
+                            {% if is_granted('ROLE_RECRUTEUR') %}
+                                <a href="{{ path('app_new_emploi') }}">Poster une offre</a>
+                            {% elseif is_granted('ROLE_CANDIDAT') %}
+                                <a href="{{ path('app_candidat_edit', {'id': app.user.id}) }}">Déposer mon CV</a>
+                            {% else %}
+                                <a href="{{ path('app_register') }}">Déposer mon CV</a>
+                            {% endif %}
+                        </span>
+                    </div>
+                </div>
+            </nav>
+            <div class="overlay"></div>
+        </header>
+
         <div class="search-modal">
             <div>
                 {{ render(controller('App\\Controller\\FormController::searchForm')) }}

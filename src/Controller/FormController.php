@@ -32,7 +32,6 @@ class FormController extends AbstractController
 
         if ($formModal->isSubmitted() && $formModal->isValid()) {
             $data = $formModal->getData();
-            // dd($data);
 
             // Vérifiez si au moins un champ est renseigné
             if (!empty($data['poste']) || !empty($data['ville'])) {

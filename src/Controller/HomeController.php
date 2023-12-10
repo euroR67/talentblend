@@ -19,6 +19,8 @@ class HomeController extends AbstractController
     {
         $form = $this->createForm(SearchEmploiType::class);
 
+        $isHomePage = true; // initialisez la variable de page d'accueil
+
         $data = []; // initialisez le tableau des données
 
         $form->handleRequest($request);
@@ -66,6 +68,8 @@ class HomeController extends AbstractController
             'data' => $data,
             'searchInfo' => $searchInfo,
             'categories' => $categories,
+            'savedEmplois' => $savedEmplois,
+            'isHomePage' => $isHomePage,
         ]);
     }
 }
