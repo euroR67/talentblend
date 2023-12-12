@@ -42,6 +42,12 @@ header.mobile-header nav.slide-menu > div {
     padding: 15px;
 }
 
+span.auth-public {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
 span.auth-public a:first-of-type {
     background-color: #007456;
     color: #fff;

@@ -22,6 +22,9 @@
         <button class="submit-search" type="submit">Rechercher</button>
     </div>
     {{ form_end(form) }}
+    {% if is_granted('ROLE_RECRUTEUR') %}
+        <a href="{{ path('app_search_candidat') }}"><i class="fa-solid fa-arrow-right-long"></i> Rechercher un candidat</a>
+    {% endif %}
 </div>
 
 <div class="content-wrapper">
@@ -69,13 +72,6 @@
             <a href="{{ path('app_categories') }}">Voir toutes les catégories</a>
         </div>
     </div>
-    
-    {# Afficher les offres d'emploi #}
-    
-    {# Afficher un formulaire de recherche de candidat si l'utilisateur est un recruteur #}
-    {% if is_granted('ROLE_RECRUTEUR') %}
-        <a href="{{ path('app_search_candidat') }}">Rechercher un candidat</a>
-    {% endif %}
 </div>
 
 {% endblock %}

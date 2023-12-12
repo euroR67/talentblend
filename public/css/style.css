@@ -11,6 +11,8 @@ body {
     padding-top: 65px;
     min-height: 100vh;
     background-color: #f2f2f2;
+    display: flex;
+    flex-direction: column;
 }
 
 /* Homepage utilisateur non authentifié */
@@ -33,6 +35,7 @@ div.vous-etes div {
     padding: 20px;
     border-radius: 10px;
     width: 100%;
+    border: 1px solid #e6e6e6;
 }
 
 div.vous-etes div h2 {
@@ -48,10 +51,11 @@ div.vous-etes div a {
     border-radius: 30px;
     margin-block: 20px;
     border: none;
+    transition: all 200ms ease;
 }
 
 div.vous-etes div a:hover {
-    background-color: #016046;
+    background-color: #02906a;
 }
 
 div.vous-etes div img {
@@ -130,7 +134,7 @@ div.newsletter form button {
 }
 
 div.newsletter form button:hover {
-    background-color: #016046;
+    background-color: #02906a;
 }
 
 /* Section catégorie */
@@ -464,5 +468,20 @@ div.result-footer span {
 @media screen and (min-width: 800px) {
     body {
         padding-top: inherit;
+    }
+
+    div.categories {
+        width: 100%;
+    }
+}
+
+@media screen and (min-width: 1440px) {
+    .content-wrapper{
+        max-width: 1440px;
+    }
+
+    .newsletter > div {
+        display: flex;
+        align-items: center;
     }
 }

@@ -1,5 +1,9 @@
 footer {
     background-color: #fff;
+    /* background-color:#014432; */
+    background-color: #015e45;
+    color: #fff;
+    margin-top: auto;
 }
 
 .footer-container {
@@ -8,18 +12,19 @@ footer {
 }
 
 .about-us {
-    border-bottom: 1px solid #E8E8E8;
+    border-bottom: 1px solid #e8e8e846;
     padding: 20px 0;
 }
 
 .about-us h3 {
-    font-size: 18px;
+    font-size: 22px;
     font-weight: 600;
     margin-bottom: 10px;
+    color: #FFD75E;
+    font-weight: 700;
 }
 
 .about-us p {
-    color: #2c2c2c;
     line-height: 1.5;
 }
 
@@ -56,6 +61,7 @@ footer {
 .footer-dropdown-head h4 {
     font-size: 16px;
     font-weight: 600;
+    color: #FFD75E;
 }
 
 .footer-dropdown-body {
@@ -76,14 +82,14 @@ footer {
 }
 
 .footer-dropdown-body ul li a {
-    color: #014432;
+    color: #fff;
     font-weight: 500;
-    transition: all 0.3s ease;
+    transition: all 0.1s ease;
     padding-left: 5px;
 }
 
 .footer-dropdown-body ul li a:hover {
-    color: #015e45;
+    color: rgb(220, 220, 220);
 }
 
 .footer-dropdown-body.active {
@@ -97,16 +103,53 @@ footer {
 
 .copyright {
     padding: 20px;
-    border-top: 1px solid #E8E8E8;
+    border-top: 1px solid #e8e8e846;
     opacity: 0.9;
+    text-align: center;
 }
 
 .copyright a {
-    color: #014432;
+    color: #FFD75E;
     font-weight: 600;
     transition: all 0.3s ease;
 }
 
 .copyright a:hover {
-    color: #015e45;
+    color: #f4bc16;
+}
+
+@media screen and (min-width: 1000px) {
+    .footer-dropdown {
+        display: flex;
+        padding-block: 30px;
+    }
+
+    .footer-dropdown > div {
+        width: 33%;
+    }
+
+    .footer-dropdown-body {
+        display: block;
+        grid-template-rows: 1fr;
+        border-bottom: none;
+        padding-bottom: 0;
+    }
+
+    .footer-dropdown-head i {
+        display: none;
+    }
+
+    .footer-dropdown-head {
+        pointer-events: none;
+    }
+
+    .about-us {
+        padding-block: 40px;
+    }
+}
+
+@media screen and (min-width: 1440px) {
+    footer > div:first-of-type {
+        max-width: 1440px;
+    }
 }
