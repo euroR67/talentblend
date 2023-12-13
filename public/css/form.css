@@ -2,16 +2,11 @@
 
 .container {
     max-width: 700px;
-    margin: 30px auto;
     padding: 20px;
     border: 1px solid #e9e9e9;
     border-radius: 5px;
-}
-
-.form-group {
-    margin-bottom: 15px;
-    display: flex;
-    gap: 20px;
+    background-color: #fff;
+    margin: 20px auto;
 }
 
 .form-control {
@@ -22,6 +17,11 @@
     font-size: 14px;
     outline: none;
     margin-top: 5px;
+}
+
+.form-group,
+.form-group div  {
+    margin-bottom: 10px;
 }
 
 .form-group div {
@@ -54,6 +54,11 @@ div.wrapper .haveacc {
     text-align: center;
     margin-top: 20px;
     font-size: 14px;
+}
+
+div.wrapper .haveacc a {
+    color: #007456;
+    font-weight: 600;
 }
 
 div.wrapper form p:last-child a {
@@ -95,14 +100,13 @@ div.wrapper form p:last-child a {
     color: #646464;
 }
 
-.form-check-label span {
+.form-check-label a {
     color: #007456;
     font-weight: 600;
 }
 
 .form-check {
     display: flex;
-    align-items: center;
     gap: 5px;
 }
 
@@ -131,16 +135,33 @@ div.custom-choice {
     background-color: #EDEDED;
     color: #858585;
     font-weight: 600;
+    border: 1px solid transparent;
+    transition: all 0.2s ease-in-out;
+}
+
+.custom-choice input[type="radio"] + label:hover {
+    background-color: #e7eeeb;
+    color: #007456;
+    font-weight: 600;
+    border: 1px solid #01926c71;
 }
 
 .custom-choice input[type="radio"]:checked + label {
     background-color: #DFEDE7; /* Couleur pour l'option sélectionnée */
     color: #007456;
     font-weight: 600;
+    border: 1px solid #01926c71;
 }
 
 .form-check-input {
     accent-color: #007456;
+}
+
+a.forgot-password {
+    color: #007456;
+    font-weight: 600;
+    margin-bottom: 10px;
+    display: inline-block;
 }
 
 /* Formulaire de recherche */
@@ -365,6 +386,17 @@ form.search-form-modal button.submit-search:hover {
         background-image: url(../img/Revised.png);
         background-size:cover;
         background-position: center;
+    }
+
+    /* Formulaire d'inscription */
+    .container {
+        margin: 30px auto;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+        display: flex;
+        gap: 20px;
     }
 }
 

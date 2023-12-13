@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Log in!{% endblock %}
+{% block title %}Connexion{% endblock %}
 
 {% block body %}
 <div class="container mt-4">
@@ -10,23 +10,21 @@
                 <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
             {% endif %}
         
-            {% if app.user %}
-                <div class="mb-3">
-                    You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
-                </div>
-            {% endif %}
-        
-            <h1 class="h3 mb-3 font-weight-normal">Se connecter</h1><br>
+            <h2>Connexion</h2>
             <div class="form-group">
-                <label for="inputEmail">Email</label>
-                <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
+                <div>
+                    <label for="inputEmail">Adresse email</label>
+                    <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
+                </div>
             </div>
             <div class="form-group">
-                <label for="inputPassword">Mot de passe</label>
-                <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+                <div>
+                    <label for="inputPassword">Mot de passe</label>
+                    <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+                </div>
             </div>
 
-            <a href="{{ path('app_forgot_password_request') }}">Mot de passe oublié ?</a>
+            <a class="forgot-password" href="{{ path('app_forgot_password_request') }}">Mot de passe oublié ?</a>
         
             <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
         
