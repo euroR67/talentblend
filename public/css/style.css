@@ -234,7 +234,7 @@ div.bg.result form #search_emploi_poste {
 
 /* Section résultat de recherche */
 
-div.search-result {
+div.result-info {
     width: 100%;
     padding: 20px;
     box-shadow: 0 2px 10px rgba(126, 126, 126, 0.2);
@@ -252,7 +252,7 @@ div.search-result h2 span {
 div.filter {
     display: flex;
     justify-content: space-between;
-    padding: 20px;
+    padding-block: 20px;
     align-items: center;
 }
 
@@ -346,7 +346,7 @@ div.result-head .logo-new span {
 
 div.result-head i {
     font-size: 21px;
-    color: black;
+    color: #007456;
 }
 
 div.result-body span:before {
@@ -396,6 +396,11 @@ div.result-footer span {
     padding: 8px;
     border-radius: 5px;
     border: 1px solid rgba(163, 163, 163, 0.139);
+}
+
+/* Panneau de filtre */
+aside.filter {
+    display: none;
 }
 
 
@@ -463,6 +468,13 @@ div.result-footer span {
     div.cat-head {
         width: 100%;
     }
+
+    /* Section résultat recherche emploi */
+    div.result-container {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
 }
 
 @media screen and (min-width: 800px) {
@@ -472,6 +484,95 @@ div.result-footer span {
 
     div.categories {
         width: 100%;
+    }
+}
+
+@media screen and (min-width: 1200px) {
+
+    /* Section résultat recherche emploi */
+    .search-result {
+        max-width: 1440px;
+        margin: 0 auto;
+    }
+
+    div.result-info {
+        padding: 40px;
+    }
+
+    div.filter {
+        max-width: 1440px;
+        margin: 0 auto;
+    }
+
+    .search-emploi-result {
+        display: flex;
+        justify-content: center;
+    }
+
+    div.result-wrapper {
+        display: flex;
+        max-width: 1440px;
+        flex: 1;
+    }
+
+    div.result-container {
+        flex: 2;
+    }
+
+    /* Panneau filtres */
+    div.filter button {
+        display: none;
+    }
+
+    aside.filter {
+        margin-right: 60px;
+        display: block;
+    }
+
+    div.filter-panel {
+        background-color: #fff;
+        border-radius: 10px;
+        padding: 20px;
+        border: 1px solid #cccccc8b;
+        width: 330px;
+    }
+
+    .filter-panel-head h3 {
+        font-size: 18px;
+        font-weight: 600;
+        margin-bottom: 20px;
+        border-bottom: 1px solid #cccccc8b;
+        height: 40px;
+    }
+
+    .filter-panel-body-item h4 {
+        font-size: 16px;
+        font-weight: 600;
+        margin-block: 20px;
+        color: #999;
+    }
+
+    .checkbox {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .checkbox label {
+        color: #555555;
+    }
+
+    .radio {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .radio label {
+        margin-bottom: 10px;
+    }
+
+    .radio span {
+        color: #555555;
     }
 }
 

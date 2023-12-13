@@ -4,95 +4,159 @@
 
 {% block body %}
 
-<div class="bg result">
-    {# {{ form_start(form, {'attr': {'class': 'search-form'}}) }}
-    <div class="form-group-search">
-        <div class="input-group">
-            {{ form_row(form.poste, {'value': data.poste}) }}
-            <i class="fa-solid fa-magnifying-glass"></i>
-        </div>
-    </div>
-    <div class="form-group-search">
-        <div class="input-group">
-            {{ form_row(form.ville, {'value': data.ville}) }}
-            <i class="fa-solid fa-location-dot"></i>
-        </div>
-    </div>
-    <div class="form-group-search">
-        <button class="submit-search" type="submit">Rechercher</button>
-    </div>
-    {{ form_end(form) }} #}
-</div>
 
+<div class="result-info">
     <div class="search-result">
         <h2>Résultats de recherche pour <span>{{ searchInfo }}</span></h2>
     </div>
-
+</div>
+    
+<div class="mt-5">
     <div class="filter">
         <p>Tous les résultats - {{ results|length }} emplois</p>
         <button><i class="fa-solid fa-sliders"></i> Filtrer</button>
     </div>
-
-    <div class="result-container">
-        {% if results is not empty %}
-            {% for emploi in results %}
-                <div class="result" data-url="{{ path('app_show_emploi', {'id': emploi.id}) }}">
-                    <div class="result-head">
-                        <div class="logo-new">
-                            <img src="{{ asset('logo/' ~ emploi.entreprise.logo) }}" alt="Logo de l'entreprise">
-                            {# Si la date de publication de l'emploi date d'aujourd'hui #}
-                            {% if emploi.dateOffre|date('Y-m-d') == 'now'|date('Y-m-d') %}
-                                <span>Nouveau!</span>
-                            {% endif %}
-                        </div>
-                        {# Si l'emploi est déjà sauvegardé par l'utilisateur en session avec savedEmplois #}
-                        {% if emploi in savedEmplois  %}
-                            {# <a href="{{ path('app_emploi_delete', {'id': emploi.id, 'origin': 'resultats'}) }}"><i class="fa-solid fa-heart"></i></a> #}
-                            <i class="fa-solid fa-heart"></i>
-                        {% else %}
-                            {# <a href="{{ path('app_emploi_save', {'id': emploi.id}) }}"><i class="fa-regular fa-heart"></i></a> #}
-                            <i class="fa-regular fa-heart"></i>
-                        {% endif %}
-                    </div>
-                    <div class="result-body">
-                        <h3>{{ emploi }}</h3>
-                        <p>Par 
-                            <a href="{{ path('app_emplois_par_entreprise', {'id': emploi.entreprise.id}) }}">{{ emploi.entreprise }}</a>
-                             dans 
-                             <a href="{{ path('app_emplois_par_categorie', {'id': emploi.categories.id }) }}">{{ emploi.categories }}</a>
-                             {% if emploi.dateOffre|date('Y-m-d') == 'now'|date('Y-m-d') %}
-                                <span>Aujourd'hui</span>
-                            {% else %}
-                                <span>Il y'a {{ emploi.dateOffre|date('d') }} jours</span>
-                            {% endif %}
-                        </p>
-                    </div>
-                    <div class="result-footer">
-                        <span>{{ emploi.types }}</span>
-                        <span>{{ emploi.contrats }}</span>
-                        <span>{{ emploi.ville }}</span>
-                        <span>{{ emploi.salaire }} € Par an</span>
-                    </div>
-                </div>
-            {% endfor %}
-        {% else %}
-            <p>Aucun résultat pour votre recherche</p>
-        {% endif %}
-    </div>
-    
-    <script>
-        document.querySelectorAll('.result').forEach(function(element) {
-            element.addEventListener('click', function() {
-                var url = this.getAttribute('data-url');
-                if (url) {
-                    window.location = url;
-                }
-            });
-        });
-    </script>
-    
 </div>
 
-    
+<main class="search-emploi-result">
+    <div class="result-wrapper">
 
+        <aside class="filter">
+            {# Panneau des filtres #}
+            <div class="filter-panel">
+                <div class="filter-panel-head">
+                    <h3>Filtrer</h3>
+                </div>
+                <div class="filter-panel-body">
+                    <div class="filter-panel-body-item">
+                        <h4>Type d'emploi</h4>
+                        {# Type checkbox #}
+                        <div class="checkbox">
+                            <label>
+                                <input name="type" type="checkbox" value="fulltime">
+                                <span>Temps plein</span>
+                            </label>
+                            <label>
+                                <input name="type" type="checkbox" value="parttime">
+                                <span>Temps partiel</span>
+                            </label>
+                            <label>
+                                <input name="type" type="checkbox" value="remote">
+                                <span>Télétravail</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="filter-panel-body-item">
+                        <h4>Type de contrat</h4>
+                        {# Type checkbox #}
+                        <div class="checkbox">
+                            <label>
+                                <input name="contract" type="checkbox" value="cdi">
+                                <span>CDI</span>
+                            </label>
+                            <label>
+                                <input name="contract" type="checkbox" value="cdd">
+                                <span>CDD</span>
+                            </label>
+                            <label>
+                                <input name="contract" type="checkbox" value="stage">
+                                <span>Stage</span>
+                            </label>
+                            <label>
+                                <input name="contract" type="checkbox" value="alternance">
+                                <span>Alternance</span>
+                            </label>
+                            <label>
+                                <input name="contract" type="checkbox" value="Interim">
+                                <span>Interim</span>
+                            </label>
+                    </div>
+                    <div class="filter-panel-body-item">
+                        <h4>Publié le</h4>
+                        {# Type radio #}
+                        <div class="radio">
+                            <label>
+                                <input name="recency" type="radio" value="any" checked="">
+                                <span>Toutes dates</span>
+                            </label>
+                            <label>
+                                <input name="recency" type="radio" value="24h">
+                                <span>Aujourd'hui</span>
+                            </label>
+                            <label>
+                                <input name="recency" type="radio" value="7d">
+                                <span>La semaine dernière</span>
+                            </label>
+                            <label>
+                                <input name="recency" type="radio" value="30d">
+                                <span>Le mois dernier</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+    
+        <div class="result-container">
+            {% if results is not empty %}
+                {% for emploi in results %}
+                    <div class="result" data-url="{{ path('app_show_emploi', {'id': emploi.id}) }}">
+                        <div class="result-head">
+                            <div class="logo-new">
+                                <img src="{{ asset('logo/' ~ emploi.entreprise.logo) }}" alt="Logo de l'entreprise">
+                                {# Si la date de publication de l'emploi date d'aujourd'hui #}
+                                {% if emploi.dateOffre|date('Y-m-d') == 'now'|date('Y-m-d') %}
+                                    <span>Nouveau!</span>
+                                {% endif %}
+                            </div>
+                            {# Si l'emploi est déjà sauvegardé par l'utilisateur en session avec savedEmplois #}
+                            {% if emploi in savedEmplois  %}
+                                {# <a href="{{ path('app_emploi_delete', {'id': emploi.id, 'origin': 'resultats'}) }}"><i class="fa-solid fa-heart"></i></a> #}
+                                <i class="fa-solid fa-heart"></i>
+                            {% else %}
+                                {# <a href="{{ path('app_emploi_save', {'id': emploi.id}) }}"><i class="fa-regular fa-heart"></i></a> #}
+                                <i class="fa-regular fa-heart"></i>
+                            {% endif %}
+                        </div>
+                        <div class="result-body">
+                            <h3>{{ emploi }}</h3>
+                            <p>Par 
+                                <a href="{{ path('app_emplois_par_entreprise', {'id': emploi.entreprise.id}) }}">{{ emploi.entreprise }}</a>
+                                    dans 
+                                    <a href="{{ path('app_emplois_par_categorie', {'id': emploi.categories.id }) }}">{{ emploi.categories }}</a>
+                                    {% if emploi.dateOffre|date('Y-m-d') == 'now'|date('Y-m-d') %}
+                                    <span>Aujourd'hui</span>
+                                {% else %}
+                                    <span>Il y'a {{ emploi.dateOffre|date('j') }} jours</span>
+                                {% endif %}
+                            </p>
+                        </div>
+                        <div class="result-footer">
+                            <span>{{ emploi.types }}</span>
+                            <span>{{ emploi.contrats }}</span>
+                            <span>{{ emploi.ville }}</span>
+                            <span>{{ emploi.salaire }} € Par an</span>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p>Aucun résultat pour votre recherche</p>
+            {% endif %}
+        </div>
+    
+    </div>
+</main>
+
+<script>
+    // Rediriger l'utilisateur vers la page de l'emploi lorsqu'il clique sur un résultat
+    document.querySelectorAll('.result').forEach(function(element) {
+        element.addEventListener('click', function() {
+            var url = this.getAttribute('data-url');
+            if (url) {
+                window.location = url;
+            }
+        });
+    });
+</script>
+    
 {% endblock %}
