@@ -536,6 +536,7 @@ aside.filter {
         padding: 20px;
         border: 1px solid #cccccc8b;
         width: 330px;
+        margin-bottom: 30px;
     }
 
     .filter-panel-head h3 {
@@ -580,7 +581,6 @@ aside.filter {
     div.categories .cat-body {
         max-width: 1440px;
         margin-inline: auto;
-        grid-template-columns: repeat(4, 1fr);
     }
 }
 

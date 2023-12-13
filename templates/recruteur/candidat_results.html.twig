@@ -3,17 +3,26 @@
 {% block title %}Résultat pour {{ searchInfo }}{% endblock %}
 
 {% block body %}
-<div class="bg"></div>
-{{ form_start(form) }}
-{{ form_row(form.metiers, {'value': data.metiers}) }}
-{{ form_row(form.villes, {'value': data.villes}) }}
-<button type="submit">Rechercher</button>
-{{ form_end(form) }}
 
-<div class="file-ariane" style="display: flex;">
-    <a href="{{ path('app_home')}}">Accueil</a>
-    >
-    <p>{{ searchInfo }}</p>
+<div class="bg candidat">
+    <h1>Recrutez des <span>talents</span> pour votre entreprise.</h1>
+    {{ form_start(form, {'attr': {'class': 'search-form'}}) }}
+    <div class="form-group-search">
+        <div class="input-group">
+            {{ form_widget(form.metiers, {'value': data.metiers is defined ? data.metiers : ''},  {'attr': {'class': 'form-control-search', 'placeholder': 'Rechercher un candidat'}}) }}
+            <i class="fa-solid fa-magnifying-glass"></i>
+        </div>
+    </div>
+    <div class="form-group-search">
+        <div class="input-group">
+            {{ form_widget(form.villes, {'attr': {'class': 'form-control-search', 'placeholder': 'Saisir un lieu'}}) }}
+            <i class="fa-solid fa-location-dot"></i>
+        </div>
+    </div>
+    <div class="form-group-search">
+        <button class="submit-search" type="submit">Rechercher</button>
+    </div>
+    {{ form_end(form) }}
 </div>
 
     <h2>Résultats de recherche pour <span style="color: rgb(74, 6, 137);">{{ searchInfo }}</span></h2>

@@ -207,6 +207,7 @@ class RecruteurController extends AbstractController
         ]);
     }
 
+    // Méthode pour rechercher un candidat
     #[Route('/search_candidat', name: 'app_search_candidat')]
     public function search(Request $request, EntityManagerInterface $entityManager)
     {

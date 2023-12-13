@@ -166,6 +166,11 @@ a.forgot-password {
 
 /* Formulaire de recherche */
 
+div.bg.candidat {
+    min-height: fit-content;
+    padding: 40px;
+}
+
 div.bg {
     padding: 40px 20px;
     min-height: 507px;
@@ -241,11 +246,13 @@ div.bg div.form-group-search:last-of-type {
     border-radius:0 0 16px 16px;
 }
 
-div.bg #search_emploi_poste {
+div.bg #search_emploi_poste,
+div.bg #search_candidat_metiers {
     border-radius: 16px 16px 0 0;
 }
 
-div.bg input.form-control-search {
+div.bg input.form-control-search,
+#search_candidat_metiers {
     width: 100%;
     padding: 25px;
     border: none;
@@ -255,7 +262,8 @@ div.bg input.form-control-search {
     padding-left: 50px;
 }
 
-div.bg input.form-control-search::placeholder {
+div.bg input.form-control-search::placeholder,
+#search_candidat_metiers::placeholder {
     color: rgb(77, 77, 77);
     opacity: 0.5;
     font-size: 14px;
@@ -355,7 +363,8 @@ form.search-form-modal button.submit-search:hover {
         border-radius: 40px;
     }
 
-    div.bg #search_emploi_poste {
+    div.bg #search_emploi_poste,
+    div.bg #search_candidat_metiers {
         border-radius: 40px 0 0 40px;
     }
 
@@ -369,7 +378,8 @@ form.search-form-modal button.submit-search:hover {
         background-color: transparent;
     }
 
-    div.bg input.form-control-search {
+    div.bg input.form-control-search,
+    div.bg #search_candidat_metiers {
         border-bottom: none;
         border-right: 1px solid #ccc;
     }
