@@ -252,7 +252,7 @@ div.search-result h2 span {
 div.filter {
     display: flex;
     justify-content: space-between;
-    padding-block: 20px;
+    padding: 15px;
     align-items: center;
 }
 
@@ -502,6 +502,7 @@ aside.filter {
     div.filter {
         max-width: 1440px;
         margin: 0 auto;
+        padding: 20px 0px;
     }
 
     .search-emploi-result {
@@ -573,6 +574,13 @@ aside.filter {
 
     .radio span {
         color: #555555;
+    }
+
+    /* Liste des catégorie */
+    div.categories .cat-body {
+        max-width: 1440px;
+        margin-inline: auto;
+        grid-template-columns: repeat(4, 1fr);
     }
 }
 
