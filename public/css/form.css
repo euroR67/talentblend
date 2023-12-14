@@ -110,6 +110,23 @@ div.wrapper form p:last-child a {
     gap: 5px;
 }
 
+.logs {
+    background-color: #f2f2f2;
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 30px;
+}
+
+.logs p {
+    color:#8E8E8E;
+    font-size: 14px;
+}
+
+.logs p span {
+    color: #000000;
+    font-weight: 600;
+}
+
 /* Champ Rôle */
 
 div.custom-choice {
