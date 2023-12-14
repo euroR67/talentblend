@@ -388,7 +388,7 @@ header.desk-header > nav > div .mt4 > ul li a:hover {
     color: #007456; 
 }
 
-header.desk-header > nav > div .mt4 > span a {
+header.desk-header > nav > div .mt4 > a {
     color: #555555;
     font-size: 15px;
     font-weight: 500;
@@ -398,7 +398,7 @@ header.desk-header > nav > div .mt4 > span a {
     margin-right: 20px;
 }
 
-header.desk-header > nav > div .mt4 > span a:hover {
+header.desk-header > nav > div .mt4 > a:hover {
     color: #007456;
     border-bottom: 2px solid #007456;
 }

@@ -148,15 +148,13 @@
                             <li class="desk-categorie">Catégorie <i class="fa-solid fa-chevron-down fa-xs"></i></li>
                             <li><a href="">Offres d'emploi</a></li>
                         </ul>
-                        <span>
-                            {% if is_granted('ROLE_RECRUTEUR') %}
-                                <a href="{{ path('app_new_emploi') }}">Poster une offre</a>
-                            {% elseif is_granted('ROLE_CANDIDAT') %}
-                                <a href="{{ path('app_candidat_edit', {'id': app.user.id}) }}">Déposer mon CV</a>
-                            {% else %}
-                                <a href="{{ path('app_register') }}">Déposer mon CV</a>
-                            {% endif %}
-                        </span>
+                        {% if is_granted('ROLE_RECRUTEUR') %}
+                            <a href="{{ path('app_new_emploi') }}">Poster une offre</a>
+                        {% elseif is_granted('ROLE_CANDIDAT') %}
+                            <a href="{{ path('app_candidat_edit', {'id': app.user.id}) }}">Déposer mon CV</a>
+                        {% else %}
+                            <a href="{{ path('app_register') }}">Déposer mon CV</a>
+                        {% endif %}
                     </div>
                 </div>
             </nav>

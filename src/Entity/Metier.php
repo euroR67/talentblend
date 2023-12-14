@@ -26,6 +26,13 @@ class Metier
         $this->users = new ArrayCollection();
     }
 
+    public function __toString(): string
+    {
+        if ($this->nomMetier) {
+            return $this->nomMetier;
+        }
+    }
+
     public function getId(): ?int
     {
         return $this->id;

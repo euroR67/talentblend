@@ -125,23 +125,25 @@
         <div class="result-container">
             {% if results is not empty %}
                 {% for candidat in results %}
-                    <div class="result" data-url="{{ path('app_show_candidat', {'id': candidat.id}) }}">
-                        <div class="result-head">
-                            <div class="logo-new">
-                                {% if candidat.photo %}
-                                    <img src="{{ asset('logo/' ~ candidat.photo) }}" alt="Photo de profil">
-                                {% else %}
-                                    <p>{{ candidat.nom|first }}{{ candidat.prenom|first }}</p>
-                                {% endif %}
+                    <div class="result candidat" data-url="{{ path('app_show_candidat', {'id': candidat.id}) }}">
+                        <div>
+                            <div class="result-head">
+                                <div class="logo-new">
+                                    {% if candidat.photo %}
+                                        <img src="{{ asset('pdp/' ~ candidat.photo) }}" alt="Photo de profil">
+                                    {% else %}
+                                        <p>{{ candidat.nom|first }}{{ candidat.prenom|first }}</p>
+                                    {% endif %}
+                                </div>
                             </div>
-                            <i class="fa-solid fa-heart"></i>
-                        </div>
-                        <div class="result-body">
-                            <h3>{{ candidat }}</h3>
+                            <div class="result-body">
+                                <h3>{{ candidat }}</h3>
+                                <a href="#">{{ candidat.metiers }}</a>
+                            </div>
                         </div>
                         <div class="result-footer">
                             <span>Expérience: {{ candidat.niveau }} ans</span>
-                            <span>{{ candidat.villes }}</span>
+                            <span><i class="fa-solid fa-location-dot"></i> {{ candidat.villes }}</span>
                         </div>
                     </div>
                 {% endfor %}
@@ -152,5 +154,17 @@
 
     </div>
 </main>
+
+<script>
+    // Rediriger l'utilisateur vers la page de l'emploi lorsqu'il clique sur un résultat
+    document.querySelectorAll('.result').forEach(function(element) {
+        element.addEventListener('click', function() {
+            var url = this.getAttribute('data-url');
+            if (url) {
+                window.location = url;
+            }
+        });
+    });
+</script>
 
 {% endblock %}
