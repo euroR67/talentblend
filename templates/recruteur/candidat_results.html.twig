@@ -25,14 +25,132 @@
     {{ form_end(form) }}
 </div>
 
-    <h2>Résultats de recherche pour <span style="color: rgb(74, 6, 137);">{{ searchInfo }}</span></h2>
+<div class="result-info">
+    <div class="search-result">
+        <h2>Résultats de recherche pour <span>{{ searchInfo }}</span></h2>
+    </div>
+</div>
 
-    {% if results is not empty %}
-        {% for result in results %}
-            <a href="{{ path('app_show_candidat', {'id': result.id}) }}">{{ result }}</a> <br>
-        {% endfor %}
-    {% else %}
-        <p>Aucun résultat pour votre recherche</p>
-    {% endif %}
+<div class="mt-5">
+    <div class="filter">
+        <p>Tous les résultats - {{ results|length }} candidats</p>
+        <button><i class="fa-solid fa-sliders"></i> Filtrer</button>
+    </div>
+</div>
+
+<main class="search-emploi-result">
+    <div class="result-wrapper">
+        
+        <aside class="filter">
+            {# Panneau des filtres #}
+            <div class="filter-panel">
+                <div class="filter-panel-head">
+                    <h3>Filtrer</h3>
+                </div>
+                <div class="filter-panel-body">
+                    <div class="filter-panel-body-item">
+                        <h4>Type d'emploi</h4>
+                        {# Type checkbox #}
+                        <div class="checkbox">
+                            <label>
+                                <input name="type" type="checkbox" value="fulltime">
+                                <span>Temps plein</span>
+                            </label>
+                            <label>
+                                <input name="type" type="checkbox" value="parttime">
+                                <span>Temps partiel</span>
+                            </label>
+                            <label>
+                                <input name="type" type="checkbox" value="remote">
+                                <span>Télétravail</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="filter-panel-body-item">
+                        <h4>Type de contrat</h4>
+                        {# Type checkbox #}
+                        <div class="checkbox">
+                            <label>
+                                <input name="contract" type="checkbox" value="cdi">
+                                <span>CDI</span>
+                            </label>
+                            <label>
+                                <input name="contract" type="checkbox" value="cdd">
+                                <span>CDD</span>
+                            </label>
+                            <label>
+                                <input name="contract" type="checkbox" value="stage">
+                                <span>Stage</span>
+                            </label>
+                            <label>
+                                <input name="contract" type="checkbox" value="alternance">
+                                <span>Alternance</span>
+                            </label>
+                            <label>
+                                <input name="contract" type="checkbox" value="Interim">
+                                <span>Interim</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="filter-panel-body-item">
+                        <h4>Expérience</h4>
+                        {# Type checkbox #}
+                        <div class="checkbox">
+                            <label>
+                                <input name="experience" type="checkbox" value="1">
+                                <span>Novice</span>
+                            </label>
+                            <label>
+                                <input name="experience" type="checkbox" value="2">
+                                <span>1 - 2 ans</span>
+                            </label>
+                            <label>
+                                <input name="experience" type="checkbox" value="3">
+                                <span>3 - 5 ans</span>
+                            </label>
+                            <label>
+                                <input name="experience" type="checkbox" value="4">
+                                <span>6 - 9 ans</span>
+                            </label>
+                            <label>
+                                <input name="experience" type="checkbox" value="5">
+                                <span>Plus de 10 ans</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+        
+        <div class="result-container">
+            {% if results is not empty %}
+                {% for candidat in results %}
+                    <div class="result" data-url="{{ path('app_show_candidat', {'id': candidat.id}) }}">
+                        <div class="result-head">
+                            <div class="logo-new">
+                                {% if candidat.photo %}
+                                    <img src="{{ asset('logo/' ~ candidat.photo) }}" alt="Photo de profil">
+                                {% else %}
+                                    <p>{{ candidat.nom|first }}{{ candidat.prenom|first }}</p>
+                                {% endif %}
+                            </div>
+                            <i class="fa-solid fa-heart"></i>
+                        </div>
+                        <div class="result-body">
+                            <h3>{{ candidat }}</h3>
+                        </div>
+                        <div class="result-footer">
+                            <span>Expérience: {{ candidat.niveau }} ans</span>
+                            <span>{{ candidat.villes }}</span>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p>Aucun résultat pour votre recherche</p>
+            {% endif %}
+        </div>
+
+    </div>
+</main>
 
 {% endblock %}

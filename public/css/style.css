@@ -335,6 +335,19 @@ div.result-head .logo-new {
     gap: 10px;
 }
 
+div.result-head .logo-new p {
+    border-radius: 100px;
+    height: 54px;
+    width: 54px;
+    background-color: #8bc6b789;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    font-size: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 div.result-head .logo-new span {
     color: rgb(0, 120, 140);
     font-weight: 600;
@@ -474,6 +487,7 @@ aside.filter {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         gap: 20px;
+        height: fit-content;
     }
 }
 

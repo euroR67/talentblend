@@ -184,8 +184,9 @@ a.forgot-password {
 /* Formulaire de recherche */
 
 div.bg.candidat {
-    min-height: fit-content;
+    min-height: 300px;
     padding: 40px;
+    background-image: url(../img/fond-caffe.webp);
 }
 
 div.bg {

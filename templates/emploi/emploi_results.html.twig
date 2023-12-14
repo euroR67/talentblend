@@ -70,6 +70,7 @@
                                 <input name="contract" type="checkbox" value="Interim">
                                 <span>Interim</span>
                             </label>
+                        </div>
                     </div>
                     <div class="filter-panel-body-item">
                         <h4>Publié le</h4>
@@ -103,7 +104,11 @@
                     <div class="result" data-url="{{ path('app_show_emploi', {'id': emploi.id}) }}">
                         <div class="result-head">
                             <div class="logo-new">
-                                <img src="{{ asset('logo/' ~ emploi.entreprise.logo) }}" alt="Logo de l'entreprise">
+                                {% if emploi.entreprise.logo %}
+                                    <img src="{{ asset('logo/' ~ emploi.entreprise.logo) }}" alt="Logo de l'entreprise">
+                                {% else %}
+                                    <p>{{ emploi.entreprise.raisonSocial|first }}</p>
+                                {% endif %}
                                 {# Si la date de publication de l'emploi date d'aujourd'hui #}
                                 {% if emploi.dateOffre|date('Y-m-d') == 'now'|date('Y-m-d') %}
                                     <span>Nouveau!</span>
