@@ -25,12 +25,23 @@ class EmploiController extends AbstractController
     #[Route('/categorie/{id}', name: 'app_emplois_par_categorie')]
     public function emploisParCategorie(Categorie $categorie, EntityManagerInterface $entityManager): Response
     {
+        // Récupérer l'utilisateur connecté
+        $user = $this->getUser();
+
         // Récupérer les emplois par catégorie
         $emplois = $entityManager->getRepository(Emploi::class)->findBy(['categories' => $categorie]);
+
+        // Récupérez les emplois sauvegardés par l'utilisateur connecté
+        if ($user) {
+            $savedEmplois = $user->getEmploiSauvegarder();
+        } else {
+            $savedEmplois = [];
+        }
 
         return $this->render('emploi/emplois_par_categorie.html.twig', [
             'emplois' => $emplois,
             'categorie' => $categorie,
+            'savedEmplois' => $savedEmplois,
         ]);
     }
 
@@ -38,12 +49,23 @@ class EmploiController extends AbstractController
     #[Route('/entreprise/{id}', name: 'app_emplois_par_entreprise')]
     public function emploisParEntreprise(Entreprise $entreprise, EntityManagerInterface $entityManager): Response
     {
+        // Récupérer l'utilisateur connecté
+        $user = $this->getUser();
+
         // Récupérer les emplois par catégorie
         $emplois = $entityManager->getRepository(Emploi::class)->findBy(['entreprise' => $entreprise]);
+
+        // Récupérez les emplois sauvegardés par l'utilisateur connecté
+        if ($user) {
+            $savedEmplois = $user->getEmploiSauvegarder();
+        } else {
+            $savedEmplois = [];
+        }
 
         return $this->render('emploi/emplois_par_entreprise.html.twig', [
             'emplois' => $emplois,
             'entreprise' => $entreprise,
+            'savedEmplois' => $savedEmplois,
         ]);
     }
 

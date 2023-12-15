@@ -73,6 +73,7 @@ div.newsletter {
     padding: 20px;
     text-align: center;
     background-color: #fff;
+    margin-top: auto;
 }
 
 div.newsletter > div {
