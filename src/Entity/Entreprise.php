@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\EntrepriseRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: EntrepriseRepository::class)]
@@ -54,6 +55,12 @@ class Entreprise
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $motifRefus = null;
+
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $dateCreation = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $Description = null;
 
     public function __construct()
     {
@@ -263,6 +270,30 @@ class Entreprise
     public function setMotifRefus(?string $motifRefus): static
     {
         $this->motifRefus = $motifRefus;
+
+        return $this;
+    }
+
+    public function getDateCreation(): ?\DateTimeInterface
+    {
+        return $this->dateCreation;
+    }
+
+    public function setDateCreation(?\DateTimeInterface $dateCreation): static
+    {
+        $this->dateCreation = $dateCreation;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->Description;
+    }
+
+    public function setDescription(?string $Description): static
+    {
+        $this->Description = $Description;
 
         return $this;
     }

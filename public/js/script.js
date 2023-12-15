@@ -87,3 +87,40 @@ dropdowns.forEach((dropdown, index) => {
         chevron[index].classList.toggle('active');
     });
 });
+
+// ========================= Voir plus d'info offre d'emploi ======================================== //
+
+// Show more or less info
+const showHide = document.querySelector('.show-hide');
+const showBtn = document.querySelector('.show-btn');
+const hideBtn = document.querySelector('.hide-btn');
+
+showBtn.addEventListener('click', () => {
+    showHide.classList.add('show');
+    showBtn.style.display = 'none';
+});
+
+hideBtn.addEventListener('click', () => {
+    showHide.classList.remove('show');
+    showBtn.style.display = 'block';
+});
+
+    // Gestion de l'affichage des informations de l'entreprise
+    const tabInfoEntreprise = document.querySelector('.tab-info-entreprise');
+    const tabEmploiEntreprise = document.querySelector('.tab-emploi-entreprise');
+    const tabInfoEntrepriseBtn = document.querySelector('.entreprise-info-head ul li:first-child');
+    const tabEmploiEntrepriseBtn = document.querySelector('.entreprise-info-head ul li:last-child');
+
+    tabInfoEntrepriseBtn.addEventListener('click', () => {
+        tabInfoEntrepriseBtn.classList.add('active');
+        tabEmploiEntrepriseBtn.classList.remove('active');
+        tabInfoEntreprise.style.display = 'flex';
+        tabEmploiEntreprise.style.display = 'none';
+    });
+
+    tabEmploiEntrepriseBtn.addEventListener('click', () => {
+        tabEmploiEntrepriseBtn.classList.add('active');
+        tabInfoEntrepriseBtn.classList.remove('active');
+        tabEmploiEntreprise.style.display = 'flex';
+        tabInfoEntreprise.style.display = 'none';
+    });

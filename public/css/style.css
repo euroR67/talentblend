@@ -210,7 +210,7 @@ div.categories .cat-footer a:after {
     border-bottom: solid 1px #007456;
     transform: scaleX(0);
     transition: .5s ease, .5s ease;
-    transform-origin: 0% 50%
+    transform-origin: 0% 50%;
 }
 
 div.categories .cat-footer a:hover:after {
@@ -314,8 +314,8 @@ div.result:hover {
     box-shadow: rgba(33, 33, 33, 0.25) 0px 6px 10px;
 }
 
-div.result h3 {
-    color: rgb(5, 49, 23);
+div.result h3, div.result-body h3 {
+    color: #004f3a;
     font-size: 18px;
     font-weight: 600;
 }
@@ -454,6 +454,277 @@ aside.filter {
     display: none;
 }
 
+/* Détail d'un emploi mobile */
+
+main.show-job {
+    background-color: rgb(255, 255, 255);
+}
+
+div.detail-head {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    gap: 10px;
+}
+
+div.detail-head .logo-new img {
+    height: 54px;
+    width: 54px;
+    object-fit: contain;
+    border-radius: 100px;
+    border: 1px solid #cccccc7e;
+}
+
+main.show-job div.entreprise-banniere img {
+    max-height: 200px;
+    width: 100%;
+    object-fit:cover;
+}
+
+div.info-poste {
+    padding: 15px;
+    margin-top: 10px;
+}
+
+div.info-poste h4 {
+    font-size: 24px;
+    font-weight: 500;
+}
+
+div.info-items {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    margin-top: 30px;
+}
+
+div.info-items i.fa-chevron-down,
+div.show-hide.show > span > i {
+    font-size: 16px;
+}
+
+div.info-items span {
+    color: #007456;
+    font-weight: 500;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+div.show-hide {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    display: none;
+}
+
+div.show-hide.show {
+    display: flex;
+}
+
+div.item {
+    display: flex;
+    gap: 15px;
+}
+
+div.item div.text p:first-of-type {
+    font-weight: 500;
+    margin-bottom: 10px;
+}
+
+div.item div.icon {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    background-color: rgba(0,116,86,0.05);
+    color: #007456;
+}
+
+div.item div.icon i {
+    font-size: 20px;
+}
+
+div.description-offre {
+    padding: 15px;
+}
+
+div.description-offre h4 {
+    font-size: 24px;
+    font-weight: 500;
+    margin-bottom: 30px;
+}
+
+div.mobile-footerstyle {
+    background-color: rgb(255, 255, 255);
+    box-shadow: rgba(33, 33, 33, 0.25) 0px -1px 4px;
+    margin: 0px auto;
+    width: 100%;
+    position: sticky;
+    bottom: 0px;
+    z-index: 2;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+div.mobile-footerstyle a:first-of-type {
+    background-color: #007456;
+    display: block;
+    width: 100%;
+    text-align: center;
+    padding: 15px;
+    color: #fff;
+    border-radius: 30px;
+    border: none;
+    transition: all 200ms ease;
+}
+
+div.mobile-footerstyle a:first-of-type:hover {
+    background-color: #02906a;
+}
+
+div.mobile-footerstyle a:last-of-type i {
+    font-size: 30px;
+    color: #007456;
+}
+
+div.mobile-footerstyle a:last-of-type i:hover {
+    color: #02906a;
+}
+
+aside.info-entreprise {
+    padding: 15px;
+}
+
+div.entreprise-info-head .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+div.entreprise-info-head .logo h3 {
+    font-size: 18px;
+    font-weight: 500;
+}
+
+div.entreprise-info-head .logo img {
+    height: 60px;
+    width: 60px;
+    object-fit: contain;
+    border-radius: 100px;
+    border: 1px solid #cccccc7e;
+}
+
+div.entreprise-info-head ul {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-block: 15px;
+}
+
+div.entreprise-info-head ul li {
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: 500;
+    color: #999;
+    transition: all 800ms ease;
+}
+
+div.entreprise-info-head ul li:hover {
+    color: black;
+}
+
+div.entreprise-info-head ul li.active {
+    color: black;
+}
+
+div.entreprise-info-head ul li.active:after {
+    transform: scaleX(1);
+}
+
+div.entreprise-info-head ul li:after {
+    display: block;
+    content: '';
+    border-bottom: solid 2px black;
+    transform: scaleX(0);
+    transition: .5s ease, .5s ease;
+    transform-origin: 0% 50%;
+    margin-top: 5px;
+}
+
+div.entreprise-info-head ul li:hover:after {
+    transform: scaleX(1);
+}
+
+div.entreprise-info-head ul li:last-of-type span {
+    background-color: rgba(0,116,86,0.05);
+    padding: 5px 10px;
+    border-radius: 8px;
+    color: #007456;
+}
+
+div.tab-info-entreprise {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 10px;
+}
+
+div.tab-info-entreprise > div:nth-child(2) > p:nth-child(2) {
+    text-transform: capitalize;
+}
+
+div.tab-info-entreprise div.info-item p:first-of-type {
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+div.tab-info-entreprise div.info-item a {
+    color: #007456;
+    font-weight: 600;
+}
+
+div.tab-emploi-entreprise {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 10px;
+    display: none;
+}
+
+div.tab-emploi-entreprise a:first-of-type{
+    font-size: 18px;
+    font-weight: 500;
+    color: black;
+}
+
+div.emploi-item div.text {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+div.tab-emploi-entreprise a:last-of-type {
+    width: fit-content;
+    color:#007456;
+    font-weight: 500;
+}
+
+div.tab-emploi-entreprise a:last-of-type:after {
+    display: block;
+    content: '';
+    border-bottom: solid 1px #007456;
+    transform: scaleX(0);
+    transition: .3s ease, .3s ease;
+    transform-origin: 0% 50%;
+}
+
+div.emploi-item a:last-of-type:hover:after {
+    transform: scaleX(1);
+}
 
 @media screen and (min-width: 550px) {
     /* Section newsletter */
@@ -555,6 +826,7 @@ aside.filter {
         max-width: 1440px;
         margin: 0 auto;
         padding: 20px 0px;
+        padding-left: 20px;
     }
 
     .search-emploi-result {
@@ -578,7 +850,7 @@ aside.filter {
     }
 
     aside.filter {
-        margin-right: 60px;
+        margin-inline:20px 60px;
         display: block;
     }
 

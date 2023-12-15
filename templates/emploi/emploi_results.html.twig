@@ -127,10 +127,10 @@
                             <h3>{{ emploi }}</h3>
                             <p>Par 
                                 <a href="{{ path('app_emplois_par_entreprise', {'id': emploi.entreprise.id}) }}">{{ emploi.entreprise }}</a>
-                                    dans 
-                                    <a href="{{ path('app_emplois_par_categorie', {'id': emploi.categories.id }) }}">{{ emploi.categories }}</a>
-                                    {% if emploi.dateOffre|date('Y-m-d') == 'now'|date('Y-m-d') %}
-                                    <span>Aujourd'hui</span>
+                                dans 
+                                <a href="{{ path('app_emplois_par_categorie', {'id': emploi.categories.id }) }}">{{ emploi.categories }}</a>
+                                {% if emploi.dateOffre|date('Y-m-d') == 'now'|date('Y-m-d') %}
+                                <span>Aujourd'hui</span>
                                 {% else %}
                                     <span>Il y'a {{ emploi.dateOffre|date('j') }} jours</span>
                                 {% endif %}

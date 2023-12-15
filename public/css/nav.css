@@ -289,7 +289,7 @@ nav.dash-submenu ul li a i {
 
 /* Modal formulaire de recherche */
 .search-modal {
-    position: absolute;
+    position: fixed;
     z-index: 20;
     display: none; 
     top: 50%;

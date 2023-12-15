@@ -3,34 +3,208 @@
 {% block title %}Détail de {{ emploi }}{% endblock %}
 
 {% block body %}
-<div class="file-ariane" style="display: flex;">
-    <a href="{{ path('app_home')}}">Accueil</a>
-    >
-    <a href="{{ path('app_emplois_par_categorie', {'id': 1 }) }}">{{ emploi.categories }}</a>
-    >
-    <p>{{ emploi }}</p>
-</div>
 
-    <h1>Détail de {{ emploi }}</h1>
+<main class="show-job">
+    <div class="left-side">
+        <div class="detail-head">
+            <div class="logo-new">
+                {% if emploi.entreprise.logo %}
+                    <img src="{{ asset('logo/' ~ emploi.entreprise.logo) }}" alt="Logo de l'entreprise">
+                {% else %}
+                    <p>{{ emploi.entreprise.raisonSocial|first }}</p>
+                {% endif %}
+                {# Si la date de publication de l'emploi date d'aujourd'hui #}
+                {% if emploi.dateOffre|date('Y-m-d') == 'now'|date('Y-m-d') %}
+                    <span>Nouveau!</span>
+                {% endif %}
+            </div>
+            <div class="result-body">
+                <h3>{{ emploi }}</h3>
+                <p>Par 
+                    <a href="{{ path('app_emplois_par_entreprise', {'id': emploi.entreprise.id}) }}">{{ emploi.entreprise }}</a>
+                    dans 
+                    <a href="{{ path('app_emplois_par_categorie', {'id': emploi.categories.id }) }}">{{ emploi.categories }}</a>
+                </p>
+            </div>
+        </div>
+        <div class="entreprise-banniere">
+        {% if emploi.entreprise.banniere %}
+            <img src="{{ asset('logo/' ~ emploi.entreprise.banniere) }}" alt="Banniere de l'entreprise">
+        {% else %}
+            <img src="{{ asset('img/linked-in-banner.png') }}" alt="Banniere de l'entreprise">
+        {% endif %}
+        </div>
+        <div class="info-poste">
+            <h4>Informations sur le poste</h4>
+            <div class="info-items">
+                <div class="item">
+                    <div class="icon">
+                        <i class="fa-regular fa-calendar-check"></i>
+                    </div>
+                    <div class="text">
+                        <p>Date de publication</p>
+                        {% if emploi.dateOffre|date('Y-m-d') == 'now'|date('Y-m-d') %}
+                        <p>Aujourd'hui</p>
+                        {% else %}
+                            <p>Il y'a {{ emploi.dateOffre|date('j') }} 
+                                {% if emploi.dateOffre|date('j') == 1 %}
+                                    jour
+                                {% else %}
+                                    jours
+                                {% endif %}
+                            </p>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="icon">
+                        <i class="fa-regular fa-calendar-xmark"></i>
+                    </div>
+                    <div class="text">
+                        <p>Date d'expiration</p>
+                        {% set expirationDate = emploi.dateOffre|date_modify('+1 month', 'Europe/Paris') %}
+                        {% set daysRemaining = (expirationDate.diff(date())).days %}
+                        <p>Dans {{ daysRemaining }} 
+                            {% if emploi.dateOffre|date('j') == 1 %}
+                                jour
+                            {% else %}
+                                jours
+                            {% endif %}
+                        </p>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="icon">
+                        <i class="fa-solid fa-location-crosshairs"></i>
+                    </div>
+                    <div class="text">
+                        <p>Lieu de travail</p>
+                        <p>{{ emploi.ville }}</p>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="icon">
+                        <i class="fa-solid fa-euro-sign"></i>
+                    </div>
+                    <div class="text">
+                        <p>Salaire</p>
+                        <p>{{ emploi.salaire|number_format(0, '.', ' ') }} €</p>
+                    </div>
+                </div>
+                <div class="show-hide">
+                    <div class="item">
+                        <div class="icon">
+                            <i class="fa-solid fa-medal"></i>
+                        </div>
+                        <div class="text">
+                            <p>Expérience</p>
+                            <p>{{ emploi.niveau }} ans</p>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="icon">
+                            <i class="fa-regular fa-file-lines"></i>
+                        </div>
+                        <div class="text">
+                            <p>Contrat</p>
+                            <p>{{ emploi.contrats }}</p>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="icon">
+                            <i class="fa-solid fa-hourglass-half"></i>
+                        </div>
+                        <div class="text">
+                            <p>Type de contrat</p>
+                            <p>{{ emploi.types }}</p>
+                        </div>
+                    </div>
+                    <span class="hide-btn">Voir moins <i class="fa-solid fa-chevron-up"></i></span>
+                </div>
+                <span class="show-btn">Voir plus <i class="fa-solid fa-chevron-down"></i></span>
+            </div>
+        </div>
+        <div class="description-offre">
+            <h4>Description</h4>
+            <p>{{ emploi.description }}</p>
+        </div>
+    </div>
+    <aside class="info-entreprise">
+        <div class="entreprise-info-head">
+            <div class="logo">
+                {% if emploi.entreprise.logo %}
+                    <img src="{{ asset('logo/' ~ emploi.entreprise.logo) }}" alt="Logo de l'entreprise">
+                {% else %}
+                    <p>{{ emploi.entreprise.raisonSocial|first }}</p>
+                {% endif %}
+                <h3>{{ emploi.entreprise }}</h3>
+            </div>
+            <ul>
+                <li class="active">Aperçu</li>
+                <li>Emplois <span>{{ emploisDeLEntreprise|length }}</span></li>
+            </ul>
+            <div class="tab-info-entreprise">
+                <p>{{ emploi.entreprise.description }}</p>
+                <div class="info-item">
+                    <p>Secteur</p>
+                    <p>{{ emploi.entreprise.secteur }}</p>
+                </div>
+                <div class="info-item">
+                    <p>Taille de la société</p>
+                    <p>{{ emploi.entreprise.tailles }} salariés</p>
+                </div>
+                <div class="info-item">
+                    <p>Siège social</p>
+                    <p>{{ emploi.entreprise.ville }}</p>
+                </div>
+                {% if emploi.entreprise.website %}
+                    <div class="info-item">
+                        <p>Site web</p>
+                        <p><a href="{{ emploi.entreprise.website }}">{{ emploi.entreprise.website }} <i class="fa-solid fa-arrow-up-right-from-square"></i></a></p>
+                    </div>
+                {% endif %}
+                <div class="info-item">
+                    <p>Année de création</p>
+                    <p>{{ emploi.entreprise.dateCreation|date("Y") }}</p>
+                </div>
+            </div>
+            <div class="tab-emploi-entreprise">
+                {# afficher 5 emplois maximum de cet entreprise #}
+                {% for emploi in emploisDeLEntreprise|slice(0, 5) %}
+                    <div class="emploi-item">
+                        <div class="text">
+                            <a href="{{ path('app_show_emploi', {'id': emploi.id}) }}">{{ emploi }}</a>
+                            <a href="{{ path('app_emplois_par_categorie', {'id': emploi.categories.id }) }}">{{ emploi.categories }}</a>
+                        </div>
+                    </div>
+                {% endfor %}
+                {# Si l'entreprise a plus de 5 emplois #}
+                {% if emploisDeLEntreprise|length > 5 %}
+                    <a href="{{ path('app_emplois_par_entreprise', {'id': emploi.entreprise.id}) }}">Voir tout les emplois</a>
+                {% endif %}
+            </div>
+        </div>
+    </aside>
+</main>
 
-    <h2>{{ emploi.entreprise }}</h2>
-
-    <a href="{{ path('app_emplois_par_entreprise', {'id': emploi.entreprise.id}) }}">Voir tout les emploi de cet entreprise</a>
-    {% for emploi in emploisDeLEntreprise %}
-        {{ emploi }}
-    {% endfor %}
-    
-    <br>
-    {% if not dejaPostuler %}
-        <a href="{{ path('app_postuler', {'id': emploi.id}) }}">Intéresser ? postuler !</a>
-    {% else %}
-        <a href="{{ path('app_candidature_delete', {'id': dejaPostuler.id, 'origin': 'detail'}) }}">Retirer ma candidature</a>
-    {% endif %}
-    <br>
-    {% if not alreadySaved %}
-        <a href="{{ path('app_emploi_save', {'id': emploi.id}) }}">Sauvegarder cet emploi</a>
-    {% else %}
-        <a href="{{ path('app_emploi_delete', {'id': emploi.id, 'origin': 'detail'}) }}">Retirer des sauvegarde</a>
-    {% endif %}
+{% if is_granted('ROLE_CANDIDAT') %}
+    <div class="mobile-footerstyle">
+        {% if not dejaPostuler %}
+            <a href="{{ path('app_postuler', {'id': emploi.id}) }}"><i class="fa-solid fa-bolt"></i> Postuler</a>
+        {% else %}
+            <a href="{{ path('app_candidature_delete', {'id': dejaPostuler.id, 'origin': 'detail'}) }}">Retirer ma candidature</a>
+        {% endif %}
+        {% if not alreadySaved %}
+        <a href="{{ path('app_emploi_save', {'id': emploi.id}) }}"><i class="fa-regular fa-heart"></i></a>
+        {% else %}
+            <a href="{{ path('app_emploi_delete', {'id': emploi.id, 'origin': 'detail'}) }}"><i class="fa-solid fa-heart"></i></a>
+        {% endif %}
+    </div>
+{% elseif not app.user %}
+    <div class="mobile-footerstyle">
+        <a href="{{ path('app_register') }}"><i class="fa-solid fa-bolt"></i> Postuler</a>
+        <a href="{{ path('app_register') }}"><i class="fa-regular fa-heart"></i></a>
+    </div>
+{% endif %}
 
 {% endblock %}
