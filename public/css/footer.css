@@ -34,10 +34,6 @@ footer {
     transition: all 200ms ease;
 }
 
-.footer-dropdown-head:hover {
-    color: #015e45;
-}
-
 .footer-dropdown-head i {
     font-size: 16px;
     transition: transform 200ms;

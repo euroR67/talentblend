@@ -239,7 +239,6 @@ div.bg form.search-form {
 
 div.bg div.input-group {
     position: relative;
-    border-radius: 20px;
 }
 
 div.bg div.input-group i {
@@ -256,6 +255,10 @@ div.bg div.form-group-search {
     background-color: #fff;
     border-radius: 16px 16px 0 0;
     width: 100%;
+}
+
+div.bg div.form-group-search:nth-child(2) {
+    border-radius: 0;
 }
 
 div.bg div.form-group-search:last-of-type {
@@ -329,6 +332,10 @@ form.search-form-modal div.form-group-search {
     background-color: #fff;
     border-radius: 16px 16px 0 0;
     width: 100%;
+}
+
+form.search-form-modal div.form-group-search:nth-child(2) {
+    border-radius: 0;
 }
 
 form.search-form-modal div.form-group-search:last-of-type {
