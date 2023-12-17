@@ -26,7 +26,7 @@ div.vous-etes {
     display: flex;
     flex-direction: column;
     margin: 0 auto;
-    margin-block: 30px;
+    margin-block: 10px;
     gap: 10px;
 }
 
@@ -316,8 +316,12 @@ div.result:hover {
 
 div.result h3, div.result-body h3 {
     color: #004f3a;
-    font-size: 18px;
+    font-size: 24px;
     font-weight: 600;
+}
+
+div.result-body h3 {
+    font-size: 26px;
 }
 
 div.result-body a {
@@ -356,10 +360,8 @@ div.result-head {
     margin-bottom: 20px;
 }
 
-div.result-head .logo-new {
-    display: flex;
-    align-items: center;
-    gap: 10px;
+div.detail-head div.logo-new {
+    display: none;
 }
 
 div.result-head .logo-new p {
@@ -456,8 +458,11 @@ aside.filter {
 
 /* Détail d'un emploi mobile */
 
-main.show-job {
-    background-color: rgb(255, 255, 255);
+div.left-side {
+    margin: 10px;
+    border: 1px solid #eee;
+    border-radius: 6px;
+    background-color: #fff;
 }
 
 div.detail-head {
@@ -465,6 +470,7 @@ div.detail-head {
     align-items: center;
     padding: 15px;
     gap: 10px;
+    border-bottom: 1px solid #eee;
 }
 
 div.detail-head .logo-new img {
@@ -476,14 +482,16 @@ div.detail-head .logo-new img {
 }
 
 main.show-job div.entreprise-banniere img {
-    max-height: 200px;
+    height: 150px;
     width: 100%;
     object-fit:cover;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
 }
 
 div.info-poste {
-    padding: 15px;
-    margin-top: 10px;
+    padding: 30px 15px;
+    border-bottom: 1px solid #eee;
 }
 
 div.info-poste h4 {
@@ -510,8 +518,11 @@ div.info-items span {
     font-size: 18px;
 }
 
+div.info-items div.item.resp {
+    display: none;
+}
+
 div.show-hide {
-    display: flex;
     flex-direction: column;
     gap: 30px;
     display: none;
@@ -547,7 +558,7 @@ div.item div.icon i {
 }
 
 div.description-offre {
-    padding: 15px;
+    padding: 30px 15px;
 }
 
 div.description-offre h4 {
@@ -568,6 +579,10 @@ div.mobile-footerstyle {
     display: flex;
     align-items: center;
     gap: 20px;
+}
+
+div.mobile-footerstyle.desk {
+    display: none;
 }
 
 div.mobile-footerstyle a:first-of-type {
@@ -595,8 +610,16 @@ div.mobile-footerstyle a:last-of-type i:hover {
     color: #02906a;
 }
 
+div.mobile-footerstyle h4 {
+    display: none;
+}
+
 aside.info-entreprise {
     padding: 15px;
+    background-color: #fff;
+    border-radius: 6px;
+    border: 1px solid #eee;
+    margin: 10px;
 }
 
 div.entreprise-info-head .logo {
@@ -701,6 +724,11 @@ div.tab-emploi-entreprise a:first-of-type{
     color: black;
 }
 
+div.emploi-item:not(:last-child) {
+    border-bottom: 1px solid #eee;
+    min-height: 60px;
+}
+
 div.emploi-item div.text {
     display: flex;
     flex-direction: column;
@@ -724,6 +752,13 @@ div.tab-emploi-entreprise a:last-of-type:after {
 
 div.emploi-item a:last-of-type:hover:after {
     transform: scaleX(1);
+}
+
+@media screen and (min-width: 480px) {
+    main.show-job div.entreprise-banniere img {
+        height: auto;
+        max-height: 232px;
+    }
 }
 
 @media screen and (min-width: 550px) {
@@ -758,6 +793,25 @@ div.emploi-item a:last-of-type:hover:after {
 
     div.newsletter form button {
         border-radius: 0px 20px 20px 0px;
+    }
+}
+
+@media screen and (min-width: 568px) {
+    /* Section info job dans détail job */
+    div.info-items {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 30px;
+    }
+
+    div.show-hide.show,
+    span.show-btn,
+    span.hide-btn {
+        display: none;
+    }
+
+    div.info-items div.item.resp {
+        display: flex;
     }
 }
 
@@ -798,6 +852,58 @@ div.emploi-item a:last-of-type:hover:after {
         gap: 20px;
         height: fit-content;
     }
+
+    /* Section info job dans détail job */
+    main.show-job {
+        padding-inline: 10px;
+        margin-top: 20px;
+    }
+
+    div.detail-head div.logo-new {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    div.left-side {
+        max-width: 768px;
+        margin: 10px auto;
+    }
+
+    div.info-items {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    div.description-offre {
+        padding: 30px 32px;
+    }
+
+    div.mobile-footerstyle {
+        position: initial;
+        box-shadow: none;
+        background-color: rgba(0,116,86,0.05);
+        padding: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        max-width: 768px;
+    }
+
+    div.mobile-footerstyle h4{
+        display: block;
+        font-size: 24px;
+        font-weight: 500;
+    }
+
+    div.mobile-footerstyle a:first-of-type {
+        max-width: 270px;
+    }
+
+    aside.info-entreprise {
+        max-width: 768px;
+        margin: 10px auto;
+    }
 }
 
 @media screen and (min-width: 800px) {
@@ -807,6 +913,45 @@ div.emploi-item a:last-of-type:hover:after {
 
     div.categories {
         width: 100%;
+    }
+}
+
+@media screen and (min-width: 1000px) {
+    main.show-job {
+        display: flex;
+    }
+
+    div.mobile-footerstyle.desk {
+        display: flex;
+        flex-direction: column;
+        border-radius: 10px;
+        margin-bottom: 15px;
+        border: 1px solid rgba(0,116,86,0.07);
+    }
+
+    aside.info-entreprise > div {
+        position: sticky;
+        top: 30px;
+        z-index: 2;
+    }
+
+    div.left-side {
+        max-width: 528px;
+    }
+
+    aside.info-entreprise {
+        width: 370px;
+        background-color: transparent;
+        padding: 0;
+        border-radius: 0;
+        border: none;
+    }
+
+    .entreprise-info-head {
+        background-color: #fff;
+        border-radius: 10px;
+        border: 1px solid #eee;
+        padding: 15px;
     }
 }
 
