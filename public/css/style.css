@@ -461,15 +461,15 @@ aside.filter {
 div.left-side {
     margin: 10px;
     border: 1px solid #eee;
-    border-radius: 6px;
+    border-radius: 10px;
     background-color: #fff;
+    overflow: hidden;
 }
 
 div.detail-head {
     display: flex;
     align-items: center;
     padding: 15px;
-    gap: 10px;
     border-bottom: 1px solid #eee;
 }
 
@@ -485,8 +485,6 @@ main.show-job div.entreprise-banniere img {
     height: 150px;
     width: 100%;
     object-fit:cover;
-    border-top-left-radius: 6px;
-    border-top-right-radius: 6px;
 }
 
 div.info-poste {
@@ -863,6 +861,7 @@ div.emploi-item a:last-of-type:hover:after {
         display: flex;
         align-items: center;
         gap: 10px;
+        padding: 20px;
     }
 
     div.left-side {
@@ -888,6 +887,9 @@ div.emploi-item a:last-of-type:hover:after {
         justify-content: space-between;
         gap: 20px;
         max-width: 768px;
+        border-radius: 10px;
+        border: 1px solid rgba(0,116,86,0.07);
+        margin-block: 20px 30px;
     }
 
     div.mobile-footerstyle h4{
@@ -917,8 +919,15 @@ div.emploi-item a:last-of-type:hover:after {
 }
 
 @media screen and (min-width: 1000px) {
+    /* Section info job dans détail job */
     main.show-job {
+        max-width: 968px;
+        margin-inline: auto;
+    }
+
+    main.show-job > div:first-of-type {
         display: flex;
+        gap: 30px;
     }
 
     div.mobile-footerstyle.desk {
@@ -926,7 +935,24 @@ div.emploi-item a:last-of-type:hover:after {
         flex-direction: column;
         border-radius: 10px;
         margin-bottom: 15px;
+        margin-top: 0px;
         border: 1px solid rgba(0,116,86,0.07);
+    }
+
+    div.mobile-footerstyle.desk div {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        width: 100%;
+    }
+
+    div.mobile-footerstyle div a:first-of-type {
+        width: 100%;
+    }
+
+    div.mobile-footerstyle {
+        margin-inline: 0;
+        max-width: 528px;
     }
 
     aside.info-entreprise > div {
@@ -1050,6 +1076,24 @@ div.emploi-item a:last-of-type:hover:after {
     div.categories .cat-body {
         max-width: 1440px;
         margin-inline: auto;
+    }
+
+    /* Section info job dans détail job */
+    main.show-job {
+        max-width: 1300px;
+    }
+
+    div.left-side {
+        max-width: calc(100% - 400px);
+    }
+
+    div.mobile-footerstyle {
+        margin-inline: 0;
+        max-width: calc(100% - 400px);
+    }
+
+    div.mobile-footerstyle.desk {
+        max-width: unset;
     }
 }
 
