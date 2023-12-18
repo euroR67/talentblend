@@ -202,7 +202,7 @@ class RecruteurController extends AbstractController
         // Récupère le candidat en question
         $candidat = $ur->find($id);
 
-        return $this->render('recruteur/show.html.twig', [
+        return $this->render('candidat/show.html.twig', [
             'candidat' => $candidat,
         ]);
     }

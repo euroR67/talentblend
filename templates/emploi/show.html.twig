@@ -4,7 +4,7 @@
 
 {% block body %}
 
-<main class="show-job">
+<main class="show show-job">
     <div>
         <div class="left-side">
             <div class="entreprise-banniere">
@@ -15,24 +15,26 @@
                 {% endif %}
             </div>
             <div class="detail-head">
-                <div class="logo-new">
-                    {% if emploi.entreprise.logo %}
-                        <img src="{{ asset('logo/' ~ emploi.entreprise.logo) }}" alt="Logo de l'entreprise">
-                    {% else %}
-                        <p>{{ emploi.entreprise.raisonSocial|first }}</p>
-                    {% endif %}
-                    {# Si la date de publication de l'emploi date d'aujourd'hui #}
-                    {% if emploi.dateOffre|date('Y-m-d') == 'now'|date('Y-m-d') %}
-                        <span>Nouveau!</span>
-                    {% endif %}
-                </div>
-                <div class="result-body">
-                    <h3>{{ emploi }}</h3>
-                    <p>Par 
-                        <a href="{{ path('app_emplois_par_entreprise', {'id': emploi.entreprise.id}) }}">{{ emploi.entreprise }}</a>
-                        dans 
-                        <a href="{{ path('app_emplois_par_categorie', {'id': emploi.categories.id }) }}">{{ emploi.categories }}</a>
-                    </p>
+                <div class="head">
+                    <div class="logo-new">
+                        {% if emploi.entreprise.logo %}
+                            <img src="{{ asset('logo/' ~ emploi.entreprise.logo) }}" alt="Logo de l'entreprise">
+                        {% else %}
+                            <p>{{ emploi.entreprise.raisonSocial|first }}</p>
+                        {% endif %}
+                        {# Si la date de publication de l'emploi date d'aujourd'hui #}
+                        {% if emploi.dateOffre|date('Y-m-d') == 'now'|date('Y-m-d') %}
+                            <span>Nouveau!</span>
+                        {% endif %}
+                    </div>
+                    <div class="result-body">
+                        <h3>{{ emploi }}</h3>
+                        <p>Par 
+                            <a href="{{ path('app_emplois_par_entreprise', {'id': emploi.entreprise.id}) }}">{{ emploi.entreprise }}</a>
+                            dans 
+                            <a href="{{ path('app_emplois_par_categorie', {'id': emploi.categories.id }) }}">{{ emploi.categories }}</a>
+                        </p>
+                    </div>
                 </div>
             </div>
             <div class="info-poste">

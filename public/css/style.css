@@ -364,6 +364,10 @@ div.detail-head div.logo-new {
     display: none;
 }
 
+div.detail-head div.logo-new.pdp {
+    display: flex;
+}
+
 div.result-head .logo-new p {
     border-radius: 100px;
     height: 54px;
@@ -466,10 +470,13 @@ div.left-side {
     overflow: hidden;
 }
 
-div.detail-head {
+div.detail-head div.head{
     display: flex;
     align-items: center;
     padding: 15px;
+}
+
+div.detail-head {
     border-bottom: 1px solid #eee;
 }
 
@@ -481,7 +488,7 @@ div.detail-head .logo-new img {
     border: 1px solid #cccccc7e;
 }
 
-main.show-job div.entreprise-banniere img {
+main.show div.entreprise-banniere img {
     height: 150px;
     width: 100%;
     object-fit:cover;
@@ -752,8 +759,31 @@ div.emploi-item a:last-of-type:hover:after {
     transform: scaleX(1);
 }
 
+/* Vue détail d'un candidat */
+
+main.show-candidat .result-body p {
+    color: #007456;
+    font-weight: 600;
+}
+
+main.show-candidat .action-candidat {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-inline: 15px;
+}
+
+main.show-candidat .action-candidat a {
+    background-color: #007456;
+    padding: 5px 10px;
+    color: #fff;
+    border-radius: 30px;
+    border: none;
+    transition: all 200ms ease;
+}
+
 @media screen and (min-width: 480px) {
-    main.show-job div.entreprise-banniere img {
+    main.show div.entreprise-banniere img {
         height: auto;
         max-height: 232px;
     }
@@ -852,7 +882,7 @@ div.emploi-item a:last-of-type:hover:after {
     }
 
     /* Section info job dans détail job */
-    main.show-job {
+    main.show {
         padding-inline: 10px;
         margin-top: 20px;
     }
@@ -920,12 +950,12 @@ div.emploi-item a:last-of-type:hover:after {
 
 @media screen and (min-width: 1000px) {
     /* Section info job dans détail job */
-    main.show-job {
+    main.show {
         max-width: 968px;
         margin-inline: auto;
     }
 
-    main.show-job > div:first-of-type {
+    main.show > div:first-of-type {
         display: flex;
         gap: 30px;
     }
@@ -1079,7 +1109,7 @@ div.emploi-item a:last-of-type:hover:after {
     }
 
     /* Section info job dans détail job */
-    main.show-job {
+    main.show {
         max-width: 1300px;
     }
 

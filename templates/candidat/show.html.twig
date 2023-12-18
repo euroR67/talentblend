@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détail de {{ candidat }}{% endblock %}
+
+{% block body %}
+
+    <main class="show show-candidat">
+        <div>
+            <div class="left-side">
+                <div class="detail-head">
+                    <div class="head">
+                        <div class="logo-new pdp">
+                            {% if candidat.photo %}
+                                <img src="{{ asset('pdp/' ~ candidat.photo) }}" alt="logo">
+                            {% else %}
+                                <p>{{ candidat.nom|first }}{{ candidat.prenom|first }}</p>
+                            {% endif %}
+                        </div>
+                        <div class="result-body">
+                            <h3>{{ candidat }}</h3>
+                            <p>{{ candidat.metiers }}</p>
+                        </div>
+                    </div>
+                    <div class="action-candidat">
+                        <a href=""><i class="fa-regular fa-file-pdf"></i> Enregistrer sous PDF</a>
+                        <a href=""><i class="fa-regular fa-paper-plane"></i> Message</a>
+                    </div>
+                </div>
+                <div class="info-poste">
+                    <h4>A propos de moi</h4>
+                    
+                </div>
+            </div>
+        </div>
+    </main>
+
+{% endblock %}
