@@ -7,6 +7,10 @@
     text-decoration: none;
 }
 
+*::before {
+    box-sizing: border-box;
+}
+
 body {
     padding-top: 65px;
     min-height: 100vh;
@@ -474,6 +478,7 @@ div.detail-head div.head{
     display: flex;
     align-items: center;
     padding: 15px;
+    gap: 10px;
 }
 
 div.detail-head {
@@ -564,6 +569,11 @@ div.item div.icon i {
 
 div.description-offre {
     padding: 30px 15px;
+}
+
+div.description-offre p {
+    line-height: 1.5;
+    opacity: 0.8;
 }
 
 div.description-offre h4 {
@@ -770,16 +780,164 @@ main.show-candidat .action-candidat {
     display: flex;
     align-items: center;
     gap: 10px;
-    padding-inline: 15px;
+    flex-wrap: wrap;
+}
+
+main.show-candidat .detail-head > div:first-of-type {
+    border-bottom: 1px solid #eee;
+    padding: 20px;
+}
+
+main.show-candidat div.detail-head div.head {
+    padding: 0;
+    margin-bottom: 20px;
 }
 
 main.show-candidat .action-candidat a {
     background-color: #007456;
-    padding: 5px 10px;
+    padding: 10px 20px;
     color: #fff;
     border-radius: 30px;
     border: none;
     transition: all 200ms ease;
+    font-weight: 500;
+}
+
+main.show-candidat .action-candidat a:first-of-type {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    color: #111111;
+}
+
+main.show-candidat .action-candidat a:last-of-type:hover {
+    background-color: #02906a;
+}
+
+main.show-candidat .action-candidat a:first-of-type:hover {
+    background-color: #007456;
+    color: #fff;
+}
+
+main.show-candidat .experience {
+    padding: 15px;
+    background-color: #fff;
+    border-radius: 10px;
+    border: 1px solid #eee;
+}
+
+main.show-candidat .experience h4 {
+    font-size: 24px;
+    font-weight: 500;
+    margin-block: 20px 30px;
+}
+
+main.show-candidat .candidat-experience {
+    margin-block: 21px;
+}
+
+main.show-candidat .experience-titre {
+    position: relative;
+    margin-left: 34px;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 26px;
+}
+
+main.show-candidat .experience-titre::before {
+    left: -34px;
+    content: "";
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    top: 0;
+    bottom: 0;
+    margin: auto 0;
+    border: 2px solid #007456;
+    border-radius: 50%;
+}
+
+main.show-candidat .experience-titre.formation-titre::before {
+    border: 2px solid #ffd75e;
+}
+
+main.show-candidat .experience-detail {
+    position: relative;
+    margin-top: 4px;
+    margin-left: 34px;
+}
+
+main.show-candidat .experience-detail::before {
+    left: -30px;
+    content: "";
+    position: absolute;
+    width: 1px;
+    top: 0;
+    bottom: 0;
+    margin: auto 0;
+    border: 1px dashed #007456;
+}
+
+main.show-candidat .formation-detail.experience-detail::before {
+    border: 1px dashed #ffd75e;
+}
+
+main.show-candidat .experience-detail > div span:last-of-type::before {
+    content: '';
+    display: inline-block;
+    width: 4px;
+    height: 4px;
+    background-color: #d9d9d9;
+    border-radius: 50%;
+    margin-right: 8px;
+    margin-left: 8px;
+    margin-bottom: 4px;
+}
+
+main.show-candidat .experience-detail > div span:first-of-type {
+    font-weight: 500;
+    color: #007456;
+}
+
+main.show-candidat .experience-detail > div {
+    margin-bottom: 15px;
+    margin-top: 10px;
+    line-height: 1.5;
+}
+
+main.show-candidat div.left-side {
+    background-color: transparent;
+    border-radius: 0;
+    border: none;
+}
+
+main.show-candidat div.left-side > div:not(:last-of-type) {
+    background-color: #fff;
+    border-radius: 10px;
+    margin-bottom: 15px;
+}
+
+main.show-candidat aside.info-candidat {
+    border-radius: 10px;
+    margin-block: 15px;
+}
+
+main.show-candidat .send-msg-btn {
+    text-align: center;
+    margin-block: 20px;
+}
+
+main.show-candidat .send-msg-btn a {
+    background-color: #007456;
+    padding: 10px 20px;
+    color: #fff;
+    border-radius: 30px;
+    border: none;
+    transition: all 200ms ease;
+    font-weight: 500;
+}
+
+main.show-candidat .send-msg-btn a:hover {
+    background-color: #02906a;
 }
 
 @media screen and (min-width: 480px) {
@@ -1008,6 +1166,21 @@ main.show-candidat .action-candidat a {
         border-radius: 10px;
         border: 1px solid #eee;
         padding: 15px;
+    }
+
+    /* Vue détail d'un candidat */
+    main.show-candidat > div.left-side {
+        flex-direction: column;
+        gap: 0;
+    }
+
+    main.show-candidat {
+        display: flex;
+        gap: 30px;
+    }
+
+    main.show-candidat aside.info-candidat {
+        margin-top: 10px;
     }
 }
 

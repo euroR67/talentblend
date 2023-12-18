@@ -21,6 +21,11 @@ class Langue
         return $this->id;
     }
 
+    public function __toString(): string
+    {
+        return $this->langage;
+    }
+
     public function getLangage(): ?string
     {
         return $this->langage;

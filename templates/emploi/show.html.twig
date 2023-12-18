@@ -180,14 +180,15 @@
                         {% endif %}
                     </div>
                 </div>
-            {% elseif not app.user %}
+                {% elseif not app.user %}
                 <div class="mobile-footerstyle desk">
                     <div>
                         <a href="{{ path('app_register') }}"><i class="fa-solid fa-bolt"></i> Postuler</a>
                         <a href="{{ path('app_register') }}"><i class="fa-regular fa-heart"></i></a>
                     </div>
                 </div>
-            {% endif %}
+                {% endif %}
+            </div>
             <div class="entreprise-info-head">
                 <div class="logo">
                     {% if emploi.entreprise.logo %}
