@@ -19,10 +19,21 @@
         <script src="https://cdn.tiny.cloud/1/pch19fkuk57vjgc2ogifqdvn6aqr9o85dzkitspqvub4m6pp/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
         <script>
             tinymce.init({
-              selector: '#mytextarea',
-              language: 'fr_FR'
+                selector: '#mytextarea',
+                language: 'fr_FR',
+                setup: function (editor) {
+                    editor.on('input', function () {
+                        // À chaque saisie, mettre à jour la prévisualisation
+                        updatePreview(editor.getContent());
+                    });
+                }
             });
-          </script>
+
+            function updatePreview(content) {
+                // Mettre à jour la prévisualisation avec le contenu rendu
+                $('.overview').html(content);
+            }
+        </script>
         {% endblock %}
     </head>
     <body>

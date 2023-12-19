@@ -285,3 +285,15 @@ div.motif div a:hover {
     opacity: 0.50;
     visibility: visible;
 }
+
+/* Style pour la prévisualisation */
+.overview {
+    margin-top: 10px;
+    border: 1px solid #ccc;
+    padding: 20px;
+    min-height: 100px; /* Ajustez selon vos besoins */
+}
+
+.overview * {
+    color: unset;
+}
