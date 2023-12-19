@@ -1,0 +1,17 @@
+.select2-container--default .select2-selection--multiple {
+    border: 1px solid #e1e1e1!important;
+    border-radius: 3px!important;
+    padding: 9px;
+    margin-top: 5px;
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__choice {
+    margin-top: 0!important;
+    background-color: #f0efef!important;
+    border: 1px solid #e1e1e1!important;
+    vertical-align:unset!important;
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
+    border-right: 1px solid #e1e1e1!important;
+}

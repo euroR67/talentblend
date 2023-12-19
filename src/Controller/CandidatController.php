@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Entity\Emploi;
+use App\Entity\Langue;
 use App\Form\UserType;
 use App\Entity\Postule;
 use App\Entity\Formation;
@@ -38,6 +39,8 @@ class CandidatController extends AbstractController
             return $this->redirectToRoute('app_home');
         }
 
+        $languesData = $entityManager->getRepository(Langue::class)->findAll();
+
         $form = $this->createForm(CandidatType::class, $user);
 
         $form->handleRequest($request);
@@ -45,13 +48,12 @@ class CandidatController extends AbstractController
         // Si le formulaire est soumis et valide
         if ($form->isSubmitted() && $form->isValid()) {
 
+            // Récupère les valeurs de certains champs
             $deletePhoto = $form->get('deletePhoto')->getData();
-
             $deleteCV = $form->get('deleteCV')->getData();
-
             $photo = $form->get('photo')->getData();
-
             $cv = $form->get('cv')->getData();
+            $active = $form->get('active')->getData();
 
             if($deletePhoto) {
                 // Suppression de l'ancienne photo du serveur
@@ -119,6 +121,27 @@ class CandidatController extends AbstractController
                 $user->setCv($newFilename);
             }
 
+            // Liste des champs obligatoires
+            $champsObligatoires = [
+                'nom', 'prenom', 'email', 'metiers', 'description', 'niveau', 'langues', 'villes', 'cv',
+            ];
+
+            // Vérifie si l'utilisateur a coché l'activation du profil
+            if($active) {
+                // Vérifie si tous les champs obligatoires sont renseignées
+                foreach($champsObligatoires as $champ) {
+                    $valeurChamp = $form->get($champ)->getData();
+
+                    // Ajoutez des vérifications spécifiques si nécessaire
+                    if(empty($valeurChamp)) {
+                        // Champ obligatoire non renseigné, gestion de l'erreur
+                        $this->addFlash('error', "Veuillez renseigner tous les champs afin d'activer votre profil (la photo de profil n'est pas obligatoire)");
+                        // Redirection
+                        return $this->redirectToRoute('app_candidat_edit', ['id' => $user->getId()]);
+                    }
+                }
+            }
+
             $entityManager->flush();
             return $this->redirectToRoute('app_candidat_edit', ['id' => $user->getId()]);
         }
@@ -127,6 +150,7 @@ class CandidatController extends AbstractController
         return $this->render('candidat/profil.html.twig', [
             'user' => $user,
             'form' => $form,
+            'languesData' => $languesData,
         ]);
     }
 

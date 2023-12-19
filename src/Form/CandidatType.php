@@ -92,9 +92,12 @@ class CandidatType extends AbstractType
                 'multiple' => false,
                 'expanded' => false,
                 'label' => false,
+                'required' => false,
+                'placeholder' => 'Sélectionnez votre métier',
             ])
             ->add('description', TextareaType::class, [
                 'label' => false,
+                'required' => false,
             ])
             ->add('niveau', EntityType::class, [
                 'class' => Niveau::class,
@@ -102,6 +105,8 @@ class CandidatType extends AbstractType
                 'multiple' => false,
                 'expanded' => false,
                 'label' => false,
+                'required' => false,
+                'placeholder' => 'Sélectionnez votre niveau',
             ])
             ->add('langues', EntityType::class, [
                 'class' => Langue::class,
@@ -109,6 +114,8 @@ class CandidatType extends AbstractType
                 'multiple' => true,
                 'expanded' => false,
                 'label' => false,
+                'required' => false,
+                'placeholder' => 'Sélectionnez langue(s)',
             ])
             ->add('villes', EntityType::class, [
                 'class' => Ville::class,
@@ -116,6 +123,8 @@ class CandidatType extends AbstractType
                 'multiple' => false,
                 'expanded' => false,
                 'label' => false,
+                'required' => false,
+                'placeholder' => 'Sélectionnez une ville',
             ])
             ->add('active', ChoiceType::class, [
                 'choices' => [
