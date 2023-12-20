@@ -78,9 +78,11 @@ class CandidatType extends AbstractType
             ])
             ->add('nom', TextType::class, [
                 'label' => false,
+                'required' => true,
             ])
             ->add('prenom', TextType::class, [
                 'label' => false,
+                'required' => true,
             ])
             ->add('email', EmailType::class, [
                 'label' => false,
@@ -158,39 +160,31 @@ class CandidatType extends AbstractType
                 'error_bubbling' => false,
                 'prototype' => true,
             ])
-            // Add an event listener to conditionally display deletePhoto
             ->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
                 $user = $event->getData();
                 $form = $event->getForm();
-    
+            
                 // Check if the user has a photo
                 $hasPhoto = $user && $user->getPhoto();
-    
-                // if hasPhoto is true , set deletePhoto attr style to display: block
-                // else set it to display: none
+            
+                // Check if the user has a CV
+                $hasCV = $user && $user->getCv();
+            
+                // Add or modify the deletePhoto field
                 $form->add('deletePhoto', CheckboxType::class, [
                     'required' => false,
                     'label' => false,
-                    'mapped' => false, 
+                    'mapped' => false,
                     'attr' => [
                         'style' => $hasPhoto ? 'display: block;' : 'display: none;',
                     ],
                 ]);
-            })
-            // Add an event listener to conditionally display deleteCV
-            ->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
-                $user = $event->getData();
-                $form = $event->getForm();
-    
-                // Check if the user has a cv
-                $hasCV = $user && $user->getCv();
-    
-                // if hasCV is true , set deleteCV attr style to display: block
-                // else set it to display: none
+            
+                // Add or modify the deleteCV field
                 $form->add('deleteCV', CheckboxType::class, [
                     'required' => false,
                     'label' => false,
-                    'mapped' => false, 
+                    'mapped' => false,
                     'attr' => [
                         'style' => $hasCV ? 'display: block;' : 'display: none;',
                     ],

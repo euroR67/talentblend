@@ -39,8 +39,6 @@ class CandidatController extends AbstractController
             return $this->redirectToRoute('app_home');
         }
 
-        $languesData = $entityManager->getRepository(Langue::class)->findAll();
-
         $form = $this->createForm(CandidatType::class, $user);
 
         $form->handleRequest($request);
@@ -54,6 +52,12 @@ class CandidatController extends AbstractController
             $photo = $form->get('photo')->getData();
             $cv = $form->get('cv')->getData();
             $active = $form->get('active')->getData();
+            $villes = $form->get('villes')->getData();
+            $metiers = $form->get('metiers')->getData();
+            $langues = $form->get('langues')->getData();
+            $nom = $form->get('nom')->getData();
+            $prenom = $form->get('prenom')->getData();
+            $niveau = $form->get('niveau')->getData();
 
             if($deletePhoto) {
                 // Suppression de l'ancienne photo du serveur
@@ -61,10 +65,20 @@ class CandidatController extends AbstractController
                 // Suppression de la photo dans la BDD
                 $user->setPhoto(null);
             }
+
+            // Si l'utilisateur supprime le cv et coche l'activation du profil en même temps
+            if($deleteCV && $active) {
+                // Gestion de l'erreur
+                $this->addFlash('error', "Vous ne pouvez pas activer votre profil sans CV");
+                // Redirection
+                return $this->redirectToRoute('app_candidat_edit', ['id' => $user->getId()]);
+            }
             
             if($deleteCV) {
-                // Suppression de l'ancien CV du serveur
-                unlink($this->getParameter('cv_directory').'/'.$user->getCv());
+                // Suppression de l'ancien CV du serveur si il existe
+                if($user->getCv()) {
+                    unlink($this->getParameter('cv_directory').'/'.$user->getCv());
+                }
                 // Suppression du CV dans la BDD
                 $user->setCv(null);
             }
@@ -121,25 +135,15 @@ class CandidatController extends AbstractController
                 $user->setCv($newFilename);
             }
 
-            // Liste des champs obligatoires
-            $champsObligatoires = [
-                'nom', 'prenom', 'email', 'metiers', 'description', 'niveau', 'langues', 'villes', 'cv',
-            ];
-
             // Vérifie si l'utilisateur a coché l'activation du profil
             if($active) {
-                // Vérifie si tous les champs obligatoires sont renseignées
-                foreach($champsObligatoires as $champ) {
-                    $valeurChamp = $form->get($champ)->getData();
-
-                    // Ajoutez des vérifications spécifiques si nécessaire
-                    if(empty($valeurChamp)) {
+                    // Vérifie si les champs obligatoires sont renseignés
+                    if(empty($user->getCv()) || empty($villes) || empty($metiers) || $langues->count() === 0 || empty($nom) || empty($prenom) || empty($niveau)) {
                         // Champ obligatoire non renseigné, gestion de l'erreur
                         $this->addFlash('error', "Veuillez renseigner tous les champs afin d'activer votre profil (la photo de profil n'est pas obligatoire)");
                         // Redirection
                         return $this->redirectToRoute('app_candidat_edit', ['id' => $user->getId()]);
                     }
-                }
             }
 
             $entityManager->flush();
@@ -150,7 +154,6 @@ class CandidatController extends AbstractController
         return $this->render('candidat/profil.html.twig', [
             'user' => $user,
             'form' => $form,
-            'languesData' => $languesData,
         ]);
     }
 

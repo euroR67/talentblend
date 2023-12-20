@@ -197,7 +197,10 @@ class RecruteurController extends AbstractController
     #[Route('/detail_candidat/{id}', name: 'app_show_candidat')]
     public function showCandidat($id ,Request $request, EntityManagerInterface $entityManager, UserRepository $ur): Response
     {
-        $this->denyAccessUnlessGranted('ROLE_RECRUTEUR');
+        // Accès réservé aux recruteurs et aux administrateurs
+        if(!$this->isGranted('ROLE_RECRUTEUR') && !$this->isGranted('ROLE_ADMIN')) {
+            throw new AccessDeniedHttpException('Vous n\'avez pas le droit d\'accéder à cette page.');
+        }
 
         // Récupère le candidat en question
         $candidat = $ur->find($id);

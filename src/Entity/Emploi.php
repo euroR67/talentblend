@@ -65,6 +65,9 @@ class Emploi
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $dateExpiration = null;
+
     public function __construct()
     {
         $this->postulations = new ArrayCollection();
@@ -278,6 +281,18 @@ class Emploi
     public function setUser(?User $user): static
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getDateExpiration(): ?\DateTimeInterface
+    {
+        return $this->dateExpiration;
+    }
+
+    public function setDateExpiration(?\DateTimeInterface $dateExpiration): static
+    {
+        $this->dateExpiration = $dateExpiration;
 
         return $this;
     }

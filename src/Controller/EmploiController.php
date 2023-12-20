@@ -76,6 +76,7 @@ class EmploiController extends AbstractController
         // Récupère l'emploi en question
         $emploi = $er->find($id);
 
+        // Récupérer l'utilisateur connecté
         $user = $this->getUser();
 
         // Récupérer tout les emplois de l'entreprise de cet emplois

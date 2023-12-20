@@ -22,7 +22,7 @@
         <button class="submit-search" type="submit">Rechercher</button>
     </div>
     {{ form_end(form) }}
-    {% if is_granted('ROLE_RECRUTEUR') %}
+    {% if is_granted('ROLE_RECRUTEUR') or is_granted('ROLE_ADMIN') %}
         <a href="{{ path('app_search_candidat') }}"><i class="fa-solid fa-arrow-right-long"></i> Rechercher un candidat</a>
     {% endif %}
 </div>
