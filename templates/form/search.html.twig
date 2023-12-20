@@ -1,17 +1,18 @@
-{{ form_start(formModal, {'action': path('app_search_form'), 'attr': {'class': 'search-form-modal'}}) }}
-<div class="form-group-search">
-    <div class="input-group">
-        {{ form_widget(formModal.poste, {'attr': {'class': 'form-control-search', 'placeholder': 'Rechercher emplois'}}) }}
-        <i class="fa-solid fa-magnifying-glass"></i>
+{{ form_start(formModal, {'action': path('app_search_form'), 'attr': {'class': isHomePage ? 'search-form-homepage' : 'search-form-modal'}}) }}
+
+    <div class="form-group-search">
+        <div class="input-group">
+            {{ form_widget(formModal.poste, {'attr': {'class': 'form-control-search', 'placeholder': 'Rechercher emplois'}}) }}
+            <i class="fa-solid fa-magnifying-glass"></i>
+        </div>
     </div>
-</div>
-<div class="form-group-search">
-    <div class="input-group">
-        {{ form_widget(formModal.ville, {'attr': {'class': 'form-control-search', 'placeholder': 'Saisir un lieu'}}) }}
-        <i class="fa-solid fa-location-dot"></i>
+    <div class="form-group-search">
+        <div class="input-group">
+            {{ form_widget(formModal.ville, {'attr': {'class': 'form-control-search', 'placeholder': 'Saisir un lieu'}}) }}
+            <i class="fa-solid fa-location-dot"></i>
+        </div>
     </div>
-</div>
-<div class="form-group-search">
-    <button class="submit-search" type="submit">Rechercher</button>
-</div>
+    <div class="form-group-search">
+        <button class="submit-search" type="submit">Rechercher</button>
+    </div>
 {{ form_end(formModal) }}

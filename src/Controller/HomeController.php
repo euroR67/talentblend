@@ -14,18 +14,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class HomeController extends AbstractController
 {
-    #[Route('/', name: 'app_search')]
-    public function search(Request $request, EntityManagerInterface $entityManager, CategorieRepository $categorieRepository)
+    // Renvoyer les informations de la page d'accueil
+    #[Route('/', name: 'app_home')]
+    public function home(Request $request, EntityManagerInterface $entityManager, CategorieRepository $categorieRepository)
     {
-        $form = $this->createForm(SearchEmploiType::class);
-
         $isHomePage = true; // initialisez la variable de page d'accueil
-
-        $data = []; // initialisez le tableau des données
-
-        $form->handleRequest($request);
-
-        $searchInfo = ''; // initialisez la variable de recherche
 
         // Récupérez l'utilisateur connecté
         $user = $this->getUser();
@@ -37,40 +30,10 @@ class HomeController extends AbstractController
             $savedEmplois = [];
         }
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $data = $form->getData();
-
-            // Stockez les données de recherche dans la session
-            $session = $request->getSession();
-            $session->set('searchData', $data);
-
-            // Vérifiez si au moins un champ est renseigné
-            if (!empty($data['poste']) || !empty($data['ville'])) {
-                $searchInfo = sprintf('%s - %s', $data['poste'], $data['ville']);
-
-                // Utilisez Doctrine pour effectuer la recherche en fonction du poste et de la ville
-                $results = $entityManager->getRepository(Emploi::class)
-                    ->searchByPosteAndVille($data['poste'], $data['ville']);
-            } else {
-                // Aucun champ renseigné, ne lancez pas la recherche
-                $results = [];
-            }
-
-            return $this->render('emploi/emploi_results.html.twig', [
-                'results' => $results,
-                'searchInfo' => $searchInfo,
-                'form' => $form->createView(), // Passez le formulaire à la vue
-                'data' => $data, // Passez les données pré-remplies à la vue
-                'savedEmplois' => $savedEmplois, // Passez la variable alreadySaved à la vue
-            ]);
-        }
-
+        // Récupérez les catégories populaires
         $categories = $categorieRepository->findCategoriesPopulaires();
 
         return $this->render('home/index.html.twig', [
-            'form' => $form->createView(),
-            'data' => $data,
-            'searchInfo' => $searchInfo,
             'categories' => $categories,
             'savedEmplois' => $savedEmplois,
             'isHomePage' => $isHomePage,

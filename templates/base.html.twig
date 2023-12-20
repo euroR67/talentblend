@@ -105,7 +105,7 @@
                     {% if isHomePage is defined and isHomePage %}
                         {# Ne pas afficher le formulaire sur la page d'accueil #}
                     {% else %}
-                        {{ render(controller('App\\Controller\\FormController::searchForm')) }}
+                    {{ render(controller('App\\Controller\\FormController::searchForm', {'isHomePage': false}, {'isHomePage': false})) }}
                     {% endif %}
                     <li>
                         {% if not app.user %}

@@ -15,6 +15,8 @@ class FormController extends AbstractController
         // Récupérez les données de la session
         $data = $request->getSession()->get('search_data', []);
 
+        $isHomePage = $request->query->get('isHomePage', false);
+
         // Créez le formulaire avec les données de la session
         $formModal = $this->createForm(SearchEmploiType::class, $data);
 
@@ -86,7 +88,7 @@ class FormController extends AbstractController
         return $this->render('form/search.html.twig', [
             'formModal' => $formModal->createView(),
             'data' => $data,
-            'searchInfo' => $searchInfo,
+            'isHomePage' => $isHomePage,
         ]);
     }
 }

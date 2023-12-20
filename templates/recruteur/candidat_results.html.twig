@@ -6,7 +6,7 @@
 
 <div class="bg candidat">
     <h1>Recrutez des <span>talents</span> pour votre entreprise.</h1>
-    {{ form_start(form, {'attr': {'class': 'search-form'}}) }}
+    {{ form_start(form, {'attr': {'class': 'search-form-homepage'}}) }}
     <div class="form-group-search">
         <div class="input-group">
             {{ form_widget(form.metiers, {'value': data.metiers is defined ? data.metiers : ''},  {'attr': {'class': 'form-control-search', 'placeholder': 'Rechercher un candidat'}}) }}

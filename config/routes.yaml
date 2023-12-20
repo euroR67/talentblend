@@ -6,7 +6,7 @@ controllers:
     
 app_home:
     path: /
-    controller: App\Controller\HomeController::search
+    controller: App\Controller\HomeController::home
 
 app_search_form:
     path: '/search'
