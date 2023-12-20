@@ -8,6 +8,7 @@ use App\Entity\Postule;
 use App\Form\EmploiType;
 use App\Form\SearchCandidatType;
 use App\Repository\UserRepository;
+use App\Repository\EmploiRepository;
 use App\Repository\PostuleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -106,11 +107,15 @@ class RecruteurController extends AbstractController
         // Récupère l'utilisateur en session
         $user = $this->getUser();
 
-        // Récupère les emplois de l'utilisateur
-        $emplois = $user->getEmplois();
+        // Récupère les emplois non expirés créés par l'utilisateur
+        $emplois = $entityManager->getRepository(Emploi::class)->findEmploiNonExpirer($user->getEmplois());
+
+        // Récupère les emplois dont dateExpiration est supérieur à la date du jour
+        $emploisExpirer = $entityManager->getRepository(Emploi::class)->findEmploiExpirer($user->getEmplois());
 
         return $this->render('recruteur/index.html.twig', [
             'emplois' => $emplois,
+            'emploisExpirer' => $emploisExpirer,
         ]);
     }
 
@@ -248,5 +253,43 @@ class RecruteurController extends AbstractController
         return $this->render('recruteur/search_candidat.html.twig', [
             'form' => $form->createView(),
         ]);
+    }
+
+    // Méthode pour définir le status d'une offre d'emploi
+    #[Route('/emploi/status/{id}', name: 'app_status_emploi')]
+    public function status($id, Request $request, EntityManagerInterface $entityManager, EmploiRepository $emploiRepository): Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_RECRUTEUR');
+
+        // Récupère l'utilisateur en session
+        $user = $this->getUser();
+
+        // Récupère l'emploi à partir de l'ID
+        $emploi = $emploiRepository->find($id);
+
+        if (!$emploi) {
+            throw $this->createNotFoundException('L\'emploi demandée n\'existe pas');
+        }
+
+        // Vérifie si l'emploi appartient à l'utilisateur connecté
+        $hasAccess = $emploi->getUser() === $this->getUser();
+
+        if (!$hasAccess) {
+            $this->addFlash('danger', 'Vous n\'avez pas le droit de modifier cet emploi.');
+            return $this->redirectToRoute('app_home');
+        }
+
+        // Vérifie si l'emploi est actif ou non
+        if ($emploi->isStatus() == true) {
+            $emploi->setStatus(false);
+        } else {
+            $emploi->setStatus(true);
+        }
+
+        // Enregistre les modifications
+        $entityManager->flush();
+
+        // Redirige vers la liste des emplois
+        return $this->redirectToRoute('app_emplois');
     }
 }

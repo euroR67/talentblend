@@ -68,6 +68,9 @@ class Emploi
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $dateExpiration = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $status = null;
+
     public function __construct()
     {
         $this->postulations = new ArrayCollection();
@@ -293,6 +296,18 @@ class Emploi
     public function setDateExpiration(?\DateTimeInterface $dateExpiration): static
     {
         $this->dateExpiration = $dateExpiration;
+
+        return $this;
+    }
+
+    public function isStatus(): ?bool
+    {
+        return $this->status;
+    }
+
+    public function setStatus(?bool $status): static
+    {
+        $this->status = $status;
 
         return $this;
     }

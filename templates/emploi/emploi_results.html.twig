@@ -129,11 +129,18 @@
                                 <a href="{{ path('app_emplois_par_entreprise', {'id': emploi.entreprise.id}) }}">{{ emploi.entreprise }}</a>
                                 dans 
                                 <a href="{{ path('app_emplois_par_categorie', {'id': emploi.categories.id }) }}">{{ emploi.categories }}</a>
-                                {% if emploi.dateOffre|date('Y-m-d') == 'now'|date('Y-m-d') %}
-                                <span>Aujourd'hui</span>
-                                {% else %}
-                                    <span>Il y'a {{ emploi.dateOffre|date('j') }} jours</span>
-                                {% endif %}
+                                {% set days = date('now')|date_modify('-' ~ emploi.dateOffre|date('U') ~ ' seconds')|date('z') %}
+                            {% if days == 0 %}
+                            <p>Aujourd'hui</p>
+                            {% else %}
+                                <p>Il y'a {{ days }} 
+                                    {% if days == 1 %}
+                                        jour
+                                    {% else %}
+                                        jours
+                                    {% endif %}
+                                </p>
+                            {% endif %}
                             </p>
                         </div>
                         <div class="result-footer">

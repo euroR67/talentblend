@@ -21,11 +21,22 @@
             <tbody>
             {% for emploi in emplois %}
                 <tr>
-                    <td>{{ emploi.poste }}</td>
+                    <td>
+                        {{ emploi.poste }}
+                        {% if emploi.status == true %}
+                            <span>
+                                "Pourvu"
+                            </span>
+                        {% elseif emploi.status == 0 %}
+                            <span>
+                                "Non pourvu"
+                            </span>
+                        {% endif %}
+                    </td>
                     <td>{{ emploi.postulations|length }}</td>
                     <td>
                         {# Si la date de l'offre a plus d'un mois, on la considère comme expirée #}
-                        {% if emploi.dateOffre|date_modify('+1 month', 'Europe/Paris') < date() %}
+                        {% if emploi.dateExpiration < date() %}
                             Fermer
                         {% elseif emploi.dateOffre > date() %}
                             Bientôt
@@ -35,14 +46,82 @@
                     </td>
                     <td>{{ emploi.dateOffre|format_datetime('long', 'none', locale='fr') }}</td>
                     <td>
-                        {% set expirationDate = emploi.dateOffre|date_modify('+1 month', 'Europe/Paris') %}
-                        {% set daysRemaining = (expirationDate.diff(date())).days %}
-                    
-                        {% if daysRemaining < 0 %}
+                        {# Si la date d'expiration est dépassée, on affiche "Expirée" #}
+                        {% if emploi.dateExpiration < date() %}
                             Expirée
                         {% else %}
-                            {{ daysRemaining }} jour(s)
+                            {# Sinon on affiche le nombre de jours restants #}
+                            Dans {{ emploi.dateExpiration|date_modify('-' ~ date('now')|date('U') ~ ' seconds')|date('z') }} jours
                         {% endif %}
+                        
+                    </td>
+                    <td class="td-action">
+                        <i class="fa-solid fa-ellipsis"></i>
+                        <div class="action">
+                            {% if emploi.status == false %}
+                                <a href="{{ path('app_status_emploi', {'id': emploi.id}) }}"><i class="fa-solid fa-check-to-slot"></i> Pourvu</a>
+                            {% elseif emploi.status == true %}
+                                <a href="{{ path('app_status_emploi', {'id': emploi.id}) }}"><i class="fa-regular fa-circle-xmark"></i> Non pourvu</a>
+                            {% endif %}
+                            <a href="{{ path('app_edit_emploi', {'id': emploi.id}) }}"><i class="fa-solid fa-pen-to-square"></i> Modifier</a>
+                            <a href="{{ path('app_delete_emploi', {'id': emploi.id}) }}"><i class="fa-solid fa-xmark"></i> Supprimer</a>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <h2>Offres d'emploi expirée</h2>
+    <div class="table-wrapper">
+        <table>
+            <colgroup span="5"></colgroup>
+            <thead>
+                <tr>
+                    <th>Titre</th>
+                    <th>Candidatures</th>
+                    <th>Status</th>
+                    <th>Date</th>
+                    <th>Expire</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for emploi in emploisExpirer %}
+                <tr>
+                    <td>
+                        {{ emploi.poste }}
+                        {% if emploi.status == true %}
+                            <span>
+                                "Pourvu"
+                            </span>
+                        {% elseif emploi.status == 0 %}
+                            <span>
+                                "Non pourvu"
+                            </span>
+                        {% endif %}
+                    </td>
+                    <td>{{ emploi.postulations|length }}</td>
+                    <td>
+                        {# Si la date de l'offre a plus d'un mois, on la considère comme expirée #}
+                        {% if emploi.dateExpiration < date() %}
+                            Fermer
+                        {% elseif emploi.dateOffre > date() %}
+                            Bientôt
+                        {% else %}
+                            En ligne
+                        {% endif %}
+                    </td>
+                    <td>{{ emploi.dateOffre|format_datetime('long', 'none', locale='fr') }}</td>
+                    <td>
+                        {# Si la date d'expiration est dépassée, on affiche "Expirée" #}
+                        {% if emploi.dateExpiration < date() %}
+                            Expirée
+                        {% else %}
+                            {# Sinon on affiche le nombre de jours restants #}
+                            Expire dans {{ emploi.dateExpiration|date_modify('-' ~ date('now')|date('U') ~ ' seconds')|date('z') }} jours
+                        {% endif %}
+                        
                     </td>
                     <td class="td-action">
                         <i class="fa-solid fa-ellipsis"></i>

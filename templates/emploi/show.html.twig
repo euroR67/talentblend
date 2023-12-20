@@ -66,15 +66,11 @@
                         </div>
                         <div class="text">
                             <p>Date d'expiration</p>
-                            {% set expirationDate = emploi.dateOffre|date_modify('+30 days') %}
-                            {% set now = "now"|date('Y-m-d') %}
-                            {% set diff = expirationDate|date('U') - now|date('U') %}
-                            {% set daysRemaining = diff / 86400 %}
-                            <p>Dans {{ daysRemaining|round(0, 'floor') }} 
-                                {% if daysRemaining|round(0, 'floor') == 1 %}
-                                    jour
+                            <p>
+                                {% if emploi.dateExpiration < date() %}
+                                    Expirée
                                 {% else %}
-                                    jours
+                                    Dans {{ emploi.dateExpiration|date_modify('-' ~ date('now')|date('U') ~ ' seconds')|date('z') }} jours
                                 {% endif %}
                             </p>
                         </div>

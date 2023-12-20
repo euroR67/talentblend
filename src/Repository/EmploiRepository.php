@@ -42,6 +42,48 @@ class EmploiRepository extends ServiceEntityRepository
         return $qb->getQuery()->getResult();
     }
 
+    // Trouver les emplois non expirés de l'utilisateur en session
+    public function findEmploiNonExpirer($emplois)
+    {
+        $qb = $this->createQueryBuilder('e');
+
+        $qb->andWhere('e.dateExpiration > :date')
+            ->setParameter('date', new \DateTime('now'))
+            ->orderBy('e.dateExpiration', 'DESC');
+
+        $qb->andWhere('e IN (:emplois)')
+            ->setParameter('emplois', $emplois)
+            ->orderBy('e.dateExpiration', 'DESC');
+
+        return $qb->getQuery()->getResult();
+    }
+
+    // Trouver d'emploi dont la date d'expiration est supérieur à la date du jour et qui appartient a l'utilisateur en session
+    public function findEmploiExpirer($emplois)
+    {
+        $qb = $this->createQueryBuilder('e');
+
+        $qb->andWhere('e.dateExpiration < :date')
+            ->setParameter('date', new \DateTime('now'))
+            ->orderBy('e.dateExpiration', 'DESC');
+
+        $qb->andWhere('e IN (:emplois)')
+            ->setParameter('emplois', $emplois)
+            ->orderBy('e.dateExpiration', 'DESC');
+
+        return $qb->getQuery()->getResult();
+    }
+
+    // =================== REQUETE SQL de findEmploisByDateExpiration ===================
+    // SELECT *
+    // FROM `emploi`
+    // WHERE date_expiration < NOW() AND id IN 
+    // (SELECT id 
+    //     FROM `emploi`
+    //     WHERE user_id = 14)
+    // =================== REQUETE SQL de findEmploisByDateExpiration ===================
+    
+
 //    /**
 //     * @return Emploi[] Returns an array of Emploi objects
 //     */
