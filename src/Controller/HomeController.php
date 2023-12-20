@@ -40,6 +40,10 @@ class HomeController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
 
+            // Stockez les données de recherche dans la session
+            $session = $request->getSession();
+            $session->set('searchData', $data);
+
             // Vérifiez si au moins un champ est renseigné
             if (!empty($data['poste']) || !empty($data['ville'])) {
                 $searchInfo = sprintf('%s - %s', $data['poste'], $data['ville']);

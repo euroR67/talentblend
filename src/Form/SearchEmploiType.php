@@ -12,6 +12,7 @@ class SearchEmploiType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+            ->setMethod('GET')
             ->add('poste', TextType::class, [
                 'required' => false,
                 'attr' => [
@@ -35,6 +36,7 @@ class SearchEmploiType extends AbstractType
     {
         $resolver->setDefaults([
             // Configure your form options here
+            'csrf_protection' => false,
         ]);
     }
 }

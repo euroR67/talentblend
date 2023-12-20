@@ -9,7 +9,7 @@ app_home:
     controller: App\Controller\HomeController::search
 
 app_search_form:
-    path: '/form-search'
+    path: '/search'
     controller: App\Controller\FormController::searchForm
     methods: ['GET', 'POST']
 

@@ -12,7 +12,26 @@ class FormController extends AbstractController
 {
     public function searchForm(Request $request, EntityManagerInterface $entityManager, CategorieRepository $categorieRepository)
     {
-        $formModal = $this->createForm(SearchEmploiType::class);
+        // Récupérez les données de la session
+        $data = $request->getSession()->get('search_data', []);
+
+        // Créez le formulaire avec les données de la session
+        $formModal = $this->createForm(SearchEmploiType::class, $data);
+
+        // Retrieve GET parameters
+        $poste = $request->query->get('poste');
+        $ville = $request->query->get('ville');
+
+        // Retrieve GET parameters directly from the request
+        $postData = $request->query->all();
+
+        // Set default values if parameters are not present
+        $poste = $postData['poste'] ?? '';
+        $ville = $postData['ville'] ?? '';
+
+        // Populate form with GET parameters
+        $formModal->get('poste')->setData($poste);
+        $formModal->get('ville')->setData($ville);
 
         $data = []; // initialisez le tableau des données
 
@@ -32,6 +51,9 @@ class FormController extends AbstractController
 
         if ($formModal->isSubmitted() && $formModal->isValid()) {
             $data = $formModal->getData();
+
+            // Stockez les données dans la session pour les réutiliser dans le formulaire
+            $request->getSession()->set('search_data', $data);
 
             // Vérifiez si au moins un champ est renseigné
             if (!empty($data['poste']) || !empty($data['ville'])) {
@@ -53,6 +75,13 @@ class FormController extends AbstractController
                 'savedEmplois' => $savedEmplois, // Passez la variable alreadySaved à la vue
             ]);
         }
+
+        // Récupérez les données de la session
+        $data = $request->getSession()->get('search_data', []);
+
+        // Initialisez le formulaire avec les données de la session
+        $formModal = $this->createForm(SearchEmploiType::class, $data);
+        
 
         return $this->render('form/search.html.twig', [
             'formModal' => $formModal->createView(),

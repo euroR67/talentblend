@@ -163,86 +163,87 @@
             </div>
         </div>
         <aside class="info-entreprise">
-            <div>
-                {% if is_granted('ROLE_CANDIDAT') %}
-                <div class="mobile-footerstyle desk">
-                    <h4>Ce poste vous intéresse ?</h4>
-                    <div>
-                        {% if not dejaPostuler %}
-                        <a href="{{ path('app_postuler', {'id': emploi.id}) }}"><i class="fa-solid fa-bolt"></i> Postuler</a>
-                        {% else %}
-                            <a href="{{ path('app_candidature_delete', {'id': dejaPostuler.id, 'origin': 'detail'}) }}">Retirer ma candidature</a>
-                        {% endif %}
-                        {% if not alreadySaved %}
-                            <a href="{{ path('app_emploi_save', {'id': emploi.id}) }}"><i class="fa-regular fa-heart"></i></a>
-                        {% else %}
-                            <a href="{{ path('app_emploi_delete', {'id': emploi.id, 'origin': 'detail'}) }}"><i class="fa-solid fa-heart"></i></a>
-                        {% endif %}
+            <div class="sticky">
+                <div>
+                    {% if is_granted('ROLE_CANDIDAT') %}
+                    <div class="mobile-footerstyle desk">
+                        <h4>Ce poste vous intéresse ?</h4>
+                        <div>
+                            {% if not dejaPostuler %}
+                            <a href="{{ path('app_postuler', {'id': emploi.id}) }}"><i class="fa-solid fa-bolt"></i> Postuler</a>
+                            {% else %}
+                                <a href="{{ path('app_candidature_delete', {'id': dejaPostuler.id, 'origin': 'detail'}) }}">Retirer ma candidature</a>
+                            {% endif %}
+                            {% if not alreadySaved %}
+                                <a href="{{ path('app_emploi_save', {'id': emploi.id}) }}"><i class="fa-regular fa-heart"></i></a>
+                            {% else %}
+                                <a href="{{ path('app_emploi_delete', {'id': emploi.id, 'origin': 'detail'}) }}"><i class="fa-solid fa-heart"></i></a>
+                            {% endif %}
+                        </div>
                     </div>
-                </div>
-                {% elseif not app.user %}
-                <div class="mobile-footerstyle desk">
-                    <div>
-                        <a href="{{ path('app_register') }}"><i class="fa-solid fa-bolt"></i> Postuler</a>
-                        <a href="{{ path('app_register') }}"><i class="fa-regular fa-heart"></i></a>
+                    {% elseif not app.user %}
+                    <div class="mobile-footerstyle desk">
+                        <div>
+                            <a href="{{ path('app_register') }}"><i class="fa-solid fa-bolt"></i> Postuler</a>
+                            <a href="{{ path('app_register') }}"><i class="fa-regular fa-heart"></i></a>
+                        </div>
                     </div>
-                </div>
-                {% endif %}
-            </div>
-            <div class="entreprise-info-head">
-                <div class="logo">
-                    {% if emploi.entreprise.logo %}
-                        <img src="{{ asset('logo/' ~ emploi.entreprise.logo) }}" alt="Logo de l'entreprise">
-                    {% else %}
-                        <p>{{ emploi.entreprise.raisonSocial|first }}</p>
                     {% endif %}
-                    <h3>{{ emploi.entreprise }}</h3>
                 </div>
-                <ul>
-                    <li class="active">Aperçu</li>
-                    <li>Emplois <span>{{ emploisDeLEntreprise|length }}</span></li>
-                </ul>
-                <div class="tab-info-entreprise">
-                    <p>{{ emploi.entreprise.description }}</p>
-                    <div class="info-item">
-                        <p>Secteur</p>
-                        <p>{{ emploi.entreprise.secteur }}</p>
+                <div class="entreprise-info-head">
+                    <div class="logo">
+                        {% if emploi.entreprise.logo %}
+                            <img src="{{ asset('logo/' ~ emploi.entreprise.logo) }}" alt="Logo de l'entreprise">
+                        {% else %}
+                            <p>{{ emploi.entreprise.raisonSocial|first }}</p>
+                        {% endif %}
+                        <h3>{{ emploi.entreprise }}</h3>
                     </div>
-                    <div class="info-item">
-                        <p>Taille de la société</p>
-                        <p>{{ emploi.entreprise.tailles }} salariés</p>
-                    </div>
-                    <div class="info-item">
-                        <p>Siège social</p>
-                        <p>{{ emploi.entreprise.ville }}</p>
-                    </div>
-                    {% if emploi.entreprise.website %}
+                    <ul>
+                        <li class="active">Aperçu</li>
+                        <li>Emplois <span>{{ emploisDeLEntreprise|length }}</span></li>
+                    </ul>
+                    <div class="tab-info-entreprise">
+                        <p>{{ emploi.entreprise.description }}</p>
                         <div class="info-item">
-                            <p>Site web</p>
-                            <p><a href="{{ emploi.entreprise.website }}">{{ emploi.entreprise.website }} <i class="fa-solid fa-arrow-up-right-from-square"></i></a></p>
+                            <p>Secteur</p>
+                            <p>{{ emploi.entreprise.secteur }}</p>
                         </div>
-                    {% endif %}
-                    <div class="info-item">
-                        <p>Année de création</p>
-                        <p>{{ emploi.entreprise.dateCreation|date("Y") }}</p>
+                        <div class="info-item">
+                            <p>Taille de la société</p>
+                            <p>{{ emploi.entreprise.tailles }} salariés</p>
+                        </div>
+                        <div class="info-item">
+                            <p>Siège social</p>
+                            <p>{{ emploi.entreprise.ville }}</p>
+                        </div>
+                        {% if emploi.entreprise.website %}
+                            <div class="info-item">
+                                <p>Site web</p>
+                                <p><a href="{{ emploi.entreprise.website }}">{{ emploi.entreprise.website }} <i class="fa-solid fa-arrow-up-right-from-square"></i></a></p>
+                            </div>
+                        {% endif %}
+                        <div class="info-item">
+                            <p>Année de création</p>
+                            <p>{{ emploi.entreprise.dateCreation|date("Y") }}</p>
+                        </div>
+                    </div>
+                    <div class="tab-emploi-entreprise">
+                        {# afficher 5 emplois maximum de cet entreprise #}
+                        {% for emploi in emploisDeLEntreprise|slice(0, 5) %}
+                            <div class="emploi-item">
+                                <div class="text">
+                                    <a href="{{ path('app_show_emploi', {'id': emploi.id}) }}">{{ emploi }}</a>
+                                    <a href="{{ path('app_emplois_par_categorie', {'id': emploi.categories.id }) }}">{{ emploi.categories }}</a>
+                                </div>
+                            </div>
+                        {% endfor %}
+                        {# Si l'entreprise a plus de 5 emplois #}
+                        {% if emploisDeLEntreprise|length > 5 %}
+                            <a href="{{ path('app_emplois_par_entreprise', {'id': emploi.entreprise.id}) }}">Voir tout les emplois</a>
+                        {% endif %}
                     </div>
                 </div>
-                <div class="tab-emploi-entreprise">
-                    {# afficher 5 emplois maximum de cet entreprise #}
-                    {% for emploi in emploisDeLEntreprise|slice(0, 5) %}
-                        <div class="emploi-item">
-                            <div class="text">
-                                <a href="{{ path('app_show_emploi', {'id': emploi.id}) }}">{{ emploi }}</a>
-                                <a href="{{ path('app_emplois_par_categorie', {'id': emploi.categories.id }) }}">{{ emploi.categories }}</a>
-                            </div>
-                        </div>
-                    {% endfor %}
-                    {# Si l'entreprise a plus de 5 emplois #}
-                    {% if emploisDeLEntreprise|length > 5 %}
-                        <a href="{{ path('app_emplois_par_entreprise', {'id': emploi.entreprise.id}) }}">Voir tout les emplois</a>
-                    {% endif %}
-                </div>
-            </div>
             </div>
         </aside>
     </div>
