@@ -58,6 +58,7 @@ class CandidatController extends AbstractController
             $nom = $form->get('nom')->getData();
             $prenom = $form->get('prenom')->getData();
             $niveau = $form->get('niveau')->getData();
+            $description = $form->get('description')->getData();
 
             if($deletePhoto) {
                 // Suppression de l'ancienne photo du serveur
@@ -137,13 +138,21 @@ class CandidatController extends AbstractController
 
             // Vérifie si l'utilisateur a coché l'activation du profil
             if($active) {
-                    // Vérifie si les champs obligatoires sont renseignés
-                    if(empty($user->getCv()) || empty($villes) || empty($metiers) || $langues->count() === 0 || empty($nom) || empty($prenom) || empty($niveau)) {
-                        // Champ obligatoire non renseigné, gestion de l'erreur
-                        $this->addFlash('error', "Veuillez renseigner tous les champs afin d'activer votre profil (la photo de profil n'est pas obligatoire)");
-                        // Redirection
-                        return $this->redirectToRoute('app_candidat_edit', ['id' => $user->getId()]);
-                    }
+                
+                // Vérifie si les champs obligatoires sont renseignés
+                if( $langues->count() === 0
+                || empty($user->getCv())
+                || empty($villes) 
+                || empty($metiers) 
+                || empty($nom) 
+                || empty($prenom) 
+                || empty($niveau) 
+                || empty($description)) {
+                    // Champ obligatoire non renseigné, gestion de l'erreur
+                    $this->addFlash('error', "Veuillez renseigner tous les champs afin d'activer votre profil (la photo de profil n'est pas obligatoire)");
+                    // Redirection
+                    return $this->redirectToRoute('app_candidat_edit', ['id' => $user->getId()]);
+                }
             }
 
             $entityManager->flush();
