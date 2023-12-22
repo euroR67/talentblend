@@ -95,22 +95,28 @@ const showHide = document.querySelector('.show-hide');
 const showBtn = document.querySelector('.show-btn');
 const hideBtn = document.querySelector('.hide-btn');
 
-showBtn.addEventListener('click', () => {
-    showHide.classList.add('show');
-    showBtn.style.display = 'none';
-});
+// Vérifier que les éléments existent avant d'attacher les écouteurs d'événements
+if (showHide && showBtn && hideBtn) {
+    showBtn.addEventListener('click', () => {
+        showHide.classList.add('show');
+        showBtn.style.display = 'none';
+    });
 
-hideBtn.addEventListener('click', () => {
-    showHide.classList.remove('show');
-    showBtn.style.display = 'block';
-});
+    hideBtn.addEventListener('click', () => {
+        showHide.classList.remove('show');
+        showBtn.style.display = 'block';
+    });
+}
 
-    // Gestion de l'affichage des informations de l'entreprise
-    const tabInfoEntreprise = document.querySelector('.tab-info-entreprise');
-    const tabEmploiEntreprise = document.querySelector('.tab-emploi-entreprise');
-    const tabInfoEntrepriseBtn = document.querySelector('.entreprise-info-head ul li:first-child');
-    const tabEmploiEntrepriseBtn = document.querySelector('.entreprise-info-head ul li:last-child');
 
+// Gestion de l'affichage des informations de l'entreprise
+const tabInfoEntreprise = document.querySelector('.tab-info-entreprise');
+const tabEmploiEntreprise = document.querySelector('.tab-emploi-entreprise');
+const tabInfoEntrepriseBtn = document.querySelector('.entreprise-info-head ul li:first-child');
+const tabEmploiEntrepriseBtn = document.querySelector('.entreprise-info-head ul li:last-child');
+
+// Vérifier que les éléments existent avant d'attacher les écouteurs d'événements
+if (tabInfoEntreprise && tabEmploiEntreprise && tabInfoEntrepriseBtn && tabEmploiEntrepriseBtn) {
     tabInfoEntrepriseBtn.addEventListener('click', () => {
         tabInfoEntrepriseBtn.classList.add('active');
         tabEmploiEntrepriseBtn.classList.remove('active');
@@ -124,3 +130,4 @@ hideBtn.addEventListener('click', () => {
         tabEmploiEntreprise.style.display = 'flex';
         tabInfoEntreprise.style.display = 'none';
     });
+}

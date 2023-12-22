@@ -45,16 +45,23 @@ class EmploiRepository extends ServiceEntityRepository
     // Trouver les emplois non expirés de l'utilisateur en session
     public function findEmploiNonExpirer($emplois)
     {
+        // On crée un queryBuilder
         $qb = $this->createQueryBuilder('e');
 
+        // On crée une requête pour trouver les emplois non expirés
         $qb->andWhere('e.dateExpiration > :date')
+            // Permet de récupérer la date du jour
             ->setParameter('date', new \DateTime('now'))
+            // Permet de trier les emplois par date d'expiration
             ->orderBy('e.dateExpiration', 'DESC');
 
+        // On récupère les emplois de l'utilisateur en session
         $qb->andWhere('e IN (:emplois)')
             ->setParameter('emplois', $emplois)
+            // Permet de trier les emplois par date d'expiration
             ->orderBy('e.dateExpiration', 'DESC');
 
+        // On retourne les résultats
         return $qb->getQuery()->getResult();
     }
 

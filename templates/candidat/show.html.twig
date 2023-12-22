@@ -14,7 +14,7 @@
                     <div class="head">
                         <div class="logo-new pdp">
                             {% if candidat.photo %}
-                                <img src="{{ asset('pdp/' ~ candidat.photo) }}" alt="logo">
+                                <img src="{{ asset('pdp/' ~ candidat.photo) }}" alt="Photo de profil de l'utilisateur">
                             {% else %}
                                 <p>{{ candidat.nom|first }}{{ candidat.prenom|first }}</p>
                             {% endif %}
