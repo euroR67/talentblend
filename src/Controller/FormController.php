@@ -5,12 +5,13 @@ use App\Entity\Emploi;
 use App\Form\SearchEmploiType;
 use App\Repository\CategorieRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class FormController extends AbstractController
 {
-    public function searchForm(Request $request, EntityManagerInterface $entityManager, CategorieRepository $categorieRepository)
+    public function searchForm(Request $request, PaginatorInterface $paginator, EntityManagerInterface $entityManager, CategorieRepository $categorieRepository)
     {
         // Récupérez les données de la session
         $data = $request->getSession()->get('search_data', []);
@@ -62,8 +63,12 @@ class FormController extends AbstractController
                 $searchInfo = sprintf('%s - %s', $data['poste'], $data['ville']);
 
                 // Utilisez Doctrine pour effectuer la recherche en fonction du poste et de la ville
-                $results = $entityManager->getRepository(Emploi::class)
-                    ->searchByPosteAndVille($data['poste'], $data['ville']);
+                $results = $paginator->paginate(
+                    $entityManager->getRepository(Emploi::class)
+                        ->searchByPosteAndVille($data['poste'], $data['ville']),
+                    $request->query->getInt('page', 1),
+                    8
+                ); 
             } else {
                 // Aucun champ renseigné, ne lancez pas la recherche
                 $results = [];

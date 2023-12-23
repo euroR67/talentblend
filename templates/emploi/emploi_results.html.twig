@@ -123,7 +123,9 @@
                                 <i class="fa-regular fa-heart"></i>
                             {% endif %}
                         </div>
+                        
                         <div class="result-body">
+                            <!-- Titre de l'offre d'emploi -->
                             <h3>{{ emploi }}</h3>
                             <p>Par 
                                 <a href="{{ path('app_emplois_par_entreprise', {'id': emploi.entreprise.id}) }}">{{ emploi.entreprise }}</a>
@@ -158,6 +160,8 @@
     
     </div>
 </main>
+
+{{ knp_pagination_render(results) }}
 
 <script>
     // Rediriger l'utilisateur vers la page de l'emploi lorsqu'il clique sur un résultat

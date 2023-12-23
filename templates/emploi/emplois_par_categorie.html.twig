@@ -117,7 +117,7 @@
                             {% endif %}
                         </div>
                         <div class="result-body">
-                            <h3>{{ emploi }}</h3>
+                            <h1 style="font-size: 24px;">{{ emploi }}</h1>
                             <p>Par 
                                 <a href="{{ path('app_emplois_par_entreprise', {'id': emploi.entreprise.id}) }}">{{ emploi.entreprise }}</a>
                                     dans 
@@ -138,12 +138,13 @@
                     </div>
                 {% endfor %}
             {% else %}
-                <p>Aucun résultat pour votre recherche</p>
+                <p>Aucun emploi trouvé</p>
             {% endif %}
         </div>
-    
+        
     </div>
 </main>
+    {{ knp_pagination_render(emplois) }}
 
 <script>
     // Rediriger l'utilisateur vers la page de l'emploi lorsqu'il clique sur un résultat

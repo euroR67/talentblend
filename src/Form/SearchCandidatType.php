@@ -12,6 +12,7 @@ class SearchCandidatType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+            ->setMethod('GET')
             ->add('metiers', TextType::class, [
                 'required' => false,
                 'attr' => [

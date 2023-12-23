@@ -11,6 +11,7 @@ use App\Form\SearchEmploiType;
 use App\Repository\EmploiRepository;
 use App\Repository\EntrepriseRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -23,13 +24,17 @@ class EmploiController extends AbstractController
 {
     // Méthode pour lister les offres d'emplois par catégorie
     #[Route('/categorie/{id}', name: 'app_emplois_par_categorie')]
-    public function emploisParCategorie(Categorie $categorie, EntityManagerInterface $entityManager): Response
+    public function emploisParCategorie(Categorie $categorie, EntityManagerInterface $entityManager,Request $request, PaginatorInterface $paginator): Response
     {
         // Récupérer l'utilisateur connecté
         $user = $this->getUser();
 
-        // Récupérer les emplois par catégorie
-        $emplois = $entityManager->getRepository(Emploi::class)->findBy(['categories' => $categorie]);
+        // Récupérer les emplois par catégorie et les paginer
+        $emplois = $paginator->paginate(
+            $entityManager->getRepository(Emploi::class)->findBy(['categories' => $categorie]),
+            $request->query->getInt('page', 1),
+            8
+        );
 
         // Récupérez les emplois sauvegardés par l'utilisateur connecté
         if ($user) {
@@ -47,13 +52,17 @@ class EmploiController extends AbstractController
 
     // Méthode pour lister les offres d'emplois par entreprise
     #[Route('/entreprise/{id}', name: 'app_emplois_par_entreprise')]
-    public function emploisParEntreprise(Entreprise $entreprise, EntityManagerInterface $entityManager): Response
+    public function emploisParEntreprise(Entreprise $entreprise, EntityManagerInterface $entityManager,Request $request, PaginatorInterface $paginator): Response
     {
         // Récupérer l'utilisateur connecté
         $user = $this->getUser();
 
-        // Récupérer les emplois par catégorie
-        $emplois = $entityManager->getRepository(Emploi::class)->findBy(['entreprise' => $entreprise]);
+        // Récupérer les emplois par entreprise et les paginer
+        $emplois = $paginator->paginate(
+            $entityManager->getRepository(Emploi::class)->findBy(['entreprise' => $entreprise]),
+            $request->query->getInt('page', 1),
+            8
+        );
 
         // Récupérez les emplois sauvegardés par l'utilisateur connecté
         if ($user) {

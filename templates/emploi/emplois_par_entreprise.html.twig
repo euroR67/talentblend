@@ -6,14 +6,15 @@
 
 <div class="mt-5">
     <div class="filter">
-        <p>Tous les résultats - {{ emplois|length }} emplois</p>
+        <h1>Emplois de l'entreprise {{ entreprise }}
+            <p>Tous les résultats - {{ emplois|length }} emplois</p>
+        </h1>
         <button><i class="fa-solid fa-sliders"></i> Filtrer</button>
     </div>
 </div>
 
 <main class="search-emploi-result">
     <div class="result-wrapper">
-
         <aside class="filter">
             {# Panneau des filtres #}
             <div class="filter-panel">
@@ -90,7 +91,6 @@
                 </div>
             </div>
         </aside>
-    
         <div class="result-container">
             {% if emplois is not empty %}
                 {% for emploi in emplois %}
@@ -117,7 +117,7 @@
                             {% endif %}
                         </div>
                         <div class="result-body">
-                            <h3>{{ emploi }}</h3>
+                            <h1>{{ emploi }}</h1>
                             <p>Par 
                                 <a href="{{ path('app_emplois_par_entreprise', {'id': emploi.entreprise.id}) }}">{{ emploi.entreprise }}</a>
                                     dans 
