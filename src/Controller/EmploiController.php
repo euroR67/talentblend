@@ -61,7 +61,7 @@ class EmploiController extends AbstractController
         $emplois = $paginator->paginate(
             $entityManager->getRepository(Emploi::class)->findBy(['entreprise' => $entreprise]),
             $request->query->getInt('page', 1),
-            8
+            1
         );
 
         // Récupérez les emplois sauvegardés par l'utilisateur connecté

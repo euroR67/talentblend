@@ -11,6 +11,7 @@ use App\Repository\UserRepository;
 use App\Repository\EmploiRepository;
 use App\Repository\PostuleRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -217,9 +218,24 @@ class RecruteurController extends AbstractController
 
     // Méthode pour rechercher un candidat
     #[Route('/search_candidat', name: 'app_search_candidat')]
-    public function search(Request $request, EntityManagerInterface $entityManager)
+    public function search(Request $request, PaginatorInterface $paginator, EntityManagerInterface $entityManager)
     {
         $form = $this->createForm(SearchCandidatType::class);
+
+        // Retrouvez les paramètres GET dans la requête
+        $metiers = $request->query->get('metiers');
+        $villes = $request->query->get('villes');
+
+        // Retrouvez les paramètres GET directement depuis le Request
+        $postData = $request->query->all();
+
+        // Définir des valeurs par défaut si les paramètres ne sont pas présents
+        $metiers = $postData['metiers'] ?? '';
+        $villes = $postData['villes'] ?? '';
+
+        // Peuplez le formulaire avec les paramètres GET
+        $form->get('metiers')->setData($metiers);
+        $form->get('villes')->setData($villes);
 
         $data = []; // initialisez le tableau des données
 
@@ -235,8 +251,12 @@ class RecruteurController extends AbstractController
                 $searchInfo = sprintf('%s - %s', $data['metiers'], $data['villes']);
 
                 // Utilisez Doctrine pour effectuer la recherche en fonction du metiers et de la villes
-                $results = $entityManager->getRepository(User::class)
-                    ->searchByMetiersAndVilles($data['metiers'], $data['villes']);
+                $results = $paginator->paginate(
+                    $entityManager->getRepository(User::class)
+                        ->searchByMetiersAndVilles($data['metiers'], $data['villes']),
+                    $request->query->getInt('page', 1),
+                    1
+                );
             } else {
                 // Aucun champ renseigné, ne lancez pas la recherche
                 $results = [];
