@@ -67,7 +67,7 @@ class FormController extends AbstractController
                     $entityManager->getRepository(Emploi::class)
                         ->searchByPosteAndVille($data['poste'], $data['ville']),
                     $request->query->getInt('page', 1),
-                    8
+                    12
                 ); 
             } else {
                 // Aucun champ renseigné, ne lancez pas la recherche

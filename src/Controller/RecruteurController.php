@@ -255,7 +255,7 @@ class RecruteurController extends AbstractController
                     $entityManager->getRepository(User::class)
                         ->searchByMetiersAndVilles($data['metiers'], $data['villes']),
                     $request->query->getInt('page', 1),
-                    1
+                    12
                 );
             } else {
                 // Aucun champ renseigné, ne lancez pas la recherche

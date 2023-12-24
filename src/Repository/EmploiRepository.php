@@ -41,6 +41,7 @@ class EmploiRepository extends ServiceEntityRepository
 
         return $qb->getQuery()->getResult();
     }
+    
 
     // Trouver les emplois non expirés de l'utilisateur en session
     public function findEmploiNonExpirer($emplois)
