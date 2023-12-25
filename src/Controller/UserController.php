@@ -91,11 +91,23 @@ class UserController extends AbstractController
     }
 
     // Méthode pour supprimer un utilisateur
-    #[Route('/user/{id}/delete', name: 'app_delete_user')]
-    public function deleteUser(Request $request, User $user, EntityManagerInterface $entityManager, TokenStorageInterface $tokenStorage): Response
+    #[Route('/user/delete', name: 'app_delete_user')]
+    public function deleteUser(Request $request, User $user, EntityManagerInterface $entityManager, TokenStorageInterface $tokenStorage, UserPasswordHasherInterface $passwordHasher): Response
     {
         // Vérifier si l'utilisateur est connecté et s'il s'agit de son propre compte
         if ($this->getUser() && $this->getUser()->getId() === $user->getId()) {
+            
+            // Supprimer le CV de l'utilisateur s'il existe
+            if (!empty($user->getCv())) {
+                $cvPath = $this->getParameter('cv_directory') . '/' . $user->getCv();
+                unlink($cvPath);
+            }
+
+            // Supprimer l'image de profil de l'utilisateur s'il existe
+            if (!empty($user->getPhoto())) {
+                $photoPath = $this->getParameter('photo_profil') . '/' . $user->getPhoto();
+                unlink($photoPath);
+            }
 
             // Supprimer l'utilisateur directement par son ID
             $entityManager->remove($user);

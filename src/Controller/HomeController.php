@@ -20,22 +20,11 @@ class HomeController extends AbstractController
     {
         $isHomePage = true; // initialisez la variable de page d'accueil
 
-        // Récupérez l'utilisateur connecté
-        $user = $this->getUser();
-
-        // Récupérez les emplois sauvegardés par l'utilisateur connecté
-        if ($user) {
-            $savedEmplois = $user->getEmploiSauvegarder();
-        } else {
-            $savedEmplois = [];
-        }
-
         // Récupérez les catégories populaires
         $categories = $categorieRepository->findCategoriesPopulaires();
 
         return $this->render('home/index.html.twig', [
             'categories' => $categories,
-            'savedEmplois' => $savedEmplois,
             'isHomePage' => $isHomePage,
         ]);
     }

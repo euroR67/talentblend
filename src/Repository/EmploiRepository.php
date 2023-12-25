@@ -3,8 +3,11 @@
 namespace App\Repository;
 
 use App\Entity\Emploi;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use App\Model\SearchData;
 use Doctrine\Persistence\ManagerRegistry;
+use Knp\Component\Pager\PaginatorInterface;
+use Knp\Component\Pager\Pagination\PaginationInterface;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @extends ServiceEntityRepository<Emploi>
@@ -16,31 +19,101 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class EmploiRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
-    {
+    public function __construct(
+        ManagerRegistry $registry,
+        private PaginatorInterface $paginatorInterface
+    ) {
         parent::__construct($registry, Emploi::class);
     }
+
 
     /** Fonction de recherche offre d'emploi par poste et ville
      * @return Emploi[] Returns an array of Emploi objects
      */
-    public function searchByPosteAndVille($poste, $ville)
+    public function searchByPosteAndVille($poste, $ville, $typeEmplois, $contrats): array
     {
-        $qb = $this->createQueryBuilder('e');
+        $data = $this->createQueryBuilder('e')
+            ->where('e.poste LIKE :poste')
+            ->setParameter('poste', "%{$poste}%")
+            ->addOrderBy('e.dateOffre', 'DESC');
 
-        if ($poste) {
-            $qb->andWhere('e.poste LIKE :poste')
-                ->setParameter('poste', '%'.$poste.'%');
+        if(!empty($poste)) {
+            // Recherche par poste
+            $data = $data
+                ->andWhere('e.poste LIKE :poste')
+                ->setParameter('poste', "%{$poste}%");
         }
 
-        if ($ville) {
-            $qb->join('e.ville', 'v')
+        if(!empty($ville)) {
+            // Recherche par ville
+            $data = $data
+                ->join('e.ville', 'v')
                 ->andWhere('v.nomVille LIKE :ville')
-                ->setParameter('ville', '%'.$ville.'%');
+                ->setParameter('ville', "%{$ville}%");
         }
 
-        return $qb->getQuery()->getResult();
+        if(!empty($typeEmplois)) {
+            // Recherche par type d'emploi
+            $data = $data
+                ->join('e.types', 't')
+                ->andWhere('t.type IN (:typeEmplois)')
+                ->setParameter('typeEmplois', $typeEmplois);
+        }
+        
+        if(!empty($contrats)) {
+            // Recherche par contrat
+            $data = $data
+                ->join('e.contrats', 'c')
+                ->andWhere('c.type IN (:contrats)')
+                ->setParameter('contrats', $contrats);
+        }
+
+        $data = $data
+            ->getQuery()
+            ->getResult();
+
+        return $data;
     }
+
+
+    // /** Fonction de recherche offre d'emploi par poste et ville
+    //  * @param SearchData $searchData
+    //  * @return PaginationInterface
+    //  */
+    // public function findBySearch(SearchData $searchData): PaginationInterface
+    // {
+    //     $data = $this->createQueryBuilder('e')
+    //         ->where('e.poste LIKE :poste')
+    //         ->setParameter('poste', "%{$searchData->poste}%")
+    //         ->addOrderBy('e.dateOffre', 'DESC');
+
+    //     if(!empty($searchData->poste)) {
+    //         // Recherche par poste
+    //         $data = $data
+    //             ->andWhere('e.poste LIKE :poste')
+    //             ->setParameter('poste', "%{$searchData->poste}%");
+    //     }
+
+    //     if(!empty($searchData->ville)) {
+    //         // Recherche par ville
+    //         $data = $data
+    //             ->join('e.ville', 'v')
+    //             ->andWhere('v.nomVille LIKE :ville')
+    //             ->setParameter('ville', "%{$searchData->ville}%");
+    //     }
+
+    //     $data = $data
+    //         ->getQuery()
+    //         ->getResult();
+
+    //     $emplois = $this->paginatorInterface->paginate(
+    //         $data,
+    //         $searchData->page,
+    //         12
+    //     );
+
+    //     return $emplois;
+    // }
     
 
     // Trouver les emplois non expirés de l'utilisateur en session

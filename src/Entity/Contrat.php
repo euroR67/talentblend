@@ -33,11 +33,7 @@ class Contrat
 
     public function __toString(): string
     {
-        if($this->type) {
-            return $this->type;
-        }
-
-        return '';
+        return $this->getType();
     }
 
     public function getType(): ?string

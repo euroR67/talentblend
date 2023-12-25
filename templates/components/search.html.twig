@@ -1,0 +1,30 @@
+{{ form_start(form, {'action': path('app_search_form'), 'attr': {'class': isHomePage ? 'search-form-homepage' : 'search-form-modal'}}) }}
+
+    <div class="form-group-search">
+        <div class="input-group">
+            {{ form_widget(form.poste, {'attr': {'class': 'form-control-search', 'placeholder': 'Rechercher emplois', 'id': 'search_emploi_poste'}}) }}
+            <i class="fa-solid fa-magnifying-glass"></i>
+        </div>
+    </div>
+    <div class="form-group-search">
+        <div class="input-group">
+            {{ form_widget(form.ville, {'attr': {'class': 'form-control-search', 'placeholder': 'Saisir un lieu', 'id': 'search_emploi_ville'}}) }}
+            <i class="fa-solid fa-location-dot"></i>
+        </div>
+    </div>
+    <div class="form-group-search" style="display: none;">
+        <div class="input-group">
+            {{ form_row(form.typeEmplois) }}
+        </div>
+    </div>
+    <div class="form-group-search" style="display: none;">
+        <div class="input-group">
+            {{ form_row(form.contrats) }}
+        </div>
+    </div>
+    
+    <div class="form-group-search">
+        <button class="submit-search" type="submit">Rechercher</button>
+    </div>
+    
+{{ form_end(form) }}

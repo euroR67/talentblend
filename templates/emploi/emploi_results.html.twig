@@ -20,82 +20,39 @@
 
 <main class="search-emploi-result">
     <div class="result-wrapper">
+        {{ form_start(form,  {'attr': {'class': 'search-form-homepage'}}) }}
+
+        <div class="form-group-search" >
+            <div class="input-group">
+                {{ form_widget(form.poste, {'attr': {'class': 'form-control-search', 'placeholder': 'Rechercher emplois', 'id': 'search_emploi_poste'}}) }}
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </div>
+        </div>
+        <div class="form-group-search" >
+            <div class="input-group">
+                {{ form_widget(form.ville, {'attr': {'class': 'form-control-search', 'placeholder': 'Saisir un lieu', 'id': 'search_emploi_ville'}}) }}
+                <i class="fa-solid fa-location-dot"></i>
+            </div>
+        </div>
+        <div class="form-group-search">
+            <div class="input-group">
+                {{ form_row(form.typeEmplois) }}
+            </div>
+        </div>
+        <div class="form-group-search">
+            <div class="input-group">
+                {{ form_row(form.contrats) }}
+            </div>
+        </div>
+        <div class="form-group-search">
+            <button class="submit-search" type="submit">Rechercher</button>
+        </div>
+    {{ form_end(form) }}
+    
 
         <aside class="filter">
             {# Panneau des filtres #}
-            <div class="filter-panel">
-                <div class="filter-panel-head">
-                    <h3>Filtrer</h3>
-                </div>
-                <div class="filter-panel-body">
-                    <div class="filter-panel-body-item">
-                        <h4>Type d'emploi</h4>
-                        {# Type checkbox #}
-                        <div class="checkbox">
-                            <label>
-                                <input name="type" type="checkbox" value="fulltime">
-                                <span>Temps plein</span>
-                            </label>
-                            <label>
-                                <input name="type" type="checkbox" value="parttime">
-                                <span>Temps partiel</span>
-                            </label>
-                            <label>
-                                <input name="type" type="checkbox" value="remote">
-                                <span>Télétravail</span>
-                            </label>
-                        </div>
-                    </div>
-                    <div class="filter-panel-body-item">
-                        <h4>Type de contrat</h4>
-                        {# Type checkbox #}
-                        <div class="checkbox">
-                            <label>
-                                <input name="contract" type="checkbox" value="cdi">
-                                <span>CDI</span>
-                            </label>
-                            <label>
-                                <input name="contract" type="checkbox" value="cdd">
-                                <span>CDD</span>
-                            </label>
-                            <label>
-                                <input name="contract" type="checkbox" value="stage">
-                                <span>Stage</span>
-                            </label>
-                            <label>
-                                <input name="contract" type="checkbox" value="alternance">
-                                <span>Alternance</span>
-                            </label>
-                            <label>
-                                <input name="contract" type="checkbox" value="Interim">
-                                <span>Interim</span>
-                            </label>
-                        </div>
-                    </div>
-                    <div class="filter-panel-body-item">
-                        <h4>Publié le</h4>
-                        {# Type radio #}
-                        <div class="radio">
-                            <label>
-                                <input name="recency" type="radio" value="any" checked="">
-                                <span>Toutes dates</span>
-                            </label>
-                            <label>
-                                <input name="recency" type="radio" value="24h">
-                                <span>Aujourd'hui</span>
-                            </label>
-                            <label>
-                                <input name="recency" type="radio" value="7d">
-                                <span>La semaine dernière</span>
-                            </label>
-                            <label>
-                                <input name="recency" type="radio" value="30d">
-                                <span>Le mois dernier</span>
-                            </label>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            
         </aside>
     
         <div class="result-container">
@@ -157,7 +114,7 @@
                 <p>Aucun résultat pour votre recherche</p>
             {% endif %}
         </div>
-    
+        
     </div>
 </main>
 
