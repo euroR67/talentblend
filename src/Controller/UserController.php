@@ -52,9 +52,17 @@ class UserController extends AbstractController
     }
 
     // Méthode pour permettre la modification du mot de passe de l'utilisateur
-    #[Route('/user/edition-mot-de-passe/{id}', name: 'app_edit_password')]
-    public function editPassword(User $user, Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher): Response
+    #[Route('/user/edition-mot-de-passe', name: 'app_edit_password')]
+    public function editPassword(Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher): Response
     {
+        // Vérifier si l'utilisateur est connecté
+        if (!$this->getUser()) {
+            throw new AccessDeniedHttpException('Vous devez être connecté pour accéder à cette page.');
+        }
+
+        // Récupérer l'utilisateur à partir de l'ID
+        $user = $this->getUser();
+
         $form = $this->createForm(UserPasswordType::class);
 
         $form->handleRequest($request);
@@ -92,38 +100,47 @@ class UserController extends AbstractController
 
     // Méthode pour supprimer un utilisateur
     #[Route('/user/delete', name: 'app_delete_user')]
-    public function deleteUser(Request $request, User $user, EntityManagerInterface $entityManager, TokenStorageInterface $tokenStorage, UserPasswordHasherInterface $passwordHasher): Response
+    public function deleteUser(Request $request, EntityManagerInterface $entityManager, TokenStorageInterface $tokenStorage, UserPasswordHasherInterface $passwordHasher): Response
     {
+        $userId = (int) $request->request->get('userId');
+        $user = $entityManager->getRepository(User::class)->find($userId);
+
         // Vérifier si l'utilisateur est connecté et s'il s'agit de son propre compte
-        if ($this->getUser() && $this->getUser()->getId() === $user->getId()) {
-            
-            // Supprimer le CV de l'utilisateur s'il existe
-            if (!empty($user->getCv())) {
-                $cvPath = $this->getParameter('cv_directory') . '/' . $user->getCv();
-                unlink($cvPath);
+        if ($this->getUser() && $this->getUser()->getId() === $userId) {
+            // Vérifier le mot de passe
+            $submittedPassword = $request->request->get('password');
+            if ($passwordHasher->isPasswordValid($user, $submittedPassword)) {
+                // Supprimer le CV de l'utilisateur s'il existe
+                if (!empty($user->getCv())) {
+                    $cvPath = $this->getParameter('cv_directory') . '/' . $user->getCv();
+                    unlink($cvPath);
+                }
+
+                // Supprimer l'image de profil de l'utilisateur s'il existe
+                if (!empty($user->getPhoto())) {
+                    $photoPath = $this->getParameter('photo_profil') . '/' . $user->getPhoto();
+                    unlink($photoPath);
+                }
+
+                // Supprimer l'utilisateur directement par son ID
+                $entityManager->remove($user);
+                $entityManager->flush();
+
+                // Déconnecter l'utilisateur après la suppression
+                $tokenStorage->setToken(null);
+
+                // Ajouter un message de succès
+                $this->addFlash('success', 'Votre compte a bien été supprimé.');
+
+                // Rediriger vers la page d'accueil
+                return $this->redirectToRoute('app_home');
+            } else {
+                // Ajouter un message d'erreur
+                $this->addFlash('error', 'Le mot de passe est incorrect.');
             }
-
-            // Supprimer l'image de profil de l'utilisateur s'il existe
-            if (!empty($user->getPhoto())) {
-                $photoPath = $this->getParameter('photo_profil') . '/' . $user->getPhoto();
-                unlink($photoPath);
-            }
-
-            // Supprimer l'utilisateur directement par son ID
-            $entityManager->remove($user);
-            $entityManager->flush();
-
-            // Déconnecter l'utilisateur après la suppression
-            $tokenStorage->setToken(null);
-
-            // Ajouter un message de succès
-            $this->addFlash('success', 'Votre compte a bien été supprimé.');
-
-            // Rediriger vers la page d'accueil
-            return $this->redirectToRoute('app_home');
-        } else {
-            // Rediriger vers la page d'accueil si l'utilisateur n'est pas connecté ou s'il essaie de supprimer un autre compte
-            return $this->redirectToRoute('app_home');
         }
+        // Handle other cases or return a response if needed
+        return $this->redirectToRoute('app_edit_password');
     }
+
 }
