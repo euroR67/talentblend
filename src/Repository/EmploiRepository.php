@@ -30,11 +30,17 @@ class EmploiRepository extends ServiceEntityRepository
     /** Fonction de recherche offre d'emploi par poste et ville
      * @return Emploi[] Returns an array of Emploi objects
      */
-    public function searchByPosteAndVille($poste, $ville, $typeEmplois, $contrats): array
+    public function findBySearch($poste, $ville, $typeEmplois, $contrats, $dateOffre): array
     {
+        // Obtenez la date du jour
+        $currentDate = new \DateTime();
+
+        // On crée un queryBuilder et on exclut les offres d'emploi expirées
         $data = $this->createQueryBuilder('e')
             ->where('e.poste LIKE :poste')
             ->setParameter('poste', "%{$poste}%")
+            ->andWhere('e.dateExpiration > :currentDate')
+            ->setParameter('currentDate', $currentDate)
             ->addOrderBy('e.dateOffre', 'DESC');
 
         if(!empty($poste)) {
@@ -68,53 +74,44 @@ class EmploiRepository extends ServiceEntityRepository
                 ->setParameter('contrats', $contrats);
         }
 
+        // Recherche par date de publication, Aujourd'hui, 3 derniers jours, La semaine dernière
+        if (!empty($dateOffre)) {
+            // Obtenez la date de début pour la comparaison
+            $startOfRange = new \DateTime();
+        
+            switch ($dateOffre) {
+                case 'Aujourd\'hui':
+                    // Recherche pour la journée actuelle
+                    $startOfRange->setTime(0, 0, 0);
+                    break;
+                case '3 derniers jours':
+                    // Recherche pour les 3 derniers jours
+                    $startOfRange->modify('-2 days')->setTime(0, 0, 0);
+                    break;
+                case 'La semaine dernière':
+                    // Recherche pour les 7 derniers jours (la semaine dernière)
+                    $startOfRange->modify('-6 days')->setTime(0, 0, 0);
+                    break;
+            }
+        
+            // Obtenez la date de fin pour la comparaison (fin de la journée actuelle)
+            $endOfRange = new \DateTime('tomorrow');
+            $endOfRange->modify('-1 second');
+        
+            // Recherche par date de publication
+            $data = $data->andWhere('e.dateOffre BETWEEN :startOfRange AND :endOfRange')
+                ->setParameter('startOfRange', $startOfRange)
+                ->setParameter('endOfRange', $endOfRange);
+        }
+        
+        // Récupérez les résultats
         $data = $data
             ->getQuery()
             ->getResult();
 
+        // Retournez les résultats
         return $data;
     }
-
-
-    // /** Fonction de recherche offre d'emploi par poste et ville
-    //  * @param SearchData $searchData
-    //  * @return PaginationInterface
-    //  */
-    // public function findBySearch(SearchData $searchData): PaginationInterface
-    // {
-    //     $data = $this->createQueryBuilder('e')
-    //         ->where('e.poste LIKE :poste')
-    //         ->setParameter('poste', "%{$searchData->poste}%")
-    //         ->addOrderBy('e.dateOffre', 'DESC');
-
-    //     if(!empty($searchData->poste)) {
-    //         // Recherche par poste
-    //         $data = $data
-    //             ->andWhere('e.poste LIKE :poste')
-    //             ->setParameter('poste', "%{$searchData->poste}%");
-    //     }
-
-    //     if(!empty($searchData->ville)) {
-    //         // Recherche par ville
-    //         $data = $data
-    //             ->join('e.ville', 'v')
-    //             ->andWhere('v.nomVille LIKE :ville')
-    //             ->setParameter('ville', "%{$searchData->ville}%");
-    //     }
-
-    //     $data = $data
-    //         ->getQuery()
-    //         ->getResult();
-
-    //     $emplois = $this->paginatorInterface->paginate(
-    //         $data,
-    //         $searchData->page,
-    //         12
-    //     );
-
-    //     return $emplois;
-    // }
-    
 
     // Trouver les emplois non expirés de l'utilisateur en session
     public function findEmploiNonExpirer($emplois)
@@ -154,6 +151,68 @@ class EmploiRepository extends ServiceEntityRepository
 
         return $qb->getQuery()->getResult();
     }
+
+    public function findByFilter($categorie, $typeEmplois, $contrats, $dateOffre, $entreprise = null)
+    {
+        $queryBuilder = $this->createQueryBuilder('e')
+            ->andWhere('e.categories = :categorie')
+            ->setParameter('categorie', $categorie);
+
+        if (!empty($entreprise)) {
+            $queryBuilder = $this->createQueryBuilder('e')
+                ->andWhere('e.entreprise = :entreprise')
+                ->setParameter('entreprise', $entreprise);
+        }
+
+        if (!empty($typeEmplois)) {
+            $queryBuilder
+                ->join('e.types', 't')
+                ->andWhere('t.type IN (:typeEmplois)')
+                ->setParameter('typeEmplois', $typeEmplois);
+        }
+
+        if (!empty($contrats)) {
+            $queryBuilder
+                ->join('e.contrats', 'c')
+                ->andWhere('c.type IN (:contrats)')
+                ->setParameter('contrats', $contrats);
+        }
+
+        // Recherche par date de publication, Aujourd'hui, 3 derniers jours, La semaine dernière
+        if (!empty($dateOffre)) {
+            // Obtenez la date de début pour la comparaison
+            $startOfRange = new \DateTime();
+        
+            switch ($dateOffre) {
+                case 'Aujourd\'hui':
+                    // Recherche pour la journée actuelle
+                    $startOfRange->setTime(0, 0, 0);
+                    break;
+                case '3 derniers jours':
+                    // Recherche pour les 3 derniers jours
+                    $startOfRange->modify('-2 days')->setTime(0, 0, 0);
+                    break;
+                case 'La semaine dernière':
+                    // Recherche pour les 7 derniers jours (la semaine dernière)
+                    $startOfRange->modify('-6 days')->setTime(0, 0, 0);
+                    break;
+            }
+        
+            // Obtenez la date de fin pour la comparaison (fin de la journée actuelle)
+            $endOfRange = new \DateTime('tomorrow');
+            $endOfRange->modify('-1 second');
+        
+            // Recherche par date de publication
+            $queryBuilder = $queryBuilder->andWhere('e.dateOffre BETWEEN :startOfRange AND :endOfRange')
+                ->setParameter('startOfRange', $startOfRange)
+                ->setParameter('endOfRange', $endOfRange);
+        }
+        
+        $queryBuilder->orderBy('e.dateOffre', 'DESC');
+        // Exécutez la requête et retournez les résultats
+        return $queryBuilder->getQuery()->getResult();
+    }
+
 
     // =================== REQUETE SQL de findEmploisByDateExpiration ===================
     // SELECT *

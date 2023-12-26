@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Emploi;
 use App\Entity\Postule;
 use App\Form\EmploiType;
+use App\Form\FiltreType;
 use App\Entity\Categorie;
 use App\Entity\Entreprise;
 use App\Form\SearchEmploiType;
@@ -15,6 +16,7 @@ use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Form\FormFactoryInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
@@ -24,57 +26,81 @@ class EmploiController extends AbstractController
 {
     // Méthode pour lister les offres d'emplois par catégorie
     #[Route('/categorie/{id}', name: 'app_emplois_par_categorie')]
-    public function emploisParCategorie(Categorie $categorie, EntityManagerInterface $entityManager,Request $request, PaginatorInterface $paginator): Response
+    public function emploisParCategorie(Categorie $categorie, EntityManagerInterface $entityManager, Request $request, PaginatorInterface $paginator, FormFactoryInterface $formFactory): Response
     {
-        // Récupérer l'utilisateur connecté
-        $user = $this->getUser();
+        // Créez le formulaire de filtre
+        $form = $formFactory->create(FiltreType::class);
+        $form->handleRequest($request);
 
-        // Récupérer les emplois par catégorie et les paginer
+        // Récupérez les valeurs du formulaire de filtre
+        $typeEmplois = $form->get('typeEmplois')->getData();
+        $contrats = $form->get('contrats')->getData();
+        $dateOffre = $form->get('dateOffre')->getData();
+
+        // Si le formulaire n'est pas soumis, affichez tous les emplois de la catégorie
         $emplois = $paginator->paginate(
-            $entityManager->getRepository(Emploi::class)->findBy(['categories' => $categorie]),
+            $entityManager->getRepository(Emploi::class)->findBy(['categories' => $categorie], ['dateOffre' => 'DESC']),
             $request->query->getInt('page', 1),
-            8
+            12
         );
 
-        // Récupérez les emplois sauvegardés par l'utilisateur connecté
-        if ($user) {
-            $savedEmplois = $user->getEmploiSauvegarder();
-        } else {
-            $savedEmplois = [];
+        if ($form->isSubmitted() && $form->isValid()) {
+            $emplois = $paginator->paginate(
+                $entityManager->getRepository(Emploi::class)->findByFilter($categorie, $typeEmplois, $contrats, $dateOffre),
+                $request->query->getInt('page', 1),
+                12
+            );
         }
+
+        // Récupérez l'utilisateur connecté et les emplois sauvegardés
+        $user = $this->getUser();
+        $savedEmplois = $user ? $user->getEmploiSauvegarder() : [];
 
         return $this->render('emploi/emplois_par_categorie.html.twig', [
             'emplois' => $emplois,
             'categorie' => $categorie,
             'savedEmplois' => $savedEmplois,
+            'form' => $form->createView(),
         ]);
     }
 
     // Méthode pour lister les offres d'emplois par entreprise
     #[Route('/entreprise/{id}', name: 'app_emplois_par_entreprise')]
-    public function emploisParEntreprise(Entreprise $entreprise, EntityManagerInterface $entityManager,Request $request, PaginatorInterface $paginator): Response
+    public function emploisParEntreprise(Entreprise $entreprise, EntityManagerInterface $entityManager, Request $request, PaginatorInterface $paginator, FormFactoryInterface $formFactory): Response
     {
-        // Récupérer l'utilisateur connecté
-        $user = $this->getUser();
+        // Créez le formulaire de filtre
+        $form = $formFactory->create(FiltreType::class);
+        $form->handleRequest($request);
 
-        // Récupérer les emplois par entreprise et les paginer
+        // Récupérez les valeurs du formulaire de filtre
+        $typeEmplois = $form->get('typeEmplois')->getData();
+        $contrats = $form->get('contrats')->getData();
+        $dateOffre = $form->get('dateOffre')->getData();
+
+        // Si le formulaire n'est pas soumis, affichez tous les emplois de l'entreprise
         $emplois = $paginator->paginate(
-            $entityManager->getRepository(Emploi::class)->findBy(['entreprise' => $entreprise]),
+            $entityManager->getRepository(Emploi::class)->findBy(['entreprise' => $entreprise], ['dateOffre' => 'DESC']),
             $request->query->getInt('page', 1),
-            1
+            12
         );
 
-        // Récupérez les emplois sauvegardés par l'utilisateur connecté
-        if ($user) {
-            $savedEmplois = $user->getEmploiSauvegarder();
-        } else {
-            $savedEmplois = [];
+        if ($form->isSubmitted() && $form->isValid()) {
+            $emplois = $paginator->paginate(
+                $entityManager->getRepository(Emploi::class)->findByFilter(null, $typeEmplois, $contrats, $dateOffre, $entreprise),
+                $request->query->getInt('page', 1),
+                12
+            );
         }
+
+        // Récupérez l'utilisateur connecté et les emplois sauvegardés
+        $user = $this->getUser();
+        $savedEmplois = $user ? $user->getEmploiSauvegarder() : [];
 
         return $this->render('emploi/emplois_par_entreprise.html.twig', [
             'emplois' => $emplois,
             'entreprise' => $entreprise,
             'savedEmplois' => $savedEmplois,
+            'form' => $form->createView(),
         ]);
     }
 

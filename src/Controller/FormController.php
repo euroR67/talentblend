@@ -26,6 +26,11 @@ class FormController extends AbstractController
             $data['contrats'] = [$data['contrats']];
         }
 
+        // Assurez-vous que 'dateOffre' est un tableau
+        if (isset($data['dateOffre']) && !is_array($data['dateOffre'])) {
+            $data['dateOffre'] = [$data['dateOffre']];
+        }
+
         $isHomePage = $request->query->get('isHomePage', false);
 
         // Créez le formulaire avec les données de la session
@@ -81,7 +86,7 @@ class FormController extends AbstractController
                 // Utilisez Doctrine pour effectuer la recherche en fonction du poste et de la ville
                 $results = $paginator->paginate(
                     $entityManager->getRepository(Emploi::class)
-                        ->searchByPosteAndVille($data['poste'], $data['ville'], $data['typeEmplois'], $data['contrats']),
+                        ->findBySearch($data['poste'], $data['ville'], $data['typeEmplois'], $data['contrats'], $data['dateOffre']),
                     $request->query->getInt('page', 1),
                     12
                 ); 

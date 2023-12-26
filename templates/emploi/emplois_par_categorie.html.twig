@@ -16,7 +16,7 @@
 
         <aside class="filter">
             {# Panneau des filtres #}
-            <div class="filter-panel">
+            <div class="filter-panel" style="display: none;">
                 <div class="filter-panel-head">
                     <h3>Filtrer</h3>
                 </div>
@@ -89,6 +89,14 @@
                     </div>
                 </div>
             </div>
+            <form method="get" action="{{ path('app_emplois_par_categorie', {'id': categorie.id}) }}">
+                {{ form_start(form) }}
+                {{ form_row(form.typeEmplois) }}
+                {{ form_row(form.contrats) }}
+                {{ form_row(form.dateOffre) }}
+                <button type="submit">Filtrer</button>
+                {{ form_end(form) }}
+            </form>
         </aside>
     
         <div class="result-container">
@@ -117,16 +125,24 @@
                             {% endif %}
                         </div>
                         <div class="result-body">
-                            <h1 style="font-size: 24px;">{{ emploi }}</h1>
+                            <!-- Titre de l'offre d'emploi -->
+                            <h3>{{ emploi }}</h3>
                             <p>Par 
                                 <a href="{{ path('app_emplois_par_entreprise', {'id': emploi.entreprise.id}) }}">{{ emploi.entreprise }}</a>
-                                    dans 
-                                    <a href="{{ path('app_emplois_par_categorie', {'id': emploi.categories.id }) }}">{{ emploi.categories }}</a>
-                                    {% if emploi.dateOffre|date('Y-m-d') == 'now'|date('Y-m-d') %}
-                                    <span>Aujourd'hui</span>
-                                {% else %}
-                                    <span>Il y'a {{ emploi.dateOffre|date('j') }} jours</span>
-                                {% endif %}
+                                dans 
+                                <a href="{{ path('app_emplois_par_categorie', {'id': emploi.categories.id }) }}">{{ emploi.categories }}</a>
+                                {% set days = date('now')|date_modify('-' ~ emploi.dateOffre|date('U') ~ ' seconds')|date('z') %}
+                            {% if days == 0 %}
+                            <p>Aujourd'hui</p>
+                            {% else %}
+                                <p>Il y'a {{ days }} 
+                                    {% if days == 1 %}
+                                        jour
+                                    {% else %}
+                                        jours
+                                    {% endif %}
+                                </p>
+                            {% endif %}
                             </p>
                         </div>
                         <div class="result-footer">

@@ -13,46 +13,63 @@
     
 <div class="mt-5">
     <div class="filter">
-        <p>Tous les résultats - {{ results|length }} emplois</p>
+        <p>Tous les résultats - {{ results.getTotalItemCount() }} emplois</p>
         <button><i class="fa-solid fa-sliders"></i> Filtrer</button>
     </div>
 </div>
 
 <main class="search-emploi-result">
     <div class="result-wrapper">
-        {{ form_start(form,  {'attr': {'class': 'search-form-homepage'}}) }}
-
-        <div class="form-group-search" >
-            <div class="input-group">
-                {{ form_widget(form.poste, {'attr': {'class': 'form-control-search', 'placeholder': 'Rechercher emplois', 'id': 'search_emploi_poste'}}) }}
-                <i class="fa-solid fa-magnifying-glass"></i>
-            </div>
-        </div>
-        <div class="form-group-search" >
-            <div class="input-group">
-                {{ form_widget(form.ville, {'attr': {'class': 'form-control-search', 'placeholder': 'Saisir un lieu', 'id': 'search_emploi_ville'}}) }}
-                <i class="fa-solid fa-location-dot"></i>
-            </div>
-        </div>
-        <div class="form-group-search">
-            <div class="input-group">
-                {{ form_row(form.typeEmplois) }}
-            </div>
-        </div>
-        <div class="form-group-search">
-            <div class="input-group">
-                {{ form_row(form.contrats) }}
-            </div>
-        </div>
-        <div class="form-group-search">
-            <button class="submit-search" type="submit">Rechercher</button>
-        </div>
-    {{ form_end(form) }}
-    
-
+        
         <aside class="filter">
             {# Panneau des filtres #}
-            
+            <div class="filter-panel">
+                <div class="filter-panel-head">
+                    <h3>Filtrer</h3>
+                </div>
+                <div class="filter-panel-body">
+                    {{ form_start(form,  {'attr': {'class': 'search-form-homepage'}}) }}
+                    <div class="form-group-search" style="display: none;">
+                        <div class="input-group">
+                            {{ form_widget(form.poste, {'attr': {'class': 'form-control-search', 'placeholder': 'Rechercher emplois', 'id': 'search_emploi_poste'}}) }}
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </div>
+                    </div>
+                    <div class="form-group-search" style="display: none;">
+                        <div class="input-group">
+                            {{ form_widget(form.ville, {'attr': {'class': 'form-control-search', 'placeholder': 'Saisir un lieu', 'id': 'search_emploi_ville'}}) }}
+                            <i class="fa-solid fa-location-dot"></i>
+                        </div>
+                    </div>
+
+                    <div class="filter-panel-body-item">
+                        <h4>Type d'emploi</h4>
+                        <div class="checkbox">
+                            <label>
+                                {{ form_row(form.typeEmplois) }}
+                                <span>Temps plein</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="filter-panel-body-item">
+                        <div class="checkbox">
+                            <label>
+                                {{ form_row(form.contrats) }}
+                                <span>Temps partiel</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group-search">
+                        <div class="input-group">
+                            {{ form_row(form.dateOffre) }}
+                        </div>
+                    </div>
+                    <div class="form-group-search">
+                        <button class="submit-search" type="submit">Rechercher</button>
+                    </div>
+                {{ form_end(form) }}
+                </div>
+            </div>
         </aside>
     
         <div class="result-container">

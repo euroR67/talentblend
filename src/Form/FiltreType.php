@@ -12,28 +12,12 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
-class SearchEmploiType extends AbstractType
+class FiltreType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->setMethod('GET')
-            ->add('poste', TextType::class, [
-                'required' => false,
-                'attr' => [
-                    'placeholder' => 'Rechercher emplois',
-                    'class' => 'form-control-search',
-                ],
-                'label' => false,
-            ])
-            ->add('ville', TextType::class, [
-                'required' => false,
-                'attr' => [
-                    'placeholder' => 'Saisir un lieu',
-                    'class' => 'form-control-search',
-                ],
-                'label' => false,
-            ])
             // Champ pour filtrer par type d'emploi
             ->add('typeEmplois', ChoiceType::class, [
                 'required' => false,
