@@ -21,6 +21,64 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 #[Route('/recruteur')]
 class RecruteurController extends AbstractController
 {
+        // Méthode pour rechercher un candidat
+        #[Route('/search_candidat', name: 'app_search_candidat')]
+        public function search(Request $request, PaginatorInterface $paginator, EntityManagerInterface $entityManager)
+        {
+            $form = $this->createForm(SearchCandidatType::class);
+    
+            // Retrouvez les paramètres GET dans la requête
+            $metiers = $request->query->get('metiers');
+            $villes = $request->query->get('villes');
+    
+            // Retrouvez les paramètres GET directement depuis le Request
+            $postData = $request->query->all();
+    
+            // Définir des valeurs par défaut si les paramètres ne sont pas présents
+            $metiers = $postData['metiers'] ?? '';
+            $villes = $postData['villes'] ?? '';
+    
+            // Peuplez le formulaire avec les paramètres GET
+            $form->get('metiers')->setData($metiers);
+            $form->get('villes')->setData($villes);
+    
+            $data = []; // initialisez le tableau des données
+    
+            $form->handleRequest($request);
+    
+            $searchInfo = '';
+    
+            if ($form->isSubmitted() && $form->isValid()) {
+                $data = $form->getData();
+    
+                // Vérifiez si au moins un champ est renseigné
+                if (!empty($data['metiers']) || !empty($data['villes'])) {
+                    $searchInfo = sprintf('%s - %s', $data['metiers'], $data['villes']);
+    
+                    // Utilisez Doctrine pour effectuer la recherche en fonction du metiers et de la villes
+                    $results = $paginator->paginate(
+                        $entityManager->getRepository(User::class)
+                            ->searchByMetiersAndVilles($data['metiers'], $data['villes']),
+                        $request->query->getInt('page', 1),
+                        12
+                    );
+                } else {
+                    // Aucun champ renseigné, ne lancez pas la recherche
+                    $results = [];
+                }
+    
+                return $this->render('recruteur/candidat_results.html.twig', [
+                    'results' => $results,
+                    'searchInfo' => $searchInfo,
+                    'form' => $form->createView(), // Passez le formulaire à la vue
+                    'data' => $data, // Passez les données pré-remplies à la vue
+                ]);
+            }
+    
+            return $this->render('recruteur/search_candidat.html.twig', [
+                'form' => $form->createView(),
+            ]);
+        }
     // Méthode pour afficher la liste des candidatures reçues
     #[Route('/candidatures/liste', name: 'app_candidatures_recu')]
     public function listeCandidatures(Request $request, EntityManagerInterface $entityManager): Response
@@ -213,65 +271,6 @@ class RecruteurController extends AbstractController
 
         return $this->render('candidat/show.html.twig', [
             'candidat' => $candidat,
-        ]);
-    }
-
-    // Méthode pour rechercher un candidat
-    #[Route('/search_candidat', name: 'app_search_candidat')]
-    public function search(Request $request, PaginatorInterface $paginator, EntityManagerInterface $entityManager)
-    {
-        $form = $this->createForm(SearchCandidatType::class);
-
-        // Retrouvez les paramètres GET dans la requête
-        $metiers = $request->query->get('metiers');
-        $villes = $request->query->get('villes');
-
-        // Retrouvez les paramètres GET directement depuis le Request
-        $postData = $request->query->all();
-
-        // Définir des valeurs par défaut si les paramètres ne sont pas présents
-        $metiers = $postData['metiers'] ?? '';
-        $villes = $postData['villes'] ?? '';
-
-        // Peuplez le formulaire avec les paramètres GET
-        $form->get('metiers')->setData($metiers);
-        $form->get('villes')->setData($villes);
-
-        $data = []; // initialisez le tableau des données
-
-        $form->handleRequest($request);
-
-        $searchInfo = '';
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $data = $form->getData();
-
-            // Vérifiez si au moins un champ est renseigné
-            if (!empty($data['metiers']) || !empty($data['villes'])) {
-                $searchInfo = sprintf('%s - %s', $data['metiers'], $data['villes']);
-
-                // Utilisez Doctrine pour effectuer la recherche en fonction du metiers et de la villes
-                $results = $paginator->paginate(
-                    $entityManager->getRepository(User::class)
-                        ->searchByMetiersAndVilles($data['metiers'], $data['villes']),
-                    $request->query->getInt('page', 1),
-                    12
-                );
-            } else {
-                // Aucun champ renseigné, ne lancez pas la recherche
-                $results = [];
-            }
-
-            return $this->render('recruteur/candidat_results.html.twig', [
-                'results' => $results,
-                'searchInfo' => $searchInfo,
-                'form' => $form->createView(), // Passez le formulaire à la vue
-                'data' => $data, // Passez les données pré-remplies à la vue
-            ]);
-        }
-
-        return $this->render('recruteur/search_candidat.html.twig', [
-            'form' => $form->createView(),
         ]);
     }
 

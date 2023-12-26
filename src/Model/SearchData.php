@@ -8,10 +8,10 @@ class SearchData
     public $page = 1;
 
     /** * @var string */
-    public $poste = '';
+    public $metiers = '';
 
     /** * @var string */
-    public $ville = '';
+    public $villes = '';
 
     /** * @var array */
     public $typeEmplois = [];

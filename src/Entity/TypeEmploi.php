@@ -21,9 +21,13 @@ class TypeEmploi
     #[ORM\OneToMany(mappedBy: 'types', targetEntity: Emploi::class)]
     private Collection $emplois;
 
+    #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'typesEmploi')]
+    private Collection $users;
+
     public function __construct()
     {
         $this->emplois = new ArrayCollection();
+        $this->users = new ArrayCollection();
     }
 
     public function __toString(): string
@@ -77,6 +81,33 @@ class TypeEmploi
             if ($emploi->getTypes() === $this) {
                 $emploi->setTypes(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
+
+    public function addUser(User $user): static
+    {
+        if (!$this->users->contains($user)) {
+            $this->users->add($user);
+            $user->addTypesEmploi($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUser(User $user): static
+    {
+        if ($this->users->removeElement($user)) {
+            $user->removeTypesEmploi($this);
         }
 
         return $this;

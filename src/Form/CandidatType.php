@@ -7,6 +7,8 @@ use App\Entity\Ville;
 use App\Entity\Langue;
 use App\Entity\Metier;
 use App\Entity\Niveau;
+use App\Entity\Contrat;
+use App\Entity\TypeEmploi;
 use App\Form\FormationType;
 use App\Form\ExperienceType;
 use Symfony\Component\Form\FormEvent;
@@ -109,6 +111,24 @@ class CandidatType extends AbstractType
                 'label' => false,
                 'required' => false,
                 'placeholder' => 'Sélectionnez votre niveau',
+            ])
+            ->add('contrats', EntityType::class, [
+                'class' => Contrat::class,
+                'choice_label' => 'type',
+                'multiple' => true,
+                'expanded' => false,
+                'label' => false,
+                'required' => false,
+                'placeholder' => 'Sélectionnez contrat(s)',
+            ])
+            ->add('typesEmploi', EntityType::class, [
+                'class' => TypeEmploi::class,
+                'choice_label' => 'type',
+                'multiple' => true,
+                'expanded' => false,
+                'label' => false,
+                'required' => false,
+                'placeholder' => 'Sélectionnez type(s) emploi',
             ])
             ->add('langues', EntityType::class, [
                 'class' => Langue::class,

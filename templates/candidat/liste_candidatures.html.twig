@@ -20,7 +20,11 @@
             {% for candidature in candidatures %}
                 <tr>
                     <td>
-                        <a style="color: #007456;" href="">{{ candidature.emploi }}</a>
+                        <a style="color: #007456;" href="">{{ candidature.emploi }}
+                            {% if candidature.emploi.status == true %}
+                                <span>Poste pourvu</span>
+                            {% endif %}
+                        </a>
                     </td>
                     <td>
                         {% if candidature.status is null %}

@@ -21,9 +21,13 @@ class Contrat
     #[ORM\OneToMany(mappedBy: 'contrats', targetEntity: Emploi::class, orphanRemoval: true)]
     private Collection $emplois;
 
+    #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'Contrats')]
+    private Collection $users;
+
     public function __construct()
     {
         $this->emplois = new ArrayCollection();
+        $this->users = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -73,6 +77,33 @@ class Contrat
             if ($emploi->getContrats() === $this) {
                 $emploi->setContrats(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
+
+    public function addUser(User $user): static
+    {
+        if (!$this->users->contains($user)) {
+            $this->users->add($user);
+            $user->addContrat($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUser(User $user): static
+    {
+        if ($this->users->removeElement($user)) {
+            $user->removeContrat($this);
         }
 
         return $this;

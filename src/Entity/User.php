@@ -14,7 +14,7 @@ use Symfony\Component\Validator\Constraints\Valid;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
-#[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
+#[UniqueEntity(fields: ['email'], message: 'Un compte existe déjà avec cette adresse email.')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -96,6 +96,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Entreprise::class)]
     private Collection $entrepriseCreator;
 
+    #[ORM\ManyToMany(targetEntity: TypeEmploi::class, inversedBy: 'users')]
+    private Collection $typesEmploi;
+
+    #[ORM\ManyToMany(targetEntity: Contrat::class, inversedBy: 'users')]
+    private Collection $Contrats;
+
     public function __construct()
     {
         $this->experiences = new ArrayCollection();
@@ -106,6 +112,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->emploiSauvegarder = new ArrayCollection();
         $this->emplois = new ArrayCollection();
         $this->entrepriseCreator = new ArrayCollection();
+        $this->typesEmploi = new ArrayCollection();
+        $this->Contrats = new ArrayCollection();
     }
 
     public function __toString(): string
@@ -551,6 +559,54 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $entrepriseCreator->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, TypeEmploi>
+     */
+    public function getTypesEmploi(): Collection
+    {
+        return $this->typesEmploi;
+    }
+
+    public function addTypesEmploi(TypeEmploi $typesEmploi): static
+    {
+        if (!$this->typesEmploi->contains($typesEmploi)) {
+            $this->typesEmploi->add($typesEmploi);
+        }
+
+        return $this;
+    }
+
+    public function removeTypesEmploi(TypeEmploi $typesEmploi): static
+    {
+        $this->typesEmploi->removeElement($typesEmploi);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Contrat>
+     */
+    public function getContrats(): Collection
+    {
+        return $this->Contrats;
+    }
+
+    public function addContrat(Contrat $contrat): static
+    {
+        if (!$this->Contrats->contains($contrat)) {
+            $this->Contrats->add($contrat);
+        }
+
+        return $this;
+    }
+
+    public function removeContrat(Contrat $contrat): static
+    {
+        $this->Contrats->removeElement($contrat);
 
         return $this;
     }

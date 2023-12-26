@@ -74,6 +74,17 @@
                     {{ form_widget(form.niveau, {'attr': {'class': 'form-control'}, 'id': 'selectNiveau'}) }}
                 </div>
             </div>
+
+            <div class="form-group">
+                <div>
+                    <label for="selectTypeEmplois">Type d'emploi recherché</label>
+                    {{ form_widget(form.typesEmploi, {'attr': {'class': 'form-control'}, 'id': 'selectTypeEmplois'}) }}
+                </div>
+                <div>
+                    <label for="selectContrats">Type de contrat recherché</label>
+                    {{ form_widget(form.contrats, {'attr': {'class': 'form-control'}, 'id': 'selectContrats'}) }}
+                </div>
+            </div>
         
             <div class="form-group">
                 <div>
@@ -199,6 +210,8 @@
     // In your Javascript (external .js resource or <script> tag)
     $(document).ready(function() {
         $('#selectLangues').select2();
+        $('#selectTypeEmplois').select2();
+        $('#selectContrats').select2();
     });
 </script>
 
