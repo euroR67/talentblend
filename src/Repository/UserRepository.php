@@ -70,7 +70,10 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ->leftJoin('u.niveau', 'niveau')
             ->leftJoin('u.ville', 'ville')
             ->leftJoin('u.typesEmploi', 'typesEmploi')
-            ->leftJoin('u.contrats', 'contrats');
+            ->leftJoin('u.contrats', 'contrats')
+            // Les candidats dont le profil est activé
+            ->andWhere('u.active = :active')
+            ->setParameter('active', true);
 
         // Ajout des conditions basées sur les filtres
         if (!empty($searchData->metier)) {

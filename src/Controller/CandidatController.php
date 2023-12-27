@@ -252,44 +252,6 @@ class CandidatController extends AbstractController
         return $this->redirectToRoute('app_show_emploi', ['id' => $emploi->getId()]);
     }
 
-    // Méthode pour supprimer une candidature
-    #[Route('/delete/candidature/{id}/{origin}', name: 'app_candidature_delete')]
-    public function delete(Postule $candidature, string $origin, Request $request, EntityManagerInterface $entityManager): Response
-    {
-        $this->denyAccessUnlessGranted('ROLE_CANDIDAT');
-
-        // Récupère l'utilisateur en session
-        $user = $this->getUser();
-
-        // Si la candidature n'existe pas
-        if(!$candidature) {
-            // On renvoi vers la page d'accueil
-            return $this->redirectToRoute('app_home');
-        }
-
-        // Si l'utilisateur courant est différent de l'utilisateur dont on veut supprimer la candidature
-        if($this->getUser() !== $candidature->getUserPostulant()) {
-            // On renvoi vers la page d'accueil
-            return $this->redirectToRoute('app_home');
-        }
-
-        // Suppression de la candidature
-        $entityManager->remove($candidature);
-        $entityManager->flush();
-
-        // Message de succès
-        $this->addFlash('success', 'Candidature retirer avec succès.');
-
-        // On renvoi vers la page de la liste des candidatures
-        if($origin === 'dashboard') {
-            return $this->redirectToRoute('app_candidatures');
-        } else if ($origin === 'detail') {
-            return $this->redirectToRoute('app_show_emploi', ['id' => $candidature->getEmploi()->getId()]);
-        } else {
-            return $this->redirectToRoute('app_home');
-        }
-    }
-
     // Méthode pour supprimer un emploi sauvegardé
     #[Route('/delete/emploi-save/{id}/{origin}', name: 'app_emploi_delete')]
     public function deleteEmploiSauvegarder(Emploi $emploi, string $origin, Request $request, EntityManagerInterface $entityManager): Response
@@ -327,6 +289,44 @@ class CandidatController extends AbstractController
         } else if ($origin === 'resultats') {
             // Recharger juste la page actuelle
             return $this->redirect($request->headers->get('referer'));
+        } else {
+            return $this->redirectToRoute('app_home');
+        }
+    }
+
+    // Méthode pour supprimer une candidature
+    #[Route('/delete/candidature/{id}/{origin}', name: 'app_candidature_delete')]
+    public function delete(Postule $candidature, string $origin, Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_CANDIDAT');
+
+        // Récupère l'utilisateur en session
+        $user = $this->getUser();
+
+        // Si la candidature n'existe pas
+        if(!$candidature) {
+            // On renvoi vers la page d'accueil
+            return $this->redirectToRoute('app_home');
+        }
+
+        // Si l'utilisateur courant est différent de l'utilisateur dont on veut supprimer la candidature
+        if($this->getUser() !== $candidature->getUserPostulant()) {
+            // On renvoi vers la page d'accueil
+            return $this->redirectToRoute('app_home');
+        }
+
+        // Suppression de la candidature
+        $entityManager->remove($candidature);
+        $entityManager->flush();
+
+        // Message de succès
+        $this->addFlash('success', 'Candidature retirer avec succès.');
+
+        // On renvoi vers la page de la liste des candidatures
+        if($origin === 'dashboard') {
+            return $this->redirectToRoute('app_candidatures');
+        } else if ($origin === 'detail') {
+            return $this->redirectToRoute('app_show_emploi', ['id' => $candidature->getEmploi()->getId()]);
         } else {
             return $this->redirectToRoute('app_home');
         }
