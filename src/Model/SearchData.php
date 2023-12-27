@@ -8,14 +8,17 @@ class SearchData
     public $page = 1;
 
     /** * @var string */
-    public $metiers = '';
+    public $metier = '';
 
     /** * @var string */
-    public $villes = '';
+    public $ville = '';
 
     /** * @var array */
-    public $typeEmplois = [];
+    public $typesEmploi = [];
 
     /** * @var array */
     public $contrats = [];
+
+    /** * @var array */
+    public $niveau = [];
 }

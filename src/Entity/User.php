@@ -56,7 +56,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?bool $active = null;
 
     #[ORM\ManyToOne(inversedBy: 'users')]
-    private ?Metier $metiers;
+    private ?Metier $metier;
 
     #[ORM\OneToMany(mappedBy: 'userExp', targetEntity: Experience::class, orphanRemoval: true, cascade: ['persist'])]
     #[Valid]
@@ -73,7 +73,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?Niveau $niveau = null;
 
     #[ORM\ManyToOne]
-    private ?Ville $villes = null;
+    private ?Ville $ville = null;
 
     #[ORM\ManyToOne(inversedBy: 'expediteur')]
     private ?Message $messagesEnvoyes = null;
@@ -100,7 +100,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private Collection $typesEmploi;
 
     #[ORM\ManyToMany(targetEntity: Contrat::class, inversedBy: 'users')]
-    private Collection $Contrats;
+    private Collection $contrats;
 
     public function __construct()
     {
@@ -113,7 +113,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->emplois = new ArrayCollection();
         $this->entrepriseCreator = new ArrayCollection();
         $this->typesEmploi = new ArrayCollection();
-        $this->Contrats = new ArrayCollection();
+        $this->contrats = new ArrayCollection();
     }
 
     public function __toString(): string
@@ -359,14 +359,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getMetiers(): ?Metier
+    public function getMetier(): ?Metier
     {
-        return $this->metiers;
+        return $this->metier;
     }
 
-    public function setMetiers(?Metier $metiers): static
+    public function setMetier(?Metier $metier): static
     {
-        $this->metiers = $metiers;
+        $this->metier = $metier;
 
         return $this;
     }
@@ -383,14 +383,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getVilles(): ?Ville
+    public function getville(): ?Ville
     {
-        return $this->villes;
+        return $this->ville;
     }
 
-    public function setVilles(?Ville $villes): static
+    public function setville(?Ville $ville): static
     {
-        $this->villes = $villes;
+        $this->ville = $ville;
 
         return $this;
     }
@@ -590,15 +590,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @return Collection<int, Contrat>
      */
-    public function getContrats(): Collection
+    public function getcontrats(): Collection
     {
-        return $this->Contrats;
+        return $this->contrats;
     }
 
     public function addContrat(Contrat $contrat): static
     {
-        if (!$this->Contrats->contains($contrat)) {
-            $this->Contrats->add($contrat);
+        if (!$this->contrats->contains($contrat)) {
+            $this->contrats->add($contrat);
         }
 
         return $this;
@@ -606,7 +606,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function removeContrat(Contrat $contrat): static
     {
-        $this->Contrats->removeElement($contrat);
+        $this->contrats->removeElement($contrat);
 
         return $this;
     }

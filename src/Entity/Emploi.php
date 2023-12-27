@@ -159,12 +159,12 @@ class Emploi
         return $this;
     }
 
-    public function getContrats(): ?Contrat
+    public function getcontrats(): ?Contrat
     {
         return $this->contrats;
     }
 
-    public function setContrats(?Contrat $contrats): static
+    public function setcontrats(?Contrat $contrats): static
     {
         $this->contrats = $contrats;
 

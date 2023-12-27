@@ -389,7 +389,7 @@ form.search-form-modal button.submit-search:hover {
     }
 
     div.bg form.search-form-homepage #search_emploi_poste,
-    div.bg form.search-form-homepage #search_candidat_metiers {
+    div.bg form.search-form-homepage #search_candidat_metier {
         border-radius: 40px 0 0 40px;
     }
 
@@ -404,7 +404,7 @@ form.search-form-modal button.submit-search:hover {
     }
 
     div.bg form.search-form-homepage input.form-control-search,
-    div.bg form.search-form-homepage #search_candidat_metiers {
+    div.bg form.search-form-homepage #search_candidat_metier {
         border-bottom: none;
         border-right: 1px solid #ccc;
     }

@@ -6,34 +6,40 @@
 
 <div class="bg candidat">
     <h1>Recrutez des <span>talents</span> pour votre entreprise.</h1>
+    {# {% include "components/search_candidat.html.twig" %} #}
     {{ form_start(form, {'attr': {'class': 'search-form-homepage'}}) }}
     <div class="form-group-search">
         <div class="input-group">
-            {{ form_widget(form.metiers, {'value': data.metiers is defined ? data.metiers : ''},  {'attr': {'class': 'form-control-search', 'placeholder': 'Rechercher un candidat'}}) }}
+            {{ form_widget(form.metier, {'attr': {'class': 'form-control-search', 'placeholder': 'Rechercher un candidat'}}) }}
             <i class="fa-solid fa-magnifying-glass"></i>
         </div>
     </div>
     <div class="form-group-search">
         <div class="input-group">
-            {{ form_widget(form.villes, {'attr': {'class': 'form-control-search', 'placeholder': 'Saisir un lieu'}}) }}
+            {{ form_widget(form.ville, {'attr': {'class': 'form-control-search', 'placeholder': 'Saisir un lieu'}}) }}
             <i class="fa-solid fa-location-dot"></i>
         </div>
     </div>
     <div class="form-group-search">
         <button class="submit-search" type="submit">Rechercher</button>
     </div>
-    {{ form_end(form) }}
 </div>
 
 <div class="result-info">
     <div class="search-result">
-        <h2>Résultats de recherche pour <span>{{ searchInfo }}</span></h2>
+        {% if results is not empty %}
+            <h2>Résultats de recherche pour <span>{{ searchInfo }}</span></h2>
+        {% else %}
+            <h2>Aucun résultat pour votre recherche</h2>
+        {% endif %}
     </div>
 </div>
 
 <div class="mt-5">
     <div class="filter">
-        <p>Tous les résultats - {{ results|length }} candidats</p>
+        {% if results is not empty %}
+            <p>Tous les résultats - {{ results.getTotalItemCount() }} emplois</p>
+        {% endif %}
         <button><i class="fa-solid fa-sliders"></i> Filtrer</button>
     </div>
 </div>
@@ -49,32 +55,12 @@
                 </div>
                 <div class="filter-panel-body">
                     
-                    <div class="filter-panel-body-item">
-                        <h4>Expérience</h4>
-                        {# Type checkbox #}
-                        <div class="checkbox">
-                            <label>
-                                <input name="experience" type="checkbox" value="1">
-                                <span>Novice</span>
-                            </label>
-                            <label>
-                                <input name="experience" type="checkbox" value="2">
-                                <span>1 - 2 ans</span>
-                            </label>
-                            <label>
-                                <input name="experience" type="checkbox" value="3">
-                                <span>3 - 5 ans</span>
-                            </label>
-                            <label>
-                                <input name="experience" type="checkbox" value="4">
-                                <span>6 - 9 ans</span>
-                            </label>
-                            <label>
-                                <input name="experience" type="checkbox" value="5">
-                                <span>Plus de 10 ans</span>
-                            </label>
-                        </div>
-                    </div>
+                    {# Les 3 autres champ pour les filtre ICI #}
+                    {{ form_widget(form.typesEmploi)}}
+                    {{ form_widget(form.contrats)}}
+                    {{ form_widget(form.niveau)}}
+                    <button class="submit-search" type="submit">Rechercher</button>
+                    {{ form_end(form) }}
                 </div>
             </div>
         </aside>
@@ -94,13 +80,13 @@
                                 </div>
                             </div>
                             <div class="result-body">
-                                <h1>{{ candidat.metiers }}</h1>
+                                <h1>{{ candidat.metier }}</h1>
                                 <a href="#">{{ candidat }}</a>
                             </div>
                         </div>
                         <div class="result-footer">
                             <span>Expérience: {{ candidat.niveau }} ans</span>
-                            <span><i class="fa-solid fa-location-dot"></i> {{ candidat.villes }}</span>
+                            <span><i class="fa-solid fa-location-dot"></i> {{ candidat.ville }}</span>
                         </div>
                     </div>
                 {% endfor %}
@@ -111,7 +97,10 @@
 
     </div>
 </main>
-{{ knp_pagination_render(results) }}
+
+{% if results is not empty %}
+    {{ knp_pagination_render(results) }}
+{% endif %}
 
 <script>
     // Rediriger l'utilisateur vers la page de l'emploi lorsqu'il clique sur un résultat

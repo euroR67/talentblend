@@ -90,7 +90,7 @@ class CandidatType extends AbstractType
                 'label' => false,
                 'disabled' => true,
             ])
-            ->add('metiers', EntityType::class, [
+            ->add('metier', EntityType::class, [
                 'class' => Metier::class,
                 'choice_label' => 'nomMetier',
                 'multiple' => false,
@@ -139,7 +139,7 @@ class CandidatType extends AbstractType
                 'required' => false,
                 'placeholder' => 'Sélectionnez langue(s)',
             ])
-            ->add('villes', EntityType::class, [
+            ->add('ville', EntityType::class, [
                 'class' => Ville::class,
                 'choice_label' => 'nomVille',
                 'multiple' => false,

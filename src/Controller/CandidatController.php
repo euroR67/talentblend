@@ -52,8 +52,8 @@ class CandidatController extends AbstractController
             $photo = $form->get('photo')->getData();
             $cv = $form->get('cv')->getData();
             $active = $form->get('active')->getData();
-            $villes = $form->get('villes')->getData();
-            $metiers = $form->get('metiers')->getData();
+            $ville = $form->get('ville')->getData();
+            $metier = $form->get('metier')->getData();
             $langues = $form->get('langues')->getData();
             $nom = $form->get('nom')->getData();
             $prenom = $form->get('prenom')->getData();
@@ -142,8 +142,8 @@ class CandidatController extends AbstractController
                 // Vérifie si les champs obligatoires sont renseignés
                 if( $langues->count() === 0
                 || empty($user->getCv())
-                || empty($villes) 
-                || empty($metiers) 
+                || empty($ville) 
+                || empty($metier) 
                 || empty($nom) 
                 || empty($prenom) 
                 || empty($niveau) 

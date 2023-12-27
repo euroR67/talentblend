@@ -54,12 +54,6 @@ class EmploiType extends AbstractType
                     'class' => 'form-control'
                 ]
             ])
-            ->add('dateOffre', DateType::class, [
-                'widget' => 'single_text',
-                'attr' => [
-                    'class' => 'form-control'
-                ]
-            ]) 
             ->add('categories', EntityType::class, [
                 'class' => Categorie::class,
                 'multiple' => false,

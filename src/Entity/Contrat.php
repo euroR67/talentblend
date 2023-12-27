@@ -21,7 +21,7 @@ class Contrat
     #[ORM\OneToMany(mappedBy: 'contrats', targetEntity: Emploi::class, orphanRemoval: true)]
     private Collection $emplois;
 
-    #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'Contrats')]
+    #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'contrats')]
     private Collection $users;
 
     public function __construct()
@@ -64,7 +64,7 @@ class Contrat
     {
         if (!$this->emplois->contains($emploi)) {
             $this->emplois->add($emploi);
-            $emploi->setContrats($this);
+            $emploi->setcontrats($this);
         }
 
         return $this;
@@ -74,8 +74,8 @@ class Contrat
     {
         if ($this->emplois->removeElement($emploi)) {
             // set the owning side to null (unless already changed)
-            if ($emploi->getContrats() === $this) {
-                $emploi->setContrats(null);
+            if ($emploi->getcontrats() === $this) {
+                $emploi->setcontrats(null);
             }
         }
 

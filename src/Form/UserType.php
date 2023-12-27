@@ -31,7 +31,7 @@ class UserType extends AbstractType
             ->add('nom', TextType::class)
             ->add('prenom', TextType::class)
             ->add('email', EmailType::class)
-            ->add('metiers', EntityType::class, [
+            ->add('metier', EntityType::class, [
                 'class' => Metier::class,
                 'choice_label' => 'nomMetier',
                 'multiple' => true,
@@ -50,7 +50,7 @@ class UserType extends AbstractType
                 'multiple' => true,
                 'expanded' => true,
             ])
-            ->add('villes', EntityType::class, [
+            ->add('ville', EntityType::class, [
                 'class' => Ville::class,
                 'choice_label' => 'nomVille',
                 'multiple' => true,

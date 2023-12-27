@@ -67,7 +67,7 @@
             <div class="form-group">
                 <div>
                     <label for="selectMetier">Métier</label>
-                    {{ form_widget(form.metiers, {'attr': {'class': 'form-control'}, 'id': 'selectMetier'}) }}
+                    {{ form_widget(form.metier, {'attr': {'class': 'form-control'}, 'id': 'selectMetier'}) }}
                 </div>
                 <div>
                     <label for="selectNiveau">Niveau d'expérience</label>
@@ -81,8 +81,8 @@
                     {{ form_widget(form.typesEmploi, {'attr': {'class': 'form-control'}, 'id': 'selectTypeEmplois'}) }}
                 </div>
                 <div>
-                    <label for="selectContrats">Type de contrat recherché</label>
-                    {{ form_widget(form.contrats, {'attr': {'class': 'form-control'}, 'id': 'selectContrats'}) }}
+                    <label for="selectcontrats">Type de contrat recherché</label>
+                    {{ form_widget(form.contrats, {'attr': {'class': 'form-control'}, 'id': 'selectcontrats'}) }}
                 </div>
             </div>
         
@@ -93,7 +93,7 @@
                 </div>
                 <div>
                     <label for="selectVille">Ville</label>
-                    {{ form_widget(form.villes, {'attr': {'class': 'form-control'}, 'id': 'selectVille'}) }}
+                    {{ form_widget(form.ville, {'attr': {'class': 'form-control'}, 'id': 'selectVille'}) }}
                 </div>
             </div>
 
@@ -211,7 +211,7 @@
     $(document).ready(function() {
         $('#selectLangues').select2();
         $('#selectTypeEmplois').select2();
-        $('#selectContrats').select2();
+        $('#selectcontrats').select2();
     });
 </script>
 

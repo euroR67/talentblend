@@ -7,13 +7,19 @@
 
 <div class="result-info">
     <div class="search-result">
-        <h2>Résultats de recherche pour <span>{{ searchInfo }}</span></h2>
+        {% if results is not empty %}
+            <h2>Résultats de recherche pour <span>{{ searchInfo }}</span></h2>
+        {% else %}
+            <h2>Aucun résultat pour votre recherche</h2>
+        {% endif %}
     </div>
 </div>
     
 <div class="mt-5">
     <div class="filter">
-        <p>Tous les résultats - {{ results.getTotalItemCount() }} emplois</p>
+        {% if results is not empty %}
+            <p>Tous les résultats - {{ results.getTotalItemCount() }} emplois</p>
+        {% endif %}
         <button><i class="fa-solid fa-sliders"></i> Filtrer</button>
     </div>
 </div>
@@ -135,7 +141,9 @@
     </div>
 </main>
 
-{{ knp_pagination_render(results) }}
+{% if results is not empty %}
+    {{ knp_pagination_render(results) }}
+{% endif %}
 
 <script>
     // Rediriger l'utilisateur vers la page de l'emploi lorsqu'il clique sur un résultat

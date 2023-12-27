@@ -6,23 +6,7 @@
 
 <div class="bg candidat">
     <h1>Recrutez des <span>talents</span> pour votre entreprise.</h1>
-    {{ form_start(form, {'attr': {'class': 'search-form-homepage'}}) }}
-    <div class="form-group-search">
-        <div class="input-group">
-            {{ form_widget(form.metiers, {'attr': {'class': 'form-control-search', 'placeholder': 'Rechercher un candidat'}}) }}
-            <i class="fa-solid fa-magnifying-glass"></i>
-        </div>
-    </div>
-    <div class="form-group-search">
-        <div class="input-group">
-            {{ form_widget(form.villes, {'attr': {'class': 'form-control-search', 'placeholder': 'Saisir un lieu'}}) }}
-            <i class="fa-solid fa-location-dot"></i>
-        </div>
-    </div>
-    <div class="form-group-search">
-        <button class="submit-search" type="submit">Rechercher</button>
-    </div>
-    {{ form_end(form) }}
+    {% include "components/search_candidat.html.twig" %}
 </div>
 
 {% endblock %}
