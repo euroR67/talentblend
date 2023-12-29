@@ -71,6 +71,9 @@ class Emploi
     #[ORM\Column(nullable: true)]
     private ?bool $status = null;
 
+    #[ORM\Column(nullable: false)]
+    private ?bool $pause = null;
+
     public function __construct()
     {
         $this->postulations = new ArrayCollection();
@@ -308,6 +311,18 @@ class Emploi
     public function setStatus(?bool $status): static
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    public function isPause(): ?bool
+    {
+        return $this->pause;
+    }
+
+    public function setPause(?bool $pause): static
+    {
+        $this->pause = $pause;
 
         return $this;
     }

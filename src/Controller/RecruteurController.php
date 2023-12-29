@@ -153,9 +153,13 @@ class RecruteurController extends AbstractController
         // Récupère les emplois dont dateExpiration est supérieur à la date du jour
         $emploisExpirer = $entityManager->getRepository(Emploi::class)->findEmploiExpirer($user->getEmplois());
 
+        // Récupère les emplois qui sont mis en pause
+        $emploiPaused = $entityManager->getRepository(Emploi::class)->findEmploiPaused($user->getEmplois());
+
         return $this->render('recruteur/index.html.twig', [
             'emplois' => $emplois,
             'emploisExpirer' => $emploisExpirer,
+            'emploisPaused' => $emploiPaused,
         ]);
     }
 
@@ -171,6 +175,7 @@ class RecruteurController extends AbstractController
             $emploi = new Emploi();
             $emploi->setDateOffre(new \DateTime());
             $emploi->setDateExpiration(new \DateTime('+1 month'));
+            $emploi->setPause(false);
             $emploi->setUser($this->getUser());
         }
 
@@ -205,12 +210,48 @@ class RecruteurController extends AbstractController
         ]);
     }
 
+    // Méthode pour prolonger de 1 mois la durée d'une offre emploi
+    #[Route('/emploi/prolonger/{id}', name: 'app_extend_emploi')]
+    public function extendEmploi(Emploi $emploi, Request $request, EntityManagerInterface $entityManager): Response
+    {
+        // Accès réservé au recruteur
+        $this->denyAccessUnlessGranted('ROLE_RECRUTEUR');
+
+        // Vérifie si l'emploi appartient à l'utilisateur connecté
+        $hasAccess = $emploi->getUser() === $this->getUser();
+
+        // Vérifie si l'emploi actuel est expiré ou non
+        $isExpired = $emploi->getDateExpiration() < new \DateTime();
+
+        // Si l'emploi est expiré et que l'utilisateur est le créateur de l'emploi
+        if($isExpired && $hasAccess) {
+            // On ajoute prolonge d'un mois l'offre d'emploi
+            $emploi->setDateOffre(new \DateTime());
+            $emploi->setDateExpiration(new \DateTime('+1 month'));
+        } else {
+            $this->addFlash('danger', 'Vous n\'avez pas le droit de modifier cet emploi.');
+            return $this->redirectToRoute('app_home');
+        }
+
+        // Enregistre les modifications
+        $entityManager->flush();
+
+        // Message flash de succès
+        $this->addFlash('success', "L'offre d'emploi a été prolongée avec succès pour une période de 30 jours.");
+
+        // Redirige vers la liste des emplois
+        return $this->redirectToRoute('app_emplois');
+    }
+    
     // Fonction pour supprimer un emploi
     #[Route('/emploi/delete/{id}', name: 'app_delete_emploi')]
     public function delete_emploi(Emploi $emploi = null, Request $request,EntityManagerInterface $entityManager) : Response
     {
         $this->denyAccessUnlessGranted('ROLE_RECRUTEUR');
         
+        // Récupère l'utilisateur en session
+        $user = $this->getUser();
+
         // Vérfie si l'emploi appartient à l'utilisateur connecté
         $hasAccess = $emploi->getUser() === $this->getUser();
         
@@ -286,6 +327,37 @@ class RecruteurController extends AbstractController
             $emploi->setStatus(false);
         } else {
             $emploi->setStatus(true);
+        }
+
+        // Enregistre les modifications
+        $entityManager->flush();
+
+        // Redirige vers la liste des emplois
+        return $this->redirectToRoute('app_emplois');
+    }
+
+    // Méthode pour mettre en pause/resume une offre d'emploi
+    #[Route('/emploi/pauseResume/{id}', name: 'app_pause_emploi')]
+    public function pauseResume(Emploi $emploi, Request $request, EntityManagerInterface $entityManager): Response
+    {
+        // Récupère l'utilisateur en session
+        $user = $this->getUser();
+
+        // Accès réservé au recruteur
+        $this->denyAccessUnlessGranted('ROLE_RECRUTEUR');
+
+        // Vérifie si l'emploi appartient à l'utilisateur connecté
+        $hasAccess = $emploi->getUser() === $this->getUser();
+
+        if(!$hasAccess) {
+            $this->addFlash('danger', 'Vous n\'avez pas le droit de modifier cet emploi.');
+            return $this->redirectToRoute('app_home');
+        }
+
+        if($emploi->isPause() == true) {
+            $emploi->setPause(false);
+        } else {
+            $emploi->setPause(true);   
         }
 
         // Enregistre les modifications

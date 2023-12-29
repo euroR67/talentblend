@@ -4,7 +4,7 @@
 
 {% block body %}
 <div class="wrapper">
-    <h2>Gérez vos offres d'emploi</h2>
+    <h2>Offres d'emploi en ligne</h2>
     <div class="table-wrapper">
         <table>
             <colgroup span="5"></colgroup>
@@ -12,7 +12,6 @@
                 <tr>
                     <th>Titre</th>
                     <th>Candidatures</th>
-                    <th>Status</th>
                     <th>Date</th>
                     <th>Expire</th>
                     <th></th>
@@ -27,23 +26,9 @@
                             <span>
                                 "Pourvu"
                             </span>
-                        {% elseif emploi.status == 0 %}
-                            <span>
-                                "Non pourvu"
-                            </span>
                         {% endif %}
                     </td>
                     <td>{{ emploi.postulations|length }}</td>
-                    <td>
-                        {# Si la date de l'offre a plus d'un mois, on la considère comme expirée #}
-                        {% if emploi.dateExpiration < date() %}
-                            Fermer
-                        {% elseif emploi.dateOffre > date() %}
-                            Bientôt
-                        {% else %}
-                            En ligne
-                        {% endif %}
-                    </td>
                     <td>{{ emploi.dateOffre|format_datetime('long', 'none', locale='fr') }}</td>
                     <td>
                         {# Si la date d'expiration est dépassée, on affiche "Expirée" #}
@@ -63,6 +48,11 @@
                             {% elseif emploi.status == true %}
                                 <a href="{{ path('app_status_emploi', {'id': emploi.id}) }}"><i class="fa-regular fa-circle-xmark"></i> Non pourvu</a>
                             {% endif %}
+                            {% if emploi.pause == false %}
+                                <a href="{{ path('app_pause_emploi', {'id': emploi.id}) }}"><i class="fa-regular fa-circle-pause"></i> Mettre en pause</a>
+                            {% elseif emploi.pause == true %}
+                                <a href="{{ path('app_pause_emploi', {'id': emploi.id}) }}"><i class="fa-regular fa-circle-play"></i> Réactiver</a>
+                            {% endif %}
                             <a href="{{ path('app_edit_emploi', {'id': emploi.id}) }}"><i class="fa-solid fa-pen-to-square"></i> Modifier</a>
                             <a href="{{ path('app_delete_emploi', {'id': emploi.id}) }}"><i class="fa-solid fa-xmark"></i> Supprimer</a>
                         </div>
@@ -80,7 +70,6 @@
                 <tr>
                     <th>Titre</th>
                     <th>Candidatures</th>
-                    <th>Status</th>
                     <th>Date</th>
                     <th>Expire</th>
                     <th></th>
@@ -95,23 +84,9 @@
                             <span>
                                 "Pourvu"
                             </span>
-                        {% elseif emploi.status == 0 %}
-                            <span>
-                                "Non pourvu"
-                            </span>
                         {% endif %}
                     </td>
                     <td>{{ emploi.postulations|length }}</td>
-                    <td>
-                        {# Si la date de l'offre a plus d'un mois, on la considère comme expirée #}
-                        {% if emploi.dateExpiration < date() %}
-                            Fermer
-                        {% elseif emploi.dateOffre > date() %}
-                            Bientôt
-                        {% else %}
-                            En ligne
-                        {% endif %}
-                    </td>
                     <td>{{ emploi.dateOffre|format_datetime('long', 'none', locale='fr') }}</td>
                     <td>
                         {# Si la date d'expiration est dépassée, on affiche "Expirée" #}
@@ -126,6 +101,71 @@
                     <td class="td-action">
                         <i class="fa-solid fa-ellipsis"></i>
                         <div class="action">
+                            {# Si la date d'expiration est dépassée, on affiche le bouton "Prolonger" #}
+                            {% if emploi.dateExpiration < date() %}
+                                <a href="{{ path('app_extend_emploi', {'id': emploi.id}) }}"><i class="fa-solid fa-calendar-plus"></i> Prolonger</a>
+                            {% endif %}
+                            <a href="{{ path('app_edit_emploi', {'id': emploi.id}) }}"><i class="fa-solid fa-pen-to-square"></i> Modifier</a>
+                            <a href="{{ path('app_delete_emploi', {'id': emploi.id}) }}"><i class="fa-solid fa-xmark"></i> Supprimer</a>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <h2>Offres d'emploi en pause</h2>
+    <div class="table-wrapper">
+        <table>
+            <colgroup span="5"></colgroup>
+            <thead>
+                <tr>
+                    <th>Titre</th>
+                    <th>Candidatures</th>
+                    <th>Date</th>
+                    <th>Expire</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for emploi in emploisPaused %}
+                <tr>
+                    <td>
+                        {{ emploi.poste }}
+                        {% if emploi.status == true %}
+                            <span>
+                                "Pourvu"
+                            </span>
+                        {% endif %}
+                    </td>
+                    <td>{{ emploi.postulations|length }}</td>
+                    <td>{{ emploi.dateOffre|format_datetime('long', 'none', locale='fr') }}</td>
+                    <td>
+                        {# Si la date d'expiration est dépassée, on affiche "Expirée" #}
+                        {% if emploi.dateExpiration < date() %}
+                            Expirée
+                        {% else %}
+                            {# Sinon on affiche le nombre de jours restants #}
+                            Expire dans {{ emploi.dateExpiration|date_modify('-' ~ date('now')|date('U') ~ ' seconds')|date('z') }} jours
+                        {% endif %}
+                        
+                    </td>
+                    <td class="td-action">
+                        <i class="fa-solid fa-ellipsis"></i>
+                        <div class="action">
+                            {# Si la date d'expiration est dépassée, on affiche le bouton "Prolonger" #}
+                            {% if emploi.dateExpiration < date() %}
+                                <a href="{{ path('app_extend_emploi', {'id': emploi.id}) }}"><i class="fa-solid fa-calendar-plus"></i> Prolonger</a>
+                            {% endif %}
+                            {% if emploi.status == false %}
+                                <a href="{{ path('app_status_emploi', {'id': emploi.id}) }}"><i class="fa-solid fa-check-to-slot"></i> Pourvu</a>
+                            {% elseif emploi.status == true %}
+                                <a href="{{ path('app_status_emploi', {'id': emploi.id}) }}"><i class="fa-regular fa-circle-xmark"></i> Non pourvu</a>
+                            {% endif %}
+                            {% if emploi.pause == true %}
+                                <a href="{{ path('app_pause_emploi', {'id': emploi.id}) }}"><i class="fa-regular fa-circle-play"></i> Réactiver</a>
+                            {% endif %}
                             <a href="{{ path('app_edit_emploi', {'id': emploi.id}) }}"><i class="fa-solid fa-pen-to-square"></i> Modifier</a>
                             <a href="{{ path('app_delete_emploi', {'id': emploi.id}) }}"><i class="fa-solid fa-xmark"></i> Supprimer</a>
                         </div>

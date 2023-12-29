@@ -40,7 +40,9 @@ class EmploiRepository extends ServiceEntityRepository
             ->where('e.poste LIKE :poste')
             ->setParameter('poste', "%{$poste}%")
             ->andWhere('e.dateExpiration > :currentDate')
+            ->andWhere('e.pause = :isPause')
             ->setParameter('currentDate', $currentDate)
+            ->setParameter('isPause', false)
             ->addOrderBy('e.dateOffre', 'DESC');
 
         if(!empty($poste)) {
@@ -121,9 +123,12 @@ class EmploiRepository extends ServiceEntityRepository
 
         // On crée une requête pour trouver les emplois non expirés
         $qb->andWhere('e.dateExpiration > :date')
+            // Exclure les emploi qui sont en pause
+            ->andWhere('e.pause = :isPause')
             // Permet de récupérer la date du jour
             ->setParameter('date', new \DateTime('now'))
             // Permet de trier les emplois par date d'expiration
+            ->setParameter('isPause', false)
             ->orderBy('e.dateExpiration', 'DESC');
 
         // On récupère les emplois de l'utilisateur en session
@@ -143,6 +148,22 @@ class EmploiRepository extends ServiceEntityRepository
 
         $qb->andWhere('e.dateExpiration < :date')
             ->setParameter('date', new \DateTime('now'))
+            ->orderBy('e.dateExpiration', 'DESC');
+
+        $qb->andWhere('e IN (:emplois)')
+            ->setParameter('emplois', $emplois)
+            ->orderBy('e.dateExpiration', 'DESC');
+
+        return $qb->getQuery()->getResult();
+    }
+
+    // Trouver les emploi qui sont mise en pause
+    public function findEmploiPaused($emplois)
+    {
+        $qb = $this->createQueryBuilder('e');
+
+        $qb->andWhere('e.pause = :isPause')
+            ->setParameter('isPause', true)
             ->orderBy('e.dateExpiration', 'DESC');
 
         $qb->andWhere('e IN (:emplois)')
