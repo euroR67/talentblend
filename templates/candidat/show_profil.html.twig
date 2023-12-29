@@ -1,0 +1,111 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détail de {{ candidat }}{% endblock %}
+
+{% block body %}
+
+    <main class="show show-candidat">
+
+        <div class="left-side">
+
+            <div class="detail-head">
+
+                <div>
+                    <div class="head">
+                        <div class="logo-new pdp">
+                            {% if candidat.photo %}
+                                <img src="{{ asset('pdp/' ~ candidat.photo) }}" alt="Photo de profil de l'utilisateur">
+                            {% else %}
+                                <p>{{ candidat.nom|first }}{{ candidat.prenom|first }}</p>
+                            {% endif %}
+                        </div>
+                        <div class="result-body">
+                            <h3>{{ candidat }}</h3>
+                            <p>{{ candidat.metier }} <span><i class="fa-solid fa-location-dot"></i> {{ candidat.ville }}</span></p>
+                        </div>
+                    </div>
+                    <div class="action-candidat">
+                        <a title="Télécharger le CV" href="{{ path('download_cv', {'userId': candidat.id}) }}"><i class="fa-regular fa-file-pdf"></i> Enregistrer sous PDF</a>
+                        <a href=""><i class="fa-regular fa-paper-plane"></i> Message</a>
+                    </div>
+                </div>
+
+                <div class="description-offre">
+                    <h4>A propos de moi</h4>
+                    <p>{{ candidat.description|raw }}</p>
+                </div>
+
+            </div>
+
+            <div class="experience">
+                <h4>Expérience Professionnel</h4>
+                {% for experience in candidat.experiences %}
+                    <div class="candidat-experience">
+                        <div class="experience-titre">
+                            {{ experience.titre }}
+                        </div>
+                        <div class="experience-detail">
+                            <div>
+                                <span>{{ experience.entreprise }}</span>
+                                <span>{{ experience.dateDebut|date('d/m/Y') }} - {% if experience.dateFin %}{{ experience.dateFin|date('d/m/Y') }}{% else %}En cours{% endif %}</span>
+                            </div>
+                            <span>{{ experience.description }}</span>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div class="experience formation">
+                <h4>Formation / Diplôme</h4>
+                {% for formation in candidat.formations %}
+                    <div class="candidat-formation candidat-experience">
+                        <div class="formation-titre experience-titre">
+                            {{ formation.titre }}
+                        </div>
+                        <div class="formation-detail experience-detail">
+                            <div>
+                                <span>{{ formation.qualification }}</span>
+                                <span>{{ formation.dateDebut|date('d/m/Y') }} - {% if formation.dateFin %}{{ formation.dateFin|date('d/m/Y') }}{% else %}En cours{% endif %}</span>
+                            </div>
+                            <span>{{ formation.description }}</span>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+        </div>
+
+        <aside class="info-entreprise info-candidat">
+            <div class="entreprise-info-head candidat-info-head">
+                <div class="tab-info-entreprise">
+                    <h3>Informations</h3>
+                    <div class="info-item">
+                        <p>Metier</p>
+                        <p>{{ candidat.metier }}</p>
+                    </div>
+                    <div class="info-item">
+                        <p>Expérience</p>
+                        <p>{{ candidat.niveau }} ans</p>
+                    </div>
+                    <div class="info-item">
+                        <p>Langues</p>
+                        <p>
+                            {% for langue in candidat.langues %}
+                                {{ langue }}{% if not loop.last %}, {% endif %}
+                            {% endfor %}
+                        </p>
+                    </div>
+                    <div class="info-item">
+                        <p>Localisation</p>
+                        <p>{{ candidat.ville }}</p>
+                    </div>
+                    <div class="send-msg-btn">
+                        <a href=""><i class="fa-regular fa-paper-plane"></i> Envoyer un message</a>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+    </main>
+
+{% endblock %}

@@ -331,4 +331,26 @@ class CandidatController extends AbstractController
             return $this->redirectToRoute('app_home');
         }
     }
+
+    // Méthode pour voir le profil du candidat
+    #[Route('/profil_candidat/{id}', name: 'app_show_profil')]
+    public function showCandidat($id,Request $request, EntityManagerInterface $entityManager, UserRepository $ur): Response
+    {
+        // Récupère l'utilisateur en session
+        $user = $this->getUser();
+        
+        // Accès réservé au candidat lui-même uniquement
+        if($user->getId() != $id) {
+            // On renvoi vers la page d'accueil
+            return $this->redirectToRoute('app_home');
+        }
+
+
+        // Récupère le candidat en question
+        $candidat = $ur->find($id);
+
+        return $this->render('candidat/show_profil.html.twig', [
+            'candidat' => $candidat,
+        ]);
+    }
 }
