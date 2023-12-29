@@ -173,11 +173,26 @@ class EmploiRepository extends ServiceEntityRepository
         return $qb->getQuery()->getResult();
     }
 
+    // Trouver les emploi par catégorie
+    public function findByCategory($categorie)
+    {
+        return $this->createQueryBuilder('e')
+        ->andWhere('e.pause = :isPause')
+        ->andWhere('e.categories = :categorie')
+        ->setParameter('isPause', false)
+        ->setParameter('categorie', $categorie)
+        ->orderBy('e.dateOffre', 'DESC')
+        ->getQuery()
+        ->getResult();
+    }
+
     public function findByFilter($categorie, $typeEmplois, $contrats, $dateOffre, $entreprise = null)
     {
         $queryBuilder = $this->createQueryBuilder('e')
             ->andWhere('e.categories = :categorie')
-            ->setParameter('categorie', $categorie);
+            ->andWhere('e.pause = :isPause')
+            ->setParameter('categorie', $categorie)
+            ->setParameter('isPause', false);
 
         if (!empty($entreprise)) {
             $queryBuilder = $this->createQueryBuilder('e')

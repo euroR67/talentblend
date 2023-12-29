@@ -25,7 +25,7 @@ class Emploi
     #[ORM\Column(type: Types::TEXT)]
     private ?string $description = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?int $salaire = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
@@ -73,6 +73,15 @@ class Emploi
 
     #[ORM\Column(nullable: false)]
     private ?bool $pause = null;
+
+    #[ORM\Column(length: 30, nullable: true)]
+    private ?string $showBy = null;
+
+    #[ORM\Column(length: 30, nullable: true)]
+    private ?string $taux = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $salaireMinimum = null;
 
     public function __construct()
     {
@@ -131,7 +140,7 @@ class Emploi
         return $this->salaire;
     }
 
-    public function setSalaire(int $salaire): static
+    public function setSalaire(?int $salaire): static
     {
         $this->salaire = $salaire;
 
@@ -323,6 +332,42 @@ class Emploi
     public function setPause(?bool $pause): static
     {
         $this->pause = $pause;
+
+        return $this;
+    }
+
+    public function getShowBy(): ?string
+    {
+        return $this->showBy;
+    }
+
+    public function setShowBy(?string $showBy): static
+    {
+        $this->showBy = $showBy;
+
+        return $this;
+    }
+
+    public function getTaux(): ?string
+    {
+        return $this->taux;
+    }
+
+    public function setTaux(?string $taux): static
+    {
+        $this->taux = $taux;
+
+        return $this;
+    }
+
+    public function getSalaireMinimum(): ?int
+    {
+        return $this->salaireMinimum;
+    }
+
+    public function setSalaireMinimum(?int $salaireMinimum): static
+    {
+        $this->salaireMinimum = $salaireMinimum;
 
         return $this;
     }

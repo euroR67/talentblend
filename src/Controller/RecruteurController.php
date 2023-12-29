@@ -192,7 +192,20 @@ class RecruteurController extends AbstractController
 
         $form->handleRequest($request);
 
+        // Vérifie si le formulaire est soumis et valide
         if($form->isSubmitted() && $form->isValid()) {
+            // Gérer les données concernant le salaire lors de la modification
+            if($emploi->getShowBy() == 'negociable') {
+                $emploi->setSalaireMinimum(null);
+                $emploi->setSalaire(null);
+                $emploi->setShowBy('negociable');
+            } elseif($emploi->getShowBy() == 'montantMinimum') {
+                $emploi->setSalaire(null);
+                $emploi->setShowBy('montantMinimum');
+            } elseif($emploi->getShowBy() == 'montantMaximum') {
+                $emploi->setSalaireMinimum(null);
+                $emploi->setShowBy('montantMaximum');
+            }
 
             $entityManager->persist($emploi);
 

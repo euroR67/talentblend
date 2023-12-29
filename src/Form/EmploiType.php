@@ -10,6 +10,7 @@ use App\Entity\Contrat;
 use App\Entity\Categorie;
 use App\Entity\Entreprise;
 use App\Entity\TypeEmploi;
+use EmptyToNullTransformer;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\AbstractType;
@@ -19,6 +20,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -50,6 +52,34 @@ class EmploiType extends AbstractType
                 ]
             ])
             ->add('salaire', IntegerType::class, [
+                'attr' => [
+                    'class' => 'form-control'
+                ]
+            ])
+            ->add('salaireMinimum', IntegerType::class, [
+                'attr' => [
+                    'class' => 'form-control'
+                ]
+            ])
+            ->add('showBy', ChoiceType::class, [
+                'choices' => [
+                    'Echelle' => 'echelle',
+                    'Montant de départ' => 'montantMinimum',
+                    'Montant maximale' => 'montantMaximum',
+                    'Négociable' => 'negociable',
+                ],
+                'attr' => [
+                    'class' => 'form-control'
+                ]
+            ])
+            ->add('taux', ChoiceType::class, [
+                'choices' => [
+                    'Par heure' => 'horaire',
+                    'Par jour' => 'journalier',
+                    'Par semaine' => 'hebdomadaire',
+                    'Par mois' => 'mensuel',
+                    'Par année' => 'annuel',
+                ],
                 'attr' => [
                     'class' => 'form-control'
                 ]
@@ -97,7 +127,6 @@ class EmploiType extends AbstractType
                     'class' => 'form-control'
                 ]
             ])
-            ->add('submit', SubmitType::class)
         ;
         // On récupère l'utilisateur, on sanitize pour s'assurer qu'un utilisateur existe
         $user = $this->security->getUser();

@@ -39,7 +39,7 @@ class EmploiController extends AbstractController
 
         // Si le formulaire n'est pas soumis, affichez tous les emplois de la catégorie
         $emplois = $paginator->paginate(
-            $entityManager->getRepository(Emploi::class)->findBy(['categories' => $categorie], ['dateOffre' => 'DESC']),
+            $entityManager->getRepository(Emploi::class)->findByCategory($categorie),
             $request->query->getInt('page', 1),
             12
         );

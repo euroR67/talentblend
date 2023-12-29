@@ -6,7 +6,145 @@
     <div class="wrapper">
         <div class="section-wrapper">
             <h2>Ajouter un emploi</h2>
-            {{form(form)}}
+            {{form_start(form)}}
+
+            <div class="form-group">
+                <div>
+                    <label for="inputPoste">Titre du poste</label>
+                    {{ form_widget(form.poste, {'attr': {'class': 'form-control'}, 'id': 'inputPoste'}) }}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div>
+                    <label for="inputCategories">Catégorie</label>
+                    {{ form_widget(form.categories, {'attr': {'class': 'form-control'}, 'id': 'inputCategories'}) }}
+                </div>
+                <div>
+                    <label for="inputTypes">Type d'emploi</label>
+                    {{ form_widget(form.types, {'attr': {'class': 'form-control'}, 'id': 'inputTypes'}) }}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div>
+                    <label for="inputNiveau">Expérience exigé</label>
+                    {{ form_widget(form.niveau, {'attr': {'class': 'form-control'}, 'id': 'inputNiveau'}) }}
+                </div>
+                <div>
+                    <label for="inputDisponibilite">Disponibilité</label>
+                    {{ form_widget(form.disponibilite, {'attr': {'class': 'form-control'}, 'id': 'inputDisponibilite'}) }}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div>
+                    <label for="inputVille">Ville</label>
+                    {{ form_widget(form.ville, {'attr': {'class': 'form-control'}, 'id': 'inputVille'}) }}
+                </div>
+                <div>
+                    <label for="inputContrats">Type de contrat</label>
+                    {{ form_widget(form.contrats, {'attr': {'class': 'form-control'}, 'id': 'inputContrats'}) }}
+                </div>
+            </div>
+            <div class="form-group">
+                <div>
+                    <label for="showBy">Afficher le salaire par</label>
+                    {{ form_widget(form.showBy, {'attr': {'class': 'form-control'}, 'id': 'showBy'}) }}
+                </div>
+                <div>
+                    <label for="taux">Taux</label>
+                    {{ form_widget(form.taux, {'attr': {'class': 'form-control'}, 'id': 'taux'}) }}
+                </div>
+            </div>
+
+            {# Si l'utilisateur choisi l'échelle #}
+            <div class="form-group" id="echelle">
+                <div>
+                    <label for="minimum">Minimum</label>
+                    {{ form_widget(form.salaireMinimum, {'attr': {'class': 'form-control'}, 'id': 'minimum'}) }}
+                </div>
+                <div>
+                    <label for="salaire">Maximum</label>
+                    {{ form_widget(form.salaire, {'attr': {'class': 'form-control'}, 'id': 'salaire'}) }}
+                </div>
+            </div>
+
+            {# Si l'utilisateur choisi le montant de départ #}
+            <div class="form-group" id="montantDepart" style="display: none;">
+                <div>
+                    <label for="minimum">Montant de départ</label>
+                </div>
+            </div>
+
+            {# Si l'utilisateur choisi le montant maximum #}
+            <div class="form-group" id="montantMaxi" style="display: none;">
+                <div>
+                    <label for="salaire">Montant maximum</label>
+                </div>
+            </div>
+
+            {{ form_row(form.entreprise) }}
+            {{ form_row(form.description) }}
+
+            <button type="submit" class="btn btn-primary">Ajouter</button>
+            {{form_end(form)}}
         </div>
     </div>
+
+    <script>
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var showBy = document.getElementById('showBy');
+            var salaire = document.getElementById('salaire');
+            var minimum = document.getElementById('minimum');
+        
+            function handleShowByChange() {
+                var showByValue = showBy.value;
+        
+                // Cachez tous les conteneurs par défaut
+                document.getElementById('echelle').style.display = 'none';
+                document.getElementById('montantDepart').style.display = 'none';
+                document.getElementById('montantMaxi').style.display = 'none';
+        
+                // Rendre les champs salaire et salaireMinimum facultatifs ou obligatoires en fonction de showByValue
+                if (showByValue === 'negociable') {
+                    salaire.required = false;
+                    minimum.required = false;
+                } else if (showByValue === 'montantMinimum') {
+                    salaire.required = false;
+                    minimum.required = true;
+                } else {
+                    salaire.required = true;
+                    minimum.required = false;
+                }
+        
+                // Déplacez le champ de formulaire dans le bon conteneur et affichez-le
+                if (showByValue === 'echelle') {
+                    document.querySelector('#echelle div').appendChild(minimum);
+                    document.querySelector('#echelle div:nth-child(2)').appendChild(salaire);
+                    document.getElementById('echelle').style.display = 'flex';
+                } else if (showByValue === 'montantMinimum') {
+                    document.querySelector('#montantDepart div').appendChild(minimum);
+                    document.getElementById('montantDepart').style.display = 'flex';
+                } else if (showByValue === 'montantMaximum') {
+                    document.querySelector('#montantMaxi div').appendChild(salaire);
+                    document.getElementById('montantMaxi').style.display = 'flex';
+                }
+            }
+        
+            // Appeler la fonction lorsque l'événement change est déclenché
+            showBy.addEventListener('change', function() {
+                // Videz les valeurs des champs salaire et salaireMinimum
+                salaire.value = '';
+                minimum.value = '';
+        
+                handleShowByChange();
+            });
+        
+            // Appeler la fonction lorsque la page est chargée
+            handleShowByChange();
+        });
+
+    </script>
 {% endblock %}
