@@ -10,7 +10,8 @@
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
         <link rel="stylesheet" href="{{asset('css/dashboard.css')}}">
         <link rel="stylesheet" href="{{asset('css/select2-custom.css')}}">
-        <link rel="stylesheet" href="{{asset('css/paginator.css')}}">
+        <link rel="stylesheet" href="{{ asset('styles/paginator.css') }}">
+        {{ ux_controller_link_tags() }}
         {% endblock %}
 
         {% block javascripts %}
@@ -40,6 +41,8 @@
                 $('.overview').html(content);
             }
         </script>
+        {{ importmap() }}
+        {% block importmap %}{{ importmap('app') }}{% endblock %}
         {% endblock %}
     </head>
     <body>

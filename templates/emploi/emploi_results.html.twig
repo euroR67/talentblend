@@ -146,6 +146,25 @@
 {% endif %}
 
 <script>
+    function attachEventListeners() {
+        // Sélectionnez tous les éléments de formulaire
+        var formElements = document.querySelectorAll('.search-form-homepage input[type=checkbox], .search-form-homepage input[type=radio]');
+
+        // Ajoutez un écouteur d'événements 'change' à chaque élément de formulaire
+        formElements.forEach(function(element) {
+            element.addEventListener('change', function() {
+                // Soumettez le formulaire lorsque l'élément de formulaire change
+                this.form.requestSubmit();
+            });
+        });
+    }
+
+    // Attachez les écouteurs d'événements lorsque le document est prêt
+    document.addEventListener('DOMContentLoaded', attachEventListeners);
+
+    // Réattachez les écouteurs d'événements chaque fois que Turbo Drive remplace le contenu
+    document.addEventListener('turbo:load', attachEventListeners);
+    
     // Rediriger l'utilisateur vers la page de l'emploi lorsqu'il clique sur un résultat
     document.querySelectorAll('.result').forEach(function(element) {
         element.addEventListener('click', function() {
