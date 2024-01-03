@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="fr">
     <head>
-
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>{% block title %}TalentBlend{% endblock %}</title>
@@ -18,28 +17,27 @@
             <link rel="stylesheet" href="{{asset('css/form.css')}}">
             <link rel="stylesheet" href="{{asset('css/footer.css')}}">
             <link rel="stylesheet" href="{{asset('css/paginator.css')}}">
-            <link rel="stylesheet" href="{{ asset('styles/app.css') }}">
             {{ ux_controller_link_tags() }}
         {% endblock %}
-
-    {% block javascripts %}
-        {{ importmap() }}
-        {% block importmap %}{{ importmap('app') }}{% endblock %}
-    {% endblock %}
+        {% block javascripts %}
+            {{ importmap() }}
+            {# {% block importmap %}{{ importmap('app') }}{% endblock %} #}
+            <script src="{{asset('js/script.js')}}"></script>
+        {% endblock %}
     </head>
     <body>
 
-        <header class="mobile-header">
+        <header class="mobile-header" data-controller="menu">
             <nav>
                 <ul>
                     <li>
-                        <i class="fa-solid fa-bars" style="color: #007456; cursor: pointer;"></i>
+                        <i class="fa-solid fa-bars" data-action="click->menu#openMenu" style="color: #007456; cursor: pointer;"></i>
                         <a href="{{ path('app_home') }}"><img class="logo" src="{{ asset('img/logo.png') }}" alt="logo"></a>
                     </li>
                     <li><i class="fa-solid fa-magnifying-glass" style="color: #5d5d5d; cursor: pointer;"></i></li>
                 </ul>
             </nav>
-            <nav class="slide-menu">
+            <nav class="slide-menu" data-menu-target="slideMenu">
                 <div>
                     {# Afficher un lien pour se connecter si l'utilisateur n'est pas connecté #}
                     {% if not app.user %}
@@ -47,7 +45,7 @@
                             <a href="{{ path('app_login') }}">Connexion</a>
                             <a href="{{ path('app_register') }}">Inscription</a>
                         </span>
-                        <i class="fa-solid fa-xmark" style="color: #666666; cursor: pointer;"></i>
+                        <i class="fa-solid fa-xmark" data-action="click->menu#closeMenu" style="color: #666666; cursor: pointer;"></i>
                     {% endif %}
                     {# Afficher la photo de profil de l'utilisateur et son nom s'il est connecté #}
                     {% if app.user %}
@@ -55,17 +53,17 @@
                             <div>
                                 <div class="pseudo-div">
                                     <img src="{{ asset('img/profil.jpg') }}" alt="avatar">
-                                    <p class="pseudo">
+                                    <p class="pseudo" data-menu-target="pseudo" data-action="click->menu#toggleDashSubmenu">
                                         {{ app.user.prenom }}<i class="fa-solid fa-chevron-down"></i>
                                     </p>
                                 </div>
-                                <i class="fa-solid fa-xmark" style="color: #666666; cursor: pointer;"></i>
+                                <i class="fa-solid fa-xmark" data-action="click->menu#closeMenu" style="color: #666666; cursor: pointer;"></i>
                             </div>
-                            <nav class="dash-submenu">
+                            <nav class="dash-submenu" data-menu-target="dashSubmenu">
                                 <ul>
                                     {% if is_granted('ROLE_RECRUTEUR') %}
-                                    <li><a href="{{ path('app_emplois') }}"><i class="fa-solid fa-gauge"></i> Tableau de bord</a></li>
-                                    <li><a href="{{ path('app_emplois') }}"><i class="fa-solid fa-briefcase"></i> Emplois</a></li>
+                                    <li><a href="{{ path('app_emplois') }}" data-turbo="false"><i class="fa-solid fa-gauge"></i> Tableau de bord</a></li>
+                                    <li><a href="{{ path('app_emplois') }}" data-turbo="false"><i class="fa-solid fa-briefcase"></i> Emplois</a></li>
                                     <li><a href="{{ path('app_candidatures_recu') }}"><i class="fa-solid fa-list"></i> Candidatures</a></li>
                                     <li><a href="{{ path('app_entreprises') }}"><i class="fa-solid fa-building-shield"></i> Entreprise</a></li>
                                     <li><a href=""><i class="fa-regular fa-message"></i> Messages</a></li>
@@ -85,8 +83,8 @@
                 </div>
                 <ul>
                     <li><a href="{{ path('app_home')}}"><i class="fa-solid fa-house"></i> Accueil</a></li>
-                    <li class="categorie"><i class="fa-solid fa-list"></i> Catégorie <i class="fa-solid fa-chevron-down fa-xs"></i></li>
-                    <li class="sub-menu">
+                    <li class="categorie" data-menu-target="categorie" data-action="click->menu#toggleSubMenu"><i class="fa-solid fa-list"></i> Catégorie <i class="fa-solid fa-chevron-down fa-xs"></i></li>
+                    <li class="sub-menu" data-menu-target="subMenu">
                         <ul>
                             <li><a href="{{ path('app_emplois_par_categorie', {'id': 1 }) }}"><i class="fa-solid fa-code"></i> Développement</a></li>
                             <li><a href=""><i class="fa-solid fa-microchip"></i> Technologie</a></li>
@@ -107,7 +105,7 @@
                     {% endif %}
                 </ul>
             </nav>
-            <div class="overlay"></div>
+            <div class="overlay" data-menu-target="overlay" data-action="click->menu#closeMenu"></div>
         </header>
 
         <header class="desk-header">
@@ -134,8 +132,8 @@
                                 </p>
                                 <ul>
                                     {% if is_granted('ROLE_RECRUTEUR') %}
-                                    <li><a href="{{ path('app_emplois') }}"><i class="fa-solid fa-gauge"></i> Tableau de bord</a></li>
-                                    <li><a href="{{ path('app_emplois') }}"><i class="fa-solid fa-briefcase"></i> Emplois</a></li>
+                                    <li><a href="{{ path('app_emplois') }}" data-turbo="false"><i class="fa-solid fa-gauge"></i> Tableau de bord</a></li>
+                                    <li><a href="{{ path('app_emplois') }}" data-turbo="false"><i class="fa-solid fa-briefcase"></i> Emplois</a></li>
                                     <li><a href="{{ path('app_candidatures_recu') }}"><i class="fa-solid fa-list"></i> Candidatures</a></li>
                                     <li><a href="{{ path('app_entreprises') }}"><i class="fa-solid fa-building-shield"></i> Entreprise</a></li>
                                     <li><a href=""><i class="fa-regular fa-message"></i> Messages</a></li>
@@ -211,6 +209,7 @@
             </script>
         {% endif %}
         {% block body %}{% endblock %}
+
         <div class="newsletter">
             <div>
                 <div class="news-head">
@@ -287,6 +286,5 @@
                 <p>Conçu et développé par <a href="https://www.linkedin.com/in/mansour-chamaev/">Chamaev Mansour</a></p>
             </div>
         </footer>
-        <script src="{{ asset('js/script.js') }}"></script>
     </body>
 </html>

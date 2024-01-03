@@ -186,7 +186,7 @@
                     </div>
                     {% endif %}
                 </div>
-                <div class="entreprise-info-head">
+                <div class="entreprise-info-head" data-controller="entreprise">
                     <div class="logo">
                         {% if emploi.entreprise.logo %}
                             <img src="{{ asset('logo/' ~ emploi.entreprise.logo) }}" alt="Logo de l'entreprise">
@@ -196,10 +196,10 @@
                         <h3>{{ emploi.entreprise }}</h3>
                     </div>
                     <ul>
-                        <li class="active">Aperçu</li>
-                        <li>Emplois <span>{{ emploisDeLEntreprise|length }}</span></li>
+                        <li class="active" data-entreprise-target="infoBtn" data-action="click->entreprise#showInfo">Aperçu</li>
+                        <li data-entreprise-target="emploiBtn" data-action="click->entreprise#showEmploi">Emplois <span>{{ emploisDeLEntreprise|length }}</span></li>
                     </ul>
-                    <div class="tab-info-entreprise">
+                    <div class="tab-info-entreprise" data-entreprise-target="info">
                         <p>{{ emploi.entreprise.description }}</p>
                         <div class="info-item">
                             <p>Secteur</p>
@@ -224,7 +224,7 @@
                             <p>{{ emploi.entreprise.dateCreation|date("Y") }}</p>
                         </div>
                     </div>
-                    <div class="tab-emploi-entreprise">
+                    <div class="tab-emploi-entreprise" data-entreprise-target="emploi">
                         {# afficher 5 emplois maximum de cet entreprise #}
                         {% for emploi in emploisDeLEntreprise|slice(0, 5) %}
                             <div class="emploi-item">

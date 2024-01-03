@@ -1,52 +1,9 @@
-// ============================ Slide menu  ============================ //
+// DOM Content Loaded
+document.addEventListener('DOMContentLoaded', function() {
 
-// Récupération des element du DOM pour le menu slide responsive
-const bars = document.querySelector('.fa-bars');
-const slideMenu = document.querySelector('.slide-menu');
-const close = document.querySelector('.fa-xmark');
-const overlay = document.querySelector('.overlay');
+    // ============================ Slide menu  ============================ //
 
-// Ecouteur d'evenement pour ouvrir le menu
-bars.addEventListener('click', () => {
-    // On ajoute la classe active sur le slide menu
-    slideMenu.classList.add('slide-menu-active');
-    // On ajoute la classe active sur l'overlay
-    overlay.classList.add('active-overlay');
-})
 
-// Ecouteur d'evenement pour fermer le menu
-close.addEventListener('click', () => {
-    // On retire la classe active du slide menu
-    slideMenu.classList.remove('slide-menu-active');
-    // On ajoute la classe active sur l'overlay
-    overlay.classList.remove('active-overlay');
-})
-
-// Ecouteur d'evenement pour fermer le menu si on clique sur l'overlay
-overlay.addEventListener('click', () => {
-    // On retire la classe active du slide menu
-    slideMenu.classList.remove('slide-menu-active');
-    // On ajoute la classe active sur l'overlay
-    overlay.classList.remove('active-overlay');
-})
-
-// Pour le submenu du dashboard pseudo //
-const pseudo = document.querySelector('.pseudo');
-const dashSubmenu = document.querySelector('.dash-submenu');
-
-if (pseudo) {
-    pseudo.addEventListener('click', () => {
-        dashSubmenu.classList.toggle('dash-submenu-active')
-    })
-}
-
-// Pour le submenu déroulant //
-const categorie = document.querySelector('.categorie');
-const subMenu = document.querySelector('.sub-menu');
-
-categorie.addEventListener('click', () => {
-    subMenu.classList.toggle('sub-menu-active')
-})
 
 // ========================= Modal formulaire de recherche ======================================== //
 
@@ -109,25 +66,28 @@ if (showHide && showBtn && hideBtn) {
 }
 
 
-// Gestion de l'affichage des informations de l'entreprise
-const tabInfoEntreprise = document.querySelector('.tab-info-entreprise');
-const tabEmploiEntreprise = document.querySelector('.tab-emploi-entreprise');
-const tabInfoEntrepriseBtn = document.querySelector('.entreprise-info-head ul li:first-child');
-const tabEmploiEntrepriseBtn = document.querySelector('.entreprise-info-head ul li:last-child');
+// // Gestion de l'affichage des informations de l'entreprise
+// const tabInfoEntreprise = document.querySelector('.tab-info-entreprise');
+// const tabEmploiEntreprise = document.querySelector('.tab-emploi-entreprise');
+// const tabInfoEntrepriseBtn = document.querySelector('.entreprise-info-head ul li:first-child');
+// const tabEmploiEntrepriseBtn = document.querySelector('.entreprise-info-head ul li:last-child');
 
-// Vérifier que les éléments existent avant d'attacher les écouteurs d'événements
-if (tabInfoEntreprise && tabEmploiEntreprise && tabInfoEntrepriseBtn && tabEmploiEntrepriseBtn) {
-    tabInfoEntrepriseBtn.addEventListener('click', () => {
-        tabInfoEntrepriseBtn.classList.add('active');
-        tabEmploiEntrepriseBtn.classList.remove('active');
-        tabInfoEntreprise.style.display = 'flex';
-        tabEmploiEntreprise.style.display = 'none';
-    });
+// // Vérifier que les éléments existent avant d'attacher les écouteurs d'événements
+// if (tabInfoEntreprise && tabEmploiEntreprise && tabInfoEntrepriseBtn && tabEmploiEntrepriseBtn) {
+//     tabInfoEntrepriseBtn.addEventListener('click', () => {
+//         tabInfoEntrepriseBtn.classList.add('active');
+//         tabEmploiEntrepriseBtn.classList.remove('active');
+//         tabInfoEntreprise.style.display = 'flex';
+//         tabEmploiEntreprise.style.display = 'none';
+//     });
 
-    tabEmploiEntrepriseBtn.addEventListener('click', () => {
-        tabEmploiEntrepriseBtn.classList.add('active');
-        tabInfoEntrepriseBtn.classList.remove('active');
-        tabEmploiEntreprise.style.display = 'flex';
-        tabInfoEntreprise.style.display = 'none';
-    });
-}
+//     tabEmploiEntrepriseBtn.addEventListener('click', () => {
+//         tabEmploiEntrepriseBtn.classList.add('active');
+//         tabInfoEntrepriseBtn.classList.remove('active');
+//         tabEmploiEntreprise.style.display = 'flex';
+//         tabInfoEntreprise.style.display = 'none';
+//     });
+// }
+
+
+});

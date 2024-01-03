@@ -10,7 +10,7 @@
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
         <link rel="stylesheet" href="{{asset('css/dashboard.css')}}">
         <link rel="stylesheet" href="{{asset('css/select2-custom.css')}}">
-        <link rel="stylesheet" href="{{ asset('styles/paginator.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/paginator.css') }}">
         {{ ux_controller_link_tags() }}
         {% endblock %}
 
@@ -41,8 +41,8 @@
                 $('.overview').html(content);
             }
         </script>
+        <script src="{{ asset('js/dashboard.js') }}"></script>
         {{ importmap() }}
-        {% block importmap %}{{ importmap('app') }}{% endblock %}
         {% endblock %}
     </head>
     <body>
@@ -53,7 +53,7 @@
                 </div>
                 <nav>
                     <ul>
-                        <li><a href="{{ path('app_home') }}">Accueil</a></li>
+                        <li><a href="{{ path('app_home') }}" data-turbo="false">Accueil</a></li>
                     {% if is_granted('ROLE_RECRUTEUR') %}
                         <li><a href="{{ path('app_emplois') }}">Emplois</a></li>
                         <li><a href="{{ path('app_candidatures_recu') }}">Candidatures</a></li>
@@ -67,7 +67,7 @@
                         <li><a href="{{ path('app_candidatures') }}">Candidatures</a></li>
                         <li><a href="">Messages</a></li>
                         <li><a href="{{ path('app_edit_password') }}">Paramètre</a></li>
-                        <li><a href="{{ path('app_logout') }}">Se déconnecter</a></li>
+                        <li><a href="{{ path('app_logout') }}" data-turbo="false">Se déconnecter</a></li>
                     {% endif %}
                     </ul>
                 </nav>
@@ -117,6 +117,5 @@
                 {% block body %}{% endblock %}
             </div>
         </main>
-        <script src="{{ asset('js/dashboard.js') }}"></script>
     </body>
 </html>

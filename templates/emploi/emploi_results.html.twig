@@ -81,7 +81,7 @@
         <div class="result-container">
             {% if results is not empty %}
                 {% for emploi in results %}
-                    <div class="result" data-url="{{ path('app_show_emploi', {'id': emploi.id}) }}">
+                    <div class="result emploi-card" data-url="{{ path('app_show_emploi', {'id': emploi.id}) }}">
                         <div class="result-head">
                             <div class="logo-new">
                                 {% if emploi.entreprise.logo %}
@@ -145,7 +145,43 @@
     {{ knp_pagination_render(results) }}
 {% endif %}
 
+<style>
+    .emploi-card {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    
+    /* Définissez l'état final de l'animation */
+    .emploi-card.animate {
+        opacity: 1;
+        transform: translateY(0);
+    }
+</style>
+
+
 <script>
+    function animateEmploiCards() {
+        var observer = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate');
+                }
+            });
+        });
+
+        var emploiCards = document.querySelectorAll('.emploi-card');
+        emploiCards.forEach(function(card, index) {
+            card.style.transitionDelay = (index * 0.08) + 's';
+            observer.observe(card);
+        });
+    }
+
+    // Exécutez le script lorsque le document est prêt
+    document.addEventListener('DOMContentLoaded', animateEmploiCards);
+
+    // Exécutez le script chaque fois que Turbo Drive charge une nouvelle page
+    document.addEventListener('turbo:load', animateEmploiCards);
+    
     function attachEventListeners() {
         // Sélectionnez tous les éléments de formulaire
         var formElements = document.querySelectorAll('.search-form-homepage input[type=checkbox], .search-form-homepage input[type=radio]');
