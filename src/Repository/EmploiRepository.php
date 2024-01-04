@@ -28,14 +28,15 @@ class EmploiRepository extends ServiceEntityRepository
 
 
     /** Fonction de recherche offre d'emploi par poste et ville
-     * @return Emploi[] Returns an array of Emploi objects
+     * Fonction qui permet également de filtrer les emplois
+     * @return Emploi[] Renvoi un tableau d'objet Emploi
      */
     public function findBySearch($poste, $ville, $typeEmplois, $contrats, $dateOffre): array
     {
         // Obtenez la date du jour
         $currentDate = new \DateTime();
 
-        // On crée un queryBuilder et on exclut les offres d'emploi expirées
+        // On crée un queryBuilder et on exclut les offres d'emploi expirées et en pause
         $data = $this->createQueryBuilder('e')
             ->where('e.poste LIKE :poste')
             ->setParameter('poste', "%{$poste}%")
@@ -45,13 +46,7 @@ class EmploiRepository extends ServiceEntityRepository
             ->setParameter('isPause', false)
             ->addOrderBy('e.dateOffre', 'DESC');
 
-        if(!empty($poste)) {
-            // Recherche par poste
-            $data = $data
-                ->andWhere('e.poste LIKE :poste')
-                ->setParameter('poste', "%{$poste}%");
-        }
-
+        // Si le champ ville est renseignée
         if(!empty($ville)) {
             // Recherche par ville
             $data = $data
@@ -60,6 +55,7 @@ class EmploiRepository extends ServiceEntityRepository
                 ->setParameter('ville', "%{$ville}%");
         }
 
+        // Partie filtres
         if(!empty($typeEmplois)) {
             // Recherche par type d'emploi
             $data = $data
@@ -67,7 +63,7 @@ class EmploiRepository extends ServiceEntityRepository
                 ->andWhere('t.type IN (:typeEmplois)')
                 ->setParameter('typeEmplois', $typeEmplois);
         }
-        
+
         if(!empty($contrats)) {
             // Recherche par contrat
             $data = $data
@@ -78,7 +74,7 @@ class EmploiRepository extends ServiceEntityRepository
 
         // Recherche par date de publication, Aujourd'hui, 3 derniers jours, La semaine dernière
         if (!empty($dateOffre)) {
-            // Obtenez la date de début pour la comparaison
+            // Récupère la date de début pour la comparaison
             $startOfRange = new \DateTime();
         
             switch ($dateOffre) {
@@ -97,6 +93,9 @@ class EmploiRepository extends ServiceEntityRepository
             }
         
             // Obtenez la date de fin pour la comparaison (fin de la journée actuelle)
+            // Ces deux lignes permettent d'établir une plage de recherche qui inclus
+            // les offres d'emploi publiées jusqu'à la fin de la journée actuelle
+            // sans déborder sur les offres d'emploi publiées le lendemain
             $endOfRange = new \DateTime('tomorrow');
             $endOfRange->modify('-1 second');
         

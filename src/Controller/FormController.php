@@ -16,17 +16,17 @@ class FormController extends AbstractController
         // Récupérez les données de la session
         $data = $request->getSession()->get('search_data', []);
 
-        // Assurez-vous que 'typeEmplois' est un tableau
+        // S'assurer que typeEmplois est un tableau
         if (isset($data['typeEmplois']) && !is_array($data['typeEmplois'])) {
             $data['typeEmplois'] = [$data['typeEmplois']];
         }
 
-        // Assurez-vous que 'contrats' est un tableau
+        // S'assurer que contrats est un tableau
         if (isset($data['contrats']) && !is_array($data['contrats'])) {
             $data['contrats'] = [$data['contrats']];
         }
 
-        // Assurez-vous que 'dateOffre' est un tableau
+        // S'assurer que dateOffre est un tableau
         if (isset($data['dateOffre']) && !is_array($data['dateOffre'])) {
             $data['dateOffre'] = [$data['dateOffre']];
         }
@@ -36,18 +36,18 @@ class FormController extends AbstractController
         // Créez le formulaire avec les données de la session
         $form = $this->createForm(SearchEmploiType::class, $data);
 
-        // Retrieve GET parameters
+        // Retrouvez les paramètres GET
         $poste = $request->query->get('poste');
         $ville = $request->query->get('ville');
 
-        // Retrieve GET parameters directly from the request
+        // Retrouvez les paramètres GET directement depuis la requête
         $postData = $request->query->all();
 
-        // Set default values if parameters are not present
+        // Définissez des valeurs par défaut si les paramètres ne sont pas présents
         $poste = $postData['poste'] ?? '';
         $ville = $postData['ville'] ?? '';
 
-        // Populate form with GET parameters
+        // Pré-remplissez le formulaire avec les paramètres GET
         $form->get('poste')->setData($poste);
         $form->get('ville')->setData($ville);
 
