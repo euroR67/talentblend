@@ -46,7 +46,7 @@
 
 <main class="search-emploi-result">
     <div class="result-wrapper">
-        
+
         <aside class="filter">
             {# Panneau des filtres #}
             <div class="filter-panel">
@@ -54,13 +54,41 @@
                     <h3>Filtrer</h3>
                 </div>
                 <div class="filter-panel-body">
-                    
-                    {# Les 3 autres champ pour les filtre ICI #}
-                    {{ form_widget(form.typesEmploi)}}
-                    {{ form_widget(form.contrats)}}
-                    {{ form_widget(form.niveau)}}
-                    <button class="submit-search" type="submit">Rechercher</button>
-                    {{ form_end(form) }}
+                    <div class="filter-panel-body-item">
+                        <h4>Type d'emploi</h4>
+                        {# Type checkbox #}
+                        <div class="checkbox">
+                            {% for choice in form.typesEmploi %}
+                                <label>
+                                    {{ form_widget(choice) }}
+                                    <span>{{ form_label(choice) }}</span>
+                                </label>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="filter-panel-body-item">
+                        <h4>Type de contrat</h4>
+                        <div class="checkbox">
+                            {% for choice in form.contrats %}
+                            <label>
+                                {{ form_widget(choice) }}
+                                <span>{{ form_label(choice) }}</span>
+                            </label>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="filter-panel-body-item">
+                        <h4>Expérience</h4>
+                        <div class="checkbox">
+                            {% for choice in form.niveau %}
+                            <label>
+                                {{ form_widget(choice) }}
+                                <span>{{ form_label(choice) }}</span>
+                            </label>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {{ form_end(form) }}
                 </div>
             </div>
         </aside>
@@ -103,6 +131,24 @@
 {% endif %}
 
 <script>
+    function attachEventListeners() {
+        // Sélectionnez tous les éléments de formulaire
+        var formElements = document.querySelectorAll('.search-form-homepage input[type=checkbox]');
+
+        // Ajoutez un écouteur d'événements 'change' à chaque élément de formulaire
+        formElements.forEach(function(element) {
+            element.addEventListener('change', function() {
+                // Soumettez le formulaire lorsque l'élément de formulaire change
+                this.form.requestSubmit();
+            });
+        });
+    }
+
+    // Attachez les écouteurs d'événements lorsque le document est prêt
+    document.addEventListener('DOMContentLoaded', attachEventListeners);
+
+    // Réattachez les écouteurs d'événements chaque fois que Turbo Drive remplace le contenu
+    document.addEventListener('turbo:load', attachEventListeners);
     // Rediriger l'utilisateur vers la page de l'emploi lorsqu'il clique sur un résultat
     document.querySelectorAll('.result').forEach(function(element) {
         element.addEventListener('click', function() {
