@@ -15,89 +15,55 @@
 
 <main class="search-emploi-result">
     <div class="result-wrapper">
+
         <aside class="filter">
             {# Panneau des filtres #}
-            <div class="filter-panel" style="display: none;">
+            <div class="filter-panel">
                 <div class="filter-panel-head">
                     <h3>Filtrer</h3>
                 </div>
                 <div class="filter-panel-body">
+                    {{ form_start(form,  {'attr': {'class': 'search-form-homepage'}}) }}
                     <div class="filter-panel-body-item">
                         <h4>Type d'emploi</h4>
                         {# Type checkbox #}
                         <div class="checkbox">
-                            <label>
-                                <input name="type" type="checkbox" value="fulltime">
-                                <span>Temps plein</span>
-                            </label>
-                            <label>
-                                <input name="type" type="checkbox" value="parttime">
-                                <span>Temps partiel</span>
-                            </label>
-                            <label>
-                                <input name="type" type="checkbox" value="remote">
-                                <span>Télétravail</span>
-                            </label>
+                            {% for choice in form.typeEmplois %}
+                                <label>
+                                    {{ form_widget(choice) }}
+                                    <span>{{ form_label(choice) }}</span>
+                                </label>
+                            {% endfor %}
                         </div>
                     </div>
                     <div class="filter-panel-body-item">
                         <h4>Type de contrat</h4>
-                        {# Type checkbox #}
                         <div class="checkbox">
+                            {% for choice in form.contrats %}
                             <label>
-                                <input name="contract" type="checkbox" value="cdi">
-                                <span>CDI</span>
+                                {{ form_widget(choice) }}
+                                <span>{{ form_label(choice) }}</span>
                             </label>
-                            <label>
-                                <input name="contract" type="checkbox" value="cdd">
-                                <span>CDD</span>
-                            </label>
-                            <label>
-                                <input name="contract" type="checkbox" value="stage">
-                                <span>Stage</span>
-                            </label>
-                            <label>
-                                <input name="contract" type="checkbox" value="alternance">
-                                <span>Alternance</span>
-                            </label>
-                            <label>
-                                <input name="contract" type="checkbox" value="Interim">
-                                <span>Interim</span>
-                            </label>
+                            {% endfor %}
                         </div>
                     </div>
                     <div class="filter-panel-body-item">
                         <h4>Publié le</h4>
-                        {# Type radio #}
                         <div class="radio">
-                            <label>
-                                <input name="recency" type="radio" value="any" checked="">
-                                <span>Toutes dates</span>
-                            </label>
-                            <label>
-                                <input name="recency" type="radio" value="24h">
-                                <span>Aujourd'hui</span>
-                            </label>
-                            <label>
-                                <input name="recency" type="radio" value="7d">
-                                <span>La semaine dernière</span>
-                            </label>
-                            <label>
-                                <input name="recency" type="radio" value="30d">
-                                <span>Le mois dernier</span>
-                            </label>
+                            {% for choice in form.dateOffre %}
+                             <label>
+                                {{ form_widget(choice) }}
+                                <span>{{ form_label(choice) }}</span>
+                             </label>
+                            {% endfor %}
                         </div>
                     </div>
+                    {# <div class="form-group-search">
+                        <button class="submit-search" type="submit">Rechercher</button>
+                    </div> #}
+                {{ form_end(form) }}
                 </div>
             </div>
-            <form method="get" action="{{ path('app_emplois_par_entreprise', {'id': entreprise.id}) }}">
-                {{ form_start(form) }}
-                {{ form_row(form.typeEmplois) }}
-                {{ form_row(form.contrats) }}
-                {{ form_row(form.dateOffre) }}
-                <button type="submit">Filtrer</button>
-                {{ form_end(form) }}
-            </form>
         </aside>
         <div class="result-container">
             {% if emplois is not empty %}
@@ -164,6 +130,25 @@
 {{ knp_pagination_render(emplois) }}
 
 <script>
+    function attachEventListeners() {
+        // Sélectionnez tous les éléments de formulaire
+        var formElements = document.querySelectorAll('.search-form-homepage input[type=checkbox], .search-form-homepage input[type=radio]');
+
+        // Ajoutez un écouteur d'événements 'change' à chaque élément de formulaire
+        formElements.forEach(function(element) {
+            element.addEventListener('change', function() {
+                // Soumettez le formulaire lorsque l'élément de formulaire change
+                this.form.requestSubmit();
+            });
+        });
+    }
+
+    // Attachez les écouteurs d'événements lorsque le document est prêt
+    document.addEventListener('DOMContentLoaded', attachEventListeners);
+
+    // Réattachez les écouteurs d'événements chaque fois que Turbo Drive remplace le contenu
+    document.addEventListener('turbo:load', attachEventListeners);
+    // Rediriger l'utilisateur vers la page de l'emploi lorsqu'il clique sur un résultat
     // Rediriger l'utilisateur vers la page de l'emploi lorsqu'il clique sur un résultat
     document.querySelectorAll('.result').forEach(function(element) {
         element.addEventListener('click', function() {
