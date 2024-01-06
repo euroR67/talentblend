@@ -1,0 +1,20 @@
+{# Learn how to use Turbo Streams: https://github.com/symfony/ux-turbo#broadcast-doctrine-entities-update #}
+{% block create %}
+<turbo-stream action="append" target="messages">
+    <template>
+        <article id="{{ 'message_' ~ id }}">
+            <h3>{{ entity.sender.email }}</h3>
+            <p>{{ entity.content }}</p>
+            <div>{{ entity.createdAt|date('Y-m-d H:i:s') }}</div>
+        </article>
+    </template>
+</turbo-stream>
+{% endblock %}
+
+{% block update %}
+
+{% endblock %}
+
+{% block remove %}
+
+{% endblock %}

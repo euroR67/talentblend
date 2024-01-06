@@ -4,24 +4,25 @@
 
 {% block body %}
 
+{{ form_start(form, {'attr': {'class': 'search-form-homepage'}}) }}
 <div class="bg candidat">
     <h1>Recrutez des <span>talents</span> pour votre entreprise.</h1>
-    {# {% include "components/search_candidat.html.twig" %} #}
-    {{ form_start(form, {'attr': {'class': 'search-form-homepage'}}) }}
-    <div class="form-group-search">
-        <div class="input-group">
-            {{ form_widget(form.metier, {'attr': {'class': 'form-control-search', 'placeholder': 'Rechercher un candidat'}}) }}
-            <i class="fa-solid fa-magnifying-glass"></i>
+    <div class="search-form-homepage">
+        <div class="form-group-search">
+            <div class="input-group">
+                {{ form_widget(form.metier, {'attr': {'class': 'form-control-search', 'placeholder': 'Rechercher un candidat'}}) }}
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </div>
         </div>
-    </div>
-    <div class="form-group-search">
-        <div class="input-group">
-            {{ form_widget(form.ville, {'attr': {'class': 'form-control-search', 'placeholder': 'Saisir un lieu'}}) }}
-            <i class="fa-solid fa-location-dot"></i>
+        <div class="form-group-search">
+            <div class="input-group">
+                {{ form_widget(form.ville, {'attr': {'class': 'form-control-search', 'placeholder': 'Saisir un lieu'}}) }}
+                <i class="fa-solid fa-location-dot"></i>
+            </div>
         </div>
-    </div>
-    <div class="form-group-search">
-        <button class="submit-search" type="submit">Rechercher</button>
+        <div class="form-group-search">
+            <button class="submit-search" type="submit">Rechercher</button>
+        </div>
     </div>
 </div>
 
@@ -88,43 +89,43 @@
                             {% endfor %}
                         </div>
                     </div>
-                {{ form_end(form) }}
                 </div>
             </div>
         </aside>
         
         <div class="result-container">
             {% if results is not empty %}
-                {% for candidat in results %}
-                    <div class="result candidat" data-url="{{ path('app_show_candidat', {'id': candidat.id}) }}">
-                        <div>
-                            <div class="result-head">
-                                <div class="logo-new">
-                                    {% if candidat.photo %}
-                                        <img src="{{ asset('pdp/' ~ candidat.photo) }}" alt="Photo de profil">
-                                    {% else %}
-                                        <p>{{ candidat.nom|first }}{{ candidat.prenom|first }}</p>
-                                    {% endif %}
-                                </div>
-                            </div>
-                            <div class="result-body">
-                                <h1>{{ candidat.metier }}</h1>
-                                <a href="#">{{ candidat }}</a>
-                            </div>
-                        </div>
-                        <div class="result-footer">
-                            <span>Expérience: {{ candidat.niveau }} ans</span>
-                            <span><i class="fa-solid fa-location-dot"></i> {{ candidat.ville }}</span>
+            {% for candidat in results %}
+            <div class="result candidat" data-url="{{ path('app_show_candidat', {'id': candidat.id}) }}">
+                <div>
+                    <div class="result-head">
+                        <div class="logo-new">
+                            {% if candidat.photo %}
+                            <img src="{{ asset('pdp/' ~ candidat.photo) }}" alt="Photo de profil">
+                            {% else %}
+                            <p>{{ candidat.nom|first }}{{ candidat.prenom|first }}</p>
+                            {% endif %}
                         </div>
                     </div>
-                {% endfor %}
+                    <div class="result-body">
+                        <h1>{{ candidat.metier }}</h1>
+                        <a href="#">{{ candidat }}</a>
+                    </div>
+                </div>
+                <div class="result-footer">
+                    <span>Expérience: {{ candidat.niveau }} ans</span>
+                    <span><i class="fa-solid fa-location-dot"></i> {{ candidat.ville }}</span>
+                </div>
+            </div>
+            {% endfor %}
             {% else %}
-                <p>Aucun résultat pour votre recherche</p>
+            <p>Aucun résultat pour votre recherche</p>
             {% endif %}
         </div>
-
+        
     </div>
 </main>
+{{ form_end(form) }}
 
 {% if results is not empty %}
     {{ knp_pagination_render(results) }}

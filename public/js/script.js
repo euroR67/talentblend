@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
 const glass = document.querySelector('.fa-magnifying-glass');
 const searchModal = document.querySelector('.search-modal');
 const closeSearchModal = document.querySelector('.search-modal .fa-times');
+const overlay = document.querySelector('.overlay'); // Add this line to define overlay
 
 glass.addEventListener('click', () => {
     searchModal.style.display = 'flex';

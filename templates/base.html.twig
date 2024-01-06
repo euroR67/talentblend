@@ -25,7 +25,7 @@
             <script src="{{asset('js/script.js')}}"></script>
         {% endblock %}
     </head>
-    <body>
+    <body data-controller="search">
 
         <header class="mobile-header" data-controller="menu">
             <nav>
@@ -34,7 +34,7 @@
                         <i class="fa-solid fa-bars" data-action="click->menu#openMenu" style="color: #007456; cursor: pointer;"></i>
                         <a href="{{ path('app_home') }}"><img class="logo" src="{{ asset('img/logo.png') }}" alt="logo"></a>
                     </li>
-                    <li><i class="fa-solid fa-magnifying-glass" style="color: #5d5d5d; cursor: pointer;"></i></li>
+                    <li><i class="fa-solid fa-magnifying-glass" style="color: #5d5d5d; cursor: pointer;" data-action="click->search#open"></i></li>
                 </ul>
             </nav>
             <nav class="slide-menu" data-menu-target="slideMenu">
@@ -66,13 +66,13 @@
                                     <li><a href="{{ path('app_emplois') }}" data-turbo="false"><i class="fa-solid fa-briefcase"></i> Emplois</a></li>
                                     <li><a href="{{ path('app_candidatures_recu') }}"><i class="fa-solid fa-list"></i> Candidatures</a></li>
                                     <li><a href="{{ path('app_entreprises') }}"><i class="fa-solid fa-building-shield"></i> Entreprise</a></li>
-                                    <li><a href=""><i class="fa-regular fa-message"></i> Messages</a></li>
+                                    <li><a href="{{ path('app_discussions')}}"><i class="fa-regular fa-message"></i> Messages</a></li>
                                     <li><a href="{{ path('app_edit_password') }}"><i class="fa-solid fa-gear"></i> Paramètre</a></li>
                                     {% endif %}
                                     {% if is_granted('ROLE_CANDIDAT') %}
                                     <li><a href="{{ path('app_candidat_edit', {'id': app.user.id}) }}"><i class="fa-solid fa-user"></i> Profil</a></li>
                                     <li><a href="{{ path('app_candidatures') }}"><i class="fa-solid fa-list-check"></i> Candidatures</a></li>
-                                    <li><a href=""><i class="fa-regular fa-message"></i> Messages</a></li>
+                                    <li><a href="{{ path('app_discussions')}}"><i class="fa-regular fa-message"></i> Messages</a></li>
                                     <li><a href="{{ path('app_edit_password') }}"><i class="fa-solid fa-gear"></i> Paramètre</a></li>
                                     {% endif %}
                                     <li><a href="{{ path('app_logout') }}"><i class="fa-solid fa-arrow-right-from-bracket"></i> Se déconnecter</a></li>
@@ -106,6 +106,7 @@
                 </ul>
             </nav>
             <div class="overlay" data-menu-target="overlay" data-action="click->menu#closeMenu"></div>
+            <div class="overlay" data-search-target="overlay" data-action="click->search#close"></div>
         </header>
 
         <header class="desk-header">
@@ -136,13 +137,13 @@
                                     <li><a href="{{ path('app_emplois') }}" data-turbo="false"><i class="fa-solid fa-briefcase"></i> Emplois</a></li>
                                     <li><a href="{{ path('app_candidatures_recu') }}"><i class="fa-solid fa-list"></i> Candidatures</a></li>
                                     <li><a href="{{ path('app_entreprises') }}"><i class="fa-solid fa-building-shield"></i> Entreprise</a></li>
-                                    <li><a href=""><i class="fa-regular fa-message"></i> Messages</a></li>
+                                    <li><a href="{{ path('app_discussions')}}"><i class="fa-regular fa-message"></i> Messages</a></li>
                                     <li><a href="{{ path('app_edit_password') }}"><i class="fa-solid fa-gear"></i> Paramètre</a></li>
                                     {% endif %}
                                     {% if is_granted('ROLE_CANDIDAT') %}
                                     <li><a href="{{ path('app_candidat_edit', {'id': app.user.id}) }}"><i class="fa-solid fa-user"></i> Profil</a></li>
                                     <li><a href="{{ path('app_candidatures') }}"><i class="fa-solid fa-list-check"></i> Candidatures</a></li>
-                                    <li><a href=""><i class="fa-regular fa-message"></i> Messages</a></li>
+                                    <li><a href="{{ path('app_discussions')}}"><i class="fa-regular fa-message"></i> Messages</a></li>
                                     <li><a href="{{ path('app_edit_password') }}"><i class="fa-solid fa-gear"></i> Paramètre</a></li>
                                     {% endif %}
                                     {% if is_granted('ROLE_ADMIN') %}
@@ -174,10 +175,10 @@
             <div class="overlay"></div>
         </header>
 
-        <div class="search-modal">
+        <div class="search-modal" data-search-target="modal">
             <div>
-                {{ render(controller('App\\Controller\\FormController::searchForm')) }}
-                <i class="fa-solid fa-times"></i>
+              {{ render(controller('App\\Controller\\FormController::searchForm')) }}
+              <i class="fa-solid fa-times" data-search-target="close" data-action="click->search#close"></i>
             </div>
         </div>
 

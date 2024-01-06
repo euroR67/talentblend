@@ -232,16 +232,16 @@ div.bg h1 span {
     color: #FFD75E;
 }
 
-div.bg form.search-form-homepage {
+div.bg .search-form-homepage {
     width: 100%;
     margin: 0 auto;
 }
 
-div.bg form.search-form-homepage div.input-group {
+div.bg .search-form-homepage div.input-group {
     position: relative;
 }
 
-div.bg form.search-form-homepage div.input-group i {
+div.bg .search-form-homepage div.input-group i {
     position: absolute;
     top: 50%;
     left: 10px;
@@ -251,29 +251,29 @@ div.bg form.search-form-homepage div.input-group i {
     padding-left: 10px;
 }
 
-div.bg form.search-form-homepage div.form-group-search {
+div.bg .search-form-homepage div.form-group-search {
     background-color: #fff;
     border-radius: 16px 16px 0 0;
     width: 100%;
 }
 
-div.bg form.search-form-homepage div.form-group-search:nth-child(2) {
+div.bg .search-form-homepage div.form-group-search:nth-child(2) {
     border-radius: 0;
 }
 
-div.bg form.search-form-homepage div.form-group-search:last-of-type {
+div.bg .search-form-homepage div.form-group-search:last-of-type {
     padding: 20px;
     text-align: center;
     border-radius:0 0 16px 16px;
 }
 
-div.bg form.search-form-homepage #search_emploi_poste,
-div.bg form.search-form-homepage #search_candidat_metiers {
+div.bg .search-form-homepage #search_emploi_poste,
+div.bg .search-form-homepage #search_candidat_metiers {
     border-radius: 16px 16px 0 0;
 }
 
-div.bg form.search-form-homepage input.form-control-search,
-form.search-form-homepage #search_candidat_metiers {
+div.bg .search-form-homepage input.form-control-search,
+.search-form-homepage #search_candidat_metiers {
     width: 100%;
     padding: 25px;
     border: none;
@@ -283,14 +283,14 @@ form.search-form-homepage #search_candidat_metiers {
     padding-left: 50px;
 }
 
-div.bg form.search-form-homepage input.form-control-search::placeholder,
-form.search-form-homepage #search_candidat_metiers::placeholder {
+div.bg .search-form-homepage input.form-control-search::placeholder,
+.search-form-homepage #search_candidat_metiers::placeholder {
     color: rgb(77, 77, 77);
     opacity: 0.5;
     font-size: 14px;
 }
 
-div.bg form.search-form-homepage button.submit-search {
+div.bg .search-form-homepage button.submit-search {
     padding: 15px 30px;
     outline: none;
     background-color: #007456;
@@ -303,7 +303,7 @@ div.bg form.search-form-homepage button.submit-search {
     transition: all 0.2s ease-in-out;
 }
 
-div.bg form.search-form-homepage button.submit-search:hover {
+div.bg .search-form-homepage button.submit-search:hover {
     background-color: #018c67;
 }
 
@@ -383,33 +383,33 @@ form.search-form-modal button.submit-search:hover {
 
 @media screen and (min-width: 600px) {
     /* formulaire de recherche */
-    div.bg form.search-form-homepage {
+    div.bg .search-form-homepage {
         display: flex;
         border-radius: 40px;
     }
 
-    div.bg form.search-form-homepage #search_emploi_poste,
-    div.bg form.search-form-homepage #search_candidat_metier {
+    div.bg .search-form-homepage #search_emploi_poste,
+    div.bg .search-form-homepage #search_candidat_metier {
         border-radius: 40px 0 0 40px;
     }
 
-    div.bg form.search-form-homepage div.form-group-search:last-of-type {
+    div.bg .search-form-homepage div.form-group-search:last-of-type {
         border-radius: 0 40px 40px 0;
         padding: 10px;
         background-color: #fff;
     }
     
-    div.bg form.search-form-homepage div.form-group-search {
+    div.bg .search-form-homepage div.form-group-search {
         background-color: transparent;
     }
 
-    div.bg form.search-form-homepage input.form-control-search,
-    div.bg form.search-form-homepage #search_candidat_metier {
+    div.bg .search-form-homepage input.form-control-search,
+    div.bg .search-form-homepage #search_candidat_metier {
         border-bottom: none;
         border-right: 1px solid #ccc;
     }
 
-    div.bg form.search-form-homepage div.form-group-search:last-of-type {
+    div.bg .search-form-homepage div.form-group-search:last-of-type {
         text-align: right;
         width: fit-content;
     }
@@ -489,7 +489,7 @@ form.search-form-modal button.submit-search:hover {
 
 @media screen and (min-width: 1092px) {
     /* formulaire de recherche */
-    div.bg form.search-form-homepage {
+    div.bg .search-form-homepage {
         max-width: 1033px;
     }
 }

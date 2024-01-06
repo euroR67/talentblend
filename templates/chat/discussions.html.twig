@@ -1,0 +1,51 @@
+{% extends 'dashboard.html.twig' %}
+
+{% block title %}Hello ChatController!{% endblock %}
+
+{% block body %}
+<main>
+    <div class="container">
+        <aside style="height: 300px;">
+            <nav>
+                <ul>
+                    {# Liste des discussions de l'utilisateur #}
+                    {% for user in discussedUsers %}
+                        <li>
+                            <a href="{{ path('discussions', {'receiverId': user.id}) }}">
+                                Discussion avec {{ user.email }}
+                            </a>
+                            {% set unreadMessagesCount = app.user.countUnreadMessagesFromUser(user) %}
+                            {% if unreadMessagesCount > 0 %}
+                                <span>{{ unreadMessagesCount }} non lu(s)</span>
+                            {% endif %}
+                        </li>
+                    {% endfor %}
+                </ul>
+            </nav>
+        </aside>
+        <section>
+            {# Le contenu de la discussion sera chargé ici #}
+            {% if selectedMessages is defined and selectedMessages is not null %}
+                <ul {{ turbo_stream_listen('chat') }}>
+                    <turbo-frame id="messages">
+                        {# Liste des messages de la discussion sélectionnée #}
+                        {% for message in selectedMessages %}
+                            <article id="message_{{ message.id }}">
+                                <h3>{{ message.sender.email }}</h3>
+                                <p>{{ message.content }}</p>
+                                <div>{{ message.createdAt|date('Y-m-d H:i:s') }}</div>
+                            </article>
+                        {% endfor %}
+                    </turbo-frame>
+                </ul>
+                <turbo-frame id="message_form">
+                    {{ form_start(form) }}
+                    {{ form_widget(form.content) }}
+                    <button type="submit">Envoyer</button>
+                    {{ form_end(form) }}
+                </turbo-frame>
+            {% endif %}
+        </section>
+    </div>
+</main>
+{% endblock %}

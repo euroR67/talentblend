@@ -3,12 +3,11 @@
 namespace App\Entity;
 
 use App\Repository\MessageRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\UX\Turbo\Attribute\Broadcast;
 
 #[ORM\Entity(repositoryClass: MessageRepository::class)]
+#[Broadcast(topics:['chat'])]
 class Message
 {
     #[ORM\Id]
@@ -17,21 +16,23 @@ class Message
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $textMessage = null;
+    private ?string $content = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $dateMessage = null;
+    #[ORM\Column]
+    private ?\DateTimeImmutable $createdAt = null;
 
-    #[ORM\OneToMany(mappedBy: 'messagesEnvoyes', targetEntity: User::class)]
-    private Collection $Expediteur;
+    #[ORM\Column]
+    private ?bool $isRead = false;
 
-    #[ORM\OneToMany(mappedBy: 'messagesRecus', targetEntity: User::class)]
-    private Collection $destinataire;
+    #[ORM\ManyToOne(inversedBy: 'sentMessages')]
+    private ?User $sender = null;
+
+    #[ORM\ManyToOne(inversedBy: 'receivedMessages')]
+    private ?User $receiver = null;
 
     public function __construct()
     {
-        $this->Expediteur = new ArrayCollection();
-        $this->destinataire = new ArrayCollection();
+        $this->createdAt = new \DateTimeImmutable(null, new \DateTimeZone('Europe/Paris'));
     }
 
     public function getId(): ?int
@@ -39,86 +40,62 @@ class Message
         return $this->id;
     }
 
-    public function getTextMessage(): ?string
+    public function getContent(): ?string
     {
-        return $this->textMessage;
+        return $this->content;
     }
 
-    public function setTextMessage(string $textMessage): static
+    public function setContent(string $content): static
     {
-        $this->textMessage = $textMessage;
+        $this->content = $content;
 
         return $this;
     }
 
-    public function getDateMessage(): ?\DateTimeInterface
+    public function getCreatedAt(): ?\DateTimeImmutable
     {
-        return $this->dateMessage;
+        return $this->createdAt;
     }
 
-    public function setDateMessage(\DateTimeInterface $dateMessage): static
+    public function setCreatedAt(\DateTimeImmutable $createdAt): static
     {
-        $this->dateMessage = $dateMessage;
+        $this->createdAt = $createdAt;
 
         return $this;
     }
 
-    /**
-     * @return Collection<int, User>
-     */
-    public function getExpediteur(): Collection
+    public function isIsRead(): ?bool
     {
-        return $this->Expediteur;
+        return $this->isRead;
     }
 
-    public function addExpediteur(User $expediteur): static
+    public function setIsRead(bool $isRead): static
     {
-        if (!$this->Expediteur->contains($expediteur)) {
-            $this->Expediteur->add($expediteur);
-            $expediteur->setMessagesEnvoyes($this);
-        }
+        $this->isRead = $isRead;
 
         return $this;
     }
 
-    public function removeExpediteur(User $expediteur): static
+    public function getSender(): ?User
     {
-        if ($this->Expediteur->removeElement($expediteur)) {
-            // set the owning side to null (unless already changed)
-            if ($expediteur->getMessagesEnvoyes() === $this) {
-                $expediteur->setMessagesEnvoyes(null);
-            }
-        }
+        return $this->sender;
+    }
+
+    public function setSender(?User $sender): static
+    {
+        $this->sender = $sender;
 
         return $this;
     }
 
-    /**
-     * @return Collection<int, User>
-     */
-    public function getDestinataire(): Collection
+    public function getReceiver(): ?User
     {
-        return $this->destinataire;
+        return $this->receiver;
     }
 
-    public function addDestinataire(User $destinataire): static
+    public function setReceiver(?User $receiver): static
     {
-        if (!$this->destinataire->contains($destinataire)) {
-            $this->destinataire->add($destinataire);
-            $destinataire->setMessagesRecus($this);
-        }
-
-        return $this;
-    }
-
-    public function removeDestinataire(User $destinataire): static
-    {
-        if ($this->destinataire->removeElement($destinataire)) {
-            // set the owning side to null (unless already changed)
-            if ($destinataire->getMessagesRecus() === $this) {
-                $destinataire->setMessagesRecus(null);
-            }
-        }
+        $this->receiver = $receiver;
 
         return $this;
     }

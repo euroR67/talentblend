@@ -26,10 +26,40 @@
                     </div>
                     <div class="action-candidat">
                         <a title="Télécharger le CV" href="{{ path('download_cv', {'userId': candidat.id}) }}"><i class="fa-regular fa-file-pdf"></i> Enregistrer sous PDF</a>
-                        <a href=""><i class="fa-regular fa-paper-plane"></i> Message</a>
+                        <button type="button" onclick="openModal('{{ candidat.id }}')"><i class="fa-regular fa-paper-plane"></i> Message</button>
+                        <div id="modal-{{ candidat.id }}" class="modal">
+                            <h2>Envoyer un message à {{ candidat.email }}</h2>
+                            <form method="post" action="{{ path('send_message', {'id': candidat.id}) }}">
+                                <textarea name="content" required></textarea>
+                                <button type="submit">Envoyer</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
-
+                <script>
+                    // Ouvrir la modal pour envoyer un message
+                    function openModal(userId) {
+                        var modal = document.getElementById('modal-' + userId);
+                        modal.style.display = 'block';
+                    }
+                </script>
+                <style>
+                    .modal {
+                        padding: 20px;
+                        background-color: #fff;
+                        border-radius: 15px;
+                        z-index: 2;
+                        position: fixed;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, -50%);
+                        display: none;
+                    }
+                
+                    .modal.active {
+                        display: block;
+                    }
+                </style>
                 <div class="description-offre">
                     <h4>A propos de moi</h4>
                     <p>{{ candidat.description|raw }}</p>
