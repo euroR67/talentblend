@@ -38,6 +38,11 @@ class Formation
         return $this->id;
     }
 
+    public function __toString(): string
+    {
+        return $this->titre;
+    }
+
     public function getTitre(): ?string
     {
         return $this->titre;

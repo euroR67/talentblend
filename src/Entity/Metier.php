@@ -18,7 +18,7 @@ class Metier
     #[ORM\Column(length: 40)]
     private ?string $nomMetier = null;
 
-    #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'metier')]
+    #[ORM\OneToMany(targetEntity: User::class, mappedBy: 'metier')]
     private Collection $users;
 
     public function __construct()
