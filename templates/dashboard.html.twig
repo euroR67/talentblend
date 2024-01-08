@@ -60,15 +60,20 @@
                         <li><a href="{{ path('app_entreprises') }}">Entreprise</a></li>
                         <li><a href="{{ path('app_discussions')}}">Messages</a></li>
                         <li><a href="{{ path('app_edit_password') }}">Paramètre</a></li>
-                        <li><a href="{{ path('app_logout') }}">Se déconnecter</a></li>
                     {% endif %}
                     {% if is_granted('ROLE_CANDIDAT') %}
                         <li><a href="{{ path('app_candidat_edit', {'id': app.user.id}) }}">Profil</a></li>
                         <li><a href="{{ path('app_candidatures') }}">Candidatures</a></li>
                         <li><a href="{{ path('app_discussions')}}">Messages</a></li>
                         <li><a href="{{ path('app_edit_password') }}">Paramètre</a></li>
-                        <li><a href="{{ path('app_logout') }}" data-turbo="false">Se déconnecter</a></li>
                     {% endif %}
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <li><a href="{{ path('app_admin_entreprise') }}">Entreprise</a></li>
+                        <li><a href="{{ path('app_admin_representant') }}">Représentation</a></li>
+                        <li><a href="">Signalement</a></li>
+                        <li><a href="{{ path('app_edit_password') }}">Paramètre</a></li>
+                    {% endif %}
+                        <li><a href="{{ path('app_logout') }}" data-turbo="false">Se déconnecter</a></li>
                     </ul>
                 </nav>
             </aside>

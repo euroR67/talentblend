@@ -1,0 +1,54 @@
+{% extends 'dashboard.html.twig' %}
+
+{% block title %}Liste Représentation a vérifier{% endblock %}
+
+{% block body %}
+<div class="wrapper">
+    <h2>Représentation entreprise en attente de validation</h2>
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th>Recruteur</th>
+                    <th>Entreprise</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for representation in representations %}
+                <tr>
+                    <td><a href="{{ path('app_validation_representant', {'id': representation.id}) }}">{{ representation.userEntreprise }}</a></td>
+                    <td>{{ representation.entreprise }}</td>
+                    <td class="td-action">
+                        <i class="fa-solid fa-ellipsis"></i>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <h2>Représentation entreprise refuser</h2>
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th>Recruteur</th>
+                    <th>Entreprise</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for representation in representationsRefusees %}
+                <tr>
+                    <td><a href="{{ path('app_validation_representant', {'id': representation.id}) }}">{{ representation.userEntreprise }}</a></td>
+                    <td>{{ representation.entreprise }}</td>
+                    <td class="td-action">
+                        <i class="fa-solid fa-ellipsis"></i>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

@@ -125,6 +125,11 @@
                                     <li><a href="{{ path('app_discussions')}}"><i class="fa-regular fa-message"></i> Messages</a></li>
                                     <li><a href="{{ path('app_edit_password') }}"><i class="fa-solid fa-gear"></i> Paramètre</a></li>
                                     {% endif %}
+                                    {% if is_granted('ROLE_ADMIN') %}
+                                    <li><a href="{{ path('app_admin_entreprise') }}" data-turbo="false"><i class="fa-solid fa-gauge"></i></i> Tableau de bord</a></li>
+                                    <li><a href="{{ path('app_admin_representant') }}">Représentation</a></li>
+                                    <li><a href="{{ path('admin') }}"><i class="fa-solid fa-user-shield"></i> Administration</a></li>
+                                    {% endif %}
                                     <li><a href="{{ path('app_logout') }}"><i class="fa-solid fa-arrow-right-from-bracket"></i> Se déconnecter</a></li>
                                 </ul>
                             </nav>
@@ -197,7 +202,9 @@
                                     <li><a href="{{ path('app_edit_password') }}"><i class="fa-solid fa-gear"></i> Paramètre</a></li>
                                     {% endif %}
                                     {% if is_granted('ROLE_ADMIN') %}
-                                    <li><a href="{{ path('admin') }}"><i class="fa-solid fa-user-shield"></i> Administration</a></li>
+                                        <li><a href="{{ path('app_admin_entreprise') }}" data-turbo="false"><i class="fa-solid fa-gauge"></i></i> Tableau de bord</a></li>
+                                        <li><a href="{{ path('app_admin_representant') }}">Représentation</a></li>
+                                        <li><a href="{{ path('admin') }}"><i class="fa-solid fa-user-shield"></i> Administration</a></li>
                                     {% endif %}
                                     <li><a href="{{ path('app_logout') }}"><i class="fa-solid fa-arrow-right-from-bracket"></i> Se déconnecter</a></li>
                                 </ul>

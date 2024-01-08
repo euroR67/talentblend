@@ -54,6 +54,9 @@ class RepresenteController extends AbstractController
 
             $kbis = $form->get('kbis')->getData();
 
+            // Message dans le cas ou l'entreprise vient d'être ajoutée
+            $message = 'La demande de représentation a bien été prise en compte, elle est en cours de vérification.';
+
             if($kbis) {
                 $originalFilename = pathinfo($kbis->getClientOriginalName(), PATHINFO_FILENAME);
                 // this is needed to safely include the file name as part of the URL
@@ -79,9 +82,20 @@ class RepresenteController extends AbstractController
                 $represente->setKbis($newFilename);
             }
 
+            // Dans le cas ou le recruteur demande une réexamination de la représentation
+            // On remet le statut de la représentation à null
+            if($represente->isStatus() == 0) {
+                $represente->setStatus(NULL);
+                $entityManager->flush();
+                // Message dans le cas ou il s'agit d'une réexamination
+                $message = 'La demande de réexamination de la représentation a bien été envoyée.';
+            }
+
             $entityManager->persist($represente);
 
             $entityManager->flush();
+
+            $this->addFlash('success', $message);
 
             return $this->redirectToRoute('app_entreprises');
         }

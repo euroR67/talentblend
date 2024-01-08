@@ -1,0 +1,27 @@
+{% extends 'dashboard.html.twig' %}
+
+{% block title %}Liste entreprise a vérifier{% endblock %}
+
+{% block body %}
+<div class="wrapper">
+    <h2>{{ entreprise }}</h2>
+    <div class="section-wrapper">
+        <p>KBIS : <a href="{{ asset('kbis/' ~ entreprise.kbis) }}" target="_blank">Voir le KBIS</a><br><br>
+        <a href="{{ path('app_valider_entreprise', {'id': entreprise.id}) }}">Valider l'entreprise</a>
+        <p>Refuser l'entreprise</p>
+        <form action="{{ path('app_refuser_entreprise', {'id': entreprise.id}) }}" method="post">
+            <input type="text" name="motifRefus" placeholder="Motif du refus">
+            <input type="submit" value="Envoyer">
+        </form>
+
+        <div>
+            <h3>Historique</h3>
+            {% if entreprise.motifRefus %}
+                <p>L'entreprise a été refusé pour la raison suivante : {{ entreprise.motifRefus }}</p>
+            {% else %}
+                <p>L'entreprise n'a pas encore été refusé</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

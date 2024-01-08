@@ -1,0 +1,28 @@
+{% extends 'dashboard.html.twig' %}
+
+{% block title %}Détail de la Représentation{% endblock %}
+
+{% block body %}
+<div class="wrapper">
+    <h2>{{ representation.userEntreprise }} souhaite représenter {{ representation }}</h2>
+    <div class="section-wrapper">
+        <p>KBIS fourni par le recruteur: <a href="{{ asset('kbis/' ~ representation.kbis) }}" target="_blank">Voir le KBIS</a>
+        <p>KBIS de l'entreprise: <a href="{{ asset('kbis/' ~ representation.entreprise.kbis) }}" target="_blank">Voir le KBIS</a><br><br>
+        <a href="{{ path('app_valider_representation', {'id': representation.id}) }}">Valider la representation</a>
+        <p>Refuser la representation</p>
+        <form action="{{ path('app_refuser_representation', {'id': representation.id}) }}" method="post">
+            <input type="text" name="motifRefus" placeholder="Motif du refus">
+            <input type="submit" value="Envoyer">
+        </form>
+
+        <div>
+            <h3>Historique</h3>
+            {% if representation.motifRefus %}
+                <p>La representation a été refusé pour la raison suivante : {{ representation.motifRefus }}</p>
+            {% else %}
+                <p>La representation n'a pas encore été refusé</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

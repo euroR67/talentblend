@@ -49,7 +49,7 @@ class Represente
         return $this->status;
     }
 
-    public function setStatus(bool $status): static
+    public function setStatus(?bool $status): static
     {
         $this->status = $status;
 

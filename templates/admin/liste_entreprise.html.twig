@@ -1,0 +1,54 @@
+{% extends 'dashboard.html.twig' %}
+
+{% block title %}Liste entreprise a vérifier{% endblock %}
+
+{% block body %}
+<div class="wrapper">
+    <h2>Entreprises en attente de validation</h2>
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th>Entreprise</th>
+                    <th>Par</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for entreprise in entreprises %}
+                <tr>
+                    <td><a href="{{ path('app_validation_entreprise', {'id': entreprise.id}) }}">{{ entreprise }}</a></td>
+                    <td>{{ entreprise.user }}</td>
+                    <td class="td-action">
+                        <i class="fa-solid fa-ellipsis"></i>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <h2>Entreprises refuser</h2>
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th>Entreprise</th>
+                    <th>Par</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for entreprise in entreprisesRefusees %}
+                <tr>
+                    <td><a href="{{ path('app_validation_entreprise', {'id': entreprise.id}) }}">{{ entreprise }}</a></td>
+                    <td>{{ entreprise.user }}</td>
+                    <td class="td-action">
+                        <i class="fa-solid fa-ellipsis"></i>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

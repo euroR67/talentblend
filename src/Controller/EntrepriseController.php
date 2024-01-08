@@ -52,7 +52,6 @@ class EntrepriseController extends AbstractController
 
             $entreprise = new Entreprise();
             $entreprise->setUser($user);
-            $entreprise->setIsVerified(0);
             $entreprise->addRepresentant($represantant);
         }
 
