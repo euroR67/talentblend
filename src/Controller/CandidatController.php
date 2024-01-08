@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -223,7 +224,7 @@ class CandidatController extends AbstractController
 
     // Méthode pour sauvegarder un emploi
     #[Route('/saveEmploi/{id}', name: 'app_emploi_save')]
-    public function sauvegarderEmploi(Emploi $emploi,Request $request, EntityManagerInterface $entityManager): Response
+    public function sauvegarderEmploi(Emploi $emploi,Request $request, EntityManagerInterface $entityManager): JsonResponse
     {
         $this->denyAccessUnlessGranted('ROLE_CANDIDAT');
 
@@ -234,8 +235,7 @@ class CandidatController extends AbstractController
         
         // Si l'utilisateur a déjà sauvegarder cet emploi
         if ($alreadySaved) {
-            $this->addFlash('error', 'Vous avez déjà sauvegarder cet emploi.');
-            return $this->redirectToRoute('app_show_emploi', ['id' => $emploi->getId()]);
+            return new JsonResponse(['error' => 'Vous avez déjà sauvegarder cet emploi.'], 400);
         }
 
         $user->addEmploiSauvegarder($emploi);
@@ -246,15 +246,12 @@ class CandidatController extends AbstractController
 
         $entityManager->flush();
 
-        $this->addFlash('success', 'Emploi sauvegarder avec succès');
-
-        // Redirigez si tout ce passe bien
-        return $this->redirectToRoute('app_show_emploi', ['id' => $emploi->getId()]);
+        return new JsonResponse(['success' => 'Emploi sauvegarder avec succès']);
     }
 
     // Méthode pour supprimer un emploi sauvegardé
-    #[Route('/delete/emploi-save/{id}/{origin}', name: 'app_emploi_delete')]
-    public function deleteEmploiSauvegarder(Emploi $emploi, string $origin, Request $request, EntityManagerInterface $entityManager): Response
+    #[Route('/deleteEmploi/{id}', name: 'app_emploi_delete')]
+    public function deleteEmploiSauvegarder(Emploi $emploi, Request $request, EntityManagerInterface $entityManager): JsonResponse
     {
         $this->denyAccessUnlessGranted('ROLE_CANDIDAT');
 
@@ -263,14 +260,12 @@ class CandidatController extends AbstractController
 
         // Si l'emploi n'existe pas
         if(!$emploi) {
-            // On renvoi vers la page d'accueil
-            return $this->redirectToRoute('app_home');
+            return new JsonResponse(['error' => 'Emploi non trouvé.'], 404);
         }
         
         // Si l'utilisateur courant n'appartient pas à la collection d'utilisateurs de l'emploi
         if (!$emploi->getUsers()->contains($user)) {
-            // On renvoie vers la page d'accueil
-            return $this->redirectToRoute('app_home');
+            return new JsonResponse(['error' => 'Vous n\'avez pas sauvegardé cet emploi.'], 400);
         }
 
         // On retire l'emploi de la liste des emplois sauvegardés par l'utilisateur
@@ -279,19 +274,7 @@ class CandidatController extends AbstractController
         // On enregistre les modifications
         $entityManager->flush();
 
-        $this->addFlash('success', 'Emploi retirer des sauvegarder avec succès');
-
-        // On renvoi vers la page de la liste des candidatures ou la page de détail de l'emploi en fonction de l'origine
-        if ($origin === 'dashboard') {
-            return $this->redirectToRoute('app_candidatures');
-        } else if ($origin === 'detail') {
-            return $this->redirectToRoute('app_show_emploi', ['id' => $emploi->getId()]);
-        } else if ($origin === 'resultats') {
-            // Recharger juste la page actuelle
-            return $this->redirect($request->headers->get('referer'));
-        } else {
-            return $this->redirectToRoute('app_home');
-        }
+        return new JsonResponse(['success' => 'Emploi retirer des sauvegarder avec succès']);
     }
 
     // Méthode pour supprimer une candidature

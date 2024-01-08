@@ -23,6 +23,7 @@
             {{ importmap() }}
             {# {% block importmap %}{{ importmap('app') }}{% endblock %} #}
             <script src="{{asset('js/script.js')}}"></script>
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         {% endblock %}
     </head>
     <body data-controller="search">
@@ -287,5 +288,6 @@
                 <p>Conçu et développé par <a href="https://www.linkedin.com/in/mansour-chamaev/">Chamaev Mansour</a></p>
             </div>
         </footer>
+        <script src="{{asset('js/likeEmploi.js')}}"></script>
     </body>
 </html>

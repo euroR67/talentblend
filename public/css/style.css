@@ -1144,6 +1144,10 @@ main.show-candidat .send-msg-btn a:hover {
         width: 100%;
     }
 
+    div.mobile-footerstyle .like-hide {
+        display: none;
+    }
+
     div.mobile-footerstyle {
         margin-inline: 0;
         max-width: 528px;

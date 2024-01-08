@@ -68,7 +68,7 @@
         <div class="result-container">
             {% if emplois is not empty %}
                 {% for emploi in emplois %}
-                    <div class="result" data-url="{{ path('app_show_emploi', {'id': emploi.id}) }}">
+                    <div class="result">
                         <div class="result-head">
                             <div class="logo-new">
                                 {% if emploi.entreprise.logo %}
@@ -83,16 +83,14 @@
                             </div>
                             {# Si l'emploi est déjà sauvegardé par l'utilisateur en session avec savedEmplois #}
                             {% if emploi in savedEmplois  %}
-                                {# <a href="{{ path('app_emploi_delete', {'id': emploi.id, 'origin': 'resultats'}) }}"><i class="fa-solid fa-heart"></i></a> #}
-                                <i class="fa-solid fa-heart"></i>
+                                <a class="save-emploi-link" href="{{ path('app_emploi_delete', {'id': emploi.id}) }}" data-save-url="{{ path('app_emploi_save', {'id': emploi.id}) }}" data-delete-url="{{ path('app_emploi_delete', {'id': emploi.id}) }}" data-saved="true"><i class="fa-solid fa-heart"></i></a>
                             {% else %}
-                                {# <a href="{{ path('app_emploi_save', {'id': emploi.id}) }}"><i class="fa-regular fa-heart"></i></a> #}
-                                <i class="fa-regular fa-heart"></i>
+                                <a class="save-emploi-link" href="{{ path('app_emploi_save', {'id': emploi.id}) }}" data-save-url="{{ path('app_emploi_save', {'id': emploi.id}) }}" data-delete-url="{{ path('app_emploi_delete', {'id': emploi.id}) }}" data-saved="false"><i class="fa-regular fa-heart"></i></a>
                             {% endif %}
                         </div>
                         <div class="result-body">
                             <!-- Titre de l'offre d'emploi -->
-                            <h3>{{ emploi }}</h3>
+                            <h3><a href="{{ path('app_show_emploi', {'id': emploi.id}) }}">{{ emploi }}</a></h3>
                             <p>Par 
                                 <a href="{{ path('app_emplois_par_entreprise', {'id': emploi.entreprise.id}) }}">{{ emploi.entreprise }}</a>
                                 dans 

@@ -171,9 +171,9 @@
                                 <a href="{{ path('app_candidature_delete', {'id': dejaPostuler.id, 'origin': 'detail'}) }}">Retirer ma candidature</a>
                             {% endif %}
                             {% if not alreadySaved %}
-                                <a href="{{ path('app_emploi_save', {'id': emploi.id}) }}"><i class="fa-regular fa-heart"></i></a>
+                                <a class="save-emploi-link" href="{{ path('app_emploi_save', {'id': emploi.id}) }}" data-save-url="{{ path('app_emploi_save', {'id': emploi.id}) }}" data-delete-url="{{ path('app_emploi_delete', {'id': emploi.id}) }}" data-saved="false"><i class="fa-regular fa-heart"></i></a>
                             {% else %}
-                                <a href="{{ path('app_emploi_delete', {'id': emploi.id, 'origin': 'detail'}) }}"><i class="fa-solid fa-heart"></i></a>
+                                <a class="save-emploi-link" href="{{ path('app_emploi_delete', {'id': emploi.id}) }}" data-save-url="{{ path('app_emploi_save', {'id': emploi.id}) }}" data-delete-url="{{ path('app_emploi_delete', {'id': emploi.id}) }}" data-saved="true"><i class="fa-solid fa-heart"></i></a>
                             {% endif %}
                         </div>
                     </div>
@@ -249,14 +249,14 @@
         <h4>Ce poste vous intéresse ?</h4>
         {% if not dejaPostuler %}
             <a href="{{ path('app_postuler', {'id': emploi.id}) }}"><i class="fa-solid fa-bolt"></i> Postuler</a>
-            {% else %}
+        {% else %}
             <a href="{{ path('app_candidature_delete', {'id': dejaPostuler.id, 'origin': 'detail'}) }}">Retirer ma candidature</a>
-            {% endif %}
-            {% if not alreadySaved %}
-            <a href="{{ path('app_emploi_save', {'id': emploi.id}) }}"><i class="fa-regular fa-heart"></i></a>
-            {% else %}
-            <a href="{{ path('app_emploi_delete', {'id': emploi.id, 'origin': 'detail'}) }}"><i class="fa-solid fa-heart"></i></a>
-            {% endif %}
+        {% endif %}
+        {% if not alreadySaved %}
+            <a class="save-emploi-link like-hide" href="{{ path('app_emploi_save', {'id': emploi.id}) }}" data-save-url="{{ path('app_emploi_save', {'id': emploi.id}) }}" data-delete-url="{{ path('app_emploi_delete', {'id': emploi.id}) }}" data-saved="false"><i class="fa-regular fa-heart"></i></a>
+        {% else %}
+            <a class="save-emploi-link like-hide" href="{{ path('app_emploi_delete', {'id': emploi.id}) }}" data-save-url="{{ path('app_emploi_save', {'id': emploi.id}) }}" data-delete-url="{{ path('app_emploi_delete', {'id': emploi.id}) }}" data-saved="true"><i class="fa-solid fa-heart"></i></a>
+        {% endif %}
         </div>
         {% elseif not app.user %}
         <div class="mobile-footerstyle">
