@@ -246,7 +246,7 @@ class CandidatController extends AbstractController
 
         $entityManager->flush();
 
-        return new JsonResponse(['success' => 'Emploi sauvegarder avec succès']);
+        return new JsonResponse(['success' => 'Emploi mis en favoris avec succès']);
     }
 
     // Méthode pour supprimer un emploi sauvegardé
@@ -274,7 +274,7 @@ class CandidatController extends AbstractController
         // On enregistre les modifications
         $entityManager->flush();
 
-        return new JsonResponse(['success' => 'Emploi retirer des sauvegarder avec succès']);
+        return new JsonResponse(['success' => 'Emploi retirer des favoris avec succès']);
     }
 
     // Méthode pour supprimer une candidature

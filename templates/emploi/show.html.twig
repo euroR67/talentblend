@@ -24,7 +24,7 @@
                         {% endif %}
                         {# Si la date de publication de l'emploi date d'aujourd'hui #}
                         {% if emploi.dateOffre|date('Y-m-d') == 'now'|date('Y-m-d') %}
-                            <span>Nouveau!</span>
+                            <span class="new">Nouveau!</span>
                         {% endif %}
                     </div>
                     <div class="result-body">

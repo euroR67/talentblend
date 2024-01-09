@@ -305,7 +305,6 @@ div.result {
     border: 2px solid rgb(255, 255, 255);
     box-shadow: rgba(33, 33, 33, 0.1) 0px 4px 9px;
     transition: all 200ms ease;
-    cursor: pointer;
 }
 
 div.result.candidat > div:first-of-type {
@@ -322,6 +321,7 @@ div.result h3, div.result-body h1 {
     color: #004f3a;
     font-size: 24px;
     font-weight: 600;
+    transition: all 200ms ease;
 }
 
 div.result-head > div:first-of-type {
@@ -342,7 +342,12 @@ div.result-body a {
     width: fit-content;
 }
 
-div.result-body a:after {
+div.result-body a:hover {
+    color: #038e69;
+
+}
+
+div.result-body p a:after {
     display: block;
     content: '';
     border-bottom: solid 1px #007456;
@@ -351,16 +356,12 @@ div.result-body a:after {
     transform-origin: 0% 50%;
 }
 
-div.result-body a:hover:after {
+div.result-body p a:hover:after {
     transform: scaleX(1);
 }
 
 div.result img {
-    height: 54px;
-    width: 54px;
-    object-fit: contain;
-    border-radius: 100px;
-    border: 1px solid #cccccc7e;
+    height: 30px;
 }
 
 div.result-head {
@@ -391,7 +392,7 @@ div.result-head .logo-new p {
     align-items: center;
 }
 
-div.result-head .logo-new span {
+div.result-head .logo-new span, .new {
     color: rgb(0, 120, 140);
     font-weight: 600;
     text-transform: uppercase;
@@ -468,6 +469,123 @@ div.result-footer span {
 /* Panneau de filtre */
 aside.filter {
     display: none;
+    position: fixed;
+    z-index: 100;
+    overflow: auto;
+    inset: 0;
+    animation: 300ms ease-in-out 0s 1 alternate none running ibn;
+    background-color: #fff;
+}
+
+@keyframes ibn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+
+div.filter-panel {
+    background-color: #fff;
+    padding: 30px;
+    min-height: 100vh;
+}
+
+.filter-panel-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    height: 40px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #cccccc8b;
+}
+
+.filter-panel-head .close-filter {
+    cursor: pointer;
+    font-size: 24px;
+    transition: all 200ms ease;
+}
+
+.filter-panel-head .close-filter:hover {
+    color: #007456;
+}
+
+.filter-panel-head h3 {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.filter-panel-body-item h4 {
+    font-size: 16px;
+    font-weight: 600;
+    margin-block: 20px;
+    color: #999;
+}
+
+.checkbox {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding-left: 5px;
+}
+
+
+.checkbox input[type="checkbox"], .radio input[type="radio"] {
+    transform: scale(1.8);
+}
+
+.checkbox label {
+    color: #555555;
+    accent-color: #007456;
+    display: flex;
+    gap: 12px;
+}
+
+.radio {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding-left: 5px;
+}
+
+.radio label {
+    accent-color: #007456;
+    display: flex;
+    gap: 12px;
+}
+
+.radio span {
+    color: #555555;
+}
+
+div.submit-filter {
+    position: sticky;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgb(242, 242, 242);
+    padding: 5px;
+    box-shadow: rgba(33, 33, 33, 0.1) 0px -4px 9px;
+    text-align: right;
+}
+
+div.submit-filter button {
+    background-color: #007456;
+    padding: 10px 20px;
+    color: #fff;
+    border-radius: 5px;
+    border: none;
+    transition: all 200ms ease;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 200ms ease;
+}
+
+div.submit-filter button:hover {
+    background-color: #02906a;
 }
 
 /* Détail d'un emploi mobile */
@@ -492,11 +610,7 @@ div.detail-head {
 }
 
 div.detail-head .logo-new img {
-    height: 54px;
-    width: 54px;
-    object-fit: contain;
-    border-radius: 100px;
-    border: 1px solid #cccccc7e;
+    height: 30px;
 }
 
 main.show div.entreprise-banniere img {
@@ -645,7 +759,8 @@ aside.info-entreprise {
 
 div.entreprise-info-head .logo {
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    width: fit-content;
     gap: 10px;
 }
 
@@ -655,11 +770,7 @@ div.entreprise-info-head .logo h3 {
 }
 
 div.entreprise-info-head .logo img {
-    height: 60px;
-    width: 60px;
-    object-fit: contain;
-    border-radius: 100px;
-    border: 1px solid #cccccc7e;
+    height: 30px;
 }
 
 div.entreprise-info-head ul {
@@ -1008,6 +1119,12 @@ main.show-candidat .send-msg-btn a:hover {
 }
 
 @media screen and (min-width: 768px) {
+    /* Panneau filtre */
+    .filter-panel-body {
+        display: flex;
+        gap: 100px;
+    }
+
     /* Section bg */
     div.bg {
         max-height: 507px;
@@ -1112,7 +1229,61 @@ main.show-candidat .send-msg-btn a:hover {
     }
 }
 
-@media screen and (min-width: 1000px) {
+@media screen and (min-width: 1024px) {
+    /* Panneau filtre */
+    aside.filter {
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        border-radius: 8px;
+        width: 100%;
+        height: 80vh;
+        max-height: 90vh;
+        box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 9px;
+        max-width: calc(100% - 112px);
+    }
+
+    div.filter-panel {
+        min-height: inherit;
+        height: fit-content;
+        padding: 0;
+        padding: 48px 56px 56px;
+    }
+
+    div.filter-panel-head {
+        height: 80px;
+    }
+
+    div.submit-filter {
+        position: inherit;
+        padding: 20px;
+    }
+
+    .filter-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        background-color: #171d22;
+        z-index: 20; 
+        transition: all 400ms ease-in-out;
+        visibility: hidden;
+    }
+    
+    .filter-overlay.active {
+        opacity: 0.80;
+        visibility: visible;
+    }
+
+    .filter-form {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 100%;
+    }
+
     /* Section info job dans détail job */
     main.show {
         max-width: 968px;
@@ -1209,8 +1380,8 @@ main.show-candidat .send-msg-btn a:hover {
     div.filter {
         max-width: 1440px;
         margin: 0 auto;
-        padding: 20px 0px;
         padding-left: 20px;
+        padding-block: 25px;
     }
 
     .search-emploi-result {
@@ -1226,63 +1397,6 @@ main.show-candidat .send-msg-btn a:hover {
 
     div.result-container {
         flex: 2;
-    }
-
-    /* Panneau filtres */
-    div.filter button {
-        display: none;
-    }
-
-    aside.filter {
-        margin-inline:20px 60px;
-        display: block;
-    }
-
-    div.filter-panel {
-        background-color: #fff;
-        border-radius: 10px;
-        padding: 20px;
-        border: 1px solid #cccccc8b;
-        width: 330px;
-        margin-bottom: 30px;
-    }
-
-    .filter-panel-head h3 {
-        font-size: 18px;
-        font-weight: 600;
-        margin-bottom: 20px;
-        border-bottom: 1px solid #cccccc8b;
-        height: 40px;
-    }
-
-    .filter-panel-body-item h4 {
-        font-size: 16px;
-        font-weight: 600;
-        margin-block: 20px;
-        color: #999;
-    }
-
-    .checkbox {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-    }
-
-    .checkbox label {
-        color: #555555;
-    }
-
-    .radio {
-        display: flex;
-        flex-direction: column;
-    }
-
-    .radio label {
-        margin-bottom: 10px;
-    }
-
-    .radio span {
-        color: #555555;
     }
 
     /* Liste des catégorie */
@@ -1318,5 +1432,95 @@ main.show-candidat .send-msg-btn a:hover {
     .newsletter > div {
         display: flex;
         align-items: center;
+    }
+
+    /* Panneau filtres */
+    .filter-overlay {
+        display: none;
+    }
+
+    div.filter button, .filter-panel-head .close-filter {
+        display: none;
+    }
+
+    aside.filter {
+        position: inherit;
+        margin-inline:20px 60px;
+        display: block;
+        transform: inherit;
+        overflow: inherit;
+        padding: 0;
+        width: fit-content;
+        height: fit-content;
+        margin-bottom: 40px;
+    }
+
+    .checkbox input[type="checkbox"], .radio input[type="radio"] {
+        transform: scale(1.2);
+    }
+
+    .filter-form {
+        display: inherit;
+    }
+
+    .filter-panel-head {
+        display: inherit;
+        border: none;
+    }
+
+    div.filter-panel-head {
+        height: inherit;
+    }
+    
+    div.filter-panel {
+        border-radius: 10px;
+        padding: 20px;
+        width: 330px;
+    }
+
+    .filter-panel-body {
+        display: inherit;
+    }
+
+    .filter-panel-head h3 {
+        font-size: 18px;
+        font-weight: 600;
+        margin-bottom: 20px;
+        border-bottom: 1px solid #cccccc8b;
+        height: 40px;
+    }
+
+    div.submit-filter {
+        box-shadow: inherit;
+        border-bottom-left-radius: 5px;
+        border-bottom-right-radius: 5px;
+        text-align: center;
+    }
+
+    .filter-panel-body-item h4 {
+        font-size: 16px;
+        font-weight: 600;
+        margin-block: 20px;
+        color: #999;
+    }
+
+    .checkbox {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .checkbox label {
+        color: #555555;
+    }
+
+    .radio {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .radio span {
+        color: #555555;
     }
 }
