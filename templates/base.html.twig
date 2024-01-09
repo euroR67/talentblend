@@ -114,23 +114,23 @@
                                     {% if is_granted('ROLE_RECRUTEUR') %}
                                     <li><a href="{{ path('app_emplois') }}" data-turbo="false"><i class="fa-solid fa-gauge"></i> Tableau de bord</a></li>
                                     <li><a href="{{ path('app_emplois') }}" data-turbo="false"><i class="fa-solid fa-briefcase"></i> Emplois</a></li>
-                                    <li><a href="{{ path('app_candidatures_recu') }}"><i class="fa-solid fa-list"></i> Candidatures</a></li>
-                                    <li><a href="{{ path('app_entreprises') }}"><i class="fa-solid fa-building-shield"></i> Entreprise</a></li>
-                                    <li><a href="{{ path('app_discussions')}}"><i class="fa-regular fa-message"></i> Messages</a></li>
-                                    <li><a href="{{ path('app_edit_password') }}"><i class="fa-solid fa-gear"></i> Paramètre</a></li>
+                                    <li><a href="{{ path('app_candidatures_recu') }}" data-turbo="false"><i class="fa-solid fa-list"></i> Candidatures</a></li>
+                                    <li><a href="{{ path('app_entreprises') }}" data-turbo="false"><i class="fa-solid fa-building-shield"></i> Entreprise</a></li>
+                                    <li><a href="{{ path('app_discussions')}}" data-turbo="false"><i class="fa-regular fa-message"></i> Messages</a></li>
+                                    <li><a href="{{ path('app_edit_password') }}" data-turbo="false"><i class="fa-solid fa-gear"></i> Paramètre</a></li>
                                     {% endif %}
                                     {% if is_granted('ROLE_CANDIDAT') %}
-                                    <li><a href="{{ path('app_candidat_edit', {'id': app.user.id}) }}"><i class="fa-solid fa-user"></i> Profil</a></li>
-                                    <li><a href="{{ path('app_candidatures') }}"><i class="fa-solid fa-list-check"></i> Candidatures</a></li>
-                                    <li><a href="{{ path('app_discussions')}}"><i class="fa-regular fa-message"></i> Messages</a></li>
-                                    <li><a href="{{ path('app_edit_password') }}"><i class="fa-solid fa-gear"></i> Paramètre</a></li>
+                                    <li><a href="{{ path('app_candidat_edit', {'id': app.user.id}) }}" data-turbo="false"><i class="fa-solid fa-user"></i> Profil</a></li>
+                                    <li><a href="{{ path('app_candidatures') }}" data-turbo="false"><i class="fa-solid fa-list-check"></i> Candidatures</a></li>
+                                    <li><a href="{{ path('app_discussions')}}" data-turbo="false"><i class="fa-regular fa-message"></i> Messages</a></li>
+                                    <li><a href="{{ path('app_edit_password') }}" data-turbo="false"><i class="fa-solid fa-gear"></i> Paramètre</a></li>
                                     {% endif %}
                                     {% if is_granted('ROLE_ADMIN') %}
                                     <li><a href="{{ path('app_admin_entreprise') }}" data-turbo="false"><i class="fa-solid fa-gauge"></i></i> Tableau de bord</a></li>
-                                    <li><a href="{{ path('app_admin_representant') }}">Représentation</a></li>
-                                    <li><a href="{{ path('admin') }}"><i class="fa-solid fa-user-shield"></i> Administration</a></li>
+                                    <li><a href="{{ path('app_admin_representant') }}" data-turbo="false">Représentation</a></li>
+                                    <li><a href="{{ path('admin') }}" data-turbo="false"><i class="fa-solid fa-user-shield"></i> Administration</a></li>
                                     {% endif %}
-                                    <li><a href="{{ path('app_logout') }}"><i class="fa-solid fa-arrow-right-from-bracket"></i> Se déconnecter</a></li>
+                                    <li><a href="{{ path('app_logout') }}" data-turbo="false"><i class="fa-solid fa-arrow-right-from-bracket"></i> Se déconnecter</a></li>
                                 </ul>
                             </nav>
                         </span>
@@ -190,23 +190,23 @@
                                     {% if is_granted('ROLE_RECRUTEUR') %}
                                     <li><a href="{{ path('app_emplois') }}" data-turbo="false"><i class="fa-solid fa-gauge"></i> Tableau de bord</a></li>
                                     <li><a href="{{ path('app_emplois') }}" data-turbo="false"><i class="fa-solid fa-briefcase"></i> Emplois</a></li>
-                                    <li><a href="{{ path('app_candidatures_recu') }}"><i class="fa-solid fa-list"></i> Candidatures</a></li>
-                                    <li><a href="{{ path('app_entreprises') }}"><i class="fa-solid fa-building-shield"></i> Entreprise</a></li>
-                                    <li><a href="{{ path('app_discussions')}}"><i class="fa-regular fa-message"></i> Messages</a></li>
-                                    <li><a href="{{ path('app_edit_password') }}"><i class="fa-solid fa-gear"></i> Paramètre</a></li>
+                                    <li><a href="{{ path('app_candidatures_recu') }}" data-turbo="false"><i class="fa-solid fa-list"></i> Candidatures</a></li>
+                                    <li><a href="{{ path('app_entreprises') }}" data-turbo="false"><i class="fa-solid fa-building-shield"></i> Entreprise</a></li>
+                                    <li><a href="{{ path('app_discussions')}}" data-turbo="false"><i class="fa-regular fa-message"></i> Messages</a></li>
+                                    <li><a href="{{ path('app_edit_password') }}" data-turbo="false"><i class="fa-solid fa-gear"></i> Paramètre</a></li>
                                     {% endif %}
                                     {% if is_granted('ROLE_CANDIDAT') %}
-                                    <li><a href="{{ path('app_candidat_edit', {'id': app.user.id}) }}"><i class="fa-solid fa-user"></i> Profil</a></li>
-                                    <li><a href="{{ path('app_candidatures') }}"><i class="fa-solid fa-list-check"></i> Candidatures</a></li>
-                                    <li><a href="{{ path('app_discussions')}}"><i class="fa-regular fa-message"></i> Messages</a></li>
-                                    <li><a href="{{ path('app_edit_password') }}"><i class="fa-solid fa-gear"></i> Paramètre</a></li>
+                                    <li><a href="{{ path('app_candidat_edit', {'id': app.user.id}) }}" data-turbo="false"><i class="fa-solid fa-user"></i> Profil</a></li>
+                                    <li><a href="{{ path('app_candidatures') }}" data-turbo="false"><i class="fa-solid fa-list-check"></i> Candidatures</a></li>
+                                    <li><a href="{{ path('app_discussions')}}" data-turbo="false"><i class="fa-regular fa-message"></i> Messages</a></li>
+                                    <li><a href="{{ path('app_edit_password') }}" data-turbo="false"><i class="fa-solid fa-gear"></i> Paramètre</a></li>
                                     {% endif %}
                                     {% if is_granted('ROLE_ADMIN') %}
                                         <li><a href="{{ path('app_admin_entreprise') }}" data-turbo="false"><i class="fa-solid fa-gauge"></i></i> Tableau de bord</a></li>
-                                        <li><a href="{{ path('app_admin_representant') }}">Représentation</a></li>
-                                        <li><a href="{{ path('admin') }}"><i class="fa-solid fa-user-shield"></i> Administration</a></li>
+                                        <li><a href="{{ path('app_admin_representant') }}" data-turbo="false">Représentation</a></li>
+                                        <li><a href="{{ path('admin') }}" data-turbo="false"><i class="fa-solid fa-user-shield"></i> Administration</a></li>
                                     {% endif %}
-                                    <li><a href="{{ path('app_logout') }}"><i class="fa-solid fa-arrow-right-from-bracket"></i> Se déconnecter</a></li>
+                                    <li><a href="{{ path('app_logout') }}" data-turbo="false"><i class="fa-solid fa-arrow-right-from-bracket"></i> Se déconnecter</a></li>
                                 </ul>
                             </span>
                     {% endif %}
@@ -220,9 +220,9 @@
                             <li><a href="">Offres d'emploi</a></li>
                         </ul>
                         {% if is_granted('ROLE_RECRUTEUR') %}
-                            <a href="{{ path('app_new_emploi') }}">Poster une offre</a>
+                            <a href="{{ path('app_new_emploi') }}" data-turbo="false">Poster une offre</a>
                         {% elseif is_granted('ROLE_CANDIDAT') %}
-                            <a href="{{ path('app_candidat_edit', {'id': app.user.id}) }}">Déposer mon CV</a>
+                            <a href="{{ path('app_candidat_edit', {'id': app.user.id}) }}" data-turbo="false">Déposer mon CV</a>
                         {% else %}
                             <a href="{{ path('app_register') }}">Déposer mon CV</a>
                         {% endif %}

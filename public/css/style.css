@@ -771,6 +771,7 @@ div.entreprise-info-head .logo h3 {
 
 div.entreprise-info-head .logo img {
     height: 30px;
+    width: fit-content;
 }
 
 div.entreprise-info-head ul {
