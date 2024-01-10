@@ -102,7 +102,11 @@
                         <span class="nav-head">
                             <div>
                                 <div class="pseudo-div">
-                                    <img src="{{ asset('img/profil.jpg') }}" alt="avatar">
+                                    {% if app.user.photo %}
+                                        <img src="{{ asset('pdp/' ~ app.user.photo) }}" alt="avatar">
+                                    {% else %}
+                                        <img src="{{ asset('img/profil.jpg') }}" alt="avatar">
+                                    {% endif %}
                                     <p class="pseudo" data-menu-target="pseudo" data-action="click->menu#toggleDashSubmenu">
                                         {{ app.user.prenom }}<i class="fa-solid fa-chevron-down"></i>
                                     </p>
@@ -182,7 +186,11 @@
                         {% endif %}
                         {% if app.user %}
                             <span class="authentified">
-                                <img src="{{ asset('img/profil.jpg') }}" alt="avatar">
+                                {% if app.user.photo %}
+                                        <img src="{{ asset('pdp/' ~ app.user.photo) }}" alt="avatar">
+                                    {% else %}
+                                        <img src="{{ asset('img/profil.jpg') }}" alt="avatar">
+                                    {% endif %}
                                 <p>
                                     {{ app.user.prenom }}<i class="fa-solid fa-chevron-down"></i>
                                 </p>
