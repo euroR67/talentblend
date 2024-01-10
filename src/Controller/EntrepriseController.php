@@ -86,9 +86,8 @@ class EntrepriseController extends AbstractController
             // so the file must be processed only when a file is uploaded
             if($logo) {
                 $originalFilename = pathinfo($logo->getClientOriginalName(), PATHINFO_FILENAME);
-                // this is needed to safely include the file name as part of the URL
                 $safeFilename = $slugger->slug($originalFilename);
-                $newFilename = $safeFilename.'-'.uniqid().'.'.$logo->guessExtension();
+                $newFilename = md5($safeFilename.'-'.uniqid()).'.webp';
                 
                 try {
                     $logo->move(
@@ -98,22 +97,21 @@ class EntrepriseController extends AbstractController
                 } catch (FileException $e) {
                     // ... handle exception if something happens during file upload
                 }
-
-                // Suppression de l'ancien logo du serveur si un nouveau logo est uploadée
+            
                 if($entreprise->getLogo()) {
-                    unlink($this->getParameter('logo_directory').'/'.$entreprise->getLogo());
+                    $file_path = $this->getParameter('logo_directory').'/'.$entreprise->getLogo();
+                    if (file_exists($file_path)) {
+                        unlink($file_path);
+                    }
                 }
-
-                // updates the 'photoFilename' property to store the PDF file name
-                // instead of its contents
+            
                 $entreprise->setLogo($newFilename);
             }
-
+            
             if($banniere) {
                 $originalFilename = pathinfo($banniere->getClientOriginalName(), PATHINFO_FILENAME);
-                // this is needed to safely include the file name as part of the URL
                 $safeFilename = $slugger->slug($originalFilename);
-                $newFilename = $safeFilename.'-'.uniqid().'.'.$banniere->guessExtension();
+                $newFilename = md5($safeFilename.'-'.uniqid()).'.webp';
                 
                 try {
                     $banniere->move(
@@ -123,22 +121,21 @@ class EntrepriseController extends AbstractController
                 } catch (FileException $e) {
                     // ... handle exception if something happens during file upload
                 }
-
-                // Suppression de l'ancienne banniere du serveur si une nouvelle banniere est uploadée
+            
                 if($entreprise->getBanniere()) {
-                    unlink($this->getParameter('logo_directory').'/'.$entreprise->getBanniere());
+                    $file_path = $this->getParameter('logo_directory').'/'.$entreprise->getBanniere();
+                    if (file_exists($file_path)) {
+                        unlink($file_path);
+                    }
                 }
-
-                // updates the 'photoFilename' property to store the PDF file name
-                // instead of its contents
+            
                 $entreprise->setBanniere($newFilename);
             }
             
             if($kbis) {
                 $originalFilename = pathinfo($kbis->getClientOriginalName(), PATHINFO_FILENAME);
-                // this is needed to safely include the file name as part of the URL
                 $safeFilename = $slugger->slug($originalFilename);
-                $newFilename = $safeFilename.'-'.uniqid().'.'.$kbis->guessExtension();
+                $newFilename = md5($safeFilename.'-'.uniqid()).'.pdf';
                 
                 try {
                     $kbis->move(
@@ -148,14 +145,14 @@ class EntrepriseController extends AbstractController
                 } catch (FileException $e) {
                     // ... handle exception if something happens during file upload
                 }
-
-                // Suppression de l'ancien KBIS du serveur si un nouveau KBIS est uploadé
+            
                 if($entreprise->getKbis()) {
-                    unlink($this->getParameter('kbis_directory').'/'.$entreprise->getKbis());
+                    $file_path = $this->getParameter('kbis_directory').'/'.$entreprise->getKbis();
+                    if (file_exists($file_path)) {
+                        unlink($file_path);
+                    }
                 }
-
-                // updates the 'kbisFilename' property to store the PDF file name
-                // instead of its contents
+            
                 $entreprise->setKbis($newFilename);
             }
 

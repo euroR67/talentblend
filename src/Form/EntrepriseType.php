@@ -32,6 +32,7 @@ class EntrepriseType extends AbstractType
                             'image/jpeg',
                             'image/png',
                             'image/jpg',
+                            'image/webp',
                         ],
                         'mimeTypesMessage' => 'Le format de l\'photo n\'est pas valide !',
                     ])

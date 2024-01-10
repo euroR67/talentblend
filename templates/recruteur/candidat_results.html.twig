@@ -86,7 +86,7 @@
                                 {% for choice in form.niveau %}
                                 <label>
                                     {{ form_widget(choice) }}
-                                    <span>{{ form_label(choice) }}</span>
+                                    <span>{{ form_label(choice) }}</span>ans
                                 </label>
                                 {% endfor %}
                             </div>
@@ -103,7 +103,7 @@
             <div class="result-container">
                 {% if results is not empty %}
                 {% for candidat in results %}
-                <div class="result candidat" data-url="{{ path('app_show_candidat', {'id': candidat.id}) }}">
+                <div class="result candidat">
                     <div>
                         <div class="result-head">
                             <div class="logo-new">
@@ -115,8 +115,9 @@
                             </div>
                         </div>
                         <div class="result-body">
-                            <h1>{{ candidat.metier }}</h1>
-                            <a href="#">{{ candidat }}</a>
+                            <a style="color: rgb(70, 70, 70);" href="{{ path('app_show_candidat', {'id': candidat.id}) }}">{{ candidat }}</a>
+                            <a href="{{ path('app_show_candidat', {'id': candidat.id}) }}">{{ candidat.metier }}</a>
+                            <p>{{ candidat.description|slice(0, 80)|raw }}</p>
                         </div>
                     </div>
                     <div class="result-footer">

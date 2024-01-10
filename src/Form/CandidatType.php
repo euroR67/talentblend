@@ -42,8 +42,9 @@ class CandidatType extends AbstractType
                             'image/jpeg',
                             'image/png',
                             'image/jpg',
+                            'image/webp'
                         ],
-                        'mimeTypesMessage' => 'Le format de l\'photo n\'est pas valide !',
+                        'mimeTypesMessage' => 'Le format de la photo n\'est pas valide !',
                     ])
                 ],
             ])

@@ -61,7 +61,7 @@ class RepresenteController extends AbstractController
                 $originalFilename = pathinfo($kbis->getClientOriginalName(), PATHINFO_FILENAME);
                 // this is needed to safely include the file name as part of the URL
                 $safeFilename = $slugger->slug($originalFilename);
-                $newFilename = $safeFilename.'-'.uniqid().'.'.$kbis->guessExtension();
+                $newFilename = md5($safeFilename.'-'.uniqid()).'.pdf';
                 
                 try {
                     $kbis->move(

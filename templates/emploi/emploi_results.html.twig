@@ -109,11 +109,13 @@
                                         <span>Nouveau!</span>
                                     {% endif %}
                                 </div>
-                                {# Si l'emploi est déjà sauvegardé par l'utilisateur en session avec savedEmplois #}
-                                {% if emploi in savedEmplois  %}
-                                    <a class="save-emploi-link" href="{{ path('app_emploi_delete', {'id': emploi.id}) }}" data-save-url="{{ path('app_emploi_save', {'id': emploi.id}) }}" data-delete-url="{{ path('app_emploi_delete', {'id': emploi.id}) }}" data-saved="true"><i class="fa-solid fa-heart"></i></a>
-                                {% else %}
-                                    <a class="save-emploi-link" href="{{ path('app_emploi_save', {'id': emploi.id}) }}" data-save-url="{{ path('app_emploi_save', {'id': emploi.id}) }}" data-delete-url="{{ path('app_emploi_delete', {'id': emploi.id}) }}" data-saved="false"><i class="fa-regular fa-heart"></i></a>
+                                {% if is_granted('ROLE_CANDIDAT') %}
+                                    {# Si l'emploi est déjà sauvegardé par l'utilisateur en session avec savedEmplois #}
+                                    {% if emploi in savedEmplois  %}
+                                        <a class="save-emploi-link" href="{{ path('app_emploi_delete', {'id': emploi.id}) }}" data-save-url="{{ path('app_emploi_save', {'id': emploi.id}) }}" data-delete-url="{{ path('app_emploi_delete', {'id': emploi.id}) }}" data-saved="true"><i class="fa-solid fa-heart"></i></a>
+                                    {% else %}
+                                        <a class="save-emploi-link" href="{{ path('app_emploi_save', {'id': emploi.id}) }}" data-save-url="{{ path('app_emploi_save', {'id': emploi.id}) }}" data-delete-url="{{ path('app_emploi_delete', {'id': emploi.id}) }}" data-saved="false"><i class="fa-regular fa-heart"></i></a>
+                                    {% endif %}
                                 {% endif %}
                             </div>
                             
@@ -142,7 +144,20 @@
                                 <span>{{ emploi.types }}</span>
                                 <span>{{ emploi.contrats }}</span>
                                 <span>{{ emploi.ville }}</span>
-                                <span>{{ emploi.salaire }} € Par an</span>
+                                <span>
+                                    {% if emploi.showBy == 'echelle' %}
+                                        {{ emploi.salaireMinimum|number_format(0, '.', ' ') }}€ - {{ emploi.salaire|number_format(0, '.', ' ') }}€ 
+                                    {% elseif emploi.showBy == 'montantMaximum' %}
+                                        {{ emploi.salaire|number_format(0, '.', ' ') }}€ 
+                                    {% elseif emploi.showBy == 'montantMinimum' %}
+                                        {{ emploi.salaireMinimum|number_format(0, '.', ' ') }}€
+                                    {% else %}
+                                        Salaire négociable
+                                    {% endif %}
+                                    {% if emploi.showBy != 'negociable' %}
+                                        {{ emploi.taux }}
+                                    {% endif %}
+                                </span>
                             </div>
                         </div>
                     {% endfor %}
@@ -159,20 +174,4 @@
     {{ knp_pagination_render(results) }}
 {% endif %}
 
-<script>
-    
-    function attachEventListeners() {
-        // Sélectionnez tous les éléments de formulaire
-        var formElements = document.querySelectorAll('.search-form-homepage input[type=checkbox], .search-form-homepage input[type=radio]');
-
-        // Ajoutez un écouteur d'événements 'change' à chaque élément de formulaire
-        formElements.forEach(function(element) {
-            element.addEventListener('change', function() {
-                // Soumettez le formulaire lorsque l'élément de formulaire change
-                this.form.requestSubmit();
-            });
-        });
-    }
-
-</script>
 {% endblock %}

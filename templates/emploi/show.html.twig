@@ -90,7 +90,20 @@
                         </div>
                         <div class="text">
                             <p>Salaire</p>
-                            <p>{{ emploi.salaire|number_format(0, '.', ' ') }} €</p>
+                            <p>
+                                {% if emploi.showBy == 'echelle' %}
+                                    {{ emploi.salaireMinimum|number_format(0, '.', ' ') }}€ - {{ emploi.salaire|number_format(0, '.', ' ') }}€ 
+                                {% elseif emploi.showBy == 'montantMaximum' %}
+                                    {{ emploi.salaire|number_format(0, '.', ' ') }}€ 
+                                {% elseif emploi.showBy == 'montantMinimum' %}
+                                    {{ emploi.salaireMinimum|number_format(0, '.', ' ') }}€
+                                {% else %}
+                                    Salaire négociable
+                                {% endif %}
+                                {% if emploi.showBy != 'negociable' %}
+                                    {{ emploi.taux }}
+                                {% endif %}
+                            </p>
                         </div>
                     </div>
                     <div class="show-hide">

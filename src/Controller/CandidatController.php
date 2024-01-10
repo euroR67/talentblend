@@ -40,8 +40,10 @@ class CandidatController extends AbstractController
             return $this->redirectToRoute('app_home');
         }
 
+        // Utilisation du composant Form pour créer le formulaire
         $form = $this->createForm(CandidatType::class, $user);
 
+        // Gérez la soumission du formulaire
         $form->handleRequest($request);
         
         // Si le formulaire est soumis et valide
@@ -91,7 +93,8 @@ class CandidatController extends AbstractController
                 $originalFilename = pathinfo($photo->getClientOriginalName(), PATHINFO_FILENAME);
                 // this is needed to safely include the file name as part of the URL
                 $safeFilename = $slugger->slug($originalFilename);
-                $newFilename = $safeFilename.'-'.uniqid().'.'.$photo->guessExtension();
+                // Utilisation de md5 pour générer un nom de fichier unique et ajout de l'extension .webp
+                $newFilename = md5($safeFilename.'-'.uniqid()).'.webp';
                 
                 try {
                     $photo->move(
@@ -101,12 +104,12 @@ class CandidatController extends AbstractController
                 } catch (FileException $e) {
                     // ... handle exception if something happens during file upload
                 }
-
+            
                 // Suppression de l'ancienne photo du serveur si une nouvelle photo est uploadée
                 if($user->getPhoto()) {
                     unlink($this->getParameter('photo_profil').'/'.$user->getPhoto());
                 }
-
+            
                 // updates the 'photoFilename' property to store the PDF file name
                 // instead of its contents
                 $user->setPhoto($newFilename);
@@ -116,7 +119,8 @@ class CandidatController extends AbstractController
                 $originalFilename = pathinfo($cv->getClientOriginalName(), PATHINFO_FILENAME);
                 // this is needed to safely include the file name as part of the URL
                 $safeFilename = $slugger->slug($originalFilename);
-                $newFilename = $safeFilename.'-'.uniqid().'.'.$cv->guessExtension();
+                // Utilisation de md5 pour générer un nom de fichier unique et ajout de l'extension .pdf
+                $newFilename = md5($safeFilename.'-'.uniqid()).'.pdf';
                 
                 try {
                     $cv->move(
@@ -126,12 +130,12 @@ class CandidatController extends AbstractController
                 } catch (FileException $e) {
                     // ... handle exception if something happens during file upload
                 }
-
+            
                 // Suppression de l'ancien CV du serveur si un nouveau CV est uploadé
                 if($user->getCv()) {
                     unlink($this->getParameter('cv_directory').'/'.$user->getCv());
                 }
-
+            
                 // updates the 'cvFilename' property to store the PDF file name
                 // instead of its contents
                 $user->setCv($newFilename);
