@@ -6,10 +6,6 @@
 <div class="bg">
     <h1>Talentueux ? Rencontrez l'<span>Opportunité</span>.</h1>
     {{ render(controller('App\\Controller\\FormController::searchForm', {'isHomePage': true}, {'isHomePage': true})) }}
-
-    {% if is_granted('ROLE_RECRUTEUR') or is_granted('ROLE_ADMIN') %}
-        <a href="{{ path('app_search_candidat') }}"><i class="fa-solid fa-arrow-right-long"></i> Rechercher un candidat</a>
-    {% endif %}
 </div>
 
 <div class="content-wrapper">
@@ -19,8 +15,6 @@
             <p>Trouvez des professionnels en France et dans divers domaines de compétence.</p>
             {% if is_granted('ROLE_RECRUTEUR') %}
                 <a href="{{ path('app_new_emploi') }}">Publier une offre</a>
-            {% elseif is_granted('ROLE_CANDIDAT') %}
-                <a href="#">Inscription recruteur requis</a>
             {% else %}
                 <a href="{{ path('app_emplois') }}">Publier une offre</a>
             {% endif %}
@@ -31,8 +25,6 @@
             <p>Créer votre profil professionnel, trouvez de nouvelles opportunités d’emploi.</p>
             {% if is_granted('ROLE_CANDIDAT') %}
                 <a href="{{ path('app_candidat_edit', {'id': app.user.id}) }}">Déposer mon CV</a>
-            {% elseif is_granted('ROLE_RECRUTEUR') %}
-                <a href="#">Inscription candidat requis</a>
             {% else %}
                 <a href="{{ path('app_register') }}">Déposer mon CV</a>
             {% endif %}

@@ -224,15 +224,18 @@
                     <div class="mt4">
                         <ul>
                             <li><a href="{{ path('app_home')}}">Accueil</a></li>
-                            <li class="desk-categorie">Catégorie <i class="fa-solid fa-chevron-down fa-xs"></i></li>
+                            <li><a href="{{ path('app_categories')}}">Catégories</a></li>
                             <li><a href="">Offres d'emploi</a></li>
+                            {% if is_granted('ROLE_CANDIDAT') %}
+                                <li><a href="{{ path('app_candidat_edit', {'id': app.user.id}) }}" data-turbo="false">Déposer mon CV</a></li>
+                            {% elseif not is_granted('IS_AUTHENTICATED_FULLY') %}
+                                <li><a href="{{ path('app_register') }}">Déposer mon CV</a></li>
+                            {% endif %}
                         </ul>
                         {% if is_granted('ROLE_RECRUTEUR') %}
-                            <a href="{{ path('app_new_emploi') }}" data-turbo="false">Poster une offre</a>
-                        {% elseif is_granted('ROLE_CANDIDAT') %}
-                            <a href="{{ path('app_candidat_edit', {'id': app.user.id}) }}" data-turbo="false">Déposer mon CV</a>
+                            <a href="{{ path('app_search_candidat') }}" data-turbo="false">Accès Recruteurs <i class="fa-solid fa-arrow-right-long"></i></a>
                         {% else %}
-                            <a href="{{ path('app_register') }}">Déposer mon CV</a>
+                            <a href="{{ path('app_register') }}" data-turbo="false">Accès Recruteurs <i class="fa-solid fa-arrow-right-long"></i></a>
                         {% endif %}
                     </div>
                 </div>
@@ -274,6 +277,7 @@
                 }, 6000); // Masquer le message après 6 secondes (6000 millisecondes)
             </script>
         {% endif %}
+
         {% block body %}{% endblock %}
 
         <div class="newsletter">

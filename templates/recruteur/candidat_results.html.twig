@@ -115,8 +115,8 @@
                             </div>
                         </div>
                         <div class="result-body">
-                            <a style="color: rgb(70, 70, 70);" href="{{ path('app_show_candidat', {'id': candidat.id}) }}">{{ candidat }}</a>
-                            <a href="{{ path('app_show_candidat', {'id': candidat.id}) }}">{{ candidat.metier }}</a>
+                            <a data-turbo="false" style="color: rgb(70, 70, 70);" href="{{ path('app_show_candidat', {'id': candidat.id}) }}">{{ candidat }}</a>
+                            <a data-turbo="false" href="{{ path('app_show_candidat', {'id': candidat.id}) }}">{{ candidat.metier }}</a>
                             <p>{{ candidat.description|slice(0, 80)|raw }}</p>
                         </div>
                     </div>

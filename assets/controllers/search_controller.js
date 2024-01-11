@@ -1,21 +1,20 @@
 import { Controller } from '@hotwired/stimulus';
 
 export default class extends Controller {
-  static targets = [ "modal", "overlay", "close" ]
+  static targets = ['modal', 'overlay'];
 
   connect() {
-    this.element.style.overflow = 'auto';
+      this.modal = this.modalTarget;
+      this.overlay = this.overlayTarget;
   }
 
   open() {
-    this.modalTarget.style.display = 'flex';
-    this.overlayTarget.classList.add('active-overlay');
-    this.element.style.overflow = 'hidden';
+      this.modal.classList.add('active');
+      this.overlay.classList.add('active');
   }
 
   close() {
-    this.modalTarget.style.display = 'none';
-    this.overlayTarget.classList.remove('active-overlay');
-    this.element.style.overflow = 'auto';
+      this.modal.classList.remove('active');
+      this.overlay.classList.remove('active');
   }
 }

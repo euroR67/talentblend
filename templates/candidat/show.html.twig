@@ -26,40 +26,20 @@
                     </div>
                     <div class="action-candidat">
                         <a title="Télécharger le CV" href="{{ path('download_cv', {'userId': candidat.id}) }}"><i class="fa-regular fa-file-pdf"></i> Enregistrer sous PDF</a>
-                        <button type="button" onclick="openModal('{{ candidat.id }}')"><i class="fa-regular fa-paper-plane"></i> Message</button>
-                        <div id="modal-{{ candidat.id }}" class="modal">
-                            <h2>Envoyer un message à {{ candidat.email }}</h2>
+                        <button type="button" class="openModal"><i class="fa-regular fa-paper-plane"></i> Message</button>
+                        <div class="modal">
+                            <p>Message</p>
                             <form method="post" action="{{ path('send_message', {'id': candidat.id}) }}">
-                                <textarea name="content" required></textarea>
-                                <button type="submit">Envoyer</button>
+                                <textarea name="content" placeholder="Votre message ici..." required></textarea>
+                                <div class="action">
+                                    <button type="submit">Envoyer</button>
+                                    <button type="button" class="closeModal">Annuler</button>
+                                </div>
                             </form>
                         </div>
+                        <div class="modal-overlay"></div>
                     </div>
                 </div>
-                <script>
-                    // Ouvrir la modal pour envoyer un message
-                    function openModal(userId) {
-                        var modal = document.getElementById('modal-' + userId);
-                        modal.style.display = 'block';
-                    }
-                </script>
-                <style>
-                    .modal {
-                        padding: 20px;
-                        background-color: #fff;
-                        border-radius: 15px;
-                        z-index: 2;
-                        position: fixed;
-                        top: 50%;
-                        left: 50%;
-                        transform: translate(-50%, -50%);
-                        display: none;
-                    }
-                
-                    .modal.active {
-                        display: block;
-                    }
-                </style>
                 <div class="description-offre">
                     <h4>A propos de moi</h4>
                     <p>{{ candidat.description|raw }}</p>
@@ -130,12 +110,35 @@
                         <p>{{ candidat.ville }}</p>
                     </div>
                     <div class="send-msg-btn">
-                        <a href=""><i class="fa-regular fa-paper-plane"></i> Envoyer un message</a>
+                        <a class="openModal" style="cursor: pointer;"><i class="fa-regular fa-paper-plane"></i> Envoyer un message</a>
                     </div>
                 </div>
             </div>
         </aside>
 
     </main>
+    <script>
+        // Ouvrir la modal pour envoyer un message
+        const openModal = document.querySelectorAll('.openModal');
+        const modal = document.querySelector('.modal');
+        const overlay = document.querySelector('.modal-overlay');
+        const closeModal = document.querySelector('.closeModal');
 
+        openModal.forEach((btn) => {
+            btn.addEventListener('click', () => {
+                modal.classList.add('active');
+                overlay.classList.add('active');
+            });
+        });
+
+        closeModal.addEventListener('click', () => {
+            modal.classList.remove('active');
+            overlay.classList.remove('active');
+        });
+
+        overlay.addEventListener('click', () => {
+            modal.classList.remove('active');
+            overlay.classList.remove('active');
+        });
+    </script>
 {% endblock %}

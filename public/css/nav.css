@@ -389,11 +389,10 @@ header.desk-header > nav > div .mt4 > ul li a:hover {
 
 header.desk-header > nav > div .mt4 > a {
     color: #555555;
-    font-size: 15px;
     font-weight: 500;
     padding-block: 18px;
     border-bottom: 2px solid transparent;
-    transition: all 0.4s ease-in-out;
+    transition: all 0.2s ease-in-out;
     margin-right: 20px;
 }
 

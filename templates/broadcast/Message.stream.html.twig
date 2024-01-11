@@ -1,5 +1,6 @@
 {# Learn how to use Turbo Streams: https://github.com/symfony/ux-turbo#broadcast-doctrine-entities-update #}
 {% block create %}
+{# Utilisation de turbo-stream pour ajouter le nouveau message #}
 <turbo-stream action="append" target="messages">
     <template>
         <article id="{{ 'message_' ~ id }}">

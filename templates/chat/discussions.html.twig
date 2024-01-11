@@ -26,6 +26,8 @@
         <section>
             {# Le contenu de la discussion sera chargé ici #}
             {% if selectedMessages is defined and selectedMessages is not null %}
+                {# Grace a turbo_stream_listen on peut écouter les mises à jour des messages #}
+                {# Et les mettre à jour dans le turbo-frame #}
                 <ul {{ turbo_stream_listen('chat') }}>
                     <turbo-frame id="messages">
                         {# Liste des messages de la discussion sélectionnée #}
@@ -38,6 +40,8 @@
                         {% endfor %}
                     </turbo-frame>
                 </ul>
+                {# On utilise le turbo-frame pour éviter de recharger toute la page #}
+                {# Lors de la soumission du formulaire #}
                 <turbo-frame id="message_form">
                     {{ form_start(form) }}
                     {{ form_widget(form.content) }}
