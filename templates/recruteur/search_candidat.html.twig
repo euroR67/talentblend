@@ -8,5 +8,21 @@
     <h1>Recrutez des <span>talents</span> pour votre entreprise.</h1>
     {% include "components/search_candidat.html.twig" %}
 </div>
+<div class="content-wrapper">
+    <div class="vous-etes">
+        <div class="candidat">
+            <h2>Publier une offre d'emploi</h2>
+            <p>Publier une offre d'emploi et trouvez des professionnels en France et dans divers domaines de compétence.</p>
+            <a data-turbo="false" href="{{ path('app_new_emploi') }}">Publier une offre</a>
+            <img src="{{ asset('img/recruteur.svg') }}" alt="Illustration d'une recruteuse">
+        </div>
+        <div class="recruteur">
+            <h2>Découvrez des profils talentueux</h2>
+            <p>Consultez les profils des candidats et trouvez le profil qui correspond à votre offre d'emploi.</p>
+            <a href="{{ path('app_search_candidat') }}">Trouver un candidat</a>
+            <img src="{{ asset('img/candidat.svg') }}" alt="Illustration d'un candidat qui rédige son cv">
+        </div>
+    </div>
+</div>
 
 {% endblock %}

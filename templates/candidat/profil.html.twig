@@ -21,18 +21,28 @@
         <div class="profil">
             <h3>Vos informations</h3>
             
-            <div class="form-group">
-                <div>
-                    <label for="selectPhoto">Votre photo</label>
-                    {{ form_widget(form.photo, {'attr': {'class': 'form-control'}, 'id': 'selectPhoto'}) }}
-                    {% if app.user.photo %}
-                        <img src="{{ asset('pdp/' ~ app.user.photo) }}" alt="Photo de profil de l'utilisateur" style="width: 150px; height: 150px;object-fit: cover;">
-                        <label for="deletePhoto">Supprimer la photo</label>
-                        {{ form_row(form.deletePhoto) }}
-                    {% endif %}
+            <div class="form-groupp">
+                <div class="avatar-upload">
+                    <div class="avatar-edit">
+                        {{ form_widget(form.photo, {'attr': {'class': 'form-control'}, 'id': 'selectPhoto'}) }}
+                        <label for="selectPhoto"></label>
+                    </div>
+                    <div class="avatar-preview">
+                        {% if app.user.photo %}
+                            <div id="imagePreview" style="background-image: url('{{ asset('pdp/' ~ app.user.photo) }}');">
+                            </div>
+                        {% else %}
+                            <div id="imagePreview" style="background-image: url('https://www.gravatar.com/avatar/default?s=192&d=mp');
+                            ">
+                            </div>
+                        {% endif %}
+                    </div>
                 </div>
-                {# Si l'utilisateur a déjà une photo de profil, on l'affiche #}
-        
+                
+                {% if app.user.photo %}
+                    <label for="deletePhoto">Supprimer la photo</label>
+                    {{ form_row(form.deletePhoto) }}
+                {% endif %}
                 <div>
                     <label for="selectCv">Votre CV</label>
                     {{ form_widget(form.cv, {'attr': {'class': 'form-control'}, 'id': 'selectCv'}) }}
@@ -207,12 +217,29 @@
     
 </div>
 
+
 <script>
     // In your Javascript (external .js resource or <script> tag)
     $(document).ready(function() {
         $('#selectLangues').select2();
         $('#selectTypeEmplois').select2();
         $('#selectcontrats').select2();
+    });
+
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                $('#imagePreview').css('background-image', 'url('+e.target.result +')');
+                $('#imagePreview').hide();
+                $('#imagePreview').fadeIn(650);
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+    
+    $("#selectPhoto").change(function() {
+        readURL(this);
     });
 </script>
 

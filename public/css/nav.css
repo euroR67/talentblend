@@ -242,7 +242,8 @@ nav.dash-submenu > ul {
 
 nav.dash-submenu-active {
     grid-template-rows: 1fr;
-    margin-top: 20px;
+    margin-top: 10px;
+    transition: all 0.2s ease-in-out;
 }
 
 nav.dash-submenu ul li a i {
@@ -263,7 +264,6 @@ nav.dash-submenu ul li a i {
 .dash-submenu ul li a:hover,
 .dash-submenu ul li:first-child a {
     color: #007456;
-    margin-left: 5px;
     background-color: rgba(0,116,86,0.05);
 }
 

@@ -232,8 +232,17 @@
                                 <li><a href="{{ path('app_register') }}">Déposer mon CV</a></li>
                             {% endif %}
                         </ul>
+
+                        {% set isRecruiterRoute = app.request.pathInfo starts with '/recruteur' %}
+
                         {% if is_granted('ROLE_RECRUTEUR') %}
-                            <a href="{{ path('app_search_candidat') }}" data-turbo="false">Accès Recruteurs <i class="fa-solid fa-arrow-right-long"></i></a>
+                            {% if isRecruiterRoute %}
+                                <a href="{{ path('app_home') }}" data-turbo="false">Accès Candidat <i class="fa-solid fa-arrow-right-long"></i></a>
+                            {% else %}
+                                <a href="{{ path('app_search_candidat') }}" data-turbo="false">Accès Recruteurs <i class="fa-solid fa-arrow-right-long"></i></a>
+                            {% endif %}
+                        {% elseif is_granted('ROLE_CANDIDAT') %}
+                            <a href="{{ path('app_candidat_edit', {'id': app.user.id}) }}" data-turbo="false">Déposer mon CV <i class="fa-solid fa-arrow-right-long"></i></a>
                         {% else %}
                             <a href="{{ path('app_register') }}" data-turbo="false">Accès Recruteurs <i class="fa-solid fa-arrow-right-long"></i></a>
                         {% endif %}

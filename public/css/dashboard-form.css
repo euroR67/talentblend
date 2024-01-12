@@ -1,0 +1,125 @@
+/* formulaire de recherche modal */
+form.search-form-modal {
+    width: 100%;
+    margin: 0 auto;
+}
+
+form.search-form-modal div.input-group {
+    position: relative;
+    border-radius: 20px;
+}
+
+form.search-form-modal div.input-group i {
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    transform: translateY(-50%);
+    color: #999;
+    font-size: 20px;
+    padding-left: 10px;
+}
+
+form.search-form-modal div.form-group-search {
+    background-color: #fff;
+    border-radius: 16px 16px 0 0;
+    width: 100%;
+}
+
+form.search-form-modal div.form-group-search:nth-child(2) {
+    border-radius: 0;
+}
+
+form.search-form-modal div.form-group-search:last-of-type {
+    padding: 20px;
+    text-align: center;
+    border-radius:0 0 16px 16px;
+}
+
+form.search-form-modal #search_emploi_poste {
+    border-radius: 16px 16px 0 0;
+}
+
+form.search-form-modal input.form-control-search {
+    width: 100%;
+    padding: 25px;
+    border: none;
+    border-bottom: 1px solid #ccc;
+    font-size: 14px;
+    outline: none;
+    padding-left: 50px;
+}
+
+form.search-form-modal input.form-control-search::placeholder {
+    color: rgb(77, 77, 77);
+    opacity: 0.5;
+    font-size: 14px;
+}
+
+form.search-form-modal button.submit-search {
+    padding: 15px 30px;
+    outline: none;
+    background-color: #007456;
+    color: #fff;
+    cursor: pointer;
+    width: fit-content;
+    border:none;
+    border-radius: 30px;
+    text-align: center;
+    transition: all 0.2s ease-in-out;
+}
+
+form.search-form-modal button.submit-search:hover {
+    background-color: #018c67;
+}
+
+@media screen and (min-width: 800px) {
+    form.search-form-modal {
+        display: flex;
+        align-items: center;
+        border: 1px solid #cccccca6;
+        border-radius: 5px;
+        width: 100%;
+        margin-inline: 15px;
+    }
+
+    form.search-form-modal div.form-group-search:last-of-type {
+        border-radius: 0 40px 40px 0;
+        padding: 5px;
+        background-color: #fff;
+    }
+
+    form.search-form-modal button.submit-search {
+        border-radius: 5px;
+        padding: 10px;
+    }
+
+    form.search-form-modal div.form-group-search:last-child {
+        width: fit-content;
+    }
+
+    form.search-form-modal div.form-group-search:last-of-type {
+        text-align: right;
+        width: fit-content;
+    }
+
+    form.search-form-modal input.form-control-search {
+        border-bottom: none;
+        border-right: 1px solid #ccc;
+        border-radius: initial;
+        padding: initial;
+        padding-left: 35px;
+        height: 30px;
+    }
+
+    form.search-form-modal #search_emploi_poste {
+        border-radius: initial;
+    }
+
+    form.search-form-modal div.input-group i {
+        left:0px;
+    }
+
+    form.search-form-modal #search_emploi_poste {
+        width: 100%;
+    }
+}

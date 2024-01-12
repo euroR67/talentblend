@@ -11,6 +11,8 @@
         <link rel="stylesheet" href="{{asset('css/dashboard.css')}}">
         <link rel="stylesheet" href="{{asset('css/select2-custom.css')}}">
         <link rel="stylesheet" href="{{ asset('css/paginator.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/nav.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/dashboard-form.css') }}">
         {{ ux_controller_link_tags() }}
         {% endblock %}
 
@@ -42,13 +44,96 @@
             }
         </script>
         <script src="{{ asset('js/dashboard.js') }}"></script>
+        <script src="{{ asset('js/script.js') }}"></script>
         {{ importmap() }}
         {% endblock %}
     </head>
     <body>
         <main>
+            <header class="mobile-header" data-controller="menu">
+                <nav>
+                    <ul>
+                        <li>
+                            <i class="fa-solid fa-bars" data-action="click->menu#openMenu" style="color: #007456; cursor: pointer;"></i>
+                            <a href="{{ path('app_home') }}"><img class="logo" src="{{ asset('img/logo.png') }}" alt="logo"></a>
+                        </li>
+                        <li><i class="fa-solid fa-magnifying-glass" style="color: #5d5d5d; cursor: pointer;" data-action="click->search#open"></i></li>
+                    </ul>
+                </nav>
+                <nav class="slide-menu" data-menu-target="slideMenu">
+                    <div>
+                        {# Afficher un lien pour se connecter si l'utilisateur n'est pas connecté #}
+                        {% if not app.user %}
+                            <span class="auth-public">
+                                <a href="{{ path('app_login') }}">Connexion</a>
+                                <a href="{{ path('app_register') }}">Inscription</a>
+                            </span>
+                            <i class="fa-solid fa-xmark" data-action="click->menu#closeMenu" style="color: #666666; cursor: pointer;"></i>
+                        {% endif %}
+                        {# Afficher la photo de profil de l'utilisateur et son nom s'il est connecté #}
+                        {% if app.user %}
+                            <span class="nav-head">
+                                <div>
+                                    <div class="pseudo-div">
+                                        {% if app.user.photo %}
+                                            <img src="{{ asset('pdp/' ~ app.user.photo) }}" alt="avatar">
+                                        {% else %}
+                                            <img src="{{ asset('img/profil.jpg') }}" alt="avatar">
+                                        {% endif %}
+                                        <p class="pseudo">{{ app.user.prenom }}</p>
+                                    </div>
+                                    <i class="fa-solid fa-xmark" data-action="click->menu#closeMenu" style="color: #666666; cursor: pointer;"></i>
+                                </div>
+                                <nav class="dash-submenu-dash">
+                                    <span>Tableau de bord</span>
+                                    <ul>
+                                        {% if is_granted('ROLE_RECRUTEUR') %}
+                                        <li><a href="{{ path('app_emplois') }}" data-turbo="false"><i class="fa-solid fa-gauge"></i> Tableau de bord</a></li>
+                                        <li><a href="{{ path('app_emplois') }}" data-turbo="false"><i class="fa-solid fa-briefcase"></i> Emplois</a></li>
+                                        <li><a href="{{ path('app_candidatures_recu') }}" data-turbo="false"><i class="fa-solid fa-list"></i> Candidatures</a></li>
+                                        <li><a href="{{ path('app_entreprises') }}" data-turbo="false"><i class="fa-solid fa-building-shield"></i> Entreprise</a></li>
+                                        <li><a href="{{ path('app_discussions')}}" data-turbo="false"><i class="fa-regular fa-message"></i> Messages</a></li>
+                                        <li><a href="{{ path('app_edit_password') }}" data-turbo="false"><i class="fa-solid fa-gear"></i> Paramètre</a></li>
+                                        {% endif %}
+                                        {% if is_granted('ROLE_CANDIDAT') %}
+                                        <li><a href="{{ path('app_candidat_edit', {'id': app.user.id}) }}" data-turbo="false"><i class="fa-solid fa-user"></i> Profil</a></li>
+                                        <li><a href="{{ path('app_candidatures') }}" data-turbo="false"><i class="fa-solid fa-list-check"></i> Candidatures</a></li>
+                                        <li><a href="{{ path('app_discussions')}}" data-turbo="false"><i class="fa-regular fa-message"></i> Messages</a></li>
+                                        <li><a href="{{ path('app_edit_password') }}" data-turbo="false"><i class="fa-solid fa-gear"></i> Paramètre</a></li>
+                                        {% endif %}
+                                        {% if is_granted('ROLE_ADMIN') %}
+                                        <li><a href="{{ path('app_admin_entreprise') }}" data-turbo="false"><i class="fa-solid fa-gauge"></i></i> Tableau de bord</a></li>
+                                        <li><a href="{{ path('app_admin_representant') }}" data-turbo="false">Représentation</a></li>
+                                        <li><a href="{{ path('admin') }}" data-turbo="false"><i class="fa-solid fa-user-shield"></i> Administration</a></li>
+                                        {% endif %}
+                                        <li><a href="{{ path('app_logout') }}" data-turbo="false"><i class="fa-solid fa-arrow-right-from-bracket"></i> Se déconnecter</a></li>
+                                    </ul>
+                                </nav>
+                            </span>
+                        {% endif %}
+                    </div>
+                    <ul>
+                        <li><a href="{{ path('app_home')}}"><i class="fa-solid fa-house"></i> Accueil</a></li>
+                        <li class="categorie" data-menu-target="categorie" data-action="click->menu#toggleSubMenu"><i class="fa-solid fa-list"></i> Catégorie <i class="fa-solid fa-chevron-down fa-xs"></i></li>
+                        <li class="sub-menu" data-menu-target="subMenu">
+                            <ul>
+                                <li><a href="{{ path('app_emplois_par_categorie', {'id': 1 }) }}"><i class="fa-solid fa-code"></i> Développement</a></li>
+                                <li><a href=""><i class="fa-solid fa-microchip"></i> Technologie</a></li>
+                                <li><a href=""><i class="fa-solid fa-user-doctor"></i> Santé</a></li>
+                                <li><a href=""><i class="fa-solid fa-palette"></i> Design</a></li>
+                                <li><a href=""><i class="fa-solid fa-award"></i> Education</a></li>
+                                <li><a href=""><i class="fa-solid fa-car"></i> Automobile</a></li>
+                                <li><a href="{{ path('app_categories') }}">Toutes les catégories</a></li>
+                            </ul>
+                        </li>
+                        <li><a href=""><i class="fa-solid fa-briefcase"></i> Offres d'emploi</a></li>
+                    </ul>
+                </nav>
+                <div class="overlay" data-menu-target="overlay" data-action="click->menu#closeMenu"></div>
+                <div class="overlay" data-search-target="overlay" data-action="click->search#close"></div>
+            </header>
             <aside>
-                <div class="logo">
+                <div class="logo" style="display: none;">
                     <img src="{{ asset('img/logo.png') }}" alt="logo">
                 </div>
                 <nav>
@@ -77,50 +162,13 @@
                     </ul>
                 </nav>
             </aside>
-            <div class="nav-wrapper">
-                <header>
-                    <nav>
-                        <ul>
-                            <li><a href="">Catégorie</a></li>
-                            <li><a href="">Offres d'emploi</a></li>
-                            <li><a href="">Candidater</a></li>
-                            <li><a href="">Support</a></li>
-                        </ul>
-                        <ul>
-                            <li>{{ app.user.prenom }} {{ app.user.nom }}</li>
-                            <li><a href="{{ path('app_new_emploi') }}">Poster une offre</a></li>
-                        </ul>
-                    </nav>
-                </header>
-                {# Vérifier et afficher le message flash d'erreur #}
-                {% set errorFlashes = app.flashes('error') %}
-                {% if errorFlashes is not empty %}
-                    <div class="alert-danger">
-                        {{ errorFlashes[0] }}
-                    </div>
-                    {# Masquer le message après 6 secondes (6 seconde) #}
-                    <script>
-                        setTimeout(function() {
-                            document.querySelector('.alert-danger').style.display = 'none';
-                        }, 6000); // Masquer le message après 6 secondes (6000 millisecondes)
-                    </script>
-                {% endif %}
-
-                {# Vérifier et afficher le message flash de succès #}
-                {% set successFlashes = app.flashes('success') %}
-                {% if successFlashes is not empty %}
-                    <div class="alert-success">
-                        {{ successFlashes[0] }}
-                    </div>
-                    {# Masquer le message après 6 secondes (6 seconde) #}
-                    <script>
-                        setTimeout(function() {
-                            document.querySelector('.alert-success').style.display = 'none';
-                        }, 6000); // Masquer le message après 6 secondes (6000 millisecondes)
-                    </script>
-                {% endif %}
-                {% block body %}{% endblock %}
-            </div>
+            {% block body %}{% endblock %}
         </main>
+        <div class="search-modal" data-search-target="modal">
+            <div>
+              {{ render(controller('App\\Controller\\FormController::searchForm')) }}
+              <i class="fa-solid fa-times" data-search-target="close" data-action="click->search#close"></i>
+            </div>
+        </div>
     </body>
 </html>

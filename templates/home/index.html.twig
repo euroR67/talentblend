@@ -9,28 +9,52 @@
 </div>
 
 <div class="content-wrapper">
-    <div class="vous-etes">
-        <div class="candidat">
-            <h2>Pour les recruteurs</h2>
-            <p>Trouvez des professionnels en France et dans divers domaines de compétence.</p>
-            {% if is_granted('ROLE_RECRUTEUR') %}
-                <a href="{{ path('app_new_emploi') }}">Publier une offre</a>
-            {% else %}
-                <a href="{{ path('app_emplois') }}">Publier une offre</a>
-            {% endif %}
-            <img src="{{ asset('img/recruteur.svg') }}" alt="Illustration d'une recruteuse">
+    {% if is_granted('ROLE_CANDIDAT') %}
+        <div class="vous-etes">
+            <div class="candidat">
+                <h2>Trouvez l'emploi qui vous correspond</h2>
+                <p>Trouvez des offres d'emploi selon votre domaine de compétence et postulez en un clic.</p>
+                <a href="{{ path('app_categories') }}">Trouver un emploi</a>
+                <img src="{{ asset('img/recruteur.svg') }}" alt="Illustration d'une recruteuse">
+            </div>
+            <div class="recruteur">
+                <h2>Mettez en avant votre profil</h2>
+                <p>Créez et mettez à jour votre profil professionnel pour trouver de nouvelles opportunités d'emploi.</p>
+                <a data-turbo="false" href="{{ path('app_candidat_edit', {'id': app.user.id}) }}">Déposer mon CV</a>
+                <img src="{{ asset('img/candidat.svg') }}" alt="Illustration d'un candidat qui rédige son cv">
+            </div>
         </div>
-        <div class="recruteur">
-            <h2>Pour les candidats</h2>
-            <p>Créer votre profil professionnel, trouvez de nouvelles opportunités d’emploi.</p>
-            {% if is_granted('ROLE_CANDIDAT') %}
-                <a href="{{ path('app_candidat_edit', {'id': app.user.id}) }}">Déposer mon CV</a>
-            {% else %}
+    {% elseif is_granted('ROLE_RECRUTEUR') %}
+        <div class="vous-etes">
+            <div class="candidat">
+                <h2>Publier une offre d'emploi</h2>
+                <p>Publier une offre d'emploi et trouvez des professionnels en France et dans divers domaines de compétence.</p>
+                <a data-turbo="false" href="{{ path('app_new_emploi') }}">Publier une offre</a>
+                <img src="{{ asset('img/recruteur.svg') }}" alt="Illustration d'une recruteuse">
+            </div>
+            <div class="recruteur">
+                <h2>Découvrez des profils talentueux</h2>
+                <p>Consultez les profils des candidats et trouvez le profil qui correspond à votre offre d'emploi.</p>
+                <a href="{{ path('app_search_candidat') }}">Trouver un candidat</a>
+                <img src="{{ asset('img/candidat.svg') }}" alt="Illustration d'un candidat qui rédige son cv">
+            </div>
+        </div>
+    {% else %}
+        <div class="vous-etes">
+            <div class="candidat">
+                <h2>Pour les recruteurs</h2>
+                <p>Trouvez des professionnels en France et dans divers domaines de compétence.</p>
+                <a href="{{ path('app_register') }}">Publier une offre</a>
+                <img src="{{ asset('img/recruteur.svg') }}" alt="Illustration d'une recruteuse">
+            </div>
+            <div class="recruteur">
+                <h2>Pour les candidats</h2>
+                <p>Créer votre profil professionnel, trouvez de nouvelles opportunités d’emploi.</p>
                 <a href="{{ path('app_register') }}">Déposer mon CV</a>
-            {% endif %}
-            <img src="{{ asset('img/candidat.svg') }}" alt="Illustration d'un candidat qui rédige son cv">
+                <img src="{{ asset('img/candidat.svg') }}" alt="Illustration d'un candidat qui rédige son cv">
+            </div>
         </div>
-    </div>
+    {% endif %}
     
     <div class="categories">
         <div class="cat-head">
