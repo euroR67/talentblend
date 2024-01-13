@@ -20,96 +20,115 @@
         
         <div class="profil">
             <h3>Vos informations</h3>
-            
-            <div class="form-groupp">
-                <div class="avatar-upload">
-                    <div class="avatar-edit">
-                        {{ form_widget(form.photo, {'attr': {'class': 'form-control'}, 'id': 'selectPhoto'}) }}
-                        <label for="selectPhoto"></label>
+            <div class="form-pdp-cv">
+                <div class="pdp-attach">
+                    <div class="avatar-upload">
+                        <div class="avatar-edit">
+                            {{ form_widget(form.photo, {'attr': {'class': 'form-control'}, 'id': 'selectPhoto'}) }}
+                            <label for="selectPhoto"></label>
+                        </div>
+                        <div class="avatar-preview">
+                            {% if app.user.photo %}
+                                <div id="imagePreview" style="background-image: url('{{ asset('pdp/' ~ app.user.photo) }}');">
+                                </div>
+                            {% else %}
+                                <div id="imagePreview" style="background-image: url('https://www.gravatar.com/avatar/default?s=192&d=mp');
+                                ">
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="supp">
+                            {% if app.user.photo %}
+                                {{ form_row(form.deletePhoto) }}
+                                {{ form_label(form.deletePhoto, 'Supprimer la photo') }}
+                            {% endif %}
+                        </div>
                     </div>
-                    <div class="avatar-preview">
-                        {% if app.user.photo %}
-                            <div id="imagePreview" style="background-image: url('{{ asset('pdp/' ~ app.user.photo) }}');">
-                            </div>
+                </div>
+                
+                <div class="cv-attach">
+                    <div class="custom-file-upload">
+                        <label for="selectCv">
+                            <svg class="upload" xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 512 512">
+                                <style>svg{fill:#a3a3a3}</style>
+                                <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM385 231c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-71-71V376c0 13.3-10.7 24-24 24s-24-10.7-24-24V193.9l-71 71c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9L239 119c9.4-9.4 24.6-9.4 33.9 0L385 231z"/>
+                            </svg>
+                            <p id="file-placeholder">{{ app.user.cv ? 'Modifier le CV' : 'Ajouter un CV' }}</p>
+                        </label>
+                        {{ form_widget(form.cv, {'attr': {'class': 'file', 'onchange': 'updateFileName(this)'}, 'id': 'selectCv'}) }}
+                        
+                        {% if app.user.cv %}
+                            <a id="file-name" href="{{ asset('cv/' ~ app.user.cv) }}" target="_blank">Voir le CV</a>
                         {% else %}
-                            <div id="imagePreview" style="background-image: url('https://www.gravatar.com/avatar/default?s=192&d=mp');
-                            ">
-                            </div>
+                            <p id="file-name" style="display: none;"></p>
                         {% endif %}
                     </div>
-                </div>
-                
-                {% if app.user.photo %}
-                    <label for="deletePhoto">Supprimer la photo</label>
-                    {{ form_row(form.deletePhoto) }}
-                {% endif %}
-                <div>
-                    <label for="selectCv">Votre CV</label>
-                    {{ form_widget(form.cv, {'attr': {'class': 'form-control'}, 'id': 'selectCv'}) }}
+                    
+                    
+                    
                     {% if app.user.cv %}
-                        <a href="{{ asset('cv/' ~ app.user.cv) }}" target="_blank">Voir le CV</a>
-                        <label for="deleteCV">Supprimer le CV</label>
-                        {{ form_row(form.deleteCV) }}
+                        <div class="supp">
+                            {{ form_row(form.deleteCV) }}
+                            {{ form_label(form.deleteCV, 'Supprimer le CV') }}
+                        </div>
                     {% endif %}
                 </div>
-                {# Si l'utilisateur a déjà un CV, on l'affiche #}
-                
             </div>
 
             <div class="form-group">
                 <div>
-                    <label for="inputNom">Nom</label>
-                    {{ form_widget(form.nom, {'attr': {'class': 'form-control'}, 'id': 'inputNom'}) }}
+                    {{ form_label(form.nom, 'Nom') }}
+                    {{ form_widget(form.nom, {'attr': {'class': 'form-control'}}) }}
                 </div>
                 <div>
-                    <label for="inputPrenom">Prénom</label>
-                    {{ form_widget(form.prenom, {'attr': {'class': 'form-control'}, 'id': 'inputPrenom'}) }}
-                </div>
-            </div>
-
-            <div class="form-group">
-                <div>
-                    <label for="inputEmail">Adresse email</label>
-                    {{ form_widget(form.email, {'attr': {'class': 'form-control'}, 'id': 'inputEmail'}) }}
+                    {{ form_label(form.prenom, 'Prénom') }}
+                    {{ form_widget(form.prenom, {'attr': {'class': 'form-control'}}) }}
                 </div>
             </div>
 
             <div class="form-group">
                 <div>
-                    <label for="selectMetier">Métier</label>
-                    {{ form_widget(form.metier, {'attr': {'class': 'form-control'}, 'id': 'selectMetier'}) }}
-                </div>
-                <div>
-                    <label for="selectNiveau">Niveau d'expérience</label>
-                    {{ form_widget(form.niveau, {'attr': {'class': 'form-control'}, 'id': 'selectNiveau'}) }}
+                    {{ form_label(form.email, 'Email') }}
+                    {{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}
                 </div>
             </div>
 
             <div class="form-group">
                 <div>
-                    <label for="selectTypeEmplois">Type d'emploi recherché</label>
-                    {{ form_widget(form.typesEmploi, {'attr': {'class': 'form-control'}, 'id': 'selectTypeEmplois'}) }}
+                    {{ form_label(form.metier, 'Métier') }}
+                    {{ form_widget(form.metier, {'attr': {'class': 'form-control'}}) }}
                 </div>
                 <div>
-                    <label for="selectcontrats">Type de contrat recherché</label>
-                    {{ form_widget(form.contrats, {'attr': {'class': 'form-control'}, 'id': 'selectcontrats'}) }}
+                    {{ form_label(form.niveau, 'Niveau d\'expérience') }}
+                    {{ form_widget(form.niveau, {'attr': {'class': 'form-control'}}) }}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div>
+                    {{ form_label(form.typesEmploi, 'Type d\'emploi recherché') }}
+                    {{ form_widget(form.typesEmploi, {'attr': {'class': 'form-control selectTypeEmplois'}}) }}
+                </div>
+                <div>
+                    {{ form_label(form.contrats, 'Type de contrat recherché') }}
+                    {{ form_widget(form.contrats, {'attr': {'class': 'form-control selectcontrats'}}) }}
                 </div>
             </div>
         
             <div class="form-group">
                 <div>
-                    <label for="selectLangues">Langues</label>
-                    {{ form_widget(form.langues, {'attr': {'class': 'form-control'}, 'id': 'selectLangues'}) }}
+                    {{ form_label(form.langues, 'Langues') }}
+                    {{ form_widget(form.langues, {'attr': {'class': 'form-control selectLangues'}}) }}
                 </div>
                 <div>
-                    <label for="selectVille">Ville</label>
-                    {{ form_widget(form.ville, {'attr': {'class': 'form-control'}, 'id': 'selectVille'}) }}
+                    {{ form_label(form.ville, 'Ville') }}
+                    {{ form_widget(form.ville, {'attr': {'class': 'form-control'}}) }}
                 </div>
             </div>
 
             <div class="choice">
-                <label for="inputRole">Activer mon profil</label>
-                {{ form_widget(form.active, {'id': 'inputRole'}) }}
+                {{ form_label(form.active, 'Activer mon profil') }}
+                {{ form_widget(form.active) }}
                 <a href="{{ path('app_show_profil', {'id': app.user.id })}}">Voir mon profil candidat</a>
             </div>
 
@@ -131,32 +150,32 @@
                     <div class="formfield">
                         <div class="form-group">
                             <div>
-                                <label for="inputTitre">Titre</label>
-                                {{ form_widget(formation.titre, {'attr': {'class': 'form-control'}, 'id': 'inputTitre'}) }}
+                                {{ form_label(formation.titre, 'Titre') }}
+                                {{ form_widget(formation.titre, {'attr': {'class': 'form-control'}}) }}
                             </div>
                         </div>
                         <div class="form-group">
                             <div>
-                                <label for="inputQualification">Qualification</label>
-                                {{ form_widget(formation.qualification, {'attr': {'class': 'form-control'}, 'id': 'inputQualification'}) }}
+                                {{ form_label(formation.qualification, 'Qualification') }}
+                                {{ form_widget(formation.qualification, {'attr': {'class': 'form-control'}}) }}
                             </div>
                         </div>
                         <div class="form-group">
                             <div>
-                                <label for="inputDateDebut">Date de début</label>
-                                {{ form_widget(formation.dateDebut, {'attr': {'class': 'form-control'}, 'id': 'inputDateDebut'}) }}
+                                {{ form_label(formation.dateDebut, 'Date de début') }}
+                                {{ form_widget(formation.dateDebut, {'attr': {'class': 'form-control'}}) }}
                             </div>
                         </div>
                         <div class="form-group">
                             <div>
-                                <label for="inputDateFin">Date de fin</label>
-                                {{ form_widget(formation.dateFin, {'attr': {'class': 'form-control'}, 'id': 'inputDateFin'}) }}
+                                {{ form_label(formation.dateFin, 'Date de fin') }}
+                                {{ form_widget(formation.dateFin, {'attr': {'class': 'form-control'}}) }}
                             </div>
                         </div>
                         <div class="form-group">
                             <div>
-                                <label for="inputDescription">Description</label>
-                                {{ form_widget(formation.description, {'attr': {'class': 'form-control'}, 'id': 'inputDescription'}) }}
+                                {{ form_label(formation.description, 'Description') }}
+                                {{ form_widget(formation.description, {'attr': {'class': 'form-control'}}) }}
                             </div>
                         </div>
                     </div>
@@ -174,32 +193,32 @@
                     <div class="formfield">
                         <div class="form-group">
                             <div>
-                                <label for="inputTitre">Titre</label>
-                                {{ form_row(experience.titre, {'attr': {'class': 'form-control'}, 'id': 'inputTitre'}) }}
+                                {{ form_label(experience.titre, 'Titre') }}
+                                {{ form_row(experience.titre, {'attr': {'class': 'form-control'}}) }}
                             </div>
                         </div>
                         <div class="form-group">
                             <div>
-                                <label for="inputEntreprise">Entreprise</label>
-                                {{ form_row(experience.entreprise, {'attr': {'class': 'form-control'}, 'id': 'inputEntreprise'}) }}
+                                {{ form_label(experience.entreprise, 'Entreprise') }}
+                                {{ form_row(experience.entreprise, {'attr': {'class': 'form-control'}}) }}
                             </div>
                         </div>
                         <div class="form-group">
                             <div>
-                                <label for="inputDateDebut">Date de début</label>
-                                {{ form_row(experience.dateDebut, {'attr': {'class': 'form-control'}, 'id': 'inputDateDebut'}) }}
+                                {{ form_label(experience.dateDebut, 'Date de début') }}
+                                {{ form_row(experience.dateDebut, {'attr': {'class': 'form-control'}}) }}
                             </div>
                         </div>
                         <div class="form-group">
                             <div>
-                                <label for="inputDateFin">Date de fin</label>
-                                {{ form_row(experience.dateFin, {'attr': {'class': 'form-control'}, 'id': 'inputDateFin'}) }}
+                                {{ form_label(experience.dateFin, 'Date de fin') }}
+                                {{ form_row(experience.dateFin, {'attr': {'class': 'form-control'}}) }}
                             </div>
                         </div>
                         <div class="form-group">
                             <div>
-                                <label for="inputDescription">Description</label>
-                                {{ form_row(experience.description, {'attr': {'class': 'form-control'}, 'id': 'inputDescription'}) }}
+                                {{ form_label(experience.description, 'Description') }}
+                                {{ form_row(experience.description, {'attr': {'class': 'form-control'}}) }}
                             </div>
                         </div>
                     </div>
@@ -219,11 +238,26 @@
 
 
 <script>
+    function updateFileName(input) {
+        const fileNameSpan = document.getElementById("file-name");
+        const filePlaceholder = document.getElementById("file-placeholder");
+        
+        if (input.files.length > 0) {
+            fileNameSpan.textContent = input.files[0].name;
+            fileNameSpan.style.display = "block";
+            filePlaceholder.style.display = "none";
+        } else {
+            fileNameSpan.textContent = "";
+            fileNameSpan.style.display = "none";
+            filePlaceholder.style.display = "block";
+        }
+    }
+    
     // In your Javascript (external .js resource or <script> tag)
     $(document).ready(function() {
-        $('#selectLangues').select2();
-        $('#selectTypeEmplois').select2();
-        $('#selectcontrats').select2();
+        $('.selectLangues').select2();
+        $('.selectTypeEmplois').select2();
+        $('.selectcontrats').select2();
     });
 
     function readURL(input) {
@@ -241,6 +275,8 @@
     $("#selectPhoto").change(function() {
         readURL(this);
     });
+
+    
 </script>
 
 {% endblock %}
