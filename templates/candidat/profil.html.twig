@@ -22,6 +22,7 @@
             <h3>Vos informations</h3>
             <div class="form-pdp-cv">
                 <div class="pdp-attach">
+                    <h4>Votre photo</h4>
                     <div class="avatar-upload">
                         <div class="avatar-edit">
                             {{ form_widget(form.photo, {'attr': {'class': 'form-control'}, 'id': 'selectPhoto'}) }}
@@ -29,12 +30,10 @@
                         </div>
                         <div class="avatar-preview">
                             {% if app.user.photo %}
-                                <div id="imagePreview" style="background-image: url('{{ asset('pdp/' ~ app.user.photo) }}');">
-                                </div>
+                            {% set imageUrl = 'pdp/' ~ app.user.photo %}
+                            <div id="imagePreview" style="background-image: url('{{ asset(imageUrl) }}');"></div>
                             {% else %}
-                                <div id="imagePreview" style="background-image: url('https://www.gravatar.com/avatar/default?s=192&d=mp');
-                                ">
-                                </div>
+                                <div id="imagePreview" style="background-image: url('https://www.gravatar.com/avatar/default?s=192&d=mp');"></div>
                             {% endif %}
                         </div>
                         <div class="supp">
@@ -47,6 +46,7 @@
                 </div>
                 
                 <div class="cv-attach">
+                    <h4>Votre CV</h4>
                     <div class="custom-file-upload">
                         <label for="selectCv">
                             <svg class="upload" xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 512 512">
@@ -63,8 +63,6 @@
                             <p id="file-name" style="display: none;"></p>
                         {% endif %}
                     </div>
-                    
-                    
                     
                     {% if app.user.cv %}
                         <div class="supp">
@@ -134,7 +132,7 @@
 
             <div class="form-group">
                 <div>
-                    {{ form_widget(form.description, {'attr': {'class': 'form-control', 'rows': 10}, 'id': 'mytextarea'}) }}
+                    {{ form_widget(form.description, {'attr': {'class': 'form-control', 'rows': 10}}) }}
                 </div>
             </div>
 

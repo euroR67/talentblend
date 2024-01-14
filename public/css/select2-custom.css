@@ -1,9 +1,12 @@
 .select2-container--default .select2-selection--multiple {
     border: 1px solid #e1e1e1!important;
     border-radius: 3px!important;
-    padding: 9px;
+    padding-block: 12px 10px!important;
+    padding-left: 5px;
     margin-top: 5px;
+    transition: all 0.3s ease;
 }
+
 
 .select2-container--default .select2-selection--multiple .select2-selection__choice {
     margin-top: 0!important;
@@ -14,4 +17,17 @@
 
 .select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
     border-right: 1px solid #e1e1e1!important;
+}
+
+.select2-container--default .select2-selection--multiple:hover {
+    box-shadow: 0 0 0 0.1rem rgba(0,116,86,.25);
+}
+
+.select2-container--default .select2-selection--multiple:focus {
+    border-color: #0074555d;
+    box-shadow: 0 0 0 0.1rem rgba(0,116,86,.25);
+}
+
+.select2-container--default .select2-results__option--highlighted.select2-results__option--selectable {
+    background-color: #007456!important;
 }

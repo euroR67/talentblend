@@ -57,6 +57,11 @@ main aside {
 
 /* Paramètre profile */
 
+.wrapper > h2 {
+    margin-block: 20px;
+    font-size: 28px;
+}
+
 /* Section profile */
 
 div.profil h3 {
@@ -80,7 +85,15 @@ div.profil h3 {
 .avatar-upload {
     position: relative;
     max-width: 205px;
-    margin-block: 20px;
+    margin-bottom: 20px;
+}
+
+.pdp-attach h4 {
+    margin-block: 15px 5px;
+}
+
+.cv-attach h4 {
+    margin-bottom: 15px;
 }
 
 .avatar-upload .avatar-edit {
@@ -212,8 +225,7 @@ div.profil h3 {
 }
 
 div.wrapper {
-    padding: 20px;
-    margin: 10px;
+    padding: 10px;
 }
 
 div.section-wrapper {
@@ -223,41 +235,79 @@ div.section-wrapper {
     max-width: 900px;
 }
 
-div.wrapper ul {
+.tab {
     display: flex;
+    align-items: center;
     gap: 20px;
-    margin-block: 20px;
+    margin-block: 15px;
 }
 
-div.wrapper ul li {
+.tab li {
     cursor: pointer;
-    border-bottom: 2px solid transparent;
+    font-size: 18px;
+    font-weight: 500;
+    color: #999;
+    transition: all 800ms ease;
 }
 
-div.wrapper ul li.active {
-    border-bottom: 2px solid #007456;
+.tab li:hover {
     color: #007456;
 }
 
-div.wrapper ul li:hover {
-    border-bottom: 2px solid #007456;
+.tab li.active {
     color: #007456;
 }
+
+.tab li.active:after {
+    transform: scaleX(1);
+}
+
+.tab li:after {
+    display: block;
+    content: '';
+    border-bottom: solid 2px #007456;
+    transform: scaleX(0);
+    transition: .5s ease, .5s ease;
+    transform-origin: 0% 50%;
+    margin-top: 5px;
+}
+
+.tab li:hover:after {
+    transform: scaleX(1);
+}
+
 
 /* ========== Formulaire ============ */
 
 .form-control {
     width: 100%;
-    padding: 10px;
+    padding: 15px;
     border: 1px solid #e1e1e1;
     border-radius: 3px;
     font-size: 14px;
     outline: none;
     margin-top: 5px;
+    transition: all 0.3s ease;
+}
+
+.form-control:hover {
+    box-shadow: 0 0 0 0.1rem rgba(0,116,86,.25);
+}
+
+.form-control:focus {
+    border-color: #0074555d;
+    box-shadow: 0 0 0 0.1rem rgba(0,116,86,.25);
+}
+
+.form-group {
+    margin-block: 15px;
 }
 
 .form-group div {
     width: 100%;
+    margin-block: 10px;
+    display: flex;
+    flex-direction: column;
 }
 
 /* Champ Rôle */

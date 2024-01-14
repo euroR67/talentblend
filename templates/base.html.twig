@@ -226,9 +226,7 @@
                             <li><a href="{{ path('app_home')}}">Accueil</a></li>
                             <li><a href="{{ path('app_categories')}}">Catégories</a></li>
                             <li><a href="">Offres d'emploi</a></li>
-                            {% if is_granted('ROLE_CANDIDAT') %}
-                                <li><a href="{{ path('app_candidat_edit', {'id': app.user.id}) }}" data-turbo="false">Déposer mon CV</a></li>
-                            {% elseif not is_granted('IS_AUTHENTICATED_FULLY') %}
+                            {% if not app.user %}
                                 <li><a href="{{ path('app_register') }}">Déposer mon CV</a></li>
                             {% endif %}
                         </ul>
