@@ -474,9 +474,9 @@ div.table-wrapper table tr td:first-child > div:nth-child(2) a span {
 }
 
 div.table-wrapper table tr td:first-child > div:first-child img {
-    height: 50px;
+    aspect-ratio: 3/2;
     max-width: 70px;
-    border-radius: 50%;
+    object-fit: contain;
 }
 
 div.table-wrapper table tr td:nth-child(2),
@@ -715,18 +715,14 @@ div.motif div a:hover {
 @media screen and (min-width: 900px) {
     .form-pdp-cv {
         flex-direction: row;
-        border-radius: 5px;
-        border: 1px solid #e1e1e17c;
-        padding: 20px;
-        background-color: rgba(240, 248, 255, 0.692);
     }
 
     .avatar-upload .avatar-edit {
-        right: 10px;
+        right: 25px;
     }
 
     .form-pdp-cv > div:first-of-type {
-        width: 250px;
+        min-width: 210px;
     }
 
     .form-pdp-cv > div:last-of-type {

@@ -26,7 +26,7 @@
                         <div>
                             <a style="color: #007456;" href="{{ path('app_show_emploi', {'id': candidature.emploi.id}) }}">{{ candidature.emploi }}
                             {% if candidature.emploi.status == true %}
-                                <span>Poste pourvu</span>
+                                <div><span>Poste pourvu</span></div>
                             {% endif %}
                             </a>
                             <p>{{ candidature.emploi.entreprise.secteur }} / {{ candidature.emploi.types }} / {{ candidature.emploi.ville }}</p>
