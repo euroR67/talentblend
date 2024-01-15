@@ -96,6 +96,7 @@ header.mobile-header nav.slide-menu p.pseudo {
     cursor: pointer;
     transition: all 0.2s ease-in-out;
     font-size: 15px;
+    font-weight: 600;
 }
 
 header.mobile-header nav.slide-menu p.pseudo:hover {
@@ -118,7 +119,7 @@ header.mobile-header nav.slide-menu div:first-child > i:nth-child(2) {
 header.mobile-header nav.slide-menu {
     background-color: #fff;
     height: 100vh;
-    width: 80%;
+    max-width: 300px;
     position: fixed;
     top: 0;
     left: -80%;

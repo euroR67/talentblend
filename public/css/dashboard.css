@@ -3,7 +3,7 @@
     margin: 0;
     list-style: none;
     box-sizing: border-box;
-    font-family: sans-serif;
+    font-family: 'Inter', 'Poppins';
     text-decoration: none;
     color: #585858;
 }
@@ -39,10 +39,13 @@ nav.dash-submenu-dash ul li a i {
     margin-block: 5px;
 }
 
-.dash-submenu-dash ul li a:hover,
-.dash-submenu-dash ul li:first-child a {
+.dash-submenu-dash ul li a:hover {
     color: #007456;
     background-color: rgba(0,116,86,0.05);
+}
+
+.dash-submenu-dash ul li a:hover i {
+    color: #007456;
 }
 
 .dash-submenu-dash span {
@@ -51,14 +54,15 @@ nav.dash-submenu-dash ul li a i {
     margin-block: 10px;
 }
 
-main aside {
+main aside,
+.nav-wrapper header {
     display: none;
 }
 
 /* Paramètre profile */
 
 .wrapper > h2 {
-    margin-block: 20px;
+    margin-block: 10px;
     font-size: 28px;
 }
 
@@ -355,12 +359,46 @@ div.custom-choice {
     accent-color: #007456;
 }
 
+.sub-cancel {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+    flex-direction: row-reverse;
+    max-width: 900px;
+}
+
+.sub-cancel a, .sub-cancel button {
+    padding: 15px 20px;
+    border-radius: 30px;
+    border: none;
+    font-weight: 600;
+    font-size: 1.1em;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+.sub-cancel a {
+    border: 1px solid #c7c7c7;
+}
+
+.sub-cancel button {
+    background-color: #005e4b;
+    color: #fff;
+}
+
+.sub-cancel a:hover,
+.sub-cancel button:hover {
+    background-color: #004e3f;
+    color: #fff;
+}
 /* Tableau */
 
 div.table-wrapper {
     background-color: #fff;
     border: 1px solid rgb(233, 230, 230);
     margin-block: 15px;
+    overflow-x: auto;
 }
 
 div.table-wrapper table {
@@ -370,7 +408,7 @@ div.table-wrapper table {
 
 div.table-wrapper table tr th{
     text-align: start;
-    padding: 15px;
+    padding: 20px;
     border-bottom: 1px solid #eee;
 }
 
@@ -379,8 +417,80 @@ div.table-wrapper table tr td {
     border-bottom: 1px solid #eee;
 }
 
+div.table-wrapper table tr td:first-child {
+    min-width: 350px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+div.table-wrapper table tr td:nth-child(2) p {
+    border-radius: 30px;
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: capitalize;
+    width: fit-content;
+    padding: 5px 13px;
+}
+
+.checking {
+    color: #ffc402;
+    background-color: #fff9e7;
+}
+
+.approved {
+    color: #007455;
+    background-color: #e7fff2;
+}
+
+.rejected {
+    color: #f15353;
+    background-color: #fff2f2;
+}
+
+div.table-wrapper table tr td:first-child > div:first-child {
+    min-width: 70px;
+    display: flex;
+    justify-content: center;
+}
+
+div.table-wrapper table tr td:first-child > div:nth-child(2) {
+    display:flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+div.table-wrapper table tr td:first-child > div:nth-child(2) a span {
+    /* Badge */
+    background-color: #005374;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 9px;
+    font-weight: 600;
+    text-transform: uppercase;
+    text-decoration: none;
+    vertical-align: middle;
+}
+
+div.table-wrapper table tr td:first-child > div:first-child img {
+    height: 50px;
+    max-width: 70px;
+    border-radius: 50%;
+}
+
+div.table-wrapper table tr td:nth-child(2),
+div.table-wrapper table tr td:nth-child(3) {
+    min-width: 200px;
+}
+
 td.td-action {
-    position: relative;
+    position: sticky;
+    right: 0;
+    padding-left: 24px;
+    background-color: #fff;
+    min-width: 60px;
+    text-align: right;
 }
 
 div.action {
@@ -405,6 +515,7 @@ div.action a {
     align-items: center;
     gap: 5px;
     width: 100%;
+    text-align: start;
 }
 
 .fa-ellipsis {
@@ -486,4 +597,148 @@ div.motif div a:hover {
 
 .overview * {
     color: unset;
+}
+
+@media screen and (min-width: 800px) {
+    body {
+        padding-top: 0;
+    }
+
+    body main {
+        display: flex;
+    }
+
+    .user {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+    .user img {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+    }
+
+    .post-offre {
+        background-color:#007455;
+        color: #fff;
+        padding: 10px 20px;
+        border-radius: 20px;
+        transition: all 0.2s ease;
+    }
+
+    .top-nav li a:hover{
+        color: #007455;
+    }
+
+    .top-nav li a:hover i {
+        color: #007455;
+    }
+
+    .post-offre:hover {
+        background-color: #02644a;
+    }
+
+    .nav-wrapper header {
+        display: block;
+    }
+
+    div.wrapper {
+        padding: 20px;
+    }
+
+    .wrapper > h2 {
+        margin-block: 0;
+    }
+    
+    /* Menu navigation */
+    
+    header nav, header nav ul{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 15px;
+    }
+    
+    header {
+        padding: 20px;
+        background-color: #fff;
+        border-bottom: 1px solid #E8E8E8;
+    }
+
+    main aside {
+        background-color: #fff;
+        width: 226px;
+        height: 100vh;
+        padding: 20px;
+        border-right: 1px solid #E8E8E8;
+        display: block;
+        position: fixed;
+        top: 0;
+        left: 0;
+        overflow: auto;
+        z-index: 2;
+    }
+    
+    aside div.logo img{
+        height: 40px;
+    }
+    
+    .nav-wrapper {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        padding-left: 226px;
+    }
+    
+    aside nav ul {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    main aside nav.dash-submenu-dash ul {
+        gap: 5px;
+    }
+
+    main aside nav.dash-submenu-dash ul li a {
+        margin-block: 0;
+        padding: 8px 18px
+    }
+
+    main aside nav.dash-submenu-dash {
+        margin-left: 0;
+    }
+    
+}
+
+@media screen and (min-width: 900px) {
+    .form-pdp-cv {
+        flex-direction: row;
+        border-radius: 5px;
+        border: 1px solid #e1e1e17c;
+        padding: 20px;
+        background-color: rgba(240, 248, 255, 0.692);
+    }
+
+    .avatar-upload .avatar-edit {
+        right: 10px;
+    }
+
+    .form-pdp-cv > div:first-of-type {
+        width: 250px;
+    }
+
+    .form-pdp-cv > div:last-of-type {
+        width: 100%;
+    }
+
+    .form-pdp-cv > div {
+        background-color: #fff;
+    }
+
+    .form-group {
+        display: flex;
+        gap: 10px;
+    }
 }

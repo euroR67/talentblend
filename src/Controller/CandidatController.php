@@ -107,7 +107,10 @@ class CandidatController extends AbstractController
             
                 // Suppression de l'ancienne photo du serveur si une nouvelle photo est uploadée
                 if($user->getPhoto()) {
-                    unlink($this->getParameter('photo_profil').'/'.$user->getPhoto());
+                    $file_path = $this->getParameter('photo_profil').'/'.$user->getPhoto();
+                    if (file_exists($file_path)) {
+                        unlink($file_path);
+                    }
                 }
             
                 // updates the 'photoFilename' property to store the PDF file name
@@ -133,7 +136,10 @@ class CandidatController extends AbstractController
             
                 // Suppression de l'ancien CV du serveur si un nouveau CV est uploadé
                 if($user->getCv()) {
-                    unlink($this->getParameter('cv_directory').'/'.$user->getCv());
+                    $file_path = $this->getParameter('cv_directory').'/'.$user->getCv();
+                    if (file_exists($file_path)) {
+                        unlink($file_path);
+                    }
                 }
             
                 // updates the 'cvFilename' property to store the PDF file name

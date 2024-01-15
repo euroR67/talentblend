@@ -20,19 +20,25 @@
             {% for candidature in candidatures %}
                 <tr>
                     <td>
-                        <a style="color: #007456;" href="">{{ candidature.emploi }}
+                        <div>
+                            <img src="{{ asset('logo/' ~ candidature.emploi.entreprise.logo) }}" alt="logo entreprise">
+                        </div>
+                        <div>
+                            <a style="color: #007456;" href="{{ path('app_show_emploi', {'id': candidature.emploi.id}) }}">{{ candidature.emploi }}
                             {% if candidature.emploi.status == true %}
                                 <span>Poste pourvu</span>
                             {% endif %}
-                        </a>
+                            </a>
+                            <p>{{ candidature.emploi.entreprise.secteur }} / {{ candidature.emploi.types }} / {{ candidature.emploi.ville }}</p>
+                        </div>
                     </td>
                     <td>
                         {% if candidature.status is null %}
-                            Vérification
+                            <p class="checking">Vérification</p>
                         {% elseif candidature.status == 1 %}
-                            Approuvé
+                            <p class="approved">Approuvé</p>
                         {% elseif candidature.status == 0 %}
-                            Rejeter
+                            <p class="rejected">Rejeter</p>
                         {% endif %}
                     </td>
                     
@@ -57,17 +63,17 @@
                 </tr>
             </thead>
             <tbody>
-            {% for emploi in emplois %}
+            {% for emploiSaved in emplois %}
                 <tr>
                     <td>
-                        <a style="color: #007456;" href="">{{ emploi }}</a>
+                        <a style="color: #007456;" href="">{{ emploiSaved }}</a>
                     </td>
                     
-                    <td>{{ emploi.dateOffre|format_datetime('long', 'none', locale='fr') }}</td>
+                    <td>{{ emploiSaved.dateOffre|format_datetime('long', 'none', locale='fr') }}</td>
                     <td class="td-action">
                         <i class="fa-solid fa-ellipsis"></i>
                         <div class="action">
-                            <a href="{{ path('app_emploi_delete', {'id': emploi.id, 'origin': 'dashboard'}) }}">Retirer ma candidature</a>
+                            <a href="{{ path('app_emploi_delete', {'id': emploiSaved.id, 'origin': 'dashboard'}) }}">Retirer ma candidature</a>
                         </div>
                     </td>
                 </tr>
