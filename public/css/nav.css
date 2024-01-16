@@ -124,7 +124,7 @@ header.mobile-header nav.slide-menu {
     top: 0;
     left: -80%;
     transition: all 0.3s ease-in-out;
-    z-index: 30;
+    z-index: 1000;
     overflow-x: hidden;
     overflow-y: auto;
 }

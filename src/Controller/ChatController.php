@@ -55,16 +55,23 @@ class ChatController extends AbstractController
 
         // Créer une liste unique des utilisateurs avec lesquels l'utilisateur actuel a eu une discussion
         $discussedUsers = [];
+        $lastMessageDates = [];
+        $lastMessages = [];
         foreach ($discussions as $message) {
             $otherUser = $message->getSender() == $user ? $message->getReceiver() : $message->getSender();
             if (!in_array($otherUser, $discussedUsers)) {
                 $discussedUsers[] = $otherUser;
+                // Récupérer la date du dernier message
+                $lastMessageDates[$otherUser->getId()] = $message->getCreatedAt();
+                $lastMessages[$otherUser->getId()] = $message;
             }
         }
 
         // Renvoyer vers la vue avec toutes les données nécessaires
         return $this->render('chat/discussions.html.twig', [
             'discussedUsers' => $discussedUsers,
+            'lastMessageDates' => $lastMessageDates,
+            'lastMessages' => $lastMessages,
         ]);
     }
 
@@ -84,10 +91,15 @@ class ChatController extends AbstractController
 
         // Créer une liste unique des utilisateurs avec lesquels l'utilisateur actuel a eu une discussion
         $discussedUsers = [];
+        $lastMessageDates = [];
+        $lastMessages = [];
         foreach ($discussions as $message) {
             $otherUser = $message->getSender() == $user ? $message->getReceiver() : $message->getSender();
             if (!in_array($otherUser, $discussedUsers)) {
                 $discussedUsers[] = $otherUser;
+                // Récupérer la date du dernier message
+                $lastMessageDates[$otherUser->getId()] = $message->getCreatedAt();
+                $lastMessages[$otherUser->getId()] = $message;
             }
         }
 
@@ -142,6 +154,8 @@ class ChatController extends AbstractController
         return $this->render('chat/discussions.html.twig', [
             'discussedUsers' => $discussedUsers,
             'selectedMessages' => $selectedMessages,
+            'lastMessageDates' => $lastMessageDates,
+            'lastMessages' => $lastMessages,
             'form' => $form->createView(),
         ]);
     }
