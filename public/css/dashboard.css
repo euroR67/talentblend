@@ -54,7 +54,7 @@ nav.dash-submenu-dash ul li a i {
     margin-block: 10px;
 }
 
-main aside,
+main aside.nav-aside,
 .nav-wrapper header {
     display: none;
 }
@@ -479,9 +479,12 @@ div.table-wrapper table tr td:first-child > div:first-child img {
     object-fit: contain;
 }
 
-div.table-wrapper table tr td:nth-child(2),
-div.table-wrapper table tr td:nth-child(3) {
+div.table-wrapper table tr td:nth-child(2) {
     min-width: 200px;
+}
+
+.td-action {
+    min-width: 80px;
 }
 
 td.td-action {
@@ -666,7 +669,7 @@ div.motif div a:hover {
         border-bottom: 1px solid #E8E8E8;
     }
 
-    main aside {
+    main aside.nav-aside {
         background-color: #fff;
         width: 226px;
         height: 100vh;
@@ -680,7 +683,7 @@ div.motif div a:hover {
         z-index: 2;
     }
     
-    aside div.logo img{
+    aside.nav-aside div.logo img{
         height: 40px;
     }
     
@@ -691,22 +694,22 @@ div.motif div a:hover {
         padding-left: 226px;
     }
     
-    aside nav ul {
+    aside.nav-aside nav ul {
         display: flex;
         flex-direction: column;
         gap: 10px;
     }
 
-    main aside nav.dash-submenu-dash ul {
+    main aside.nav-aside nav.dash-submenu-dash ul {
         gap: 5px;
     }
 
-    main aside nav.dash-submenu-dash ul li a {
+    main aside.nav-aside nav.dash-submenu-dash ul li a {
         margin-block: 0;
         padding: 8px 18px
     }
 
-    main aside nav.dash-submenu-dash {
+    main aside.nav-aside nav.dash-submenu-dash {
         margin-left: 0;
     }
     

@@ -5,81 +5,122 @@
 {% block body %}
 <div class="wrapper">
     <h2>Vos candidatures</h2>
+
+    <ul class="tab">
+        <li class="active">Candidatures</li>
+        <li>Favoris</li>
+    </ul>
+
     <div class="table-wrapper">
-        <table>
-            <colgroup span="4"></colgroup>
-            <thead>
-                <tr>
-                    <th>Emploi</th>
-                    <th>Status</th>
-                    <th>Date de candidature</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-            {% for candidature in candidatures %}
-                <tr>
-                    <td>
-                        <div>
-                            <img src="{{ asset('logo/' ~ candidature.emploi.entreprise.logo) }}" alt="logo entreprise">
-                        </div>
-                        <div>
-                            <a style="color: #007456;" href="{{ path('app_show_emploi', {'id': candidature.emploi.id}) }}">{{ candidature.emploi }}
-                            {% if candidature.emploi.status == true %}
-                                <div><span>Poste pourvu</span></div>
+        <div class="candidatures">
+            <table>
+                <colgroup span="4"></colgroup>
+                <thead>
+                    <tr>
+                        <th>Emploi</th>
+                        <th>Status</th>
+                        <th>Date de candidature</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for candidature in candidatures %}
+                    <tr>
+                        <td>
+                            <div>
+                                <img src="{{ asset('logo/' ~ candidature.emploi.entreprise.logo) }}" alt="logo entreprise">
+                            </div>
+                            <div>
+                                <a style="color: #007456;" href="{{ path('app_show_emploi', {'id': candidature.emploi.id}) }}">{{ candidature.emploi }}
+                                {% if candidature.emploi.status == true %}
+                                    <div><span>Poste pourvu</span></div>
+                                {% endif %}
+                                </a>
+                                <p>{{ candidature.emploi.entreprise.secteur }} / {{ candidature.emploi.types }} / {{ candidature.emploi.ville }}</p>
+                            </div>
+                        </td>
+                        <td>
+                            {% if candidature.status is null %}
+                                <p class="checking">Vérification</p>
+                            {% elseif candidature.status == 1 %}
+                                <p class="approved">Approuvé</p>
+                            {% elseif candidature.status == 0 %}
+                                <p class="rejected">Rejeter</p>
                             {% endif %}
-                            </a>
-                            <p>{{ candidature.emploi.entreprise.secteur }} / {{ candidature.emploi.types }} / {{ candidature.emploi.ville }}</p>
-                        </div>
-                    </td>
-                    <td>
-                        {% if candidature.status is null %}
-                            <p class="checking">Vérification</p>
-                        {% elseif candidature.status == 1 %}
-                            <p class="approved">Approuvé</p>
-                        {% elseif candidature.status == 0 %}
-                            <p class="rejected">Rejeter</p>
-                        {% endif %}
-                    </td>
-                    
-                    <td>{{ candidature.datePostulation|format_datetime('long', 'none', locale='fr') }}</td>
-                    <td class="td-action">
-                        <i class="fa-solid fa-ellipsis"></i>
-                        <div class="action">
-                            <a href="{{ path('app_candidature_delete', {'id': candidature.id, 'origin': 'dashboard' }) }}">Retirer ma candidature</a>
-                        </div>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-        <table>
-            <colgroup span="4"></colgroup>
-            <thead>
-                <tr>
-                    <th>Emploi</th>
-                    <th>Date de l'offre</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-            {% for emploiSaved in emplois %}
-                <tr>
-                    <td>
-                        <a style="color: #007456;" href="">{{ emploiSaved }}</a>
-                    </td>
-                    
-                    <td>{{ emploiSaved.dateOffre|format_datetime('long', 'none', locale='fr') }}</td>
-                    <td class="td-action">
-                        <i class="fa-solid fa-ellipsis"></i>
-                        <div class="action">
-                            <a href="{{ path('app_emploi_delete', {'id': emploiSaved.id, 'origin': 'dashboard'}) }}">Retirer ma candidature</a>
-                        </div>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+                        </td>
+                        
+                        <td>{{ candidature.datePostulation|format_datetime('long', 'none', locale='fr') }}</td>
+                        <td class="td-action">
+                            <i class="fa-solid fa-ellipsis"></i>
+                            <div class="action">
+                                <a href="{{ path('app_candidature_delete', {'id': candidature.id, 'origin': 'dashboard' }) }}">Retirer ma candidature</a>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="favoris" style="display: none;">
+            <table>
+                <colgroup span="4"></colgroup>
+                <thead>
+                    <tr>
+                        <th>Emploi</th>
+                        <th>Date de l'offre</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for emploiSaved in emplois %}
+                    <tr class="saved">
+                        <td>
+                            <div>
+                                <img src="{{ asset('logo/' ~ emploiSaved.entreprise.logo) }}" alt="logo entreprise">
+                            </div>
+                            <div>
+                                <a style="color: #007456;" href="{{ path('app_show_emploi', {'id': emploiSaved.id}) }}">{{ emploiSaved }}
+                                {% if emploiSaved.status == true %}
+                                    <div><span>Poste pourvu</span></div>
+                                {% endif %}
+                                </a>
+                                <p>{{ emploiSaved.entreprise.secteur }} / {{ emploiSaved.types }} / {{ emploiSaved.ville }}</p>
+                            </div>
+                        </td>
+                        
+                        <td>{{ emploiSaved.dateOffre|format_datetime('long', 'none', locale='fr') }}</td>
+                        <td class="td-action">
+                            <i class="fa-solid fa-ellipsis"></i>
+                            <div class="action">
+                                <a href="{{ path('app_emploi_delete', {'id': emploiSaved.id}) }}" class="action2">Retirer des favoris</a>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
+
+<script>
+    // ============================ Onglet dashboard ============================ //
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const tabItems = document.querySelectorAll('.tab li');
+        const tabPanes = document.querySelectorAll('.table-wrapper > div');
+
+        tabItems.forEach((item, index) => {
+            item.addEventListener('click', () => {
+                tabItems.forEach((tab) => tab.classList.remove('active'));
+                tabPanes.forEach((pane) => pane.style.display = 'none');
+
+                item.classList.add('active');
+                tabPanes[index].style.display = 'block';
+            });
+        });
+    });
+</script>
+
 {% endblock %}

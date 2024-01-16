@@ -16,6 +16,7 @@
         <link rel="stylesheet" href="{{ asset('css/paginator.css') }}">
         <link rel="stylesheet" href="{{ asset('css/nav.css') }}">
         <link rel="stylesheet" href="{{ asset('css/dashboard-form.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/chat.css') }}">
         {{ ux_controller_link_tags() }}
         {% endblock %}
 
@@ -50,6 +51,7 @@
         </script>
         <script src="{{ asset('js/dashboard.js') }}"></script>
         <script src="{{ asset('js/script.js') }}"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         {{ importmap() }}
         {% endblock %}
     </head>
@@ -137,7 +139,7 @@
                 <div class="overlay" data-menu-target="overlay" data-action="click->menu#closeMenu"></div>
                 <div class="overlay" data-search-target="overlay" data-action="click->search#close"></div>
             </header>
-            <aside>
+            <aside class="nav-aside">
                 <div class="logo">
                     <img src="{{ asset('img/logo.png') }}" alt="logo">
                 </div>
@@ -200,5 +202,6 @@
               <i class="fa-solid fa-times" data-search-target="close" data-action="click->search#close"></i>
             </div>
         </div>
+        <script src="{{asset('js/likeEmploi.js')}}"></script>
     </body>
 </html>

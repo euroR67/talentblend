@@ -1,28 +1,51 @@
 {% extends 'dashboard.html.twig' %}
 
-{% block title %}Hello ChatController!{% endblock %}
+{% block title %}Discussions{% endblock %}
 
 {% block body %}
-<main>
-    <div class="container">
-        <aside style="height: 300px;">
-            <nav>
-                <ul>
-                    {# Liste des discussions de l'utilisateur #}
-                    {% for user in discussedUsers %}
-                        <li>
-                            <a href="{{ path('discussions', {'receiverId': user.id}) }}">
-                                Discussion avec {{ user.email }}
-                            </a>
-                            {% set unreadMessagesCount = app.user.countUnreadMessagesFromUser(user) %}
-                            {% if unreadMessagesCount > 0 %}
-                                <span>{{ unreadMessagesCount }} non lu(s)</span>
-                            {% endif %}
-                        </li>
-                    {% endfor %}
-                </ul>
-            </nav>
-        </aside>
+<div class="wrapper">
+
+    <h2>Discussions</h2>
+    <aside class="chat-aside">
+        <nav>
+            <div class="chat-header">
+                <h3>Messagerie</h3>
+                <a href="#"><i class="fa-solid fa-arrows-rotate"></i> Recharger</a>
+            </div>
+            <ul>
+                {# Liste des discussions de l'utilisateur #}
+                {% for user in discussedUsers %}
+                    <li>
+                        <a href="{{ path('discussions', {'receiverId': user.id}) }}">
+                            Discussion avec {{ user.email }}
+                        </a>
+                        {% set unreadMessagesCount = app.user.countUnreadMessagesFromUser(user) %}
+                        {% if unreadMessagesCount > 0 %}
+                            <span>{{ unreadMessagesCount }} non lu(s)</span>
+                        {% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
+        </nav>
+        <a class="nav-mess"><i class="far fa-comments"></i></a>
+    </aside>
+    <div class="overlay-chat"></div>
+    <script>
+        const toggleNav = () => {
+            document.querySelector('.nav-mess').addEventListener('click', () => {
+                document.querySelector('.chat-aside').classList.toggle('active');
+                document.querySelector('.overlay-chat').classList.toggle('active');
+            });
+            document.querySelector('.overlay-chat').addEventListener('click', () => {
+                document.querySelector('.chat-aside').classList.toggle('active');
+                document.querySelector('.overlay-chat').classList.toggle('active');
+            });
+        }
+
+        toggleNav();
+    </script>
+    <div class="section-wrapper">
+        
         <section>
             {# Le contenu de la discussion sera chargé ici #}
             {% if selectedMessages is defined and selectedMessages is not null %}
@@ -51,5 +74,5 @@
             {% endif %}
         </section>
     </div>
-</main>
+</div>
 {% endblock %}
