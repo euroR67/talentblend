@@ -4,9 +4,10 @@
 <turbo-stream action="append" target="messages">
     <template>
         <article id="{{ 'message_' ~ id }}">
-            <h3>{{ entity.sender.email }}</h3>
-            <p>{{ entity.content }}</p>
-            <div>{{ entity.createdAt|date('Y-m-d H:i:s') }}</div>
+            <p class="message-content user-message">{{ entity.content }}</p>
+            <div class="date user-message">
+                {{ entity.createdAt|date('d/m/Y H:i') }}
+            </div>
         </article>
     </template>
 </turbo-stream>

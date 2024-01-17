@@ -33,6 +33,18 @@
     transition: all .3s;
 }
 
+.chat-aside.standart {
+    position: unset;
+    transform: unset;
+    width: 100%;
+    height: unset;
+    min-height: 70vh;
+}
+
+.chat-aside > nav > ul {
+    overflow: auto;
+}
+
 .chat-aside.active {
     transform: translateX(0);
 }
@@ -90,7 +102,7 @@
 }
 
 .chat-aside ul li:first-child {
-    border-left: 2px solid #007456;
+    border-left: 3px solid #007456;
     background-color: rgba(0,116,86,.05);
 }
 
@@ -173,7 +185,7 @@
 }
 
 .section-wrapper.chat > div {
-    padding-left: 40px;
+    padding-left: 45px;
 }
 
 .chat-window-header > div:first-child img {
@@ -192,7 +204,7 @@
 }
 
 .chat-window-body {
-    min-height: 350px;
+    min-height: 450px;
     padding-right: 15px;
 }
 
@@ -202,14 +214,40 @@
 
 .message-content {
     padding: 15px;
-    background-color: #F7F7F7;
     border-radius: 10px;
+    max-width: 80%;
+}
+
+article {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    flex-direction: column;
+}
+
+div.user-message {
+    align-self: flex-end;
+}
+
+div.interlocutor-message {
+    align-self: flex-start;
+}
+
+p.user-message {
+    background-color: #007456;
+    align-self: flex-end;
+    color: #fff;
+}
+
+p.interlocutor-message {
+    background-color: #F7F7F7;
+    align-self: flex-start;
 }
 
 .date {
     font-size: 12px;
     opacity: 0.6;
-    margin-bottom: 10px;
+    margin-block: 10px;
 }
 
 .chat-window-footer {
@@ -255,4 +293,56 @@
 .chat-window-footer textarea::placeholder {
     color: #999999;
     font-size: 16px;
+}
+
+@media screen and (min-width: 800px) {
+    .nav-mess {
+        top: 40%;
+        cursor: pointer;
+        transition: all 200ms ease-in-out;
+    }
+
+    .nav-mess:hover {
+        background-color: #02644a;
+        box-shadow: 0 0 10px rgba(5, 105, 51, 0.428);
+    }
+
+    .wrapper h2 {
+        margin-bottom: 20px;
+    }
+}
+
+@media screen and (min-width: 1100px) {
+    .chat-wrapper {
+        display: flex;
+    }
+    .chat-aside {
+        position: unset;
+        height: unset;
+        z-index: inherit;
+        transform: unset;
+        width: 40%;
+        border: 1px solid #e6e6e6;
+        border-right: 0;
+        min-height: 70vh;
+    }
+
+    .section-wrapper.chat {
+        width: 60%;
+    }
+
+    .nav-mess,
+    .chat-aside.standart {
+        display: none;
+    }
+}
+
+@media screen and (min-width: 1200px) {
+    .chat-aside {
+        width: 330px;
+    }
+
+    .section-wrapper.chat {
+        width: 70%;
+    }
 }
