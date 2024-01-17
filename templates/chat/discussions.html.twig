@@ -20,7 +20,7 @@
                 <ul>
                     {# Liste des discussions de l'utilisateur #}
                     {% for user in discussedUsers %}
-                        <li>
+                    <li {% if app.request.get('receiverId') == user.id %}class="active"{% endif %}>
                             <a href="{{ path('discussions', {'receiverId': user.id}) }}" data-turbo="false">
                                 <div class="user-picture">
                                     {% set unreadMessagesCount = app.user.countUnreadMessagesFromUser(user) %}
@@ -122,7 +122,7 @@
                     <ul>
                         {# Liste des discussions de l'utilisateur #}
                         {% for user in discussedUsers %}
-                            <li>
+                            <li {% if app.request.get('receiverId') == user.id %}class="active"{% endif %}>
                                 <a href="{{ path('discussions', {'receiverId': user.id}) }}" data-turbo="false">
                                     <div class="user-picture">
                                         {% set unreadMessagesCount = app.user.countUnreadMessagesFromUser(user) %}

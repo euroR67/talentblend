@@ -99,9 +99,19 @@
     padding: 20px;
     border-bottom: 1px solid #e6e6e6;
     cursor: pointer;
+    height: 111px;
+    transition: all 200ms ease-in-out;
 }
 
-.chat-aside ul li:first-child {
+.chat-aside ul li:hover {
+    background-color: rgba(0,116,86,.05);
+}
+
+.chat-aside ul li:last-child {
+    border-bottom: 0;
+}
+
+.chat-aside ul li.active {
     border-left: 3px solid #007456;
     background-color: rgba(0,116,86,.05);
 }
@@ -324,7 +334,6 @@ p.interlocutor-message {
         width: 40%;
         border: 1px solid #e6e6e6;
         border-right: 0;
-        min-height: 70vh;
     }
 
     .section-wrapper.chat {
