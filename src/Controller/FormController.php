@@ -91,7 +91,7 @@ class FormController extends AbstractController
                     12
                 ); 
             } else {
-                // Aucun champ renseigné, ne lancez pas la recherche
+                // Aucun champ renseigné, ne pas effectuer de recherche
                 $results = [];
             }
 

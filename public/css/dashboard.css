@@ -602,6 +602,164 @@ div.motif div a:hover {
     color: unset;
 }
 
+.btn-password {
+    background-color: #007455;
+    color: #fff;
+    padding: 12px 20px;
+    border-radius: 30px;
+    border: none;
+    font-weight: 600;
+    font-size: 1.1em;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.btn-password:hover {
+    background-color: #004e3f;
+}
+
+.openModal {
+    border: 1px solid red;
+    color: red;
+    padding: 12px 20px;
+    cursor: pointer;
+    margin-top: 20px;
+    background-color: #fff;
+}
+
+.modal {
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    z-index: 30;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: calc(100% - 30px);
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+.modal form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    width: 100%;
+}
+
+.modal form textarea {
+    width: 100%;
+    transition: border-color .1s,box-shadow .1s;
+    border: 1px solid #d9d9d9;
+    border-radius: 0.1875em;
+    background: rgba(0,0,0,0);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.06), 0 0 0 3px rgba(0,0,0,0);
+    color: inherit;
+    font-size: 1.125em;
+    height: 6.75em;
+    padding: 0.75em
+}
+
+.modal form textarea:focus {
+    border: 1px solid #b4dbed;
+    outline: none;
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.06), 0 0 0 2px rgba(100, 200, 135, 0.5);
+}
+
+.modal form textarea::placeholder {
+    color: #b4b4b4;
+}
+
+.modal form .modal-action button {
+    border-radius: 5px;
+}
+
+.modal form .modal-action button:last-of-type {
+    background-color: #6e7881;
+}
+
+.modal form .modal-action button:last-of-type:hover {
+    background-color: #5e6b73;
+}
+
+.modal.active {
+    display: flex;
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    background-color: #171d22;
+    z-index: 20; 
+    transition: all 400ms ease-in-out;
+    visibility: hidden;
+}
+
+.modal-overlay.active {
+    opacity: 0.80;
+    visibility: visible;
+}
+
+.modal form input {
+    border: none;
+    outline: none;
+    width: 100%;
+}
+
+.modal p:first-of-type {
+    font-size: 1.2em;
+    font-weight: 600;
+}
+
+.modal p:last-of-type {
+    color: red;
+    margin-block: 10px;
+}
+
+.modal form .modal-action button {
+    padding: 10px 20px;
+    border: none;
+    color: #fff;
+    font-weight: 600;
+    font-size: 1.1em;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.modal form .modal-action button:first-of-type {
+    background-color: rgb(178, 17, 17);
+}
+
+.modal form .modal-action button:first-of-type:hover {
+    background-color: #c70000;
+}
+
+.modal form .modal-action button:last-of-type {
+    background-color: #6e7881;
+}
+
+.modal form .modal-action button:last-of-type:hover {
+    background-color: #5e6b73;
+}
+
+@media screen and (min-width: 530px) {
+    .modal {
+        width: 32rem;
+    }
+}
+
 @media screen and (min-width: 800px) {
     body {
         padding-top: 0;

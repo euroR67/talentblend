@@ -25,7 +25,7 @@ class UserPasswordType extends AbstractType
                     ]),
                 ],
             ])
-            ->add('newPassword', RepeatedType::class, [
+            ->add('plainPassword', RepeatedType::class, [
                 'type' => PasswordType::class,
                 'first_options' => ['label' => 'Nouveau mot de passe'],
                 'second_options' => ['label' => 'Confirmer le nouveau mot de passe'],
@@ -40,9 +40,6 @@ class UserPasswordType extends AbstractType
                         'message' => 'Votre mot de passe doit contenir au moins une majuscule, une minuscule, un chiffre et un caractère spécial.'
                     ])
                 ],
-            ])
-            ->add('save', SubmitType::class, [
-                'label' => 'Enregistrer le mot de passe',
             ]);
     }
 
