@@ -43,7 +43,7 @@ document.querySelectorAll('.save-emploi-link').forEach(function(link) {
     });
 });
 
-document.querySelectorAll('.action a').forEach(function(link) {
+document.querySelectorAll('.action2').forEach(function(link) {
     link.addEventListener('click', function(e) {
         e.preventDefault();
 

@@ -1,6 +1,6 @@
 // ============================ Onglet dashboard ============================ //
 
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('turbo:load', function () {
     const tabItems = document.querySelectorAll('.tab li');
     const tabPanes = document.querySelectorAll('.section-wrapper > div');
 
@@ -15,13 +15,9 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 
-
-// Script pour l'ajout de formations
-
-
 // ============================ Action edit / delet emploi ============================ //
 
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('turbo:load', function () {
     const ellipsis = document.querySelectorAll('.fa-ellipsis');
     const action = document.querySelectorAll('.action');
 
@@ -41,10 +37,15 @@ document.addEventListener('DOMContentLoaded', function () {
 
 // ============================ Champ type de salaire ============================ //
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('turbo:load', function() {
     var showBy = document.getElementById('showBy');
     var salaire = document.getElementById('salaire');
     var minimum = document.getElementById('minimum');
+
+    // Vérifiez si les éléments existent
+    if (!showBy || !salaire || !minimum) {
+        return;
+    }
 
     function handleShowByChange() {
         var showByValue = showBy.value;
@@ -92,3 +93,28 @@ document.addEventListener('DOMContentLoaded', function() {
     // Appeler la fonction lorsque la page est chargée
     handleShowByChange();
 });
+
+// ============================ Toggle discussions sidebar ============================ //
+
+document.addEventListener('turbo:load', function () {
+    const navMess = document.querySelector('.nav-mess');
+    const overlayChat = document.querySelector('.overlay-chat');
+    const chatAside = document.querySelector('.chat-aside');
+
+    // Vérifiez si les éléments existent
+    if (!navMess || !overlayChat || !chatAside) {
+        return;
+    }
+
+    const toggleNav = () => {
+        navMess.addEventListener('click', () => {
+            chatAside.classList.toggle('active');
+            overlayChat.classList.toggle('active');
+        });
+        overlayChat.addEventListener('click', () => {
+            chatAside.classList.toggle('active');
+            overlayChat.classList.toggle('active');
+        });
+    }
+    toggleNav();
+})

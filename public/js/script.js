@@ -1,9 +1,5 @@
 // DOM Content Loaded
-document.addEventListener('DOMContentLoaded', function() {
-
-    // ============================ Slide menu  ============================ //
-
-
+document.addEventListener('turbo:load', function() {
 
 // ========================= Modal formulaire de recherche ======================================== //
 

@@ -186,9 +186,9 @@
                                 <p>{{ app.user.prenom }}</p>
                             </li>
                             {% if is_granted('ROLE_RECRUTEUR') %}
-                            <li><a class="post-offre" href="{{ path('app_new_emploi') }}">Poster une offre</a></li>
+                            <li><a class="post-offre" href="{{ path('app_new_emploi') }}" data-turbo="false">Poster une offre</a></li>
                             {% elseif is_granted('ROLE_CANDIDAT') %}
-                                <li><a class="post-offre" href="{{ path('app_candidat_edit', {'id': app.user.id}) }}">Modifier Profil</a></li>
+                                <li><a class="post-offre" href="{{ path('app_candidat_edit', {'id': app.user.id}) }}" data-turbo="false">Modifier Profil</a></li>
                             {% endif %}
                         </ul>
                     </nav>

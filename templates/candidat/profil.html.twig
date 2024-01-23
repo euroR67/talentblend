@@ -146,36 +146,45 @@
                 data-prototype="{{ form_widget(form.formations.vars.prototype)|e('html_attr') }}">
                 {% for formation in form.formations %}
                     <div class="formfield">
-                        <div class="form-group">
-                            <div>
-                                {{ form_label(formation.titre, 'Titre') }}
-                                {{ form_widget(formation.titre, {'attr': {'class': 'form-control'}}) }}
-                            </div>
-                            <div>
-                                {{ form_label(formation.qualification, 'Qualification') }}
-                                {{ form_widget(formation.qualification, {'attr': {'class': 'form-control'}}) }}
-                            </div>
+                        <div class="dropdown-fx">
+                            <span>
+                                {# Ici le bouton remove #}
+                                <h6>Formation {{ loop.index }}</h6>
+                            </span>
+                            <i class="fa-solid fa-chevron-down"></i>
                         </div>
-                        <div class="form-group">
-                            <div>
-                                {{ form_label(formation.dateDebut, 'Date de début') }}
-                                {{ form_widget(formation.dateDebut, {'attr': {'class': 'form-control'}}) }}
+                        <div class="drop">
+                            <div class="form-group">
+                                <div>
+                                    {{ form_label(formation.titre, 'Titre') }}
+                                    {{ form_widget(formation.titre, {'attr': {'class': 'form-control'}}) }}
+                                </div>
+                                <div>
+                                    {{ form_label(formation.qualification, 'Qualification') }}
+                                    {{ form_widget(formation.qualification, {'attr': {'class': 'form-control'}}) }}
+                                </div>
                             </div>
-                            <div>
-                                {{ form_label(formation.dateFin, 'Date de fin') }}
-                                {{ form_widget(formation.dateFin, {'attr': {'class': 'form-control'}}) }}
+                            <div class="form-group">
+                                <div>
+                                    {{ form_label(formation.dateDebut, 'Date de début') }}
+                                    {{ form_widget(formation.dateDebut, {'attr': {'class': 'form-control'}}) }}
+                                </div>
+                                <div>
+                                    {{ form_label(formation.dateFin, 'Date de fin') }}
+                                    {{ form_widget(formation.dateFin, {'attr': {'class': 'form-control'}}) }}
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <div>
-                                {{ form_label(formation.description, 'Description') }}
-                                {{ form_widget(formation.description, {'attr': {'class': 'form-control', 'rows': 10}}) }}
+                            <div class="form-group">
+                                <div>
+                                    {{ form_label(formation.description, 'Description') }}
+                                    {{ form_widget(formation.description, {'attr': {'class': 'form-control', 'rows': 10}}) }}
+                                </div>
                             </div>
                         </div>
                     </div>
                 {% endfor %}
             </div>
-            <button type="button" class="add_formation_link" data-collection-holder-class="formations">Add formation</button>
+            <button type="button" class="add_formation_link" data-collection-holder-class="formations"><i class="fa-solid fa-chevron-down"></i> Ajouter une autre formation</button>
         </div>
 
         <div class="experience" style="display: none">
@@ -185,36 +194,44 @@
             data-prototype="{{ form_widget(form.experiences.vars.prototype)|e('html_attr') }}">
                 {% for experience in form.experiences %}
                     <div class="formfield">
-                        <div class="form-group">
-                            <div>
-                                {{ form_label(experience.titre, 'Titre') }}
-                                {{ form_row(experience.titre, {'attr': {'class': 'form-control'}}) }}
-                            </div>
-                            <div>
-                                {{ form_label(experience.entreprise, 'Entreprise') }}
-                                {{ form_row(experience.entreprise, {'attr': {'class': 'form-control'}}) }}
-                            </div>
+                        <div class="dropdown-fx">
+                            <span>
+                                <h6>Expérience {{ loop.index }}</h6>
+                            </span>
+                            <i class="fa-solid fa-chevron-down"></i>
                         </div>
-                        <div class="form-group">
-                            <div>
-                                {{ form_label(experience.dateDebut, 'Date de début') }}
-                                {{ form_row(experience.dateDebut, {'attr': {'class': 'form-control'}}) }}
+                        <div class="drop">
+                            <div class="form-group">
+                                <div>
+                                    {{ form_label(experience.titre, 'Titre') }}
+                                    {{ form_row(experience.titre, {'attr': {'class': 'form-control'}}) }}
+                                </div>
+                                <div>
+                                    {{ form_label(experience.entreprise, 'Entreprise') }}
+                                    {{ form_row(experience.entreprise, {'attr': {'class': 'form-control'}}) }}
+                                </div>
                             </div>
-                            <div>
-                                {{ form_label(experience.dateFin, 'Date de fin') }}
-                                {{ form_row(experience.dateFin, {'attr': {'class': 'form-control'}}) }}
+                            <div class="form-group">
+                                <div>
+                                    {{ form_label(experience.dateDebut, 'Date de début') }}
+                                    {{ form_row(experience.dateDebut, {'attr': {'class': 'form-control'}}) }}
+                                </div>
+                                <div>
+                                    {{ form_label(experience.dateFin, 'Date de fin') }}
+                                    {{ form_row(experience.dateFin, {'attr': {'class': 'form-control'}}) }}
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <div>
-                                {{ form_label(experience.description, 'Description') }}
-                                {{ form_row(experience.description, {'attr': {'class': 'form-control', 'rows': 10}}) }}
+                            <div class="form-group">
+                                <div>
+                                    {{ form_label(experience.description, 'Description') }}
+                                    {{ form_row(experience.description, {'attr': {'class': 'form-control', 'rows': 10}}) }}
+                                </div>
                             </div>
                         </div>
                     </div>
                 {% endfor %}
             </div>
-            <button type="button" class="add_experience_link" data-collection-holder-class="experiences">Add experience</button>
+            <button type="button" class="add_experience_link" data-collection-holder-class="experiences"><i class="fa-solid fa-chevron-down"></i> Ajouter une autre expérience</button>
         </div>
 
     </div>
@@ -227,33 +244,38 @@
     {{ form_end(form) }}
     
 </div>
+
+{# Script qui gère le collectiontype #}
 <script>
-    
     // Ajouter un lien de suppression à toutes les formations
-    const addFormationFormDeleteLink = (item) => {
-        const removeFormButton = document.createElement('button');
-        removeFormButton.innerHTML = 'Remove this formation';
-
-        item.appendChild(removeFormButton);
-
-        removeFormButton.addEventListener('click', (e) => {
+    const addFormationFormDeleteLink = (formation) => {
+        const removeButton = document.createElement('button');
+        removeButton.innerHTML = '<i class="fa-solid fa-xmark"></i>';
+        removeButton.addEventListener('click', (e) => {
             e.preventDefault();
-            item.remove();
+            formation.remove();
         });
-    }
+    
+        const dropdownFx = formation.querySelector('.dropdown-fx span');
+        if (dropdownFx) {
+            dropdownFx.prepend(removeButton);
+        }
+    };
 
     // Ajouter un lien de suppression à toutes les expériences
-    const addExperienceFormDeleteLink = (item) => {
-        const removeFormButton = document.createElement('button');
-        removeFormButton.innerHTML = 'Remove this experience';
-
-        item.appendChild(removeFormButton);
-
-        removeFormButton.addEventListener('click', (e) => {
+    const addExperienceFormDeleteLink = (experience) => {
+        const removeButton = document.createElement('button');
+        removeButton.innerHTML = '<i class="fa-solid fa-xmark"></i>';
+        removeButton.addEventListener('click', (e) => {
             e.preventDefault();
-            item.remove();
+            experience.remove();
         });
-    }
+    
+        const dropdownFx = experience.querySelector('.dropdown-fx span');
+        if (dropdownFx) {
+            dropdownFx.prepend(removeButton);
+        }
+    };
 
     // Ajouter le formulaire d'ajout de formation au collectionHolder
     const addFormToCollection = (e) => {
@@ -319,17 +341,18 @@
     document
     .querySelectorAll('div.experiences .formfield')
     .forEach((experience) => {
-        addExperienceFormDeleteLink(experience)
+        addExperienceFormDeleteLink(experience);
     });
 
     // Ajouter un bouton de suppression à tout les formulaires de formation
     document
     .querySelectorAll('div.formations .formfield')
     .forEach((formation) => {
-        addFormationFormDeleteLink(formation)
+        addFormationFormDeleteLink(formation);
     });
 </script>
 <script>
+    // Fonction pour afficher le nom du fichier sélectionné
     function updateFileName(input) {
         const fileNameSpan = document.getElementById("file-name");
         const filePlaceholder = document.getElementById("file-placeholder");
@@ -345,6 +368,7 @@
         }
     }
     
+    // Select2.js
     // In your Javascript (external .js resource or <script> tag)
     $(document).ready(function() {
         $('.selectLangues').select2();
@@ -352,6 +376,7 @@
         $('.selectcontrats').select2();
     });
 
+    // Fonction pour afficher l'image sélectionnée
     function readURL(input) {
         if (input.files && input.files[0]) {
             var reader = new FileReader();
@@ -364,10 +389,25 @@
         }
     }
     
+    // Afficher l'image sélectionnée
     $("#selectPhoto").change(function() {
         readURL(this);
     });
 
+    // Fonction pour ouvrir / fermer les dropdowns formations et expériences
+    document.querySelectorAll('.dropdown-fx').forEach((dropdown) => {
+        dropdown.addEventListener('click', () => {
+            // Trouver l'élément '.drop' correspondant
+            const drop = dropdown.nextElementSibling;
+
+            // Bascule la visibilité de l'élément '.drop'
+            if (drop.style.display === 'none') {
+                drop.style.display = 'block';
+            } else {
+                drop.style.display = 'none';
+            }
+        });
+    });
     
 </script>
 

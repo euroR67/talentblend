@@ -21,7 +21,7 @@
                     {# Liste des discussions de l'utilisateur #}
                     {% for user in discussedUsers %}
                     <li {% if app.request.get('receiverId') == user.id %}class="active"{% endif %}>
-                            <a href="{{ path('discussions', {'receiverId': user.id}) }}" data-turbo="false">
+                            <a href="{{ path('discussions', {'receiverId': user.id}) }}">
                                 <div class="user-picture">
                                     {% set unreadMessagesCount = app.user.countUnreadMessagesFromUser(user) %}
                                     {% if unreadMessagesCount > 0 %}
@@ -123,7 +123,7 @@
                         {# Liste des discussions de l'utilisateur #}
                         {% for user in discussedUsers %}
                             <li {% if app.request.get('receiverId') == user.id %}class="active"{% endif %}>
-                                <a href="{{ path('discussions', {'receiverId': user.id}) }}" data-turbo="false">
+                                <a href="{{ path('discussions', {'receiverId': user.id}) }}">
                                     <div class="user-picture">
                                         {% set unreadMessagesCount = app.user.countUnreadMessagesFromUser(user) %}
                                         {% if unreadMessagesCount > 0 %}
@@ -165,17 +165,4 @@
         </div>
     </div>
 </div>
-<script>
-    const toggleNav = () => {
-        document.querySelector('.nav-mess').addEventListener('click', () => {
-            document.querySelector('.chat-aside').classList.toggle('active');
-            document.querySelector('.overlay-chat').classList.toggle('active');
-        });
-        document.querySelector('.overlay-chat').addEventListener('click', () => {
-            document.querySelector('.chat-aside').classList.toggle('active');
-            document.querySelector('.overlay-chat').classList.toggle('active');
-        });
-    }
-    toggleNav();
-</script>
 {% endblock %}
