@@ -16,7 +16,7 @@ class FormationType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('titre', TextType::class)
+            ->add('titre', TextType::class, [])
             ->add('qualification', TextType::class)
             ->add('dateDebut', DateType::class, [
                 'widget' => 'single_text',

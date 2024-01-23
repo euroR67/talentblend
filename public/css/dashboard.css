@@ -381,6 +381,10 @@ div.section-wrapper {
     flex-direction: column;
 }
 
+.form-group.sure div {
+    margin-block: 0;
+}
+
 /* Champ Rôle */
 
 div.custom-choice {
