@@ -113,7 +113,8 @@ div.experience > h3 {
     font-weight: 500;
 }
 
-.add_formation_link {
+.add_formation_link,
+.add_experience_link {
     color: #007456;
     font-size: 14px;
     font-weight: 600;
@@ -126,11 +127,13 @@ div.experience > h3 {
     font-size: 16px;
 }
 
-.add_formation_link:hover {
+.add_formation_link:hover,
+.add_experience_link:hover {
     color: #009760;
 }
 
-.add_formation_link i {
+.add_formation_link i,
+.add_experience_link i {
     font-size: 14px!important;
     margin-right: 5px;
     color: #007456;

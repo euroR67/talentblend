@@ -142,8 +142,43 @@
         <div class="formation" style="display: none">
             <h3>Formations</h3>
             <div class="formations"
-                data-index="{{ form.formations|length}}"
-                data-prototype="{{ form_widget(form.formations.vars.prototype)|e('html_attr') }}">
+            data-index="{{ form.formations|length }}"
+            data-prototype="
+                <div class='dropdown-fx'>
+                    <span>
+                        <h6>Formation __name__</h6>
+                    </span>
+                    <i class='fa-solid fa-chevron-down'></i>
+                </div>
+                <div class='drop'>
+                    <div class='form-group'>
+                        <div>
+                            <label for='candidat_formations___name___titre'>Titre</label>
+                            <input type='text' id='candidat_formations___name___titre' name='candidat[formations][__name__][titre]' required='required' class='form-control'>
+                        </div>
+                        <div>
+                            <label for='candidat_formations___name___qualification'>Qualification</label>
+                            <input type='text' id='candidat_formations___name___qualification' name='candidat[formations][__name__][qualification]' required='required' class='form-control'>
+                        </div>
+                    </div>
+                    <div class='form-group'>
+                        <div>
+                            <label for='candidat_formations___name___dateDebut'>Date de début</label>
+                            <input type='text' id='candidat_formations___name___dateDebut' name='candidat[formations][__name__][dateDebut]' required='required' class='form-control'>
+                        </div>
+                        <div>
+                            <label for='candidat_formations___name___dateFin'>Date de fin</label>
+                            <input type='text' id='candidat_formations___name___dateFin' name='candidat[formations][__name__][dateFin]' required='required' class='form-control'>
+                        </div>
+                    </div>
+                    <div class='form-group'>
+                        <div>
+                            <label for='candidat_formations___name___description'>Description</label>
+                            <textarea id='candidat_formations___name___description' name='candidat[formations][__name__][description]' required='required' class='form-control' rows='10'></textarea>
+                        </div>
+                    </div>
+                </div>
+            ">
                 {% for formation in form.formations %}
                     <div class="formfield">
                         <div class="dropdown-fx">
@@ -190,8 +225,43 @@
         <div class="experience" style="display: none">
             <h3>Expériences</h3>
             <div class="experiences"
-            data-index="{{ form.experiences|length }}"
-            data-prototype="{{ form_widget(form.experiences.vars.prototype)|e('html_attr') }}">
+     data-index="{{ form.experiences|length }}"
+     data-prototype="
+        <div class='dropdown-fx'>
+            <span>
+                <h6>Expérience __name__</h6>
+            </span>
+            <i class='fa-solid fa-chevron-down'></i>
+        </div>
+        <div class='drop'>
+            <div class='form-group'>
+                <div>
+                    <label for='candidat_experiences___name___titre'>Titre</label>
+                    <input type='text' id='candidat_experiences___name___titre' name='candidat[experiences][__name__][titre]' required='required' class='form-control'>
+                </div>
+                <div>
+                    <label for='candidat_experiences___name___entreprise'>Entreprise</label>
+                    <input type='text' id='candidat_experiences___name___entreprise' name='candidat[experiences][__name__][entreprise]' required='required' class='form-control'>
+                </div>
+            </div>
+            <div class='form-group'>
+                <div>
+                    <label for='candidat_experiences___name___dateDebut'>Date de début</label>
+                    <input type='text' id='candidat_experiences___name___dateDebut' name='candidat[experiences][__name__][dateDebut]' required='required' class='form-control'>
+                </div>
+                <div>
+                    <label for='candidat_experiences___name___dateFin'>Date de fin</label>
+                    <input type='text' id='candidat_experiences___name___dateFin' name='candidat[experiences][__name__][dateFin]' required='required' class='form-control'>
+                </div>
+            </div>
+            <div class='form-group'>
+                <div>
+                    <label for='candidat_experiences___name___description'>Description</label>
+                    <textarea id='candidat_experiences___name___description' name='candidat[experiences][__name__][description]' required='required' class='form-control' rows='10'></textarea>
+                </div>
+            </div>
+        </div>
+     ">
                 {% for experience in form.experiences %}
                     <div class="formfield">
                         <div class="dropdown-fx">
@@ -254,12 +324,21 @@
         removeButton.addEventListener('click', (e) => {
             e.preventDefault();
             formation.remove();
+            updateFormationIndices();
+            document.querySelector('.formations').dataset.index--;
         });
-    
+
         const dropdownFx = formation.querySelector('.dropdown-fx span');
         if (dropdownFx) {
             dropdownFx.prepend(removeButton);
         }
+    };
+
+    // Mettre à jour les indices de toutes les formations
+    const updateFormationIndices = () => {
+        document.querySelectorAll('div.formations .formfield').forEach((formation, index) => {
+            formation.querySelector('.dropdown-fx span h6').textContent = 'Formation ' + (index + 1);
+        });
     };
 
     // Ajouter un lien de suppression à toutes les expériences
@@ -269,6 +348,8 @@
         removeButton.addEventListener('click', (e) => {
             e.preventDefault();
             experience.remove();
+            updateExperienceIndices();
+            document.querySelector('.experiences').dataset.index--;
         });
     
         const dropdownFx = experience.querySelector('.dropdown-fx span');
@@ -277,11 +358,19 @@
         }
     };
 
+    // Mettre à jour les indices de toutes les formations
+    const updateExperienceIndices = () => {
+        document.querySelectorAll('div.experiences .formfield').forEach((experience, index) => {
+            experience.querySelector('.dropdown-fx span h6').textContent = 'Expérience ' + (index + 1);
+        });
+    };
+
     // Ajouter le formulaire d'ajout de formation au collectionHolder
     const addFormToCollection = (e) => {
         const collectionHolder = document.querySelector('.' + e.currentTarget.dataset.collectionHolderClass);
         
-        const item = document.createElement('li');
+        const item = document.createElement('div');
+        item.classList.add('formfield');
         
         item.innerHTML = collectionHolder
             .dataset
@@ -293,18 +382,20 @@
         
         collectionHolder.appendChild(item);
         
-        collectionHolder.dataset.index++;
-        
         // add a delete link to the new form
         addFormationFormDeleteLink(item);
+        updateFormationIndices();
 
+        // Increment the index for the next item
+        collectionHolder.dataset.index++;
     };
 
     // Ajouter le formulaire d'ajout d'expérience au collectionHolder
     const addFormToCollection2 = (e) => {
         const collectionHolder = document.querySelector('.' + e.currentTarget.dataset.collectionHolderClass);
         
-        const item = document.createElement('li');
+        const item = document.createElement('div');
+        item.classList.add('formfield');
         
         item.innerHTML = collectionHolder
             .dataset
@@ -320,6 +411,7 @@
         
         // add a delete link to the new form
         addExperienceFormDeleteLink(item);
+        updateExperienceIndices();
 
     };
 
@@ -327,7 +419,7 @@
     document
     .querySelectorAll('.add_formation_link')
     .forEach(btn => {
-        btn.addEventListener("click", addFormToCollection)
+        btn.addEventListener('click', addFormToCollection);
     });
 
     // Ajouter un écouteur d'évènement sur le bouton d'ajout d'expérience  
@@ -337,18 +429,18 @@
         btn.addEventListener("click", addFormToCollection2)
     });
 
-    // Ajouter un bouton de suppression à tout les formulaires d'expérience
-    document
-    .querySelectorAll('div.experiences .formfield')
-    .forEach((experience) => {
-        addExperienceFormDeleteLink(experience);
-    });
-
     // Ajouter un bouton de suppression à tout les formulaires de formation
     document
     .querySelectorAll('div.formations .formfield')
-    .forEach((formation) => {
+    .forEach((formation, index) => {
         addFormationFormDeleteLink(formation);
+    });
+
+    // Ajouter un bouton de suppression à tout les formulaires d'expérience
+    document
+    .querySelectorAll('div.experiences .formfield')
+    .forEach((experience, index) => {
+        addExperienceFormDeleteLink(experience);
     });
 </script>
 <script>
@@ -395,18 +487,25 @@
     });
 
     // Fonction pour ouvrir / fermer les dropdowns formations et expériences
-    document.querySelectorAll('.dropdown-fx').forEach((dropdown) => {
-        dropdown.addEventListener('click', () => {
+    document.querySelector('body').addEventListener('click', (event) => {
+        let targetElement = event.target;
+    
+        // Trouver le parent '.dropdown-fx' de l'élément qui a été cliqué
+        while (targetElement && !targetElement.matches('.dropdown-fx')) {
+            targetElement = targetElement.parentElement;
+        }
+    
+        if (targetElement) {
             // Trouver l'élément '.drop' correspondant
-            const drop = dropdown.nextElementSibling;
-
+            const drop = targetElement.nextElementSibling;
+    
             // Bascule la visibilité de l'élément '.drop'
             if (drop.style.display === 'none') {
                 drop.style.display = 'block';
             } else {
                 drop.style.display = 'none';
             }
-        });
+        }
     });
     
 </script>
