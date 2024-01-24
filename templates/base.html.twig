@@ -66,6 +66,7 @@
             <link rel="stylesheet" href="{{asset('css/form.css')}}">
             <link rel="stylesheet" href="{{asset('css/footer.css')}}">
             <link rel="stylesheet" href="{{asset('css/paginator.css')}}">
+            <link rel="stylesheet" href="{{asset('css/liens-utiles.css')}}">
             {{ ux_controller_link_tags() }}
         {% endblock %}
         {% block javascripts %}
@@ -347,12 +348,12 @@
                         </div>
                         <div class="footer-dropdown-body">
                             <ul>
-                                <li><a href="">Mentions légales</a></li>
-                                <li><a href="">Conditions d'utilisation</a></li>
-                                <li><a href="">Données personnelles</a></li>
-                                <li><a href="">Paramètres des cookies</a></li>
-                                <li><a href="">Accessibilité</a></li>
-                                <li><a href="">Centre de sécurité</a></li>
+                                <li><a href="{{ path('mentions_legales') }}">Mentions légales</a></li>
+                                <li><a href="{{ path('conditions_utilisation') }}">Conditions d'utilisation</a></li>
+                                <li><a href="{{ path('donnees_personnelles') }}">Données personnelles</a></li>
+                                <li><a href="#" onclick="tarteaucitron.userInterface.openPanel();">Paramètres des cookies</a></li>
+                                <li><a href="{{ path('accessibilite')}}">Accessibilité</a></li>
+                                <li><a href="{{ path('security') }}">Centre de sécurité</a></li>
                             </ul>
                         </div>
                     </div>

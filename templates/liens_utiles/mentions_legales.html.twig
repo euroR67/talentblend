@@ -1,0 +1,95 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mentions Légales{% endblock %}
+
+{% block body %}
+
+<main class="liens">
+    <div class="ariane">
+        <div class="file-ariane">
+            <span>
+                <a href="{{ path('app_home') }}">Accueil</a>
+                <i class="fa-solid fa-angle-right"></i>
+                <p>Mentions légales</p>
+            </span>
+            <h1>Mentions Légales</h1>
+        </div>
+    </div>
+    <div class="content-wrapper">
+    
+        <section class="liens">
+            <div>
+                <h2>Mentions légales</h2>
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce eu maximus velit. Maecenas egestas rhoncus condimentum.
+                    Cras dapibus elit dui. Phasellus felis odio, interdum lacinia nulla eget, tincidunt condimentum dui.
+                    Nunc auctor fringilla iaculis. Ut imperdiet, diam vitae bibendum ornare, urna eros ornare mauris, sit amet tempor tortor tortor sit amet mi.
+                </p>
+            </div>
+            <div>
+                <h4>1. Informations sur l'entreprise</h4>
+                <ul>
+                    <li>Nom fictif de l'entreprise : "WebJobsFake Corp."</li>
+                    <li>Adresse fictive du siège social.</li>
+                    <li>Coordonnées fictives.</li>
+                </ul>
+            </div>
+            <div>
+                <h4>2. Responsable de la publication</h4>
+                <ul>
+                    <li>Nom fictif de l'entreprise : "WebJobsFake Corp."</li>
+                    <li>Adresse e-mail fictive du responsable.</li>
+                </ul>
+            </div>
+            <div>
+                <h4>3. Hébergement du site</h4>
+                <ul>
+                    <li>Nom fictif de l'hébergeur : "HostingFake Services."</li>
+                    <li>Adresse fictive de l'hébergeur.</li>
+                </ul>
+            </div>
+            <div>
+                <h4>4. Propriété intellectuelle</h4>
+                <ul>
+                    <li>Mention fictive des droits d'auteur : "© 2024 WebJobsFake Corp."</li>
+                    <li>Politique de droits d'auteur fictive.</li>
+                </ul>
+            </div>
+            <div>
+                <h4>5. Collecte et traitement des données personnelles :</h4>
+                <ul>
+                    <li>Finalités fictives de la collecte des données : "Amélioration de nos services fictifs."</li>
+                    <li>Modalités de collecte et de traitement fictives.</li>
+                    <li>Informations fictives sur les cookies utilisés.</li>
+                </ul>
+            </div>
+            <div>
+                <h4>6. Droit d'accès et de rectification des données :</h4>
+                <ul>
+                    <li>Informations fictives sur le droit d'accès et de rectification.</li>
+                </ul>
+            </div>
+            <div>
+                <h4>7. Modification des mentions légales :</h4>
+                <ul>
+                    <li>Clause indiquant que les mentions légales peuvent être modifiées fictivement et la date fictive de la dernière mise à jour.</li>
+                </ul>
+            </div>
+        </section>
+
+        <aside>
+            <h3>Liens utiles</h3>
+            <ul>
+                <li><a href="{{ path('mentions_legales') }}">Mentions Légales</a></li>
+                <li><a href="{{ path('conditions_utilisation') }}">Conditions d'utilisation</a></li>
+                <li><a href="{{ path('donnees_personnelles') }}">Données personnelles</a></li>
+                <li><a href="">Paramètre des cookies</a></li>
+                <li><a href="{{ path('accessibilite') }}">Accessibilité</a></li>
+                <li><a href="{{ path('security') }}">Centre de sécurité</a></li>
+            </ul>
+        </aside>
+
+    </div>
+</main>
+
+{% endblock %}

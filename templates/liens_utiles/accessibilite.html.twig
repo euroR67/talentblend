@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mentions Légales{% endblock %}
+
+{% block body %}
+
+<main class="liens">
+    <div class="ariane">
+        <div class="file-ariane">
+            <span>
+                <a href="{{ path('app_home') }}">Accueil</a>
+                <i class="fa-solid fa-angle-right"></i>
+                <p>Accessibilité</p>
+            </span>
+            <h1>Centre d’accessibilité</h1>
+        </div>
+    </div>
+    <div class="content-wrapper">
+    
+        <section class="liens">
+            <div>
+                <h2>L’accessibilité est importante chez Talentblend</h2>
+                <p>Nous nous efforçons de créer des expériences bien conçues qui sont plus lisibles, fonctionnelles et accessibles à tous.</p>
+            </div>
+            <div>
+                <h4>L’inclusion du handicap est une priorité absolue </h4>
+                <p>On estime à 1,3 milliard le nombre de personnes souffrant d’un handicap important. Cela représente 16 % de la population mondiale, soit 1 personne sur 6. ( Organisation mondiale de la Santé 2023 ). Les expériences accessibles sont indispensables pour les personnes atteintes de handicap. C’est pourquoi nous nous efforçons de rendre notre site Web et nos expériences produit plus faciles à utiliser, à comprendre et accessibles à tous.</p>
+            </div>
+            <div>
+                <h4>Respecter les normes d’accessibilité</h4>
+                <p>Chez Talentblend, nous testons nos expériences en permanence et faisons appel à des consultants tiers pour identifier les problèmes d’ergonomie et optimiser l’accessibilité. Nous nous conformons aux dernières normes d’accessibilité, y compris les critères de réussite et les exigences de conformité de niveau A et de niveau AA, publiés par le World Wide Web Consortium et l’Initiative sur l’accessibilité du Web, qui sont disponibles ici : WCAG 2.1 AA .</p>
+            </div>
+            <div>
+                <h4>Technologies d’assistance et compatibilité</h4>
+                <p>Talentblend s’engage à soutenir l’accessibilité et est compatible avec les technologies d’assistance telles que Jaws et NVDA . Nous prenons en charge tous les principaux navigateurs, y compris Chrome, Firefox, Safari et Microsoft Edge.</p>
+            </div>
+        </section>
+
+        <aside>
+            <h3>Liens utiles</h3>
+            <ul>
+                <li><a href="{{ path('mentions_legales') }}">Mentions Légales</a></li>
+                <li><a href="{{ path('conditions_utilisation') }}">Conditions d'utilisation</a></li>
+                <li><a href="{{ path('donnees_personnelles') }}">Données personnelles</a></li>
+                <li><a href="">Paramètre des cookies</a></li>
+                <li><a href="{{ path('accessibilite') }}">Accessibilité</a></li>
+                <li><a href="{{ path('security') }}">Centre de sécurité</a></li>
+            </ul>
+        </aside>
+
+    </div>
+</main>
+
+{% endblock %}

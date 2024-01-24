@@ -1217,7 +1217,7 @@ main.show-candidat .send-msg-btn a:hover {
     div.newsletter {
         border-top: 1px solid #ccc;
         border-bottom: 1px solid #ccc;
-        padding-block: 80px;
+        padding-block: 50px;
     }
 
     div.newsletter > div {

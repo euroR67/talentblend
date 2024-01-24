@@ -1,0 +1,159 @@
+main.liens {
+    background-color: #fff;
+}
+
+section.liens a {
+    color: rgb(0, 120, 140);
+}
+
+main.liens * p,
+section.liens * li {
+    text-align: justify;
+}
+
+section.liens {
+    padding: 5px;
+}
+
+main.liens aside {
+    display: none;
+}
+
+section.liens h2,
+section.liens h4 {
+    font-weight: 600;
+    font-size: 18px;
+    margin-block: 25px;
+}
+
+section.liens p,
+section.liens ul li{
+    color: #555555;
+    margin-block: 15px;
+}
+
+section.liens ul {
+    padding-left: 30px;
+}
+
+section.liens ul li {
+    list-style:disc;
+}
+
+section.liens > div:last-child {
+    margin-bottom: 50px;
+}
+
+.ariane {
+    padding-block: 80px;
+    padding-left: 10px;
+    background-image: url(../img/pic1.jpg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.ariane h1 {
+    font-weight: 500;
+    font-size: 32px;
+    margin-top: 15px;
+    color: #fff;
+}
+
+.file-ariane span {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.file-ariane a:hover {
+    color: #c5c5c5;
+}
+
+.file-ariane * {
+    transition: all 0.2s ease-in-out;
+    color: #fff;
+}
+
+section.liens .em{
+    margin-block: 20px;
+    color: black;
+    font-weight: 600;
+    text-align: unset;
+}
+
+@media screen and (min-width: 768px) {
+    main.liens .content-wrapper {
+        display: flex;
+    }
+
+    main.liens aside {
+        display: block;
+        width: 33.33%;
+        padding: 20px;
+        border: 1px solid #e5e5e5;
+        border-radius: 5px;
+        margin-left: 20px;
+        height: fit-content;
+        background-color: rgb(203, 231, 221);
+        margin-block: 30px;
+        position: sticky;
+        top: 30px;
+    }
+
+    main.liens aside ul li {
+        margin-block: 15px;
+        margin-left: -10px;
+    }
+
+    main.liens aside ul li a {
+        color: #3c3c3c;
+        transition: all 0.2s ease-in-out;
+    }
+
+    main.liens aside ul li a::before {
+        content: "➤";
+        visibility: hidden;
+        opacity: 0;
+        transition: all 0.2s ease-in-out;
+    }
+
+    main.liens aside ul li a:hover {
+        color: #6b6969;
+    }
+
+    main.liens aside ul li a:hover::before {
+        visibility: visible;
+        opacity: 1;
+        color: #6b6969;
+        margin-right: 5px;
+    }
+
+    main.liens aside h3 {
+        font-weight: 600;
+        font-size: 24px;
+        margin-block: 15px;
+    }
+
+    section.liens {
+        width: 66.67%;
+    }
+}
+
+@media screen and (min-width: 1250px) {
+    main.liens aside {
+        max-width: 25%;
+    }
+}
+
+@media screen and (min-width: 1440px){
+    
+    main.liens .content-wrapper {
+        max-width: 1340px;
+    }
+
+    .file-ariane {
+        max-width: 1340px;
+        margin: auto;
+    }
+}
