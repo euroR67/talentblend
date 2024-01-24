@@ -25,10 +25,28 @@
                         </div>
                     </div>
                     <div class="action-candidat">
-                        <a title="Télécharger le CV" href="{{ path('download_cv', {'userId': candidat.id}) }}"><i class="fa-regular fa-file-pdf"></i> Enregistrer sous PDF</a>
-                        <a href=""><i class="fa-regular fa-paper-plane"></i> Message</a>
+                        <a title="Modifier le profil" href="{{ path('app_candidat_edit', {'id': candidat.id}) }}" data-turbo="false"><i class="fa-regular fa-pen-to-square"></i> Modifier le profil</a>
+                        {# Si le profil du candidat est active #}
+                        {% if candidat.active %}
+                        <p class="active">Votre profil est visible pour les recruteurs</p>
+                        {% else %}
+                            <a href="{{ path('app_candidat_edit', {'id': candidat.id}) }}" data-turbo="false">Activer le profil</a>
+                            <p class="inactive">Votre profil n'est pas visible pour les recruteurs</p>
+                        {% endif %}
                     </div>
                 </div>
+
+                <style>
+                    .active {
+                        color: #00b894;
+                        font-weight: bold;
+                    }
+
+                    .inactive {
+                        color: #d63031;
+                        font-weight: bold;
+                    }
+                </style>
 
                 <div class="description-offre">
                     <h4>A propos de moi</h4>
@@ -98,9 +116,6 @@
                     <div class="info-item">
                         <p>Localisation</p>
                         <p>{{ candidat.ville }}</p>
-                    </div>
-                    <div class="send-msg-btn">
-                        <a href=""><i class="fa-regular fa-paper-plane"></i> Envoyer un message</a>
                     </div>
                 </div>
             </div>

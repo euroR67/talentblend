@@ -127,7 +127,7 @@
             <div class="choice">
                 {{ form_label(form.active, 'Activer mon profil') }}
                 {{ form_widget(form.active) }}
-                <a href="{{ path('app_show_profil', {'id': app.user.id })}}">Voir mon profil candidat</a>
+                <a href="{{ path('app_show_profil', {'id': app.user.id })}}" data-turbo="false">Voir mon profil candidat</a>
             </div>
 
             <div class="form-group">

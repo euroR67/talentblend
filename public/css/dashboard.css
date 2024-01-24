@@ -389,14 +389,12 @@ div.section-wrapper {
 
 div.custom-choice {
     display: flex;
-    gap: 10px;
     margin-top: 5px;
 }
 
 .custom-choice label {
     background-color: #e0e0e0;
     padding: 10px 30px;
-    border-radius: 5px;
     cursor: pointer;
     margin-bottom: 15px;
     text-align: center;
@@ -414,17 +412,37 @@ div.custom-choice {
     transition: all 0.3s ease;
 }
 
-.custom-choice input[type="radio"]:hover + label {
-    background-color: #DFEDE7;
-    color: #007456;
+.custom-choice input[type="radio"]:checked + label {
+    background: linear-gradient(to right, #007456, #00a3a3); /* Couleur pour l'option sélectionnée */
+    color: #fff;
     font-weight: 600;
 }
 
-.custom-choice input[type="radio"]:checked + label {
-    background-color: #DFEDE7; /* Couleur pour l'option sélectionnée */
-    color: #007456;
-    font-weight: 600;
+.custom-choice input[type="radio"]:checked + label:nth-of-type(2) {
+    background: linear-gradient(to right, #9b0202, #a30000);
+    color: white;
 }
+
+div.choice a {
+    padding: 10px 30px;
+    border-radius: 5px;
+    border: 1px solid #c7c7c7;
+    font-weight: 600;
+    font-size: 14px;
+    text-decoration: none;
+    cursor: pointer;
+    background: linear-gradient(to right, #007456, #00a3a3);
+    background-size: 200% 100%; /* Plus large que nécessaire */
+    transition: background-position 0.3s ease-in-out, color 0.3s ease-in-out;
+    color: #fff;
+    display: inline-block;
+    margin-top: 15px;
+}
+
+div.choice a:hover {
+    background-position: right center; /* Changement de la position du gradient lors du survol */
+}
+
 
 .form-check-input {
     accent-color: #007456;
