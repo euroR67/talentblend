@@ -15,7 +15,7 @@
     </ul>
     
     {{ form_errors(form) }}
-    {{ form_start(form) }}
+    {{ form_start(form, {'attr': {'data-turbo': 'false'}}) }}
     <div class="section-wrapper">
         
         <div class="profil">
@@ -164,11 +164,11 @@
                     <div class='form-group'>
                         <div>
                             <label for='candidat_formations___name___dateDebut'>Date de début</label>
-                            <input type='text' id='candidat_formations___name___dateDebut' name='candidat[formations][__name__][dateDebut]' required='required' class='form-control'>
+                            <input type='date' id='candidat_formations___name___dateDebut' name='candidat[formations][__name__][dateDebut]' required='required' class='form-control'>
                         </div>
                         <div>
                             <label for='candidat_formations___name___dateFin'>Date de fin</label>
-                            <input type='text' id='candidat_formations___name___dateFin' name='candidat[formations][__name__][dateFin]' required='required' class='form-control'>
+                            <input type='date' id='candidat_formations___name___dateFin' name='candidat[formations][__name__][dateFin]' required='required' class='form-control'>
                         </div>
                     </div>
                     <div class='form-group'>
@@ -317,6 +317,7 @@
 
 {# Script qui gère le collectiontype #}
 <script>
+    document.addEventListener('turbo:load', function() {
     // Ajouter un lien de suppression à toutes les formations
     const addFormationFormDeleteLink = (formation) => {
         const removeButton = document.createElement('button');
@@ -351,7 +352,7 @@
             updateExperienceIndices();
             document.querySelector('.experiences').dataset.index--;
         });
-    
+
         const dropdownFx = experience.querySelector('.dropdown-fx span');
         if (dropdownFx) {
             dropdownFx.prepend(removeButton);
@@ -441,6 +442,7 @@
     .querySelectorAll('div.experiences .formfield')
     .forEach((experience, index) => {
         addExperienceFormDeleteLink(experience);
+    });
     });
 </script>
 <script>

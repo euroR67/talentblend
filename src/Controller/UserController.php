@@ -79,7 +79,7 @@ class UserController extends AbstractController
             }
 
             // Hasher et mettre à jour le mot de passe
-            $newPassword = $form->get('newPassword')->getData();
+            $newPassword = $form->get('plainPassword')->getData();
             $hashedPassword = $passwordHasher->hashPassword($user, $newPassword);
             $user->setPassword($hashedPassword);
 
