@@ -1,12 +1,66 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Reset your password{% endblock %}
+{% block title %}Réinitialisation du mot de passe{% endblock %}
 
 {% block body %}
-    <h1>Reset your password</h1>
+<div class="container mt-4">
+    <div class="wrapper">
+        
+        {{ form_start(resetForm) }}
+        <h2>Réinitialisation du mot de passe</h2>
+        <div class="form-group">
+            <div>
+                <label for="inputPassword">Mot de passe</label>
+                {{ form_widget(resetForm.plainPassword.first, {'attr': {'class': 'form-control', 'placeholder': 'Entrer un mot de passe', 'type': 'password'}, 'id': 'inputPassword'}) }}
+            </div>
+            <div>
+                <label for="inputConfirmPassword">Confirmer le mot de passe</label>
+                {{ form_widget(resetForm.plainPassword.second, {'attr': {'class': 'form-control', 'placeholder': 'Confirmer le mot de passe', 'type': 'password'}, 'id': 'inputConfirmPassword'}) }}
+            </div>
+        </div>
+        <div>
+            {{ form_errors(resetForm.plainPassword.first, {'attr': {'class': 'form-control'}}) }}
+        </div>
+            <button class="btn btn-primary">Réinitialiser</button>
+        {{ form_end(resetForm) }}
+    </div>
+</div>
+<script>
+    // Sélectionnez les champs de mot de passe
+    var passwordField = document.getElementById('inputPassword');
+    var confirmPasswordField = document.getElementById('inputConfirmPassword');
 
-    {{ form_start(resetForm) }}
-        {{ form_row(resetForm.plainPassword) }}
-        <button class="btn btn-primary">Reset password</button>
-    {{ form_end(resetForm) }}
+    // Créez des éléments pour afficher la force du mot de passe
+    var passwordStrengthMessage = document.createElement('p');
+    var confirmPasswordStrengthMessage = document.createElement('p');
+
+    // Ajoutez les messages de force du mot de passe sous les champs de mot de passe
+    passwordField.parentNode.appendChild(passwordStrengthMessage);
+    confirmPasswordField.parentNode.appendChild(confirmPasswordStrengthMessage);
+
+    // Définissez l'expression régulière pour la validation du mot de passe
+    var strongPasswordRegex = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{12,}$/;
+    var mediumPasswordRegex = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$/;
+
+    // Ajoutez un écouteur d'événement 'keyup' pour chaque champ de mot de passe
+    passwordField.addEventListener('keyup', validatePassword);
+    confirmPasswordField.addEventListener('keyup', validatePassword);
+
+    function validatePassword(event) {
+        // Vérifiez si le mot de passe correspond à l'expression régulière
+        if (strongPasswordRegex.test(event.target.value)) {
+            // Si le mot de passe est fort, changez la couleur de la bordure du champ en vert et affichez un message
+            event.target.style.borderColor = 'green';
+            event.target.nextSibling.textContent = 'Mot de passe fort';
+        } else if (mediumPasswordRegex.test(event.target.value)) {
+            // Si le mot de passe est moyen, changez la couleur de la bordure du champ en orange et affichez un message
+            event.target.style.borderColor = 'orange';
+            event.target.nextSibling.textContent = 'Mot de passe moyen';
+        } else {
+            // Si le mot de passe est faible, changez la couleur de la bordure du champ en rouge et affichez un message
+            event.target.style.borderColor = 'red';
+            event.target.nextSibling.textContent = 'Mot de passe faible';
+        }
+    }
+</script>
 {% endblock %}

@@ -49,7 +49,7 @@
 
                 <div class="form-check">
                     {{ form_widget(registrationForm.agreeTerms, {'attr': {'class': 'form-check-input'}}) }}
-                    <label class="form-check-label" for="{{ registrationForm.agreeTerms.vars.id }}">J’accepte les <a href="">termes d’utilisateurs</a> et la <a href="">politique de confidentialité</a></label>
+                    <label class="form-check-label" for="{{ registrationForm.agreeTerms.vars.id }}">J’accepte les <a href="{{ path('conditions_utilisation') }}">termes d’utilisation</a> et la <a href="{{ path('donnees_personnelles') }}">politique de confidentialité</a></label>
                 </div><br>
 
                 <button class="btn btn-lg btn-primary" type="submit">Inscription</button>
