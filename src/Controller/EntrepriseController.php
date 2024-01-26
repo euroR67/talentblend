@@ -82,6 +82,20 @@ class EntrepriseController extends AbstractController
 
             $kbis = $form->get('kbis')->getData();
 
+            $website = $form->get('website')->getData();
+
+            // Si le champ website contient http:// ou https:// on le supprime
+            if(strpos($website, 'http://') !== false) {
+                $website = str_replace('http://', '', $website);
+            } elseif(strpos($website, 'https://') !== false) {
+                $website = str_replace('https://', '', $website);
+            }
+
+            // Si le champ website n'est pas vide on ajoute le https:// devant
+            if($website) {
+                $entreprise->setWebsite('https://'.$website);
+            }
+
             // this condition is needed because the 'photo' field is not required
             // so the file must be processed only when a file is uploaded
             if($logo) {

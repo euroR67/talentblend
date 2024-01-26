@@ -921,7 +921,7 @@ div.motif div a:hover {
 
     main aside.nav-aside {
         background-color: #fff;
-        width: 226px;
+        width: 230px;
         height: 100vh;
         padding: 20px;
         border-right: 1px solid #E8E8E8;
@@ -941,7 +941,7 @@ div.motif div a:hover {
         display: flex;
         flex-direction: column;
         width: 100%;
-        padding-left: 226px;
+        padding-left: 230px;
     }
     
     aside.nav-aside nav ul {

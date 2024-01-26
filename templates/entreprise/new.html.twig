@@ -6,7 +6,24 @@
     <div class="wrapper">
         <div class="section-wrapper">
             <h2>Ajouter une entreprise</h2>
-            {{form(form)}}
+            {{form_start(form)}}
+            <div class="form-group">
+                <div class="input-group">
+                    <span class="input-group-text" id="basic-addon">https://</span>
+                    {{ form_widget(
+                        form.website,
+                        {
+                            'attr': {
+                                'class': 'form-control',
+                                'placeholder': 'www.exemple.com',
+                                'aria-describedby': 'basic-addon'
+                            }
+                        }
+                    ) }}
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Ajouter</button>
+            {{form_end(form)}}
         </div>
     </div>
 {% endblock %}

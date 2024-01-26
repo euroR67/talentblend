@@ -224,9 +224,9 @@
                 <div>
                     <div class="mt4">
                         <ul>
-                            <li><a href="{{ path('app_home')}}" data-turbo="false">Accueil</a></li>
+                            <li><a href="{{ path('app_home')}}" data-turbo="false">Offres d'emploi</a></li>
                             <li><a href="{{ path('app_categories')}}" data-turbo="false">Catégories</a></li>
-                            <li><a href="">Offres d'emploi</a></li>
+                            <li><a href="#" data-turbo="false">Entreprises</a></li>
                             {% if not app.user %}
                                 <li><a href="{{ path('app_register') }}" data-turbo="false">Déposer mon CV</a></li>
                             {% endif %}

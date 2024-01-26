@@ -5,7 +5,7 @@
 {% block body %}
     <div class="container mt-4">
         <div class="wrapper">
-            <form method="post">
+            <form method="post" data-turbo="false">
                 {{ form_start(registrationForm) }}
                 {{ form_errors(registrationForm) }}
                 
@@ -17,35 +17,60 @@
 
                 <div class="form-group">
                     <div>
-                        <label for="inputEmail">Adresse email</label>
-                        {{ form_widget(registrationForm.email, {'attr': {'class': 'form-control', 'placeholder': 'exemple@gmail.com'}, 'id': 'inputEmail'}) }}
+                        {{ form_label(registrationForm.email, 'Adresse email') }}
+                        {{ form_widget(registrationForm.email, {'attr': {'class': 'form-control', 'placeholder': 'exemple@gmail.com'}}) }}
+                    </div>
+                </div>
+
+                {% if form_errors(registrationForm.email) %}
+                    <ul>
+                        <li class="form-error-message"><i class="fa-solid fa-triangle-exclamation"></i> {{ form_errors(registrationForm.email) }}</li>
+                    </ul>
+                {% endif %}
+
+                <div class="form-group">
+                    <div>
+                        {{ form_label(registrationForm.nom, 'Nom') }}
+                        {{ form_widget(registrationForm.nom, {'attr': {'class': 'form-control', 'placeholder': 'Doe'}}) }}
+                    </div>
+                    <div>
+                        {{ form_label(registrationForm.prenom, 'Prénom') }}
+                        {{ form_widget(registrationForm.prenom, {'attr': {'class': 'form-control', 'placeholder': 'John'}}) }}
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <div>
-                        <label for="inputNom">Nom</label>
-                        {{ form_widget(registrationForm.nom, {'attr': {'class': 'form-control', 'placeholder': 'Doe'}, 'id': 'inputNom'}) }}
-                    </div>
-                    <div>
-                        <label for="inputPrenom">Prénom</label>
-                        {{ form_widget(registrationForm.prenom, {'attr': {'class': 'form-control', 'placeholder': 'John'}, 'id': 'inputPrenom'}) }}
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <div>
+                    <div class="password-input-box">
                         <label for="inputPassword">Mot de passe</label>
-                        {{ form_widget(registrationForm.plainPassword.first, {'attr': {'class': 'form-control', 'placeholder': 'Entrer un mot de passe', 'type': 'password'}, 'id': 'inputPassword'}) }}
+                        {{ form_widget(registrationForm.plainPassword.first, {'attr': {'class': 'password-input form-control', 'placeholder': 'Entrer un mot de passe', 'type': 'password'}, 'id': 'inputPassword', 'onpaste': 'return false;'}) }}
+                        <i class="fa-solid fa-eye show-password"></i>
+                
+                        <div class="password-checklist">
+                            <h3 class="checklist-title">Le mot de passe doit contenir</h3>
+                
+                            <ul class="checklist">
+                                <li class="list-item">Au moins 8 caractères</li>
+                                <li class="list-item">Au moins 1 chiffre</li>
+                                <li class="list-item">Au moins 1 lettre minuscule</li>
+                                <li class="list-item">Au moins 1 lettre majuscule</li>
+                                <li class="list-item">Au moins 1 caractère spécial</li>
+                            </ul>
+                        </div>
                     </div>
                     <div>
                         <label for="inputConfirmPassword">Confirmer le mot de passe</label>
-                        {{ form_widget(registrationForm.plainPassword.second, {'attr': {'class': 'form-control', 'placeholder': 'Confirmer le mot de passe', 'type': 'password'}, 'id': 'inputConfirmPassword'}) }}
+                        <div class="password-input-box">
+                            {{ form_widget(registrationForm.plainPassword.second, {'attr': {'class': 'password-input form-control', 'placeholder': 'Confirmer le mot de passe', 'type': 'password'}, 'id': 'inputConfirmPassword', 'onpaste': 'return false;'}) }}
+                            <i class="fa-solid fa-eye show-password"></i>
+                        </div>
                     </div>
                 </div>
-                <div>
-                    {{ form_errors(registrationForm.plainPassword.first, {'attr': {'class': 'form-control'}}) }}
-                </div>
+
+                {% if form_errors(registrationForm.plainPassword.first) %}
+                    <ul>
+                        <li class="form-error-message"><i class="fa-solid fa-triangle-exclamation"></i> {{ form_errors(registrationForm.plainPassword.first) }}</li>
+                    </ul>
+                {% endif %}
 
                 <div class="form-check">
                     {{ form_widget(registrationForm.agreeTerms, {'attr': {'class': 'form-check-input'}}) }}
@@ -61,41 +86,52 @@
         </div>
     </div>
     <script>
-        // Sélectionnez les champs de mot de passe
-        var passwordField = document.getElementById('inputPassword');
-        var confirmPasswordField = document.getElementById('inputConfirmPassword');
+        document.addEventListener('DOMContentLoaded', function () {
+            var passwordInput = document.getElementById('inputPassword');
+            var confirmPasswordInput = document.getElementById('inputConfirmPassword');
     
-        // Créez des éléments pour afficher la force du mot de passe
-        var passwordStrengthMessage = document.createElement('p');
-        var confirmPasswordStrengthMessage = document.createElement('p');
-    
-        // Ajoutez les messages de force du mot de passe sous les champs de mot de passe
-        passwordField.parentNode.appendChild(passwordStrengthMessage);
-        confirmPasswordField.parentNode.appendChild(confirmPasswordStrengthMessage);
-    
-        // Définissez l'expression régulière pour la validation du mot de passe
-        var strongPasswordRegex = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{12,}$/;
-        var mediumPasswordRegex = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$/;
-    
-        // Ajoutez un écouteur d'événement 'keyup' pour chaque champ de mot de passe
-        passwordField.addEventListener('keyup', validatePassword);
-        confirmPasswordField.addEventListener('keyup', validatePassword);
-    
-        function validatePassword(event) {
-            // Vérifiez si le mot de passe correspond à l'expression régulière
-            if (strongPasswordRegex.test(event.target.value)) {
-                // Si le mot de passe est fort, changez la couleur de la bordure du champ en vert et affichez un message
-                event.target.style.borderColor = 'green';
-                event.target.nextSibling.textContent = 'Mot de passe fort';
-            } else if (mediumPasswordRegex.test(event.target.value)) {
-                // Si le mot de passe est moyen, changez la couleur de la bordure du champ en orange et affichez un message
-                event.target.style.borderColor = 'orange';
-                event.target.nextSibling.textContent = 'Mot de passe moyen';
-            } else {
-                // Si le mot de passe est faible, changez la couleur de la bordure du champ en rouge et affichez un message
-                event.target.style.borderColor = 'red';
-                event.target.nextSibling.textContent = 'Mot de passe faible';
+            function preventPaste(event) {
+                event.preventDefault();
             }
-        }
+    
+            passwordInput.addEventListener('paste', preventPaste);
+            confirmPasswordInput.addEventListener('paste', preventPaste);
+        });
+    </script>
+    <script>
+        let showPasswordBtns = document.querySelectorAll(".show-password");
+        let passwordInputs = document.querySelectorAll(".password-input");
+        let passwordChecklists = document.querySelectorAll(".list-item");
+        
+        showPasswordBtns.forEach((btn, index) => {
+            btn.addEventListener("click", () => {
+                btn.classList.toggle("fa-eye");
+                btn.classList.toggle("fa-eye-slash");
+        
+                passwordInputs[index].type = passwordInputs[index].type === "password" ? "text" : "password";
+            });
+        });
+        
+        let validationRegex = [
+            { regex: /.{8,}/ },
+            { regex: /[0-9]/ },
+            { regex: /[a-z]/ },
+            { regex: /[A-Z]/ },
+            { regex: /[^A-Za-z0-9]/ }
+        ];
+        
+        passwordInputs.forEach((input, index) => {
+            input.addEventListener("keyup", () => {
+                validationRegex.forEach((item, i) => {
+                    let isValid = item.regex.test(input.value);
+        
+                    if (isValid) {
+                        passwordChecklists[i].classList.add("checked");
+                    } else {
+                        passwordChecklists[i].classList.remove("checked");
+                    }
+                });
+            });
+        });
     </script>
 {% endblock %}
