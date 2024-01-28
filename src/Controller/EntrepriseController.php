@@ -218,19 +218,22 @@ class EntrepriseController extends AbstractController
         }
         $entityManager->remove($entreprise);
 
-        // Suppression du logo du serveur
-        if($entreprise->getLogo()) {
-            unlink($this->getParameter('logo_directory').'/'.$entreprise->getLogo());
+        // Suppression du logo du serveur si il existe
+        $logoPath = $this->getParameter('logo_directory').'/'.$entreprise->getLogo();
+        if($entreprise->getLogo() && file_exists($logoPath)) {
+            unlink($logoPath);
         }
 
-        // Suppression de la banniere du serveur
-        if($entreprise->getBanniere()) {
-            unlink($this->getParameter('logo_directory').'/'.$entreprise->getBanniere());
+        // Suppression de la banniere du serveur si elle existe
+        $bannierePath = $this->getParameter('logo_directory').'/'.$entreprise->getBanniere();
+        if($entreprise->getBanniere() && file_exists($bannierePath)) {
+            unlink($bannierePath);
         }
 
-        // Suppression du KBIS du serveur
-        if($entreprise->getKbis()) {
-            unlink($this->getParameter('kbis_directory').'/'.$entreprise->getKbis());
+        // Suppression du KBIS du serveur si il existe
+        $kbisPath = $this->getParameter('kbis_directory').'/'.$entreprise->getKbis();
+        if($entreprise->getKbis() && file_exists($kbisPath)) {
+            unlink($kbisPath);
         }
 
         $entityManager->flush();

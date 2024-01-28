@@ -62,6 +62,28 @@ class CandidatController extends AbstractController
             $prenom = $form->get('prenom')->getData();
             $niveau = $form->get('niveau')->getData();
             $description = $form->get('description')->getData();
+            $formations = $form->get('formations')->getData();
+            $experiences = $form->get('experiences')->getData();
+
+            // Si la date de fin de formation est inférieur à la date de début
+            foreach($formations as $formation) {
+                if($formation->getDateFin() < $formation->getDateDebut()) {
+                    // Gestion de l'erreur
+                    $this->addFlash('error', "La date de fin de la formation ".$formation->getTitre()." ne peut pas être inférieur à la date de début");
+                    // Redirection
+                    return $this->redirectToRoute('app_candidat_edit', ['id' => $user->getId()]);
+                }
+            }
+            
+            // Si la date de fin d'expérience est inférieur à la date de début
+            foreach($experiences as $experience) {
+                if($experience->getDateFin() < $experience->getDateDebut()) {
+                    // Gestion de l'erreur
+                    $this->addFlash('error', "La date de fin de l'expérience ".$experience->getTitre()." ne peut pas être inférieur à la date de début");
+                    // Redirection
+                    return $this->redirectToRoute('app_candidat_edit', ['id' => $user->getId()]);
+                }
+            }
 
             if($deletePhoto) {
                 // Suppression de l'ancienne photo du serveur

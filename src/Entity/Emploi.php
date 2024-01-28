@@ -39,7 +39,7 @@ class Emploi
     #[ORM\JoinColumn(nullable: false)]
     private ?Contrat $contrats = null;
 
-    #[ORM\OneToMany(mappedBy: 'emploi', targetEntity: Postule::class)]
+    #[ORM\OneToMany(mappedBy: 'emploi', targetEntity: 'Postule', orphanRemoval: true)]
     private Collection $postulations;
 
     #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'emploiSauvegarder')]

@@ -1591,6 +1591,7 @@ main.show-candidat .send-msg-btn a:hover {
 
     div.left-side {
         max-width: calc(100% - 400px);
+        min-width: 830px;
     }
 
     div.mobile-footerstyle {

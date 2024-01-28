@@ -565,6 +565,12 @@ form.search-form-modal button.submit-search:hover {
     }
 }
 
+@media screen and (min-width: 1000px) {
+    .container.mt-4 {
+        padding: 40px;
+    }
+}
+
 @media screen and (min-width: 1092px) {
     /* formulaire de recherche */
     div.bg .search-form-homepage {

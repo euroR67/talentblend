@@ -22,6 +22,16 @@
                 <p>L'entreprise n'a pas encore été refusé</p>
             {% endif %}
         </div>
+        <br>
+        <div class="entreprise-info">
+            <p>{{ entreprise.raisonSocial }}</p>
+            <p>{{ entreprise.secteur }}</p>
+            <p>{{ entreprise.website }}</p>
+            <p>{{ entreprise.ville }}</p>
+            <p>{{ entreprise.tailles }}</p>
+            <p>{{ entreprise.description }}</p>
+            <p>{{ entreprise.dateCreation|date("Y") }}</p>
+        </div>
     </div>
 </div>
 {% endblock %}

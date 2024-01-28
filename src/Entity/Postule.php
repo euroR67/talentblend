@@ -23,7 +23,7 @@ class Postule
     #[ORM\ManyToOne(inversedBy: 'postulations')]
     private ?User $userPostulant = null;
 
-    #[ORM\ManyToOne(inversedBy: 'postulations')]
+    #[ORM\ManyToOne(inversedBy: 'postulations', cascade: ['remove'])]
     private ?Emploi $emploi = null;
 
     public function getId(): ?int

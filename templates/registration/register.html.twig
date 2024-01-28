@@ -3,7 +3,7 @@
 {% block title %}Inscription{% endblock %}
 
 {% block body %}
-    <div class="container mt-4">
+    <div class="container mt-4 register">
         <div class="wrapper">
             <form method="post" data-turbo="false">
                 {{ form_start(registrationForm) }}
@@ -11,6 +11,8 @@
                 
                 <h2>Créer un compte gratuitement</h2>
                 
+                <h3 style="text-align: center; opacity: 0.7;">Inscription en tant que :</h3><br>
+
                 <div class="choice">
                     {{ form_widget(registrationForm.role, {'id': 'inputRole'}) }}
                 </div>
