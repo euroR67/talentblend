@@ -16,6 +16,17 @@ body {
 
 /* Menu navigation */
 
+.notif-number-dash {
+    background-color: #d80101;
+    color: #fff!important;
+    border-radius: 50%;
+    padding: 2px 7px;
+    font-size: 12px;
+    font-weight: 500;
+    transition: all 0.2s ease-in-out;
+    cursor: pointer;
+}
+
 nav.dash-submenu-dash {
     margin-left: 10px;
     display: grid;

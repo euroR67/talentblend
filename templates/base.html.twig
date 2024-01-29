@@ -86,7 +86,23 @@
                         <i class="fa-solid fa-bars" data-action="click->menu#openMenu" style="color: #007456; cursor: pointer;"></i>
                         <a href="{{ path('app_home') }}"><img class="logo" src="{{ asset('img/logo.png') }}" alt="logo"></a>
                     </li>
-                    <li><i class="fa-solid fa-magnifying-glass" style="color: #5d5d5d; cursor: pointer;" data-action="click->search#open"></i></li>
+                    <li class="notif">
+                        <div class="notification">
+                            <i class="fa-regular fa-bell"></i>
+                            {% set unreadMessagesCount = app.user.countAllUnreadMessages %}
+                            {% if unreadMessagesCount > 0 %}
+                                <span class="notif-number">{{ unreadMessagesCount }}</span>
+                                <div class="show-unread">
+                                    <article>
+                                        <i class="fa-regular fa-message"></i>
+                                        <p>Vous avez <strong>{{ unreadMessagesCount }}</strong> nouveaux messages</p>
+                                    </article>
+                                    <a href="{{ path('app_discussions') }}">Voir les messages</a>
+                                </div>
+                            {% endif %}
+                        </div>
+                        <i class="fa-solid fa-magnifying-glass" style="color: #5d5d5d; cursor: pointer;" data-action="click->search#open"></i>
+                    </li>
                 </ul>
             </nav>
             <nav class="slide-menu" data-menu-target="slideMenu">
@@ -179,7 +195,7 @@
                     {% else %}
                     {{ render(controller('App\\Controller\\FormController::searchForm', {'isHomePage': false}, {'isHomePage': false})) }}
                     {% endif %}
-                    <li>
+                    <li class="notif">
                         {% if not app.user %}
                             <span class="auth-public">
                                 <a href="{{ path('app_register') }}">Inscription</a>
@@ -187,6 +203,20 @@
                             </span>
                         {% endif %}
                         {% if app.user %}
+                            <div class="notification">
+                                <i class="fa-regular fa-bell"></i>
+                                {% set unreadMessagesCount = app.user.countAllUnreadMessages %}
+                                {% if unreadMessagesCount > 0 %}
+                                    <span class="notif-number">{{ unreadMessagesCount }}</span>
+                                    <div class="show-unread">
+                                        <article>
+                                            <i class="fa-regular fa-message"></i>
+                                            <p>Vous avez <strong>{{ unreadMessagesCount }}</strong> nouveaux messages</p>
+                                        </article>
+                                        <a href="{{ path('app_discussions') }}">Voir les messages</a>
+                                    </div>
+                                {% endif %}
+                            </div>
                             <span class="authentified">
                                 {% if app.user.photo %}
                                         <img src="{{ asset('pdp/' ~ app.user.photo) }}" alt="avatar">
@@ -225,6 +255,7 @@
                 <div>
                     <div class="mt4">
                         <ul>
+                            <li><a href="{{ path('app_error404') }}">Error 404</a></li>
                             <li><a href="{{ path('app_home')}}" data-turbo="false">Offres d'emploi</a></li>
                             <li><a href="{{ path('app_categories')}}" data-turbo="false">Catégories</a></li>
                             <li><a href="#" data-turbo="false">Entreprises</a></li>
@@ -299,21 +330,6 @@
 
         {% block body %}{% endblock %}
 
-        <div class="newsletter">
-            <div>
-                <div class="news-head">
-                    <img src="{{ asset('img/newsletter.png')}}" alt="">
-                    <div>
-                        <h3>Abonnez-vous à notre newsletter</h3>
-                        <p>Nous vous enverrons les dernières offres d'emploi correspondant à vos critères</p>
-                    </div>
-                </div>
-                <form action="">
-                    <input type="email" placeholder="Votre adresse email">
-                    <button type="submit" class="abonner">S'abonner</button>
-                </form>
-            </div>
-        </div>
         <footer>
             <div class="footer-container">
                 <div class="about-us">
@@ -375,5 +391,26 @@
             </div>
         </footer>
         <script src="{{asset('js/likeEmploi.js')}}"></script>
+        <script>
+            document.addEventListener('turbo:load', function() {
+                const openWindow = document.querySelector('.fa-bell');
+                const window = document.querySelector('.show-unread');
+
+                openWindow.addEventListener('click', function() {
+                    window.classList.toggle('active');
+                })
+                
+                // Fermer la fenêtre de notification en cliquant en dehors
+                document.addEventListener('click', function(e) {
+                    if (e.target != openWindow) {
+                        window.classList.remove('active');
+                    }
+                })
+
+                window.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                })
+            })
+        </script>
     </body>
 </html>

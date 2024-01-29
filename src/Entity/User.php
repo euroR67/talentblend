@@ -140,6 +140,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $count;
     }
 
+    // Fonction countAllUnreadMessages() qui compte tous les messages non lus
+    public function countAllUnreadMessages(): int
+    {
+        $count = 0;
+        foreach ($this->getReceivedMessages() as $message) {
+            if (!$message->isIsRead()) {
+                $count++;
+            }
+        }
+
+        return $count;
+    }
+
     public function getEmail(): ?string
     {
         return $this->email;

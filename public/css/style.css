@@ -1198,6 +1198,61 @@ main.show-candidat .send-msg-btn a:hover {
     visibility: visible;
 }
 
+/* Page d'erreur 404 */
+
+.error-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 50vh;
+    text-align: center;
+    background-color: #d1e5e0;
+}
+
+.content-wrapper {
+    animation: fadeIn 1s;
+}
+
+.error-number {
+    font-size: 6em;
+    animation: blink 1s steps(5, start) infinite;
+    color: #007456;
+}
+
+.error-text {
+    font-size: 2em;
+}
+
+.instruction {
+    margin-top: 10Px;
+}
+
+.btn-primary {
+    background-color: #007456;
+    border-color: #007456;
+    color: #fff;
+    padding: 15px 30px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+    margin-top: 30px;
+    display: inline-block;
+    width: fit-content;
+}
+
+.btn-primary:hover {
+    background-color: #01543e;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes blink {
+    to { visibility: hidden; }
+}
+
+/* Fin page d'erreur 404 */
 
 @media screen and (min-width: 480px) {
     main.show div.entreprise-banniere img {

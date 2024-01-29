@@ -416,6 +416,95 @@ li.desk-categorie:hover {
     cursor: pointer;
 }
 
+.notif {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.notification {
+    position: relative;
+}
+
+.notification .fa-bell {
+    font-size: 22px;
+    color: #4F4F4F;
+    transition: all 0.2s ease-in-out;
+    cursor: pointer;
+}
+
+.notification .fa-bell:hover {
+    animation: cloche 0.3s ease-in-out;
+    animation-iteration-count: 2;
+    transform-origin: center top;
+}
+
+.notif-number {
+    background-color: #d80101;
+    color: #fff;
+    border-radius: 50%;
+    padding: 2px 6px;
+    font-size: 12px;
+    font-weight: 500;
+    transition: all 0.2s ease-in-out;
+    position: absolute;
+    top: -5px;
+    right: -8px;
+    cursor: pointer;
+}
+
+.show-unread {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    width: 250px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    padding: 10px;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.4s ease, visibility 0.4s ease, pointer-events 0.3s; /* Ajouter une transition à l'opacity, à la visibility et aux pointer-events */
+    z-index: 10;
+}
+
+.show-unread.active {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto; /* Réactiver les événements de pointeur lorsque visible */
+}
+
+.show-unread article {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.show-unread article i {
+    font-size: 20px;
+    color: #007456;
+}
+
+.show-unread a {
+    color: #007456;
+    padding: 10px 15px;
+    display: inline-block;
+    font-weight: 500;
+}
+
+@keyframes cloche {
+    0% {
+        transform: rotate(0deg);
+    }
+    50% {
+        transform: rotate(10deg);
+    }
+    100% {
+        transform: rotate(0deg);
+    }
+}
+
 span.authentified {
     display: flex;
     align-items: center;

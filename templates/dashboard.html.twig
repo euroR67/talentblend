@@ -147,18 +147,19 @@
                 <nav class="dash-submenu-dash">
                     <span>Tableau de bord</span>
                     <ul>
+                        {% set unreadMessagesCount = app.user.countAllUnreadMessages %}
                         {% if is_granted('ROLE_RECRUTEUR') %}
                         <li><a href="{{ path('app_emplois') }}" data-turbo="false"><i class="fa-solid fa-gauge"></i> Tableau de bord</a></li>
                         <li><a href="{{ path('app_emplois') }}" data-turbo="false"><i class="fa-solid fa-briefcase"></i> Emplois</a></li>
                         <li><a href="{{ path('app_candidatures_recu') }}" data-turbo="false"><i class="fa-solid fa-list"></i> Candidatures</a></li>
                         <li><a href="{{ path('app_entreprises') }}" data-turbo="false"><i class="fa-solid fa-building-shield"></i> Entreprise</a></li>
-                        <li><a href="{{ path('app_discussions')}}" data-turbo="false"><i class="fa-regular fa-message"></i> Messages</a></li>
+                        <li><a href="{{ path('app_discussions')}}" data-turbo="false"><i class="fa-regular fa-message"></i> Messages <span class="notif-number-dash">{{ unreadMessagesCount }}</span></a></li>
                         <li><a href="{{ path('app_edit_password') }}" data-turbo="false"><i class="fa-solid fa-gear"></i> Paramètre</a></li>
                         {% endif %}
                         {% if is_granted('ROLE_CANDIDAT') %}
                         <li><a href="{{ path('app_candidat_edit', {'id': app.user.id}) }}" data-turbo="false"><i class="fa-solid fa-user"></i> Profil</a></li>
                         <li><a href="{{ path('app_candidatures') }}" data-turbo="false"><i class="fa-solid fa-list-check"></i> Candidatures</a></li>
-                        <li><a href="{{ path('app_discussions')}}" data-turbo="false"><i class="fa-regular fa-message"></i> Messages</a></li>
+                        <li><a href="{{ path('app_discussions')}}" data-turbo="false"><i class="fa-regular fa-message"></i> Messages <span class="notif-number-dash">{{ unreadMessagesCount }}</span></a></li>
                         <li><a href="{{ path('app_edit_password') }}" data-turbo="false"><i class="fa-solid fa-gear"></i> Paramètre</a></li>
                         {% endif %}
                         {% if is_granted('ROLE_ADMIN') %}

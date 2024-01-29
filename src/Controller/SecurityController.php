@@ -29,4 +29,11 @@ class SecurityController extends AbstractController
     {
         throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
     }
+
+    // Fonction qui renvoi vers une page d'erreur 404 not found
+    #[Route(path: '/error404', name: 'app_error404')]
+    public function error404(): Response
+    {
+        return $this->render('error404.html.twig');
+    }
 }
