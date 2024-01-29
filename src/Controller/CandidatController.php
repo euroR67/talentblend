@@ -64,6 +64,9 @@ class CandidatController extends AbstractController
             $description = $form->get('description')->getData();
             $formations = $form->get('formations')->getData();
             $experiences = $form->get('experiences')->getData();
+            $typesEmploi = $form->get('typesEmploi')->getData();
+            $contrats = $form->get('contrats')->getData();
+            
 
             // Si la date de fin de formation est inférieur à la date de début
             foreach($formations as $formation) {
@@ -168,18 +171,20 @@ class CandidatController extends AbstractController
                 // instead of its contents
                 $user->setCv($newFilename);
             }
-
+            
             // Vérifie si l'utilisateur a coché l'activation du profil
             if($active) {
                 
                 // Vérifie si les champs obligatoires sont renseignés
                 if( $langues->count() === 0
                 || empty($user->getCv())
-                || empty($ville) 
-                || empty($metier) 
-                || empty($nom) 
-                || empty($prenom) 
-                || empty($niveau) 
+                || empty($ville)
+                || empty($metier)
+                || empty($nom)
+                || empty($prenom)
+                || empty($niveau)
+                || $contrats->count() === 0
+                || $typesEmploi->count() === 0
                 || empty($description)) {
                     // Champ obligatoire non renseigné, gestion de l'erreur
                     $this->addFlash('error', "Veuillez renseigner tous les champs afin d'activer votre profil (la photo de profil n'est pas obligatoire)");
@@ -189,6 +194,10 @@ class CandidatController extends AbstractController
             }
 
             $entityManager->flush();
+
+            // Message de succès
+            $this->addFlash('success', 'Profil mis à jour avec succès.');
+
             return $this->redirectToRoute('app_candidat_edit', ['id' => $user->getId()]);
         }
         

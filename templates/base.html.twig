@@ -67,6 +67,7 @@
             <link rel="stylesheet" href="{{asset('css/footer.css')}}">
             <link rel="stylesheet" href="{{asset('css/paginator.css')}}">
             <link rel="stylesheet" href="{{asset('css/liens-utiles.css')}}">
+            <link rel="stylesheet" href="{{asset('css/flash.css')}}">
             {{ ux_controller_link_tags() }}
         {% endblock %}
         {% block javascripts %}
@@ -262,12 +263,17 @@
         {% set errorFlashes = app.flashes('error') %}
         {% if errorFlashes is not empty %}
             <div class="alert-danger">
-                {{ errorFlashes[0] }}
+                <i class="fa-solid fa-triangle-exclamation"></i>
+                <p><strong>{{ errorFlashes[0] }}</strong></p>
             </div>
-            {# Masquer le message après 6 secondes (6 seconde) #}
+            {# Masquer le message après 6 secondes #}
             <script>
+                var errorAlert = document.querySelector('.alert-danger');
                 setTimeout(function() {
-                    document.querySelector('.alert-danger').style.display = 'none';
+                    errorAlert.classList.add('slideToTop');
+                    setTimeout(function() {
+                        errorAlert.style.display = 'none';
+                    }, 600);
                 }, 6000); // Masquer le message après 6 secondes (6000 millisecondes)
             </script>
         {% endif %}
@@ -276,12 +282,17 @@
         {% set successFlashes = app.flashes('success') %}
         {% if successFlashes is not empty %}
             <div class="alert-success">
-                {{ successFlashes[0] }}
+                <i class="fa-regular fa-circle-check"></i>
+                <p><strong>{{ successFlashes[0] }}</strong></p>
             </div>
-            {# Masquer le message après 6 secondes (6 seconde) #}
+            {# Masquer le message après 6 secondes #}
             <script>
+                var successAlert = document.querySelector('.alert-success');
                 setTimeout(function() {
-                    document.querySelector('.alert-success').style.display = 'none';
+                    successAlert.classList.add('slideToTop');
+                    setTimeout(function() {
+                        successAlert.style.display = 'none';
+                    }, 600);
                 }, 6000); // Masquer le message après 6 secondes (6000 millisecondes)
             </script>
         {% endif %}

@@ -70,26 +70,6 @@ div.wrapper form p:last-child a {
     background-color: #018c67;
 }
 
-.alert-danger {
-    background-color: rgb(222, 222, 222);
-    padding: 10px;
-    width: 300px;
-    margin: auto;
-    margin-block: 20px;
-    border-radius: 3px;
-    border-left: 10px solid #ff0000;
-}
-
-.alert-success {
-    background-color: rgb(222, 222, 222);
-    padding: 10px;
-    width: 300px;
-    margin: auto;
-    margin-block: 20px;
-    border-radius: 3px;
-    border-left: 10px solid #00ff00;
-}
-
 .form-group label::after {
     content: ' *';
     color: red;

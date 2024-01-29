@@ -7,7 +7,10 @@
     <div class="wrapper">
         <form method="post">
             {% if error %}
-                <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                <div class="alert-danger">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                    <p><strong>{{ error.messageKey|trans(error.messageData, 'security') }}</strong></p>
+                </div>
             {% endif %}
         
             <h2>Connexion</h2>
