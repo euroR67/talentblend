@@ -179,9 +179,13 @@
                         <h4>Ce poste vous intéresse ?</h4>
                         <div>
                             {% if not dejaPostuler %}
-                            <a href="{{ path('app_postuler', {'id': emploi.id}) }}"><i class="fa-solid fa-bolt"></i> Postuler</a>
+                            {% if app.user.active %}
+                                <a href="{{ path('app_postuler', {'id': emploi.id}) }}"><i class="fa-solid fa-bolt"></i> Postuler</a>
                             {% else %}
-                                <a href="{{ path('app_candidature_delete', {'id': dejaPostuler.id, 'origin': 'detail'}) }}">Retirer ma candidature</a>
+                                <a class="openModal" style="cursor: pointer;">Postuler</a>
+                            {% endif %}
+                            {% else %}
+                                <a href="{{ path('app_candidature_cv_delete', {'id': dejaPostuler.id, 'origin': 'detail'}) }}">Retirer ma candidature</a>
                             {% endif %}
                             {% if not alreadySaved %}
                                 <a class="save-emploi-link" href="{{ path('app_emploi_save', {'id': emploi.id}) }}" data-save-url="{{ path('app_emploi_save', {'id': emploi.id}) }}" data-delete-url="{{ path('app_emploi_delete', {'id': emploi.id}) }}" data-saved="false"><i class="fa-regular fa-heart"></i></a>
@@ -190,6 +194,20 @@
                             {% endif %}
                         </div>
                     </div>
+                    <div class="modal-postuler">
+                        <form action="{{ path('app_postuler_cv', {'id': emploi.id}) }}" method="POST" enctype="multipart/form-data">
+                            <label for="cv">Votre CV</label>
+                            <input type="file" name="cv" id="cv" accept=".pdf" required="true">
+                            <label>Un message pour attirer l'attention du recruteur ?</label>
+                            <textarea name="message" id="message" cols="30" rows="10" placeholder="Votre message ici..."></textarea>
+                            <div class="action">
+                                <button type="submit">Envoyer</button>
+                                <button type="button" class="closeModal">Annuler</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-overlay"></div>
+                    
                     {% elseif not app.user %}
                     <div class="mobile-footerstyle desk">
                         <div>
@@ -261,9 +279,13 @@
         <div class="mobile-footerstyle">
         <h4>Ce poste vous intéresse ?</h4>
         {% if not dejaPostuler %}
+        {% if app.user.active %}
             <a href="{{ path('app_postuler', {'id': emploi.id}) }}"><i class="fa-solid fa-bolt"></i> Postuler</a>
         {% else %}
-            <a href="{{ path('app_candidature_delete', {'id': dejaPostuler.id, 'origin': 'detail'}) }}">Retirer ma candidature</a>
+            <a class="openModal" style="cursor: pointer;">Postuler</a>
+        {% endif %}
+        {% else %}
+            <a href="{{ path('app_candidature_cv_delete', {'id': dejaPostuler.id, 'origin': 'detail'}) }}">Retirer ma candidature</a>
         {% endif %}
         {% if not alreadySaved %}
             <a class="save-emploi-link like-hide" href="{{ path('app_emploi_save', {'id': emploi.id}) }}" data-save-url="{{ path('app_emploi_save', {'id': emploi.id}) }}" data-delete-url="{{ path('app_emploi_delete', {'id': emploi.id}) }}" data-saved="false"><i class="fa-regular fa-heart"></i></a>
@@ -278,5 +300,30 @@
         </div>
         {% endif %}
 </main>
-
+<script>
+    document.addEventListener('turbo:load', function () {
+        // Ouvrir la modal pour envoyer un message
+        const openModal = document.querySelectorAll('.openModal');
+        const modal = document.querySelector('.modal-postuler');
+        const overlay = document.querySelector('.modal-overlay');
+        const closeModal = document.querySelector('.closeModal');
+    
+        openModal.forEach((btn) => {
+            btn.addEventListener('click', () => {
+                modal.classList.add('active');
+                overlay.classList.add('active');
+            });
+        });
+    
+        closeModal.addEventListener('click', () => {
+            modal.classList.remove('active');
+            overlay.classList.remove('active');
+        });
+    
+        overlay.addEventListener('click', () => {
+            modal.classList.remove('active');
+            overlay.classList.remove('active');
+        });
+    })
+</script>
 {% endblock %}

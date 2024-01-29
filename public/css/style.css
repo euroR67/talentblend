@@ -1198,6 +1198,112 @@ main.show-candidat .send-msg-btn a:hover {
     visibility: visible;
 }
 
+/* Modal postuler */
+
+.modal-postuler {
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    z-index: 30;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: calc(100% - 30px);
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+.modal-postuler button {
+    background-color: #007456;
+    padding: 10px 20px;
+    color: #fff;
+    border-radius: 30px;
+    border: none;
+    transition: all 200ms ease;
+    font-weight: 500;
+    outline: none;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.modal-postuler button:hover {
+    background-color: #02906a;
+}
+
+.modal-postuler form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    width: 100%;
+}
+
+.modal-postuler form textarea {
+    width: 100%;
+    transition: border-color .1s,box-shadow .1s;
+    border: 1px solid #d9d9d9;
+    border-radius: 0.1875em;
+    background: rgba(0,0,0,0);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.06), 0 0 0 3px rgba(0,0,0,0);
+    color: inherit;
+    font-size: 1.125em;
+    height: 6.75em;
+    padding: 0.75em
+}
+
+.modal-postuler form textarea:focus {
+    border: 1px solid #b4dbed;
+    outline: none;
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.06), 0 0 0 2px rgba(100, 200, 135, 0.5);
+}
+
+.modal-postuler form textarea::placeholder {
+    color: #b4b4b4;
+}
+
+.modal-postuler form .action {
+    justify-content: center;
+}
+
+.modal-postuler form .action button {
+    border-radius: 5px;
+}
+
+.modal-postuler form .action button:last-of-type {
+    background-color: #6e7881;
+}
+
+.modal-postuler form .action button:last-of-type:hover {
+    background-color: #5e6b73;
+}
+
+.modal-postuler.active {
+    display: flex;
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    background-color: #171d22;
+    z-index: 20; 
+    transition: all 400ms ease-in-out;
+    visibility: hidden;
+}
+
+.modal-overlay.active {
+    opacity: 0.80;
+    visibility: visible;
+}
+
 /* Page d'erreur 404 */
 
 .error-page {
@@ -1227,7 +1333,7 @@ main.show-candidat .send-msg-btn a:hover {
     margin-top: 10Px;
 }
 
-.btn-primary {
+.error-btn {
     background-color: #007456;
     border-color: #007456;
     color: #fff;
@@ -1239,7 +1345,7 @@ main.show-candidat .send-msg-btn a:hover {
     width: fit-content;
 }
 
-.btn-primary:hover {
+.error-btn:hover {
     background-color: #01543e;
 }
 
@@ -1264,6 +1370,10 @@ main.show-candidat .send-msg-btn a:hover {
 @media screen and (min-width: 530px) {
     .action-candidat .modal {
         width: 32rem;
+    }
+
+    .modal-postuler {
+        max-width: 32rem;
     }
 }
 

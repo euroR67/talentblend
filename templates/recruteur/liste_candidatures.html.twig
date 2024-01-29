@@ -36,7 +36,11 @@
                     <td>{{ candidature.datePostulation|format_datetime('long', 'none', locale='fr') }}</td>
                     <td class="td-action">
                         {# Icon download pour télécharger le CV du candidat #}
-                        <a style="margin-right: 10px;" title="Télécharger le CV" href="{{ path('download_cv', {'userId': candidature.userPostulant.id}) }}"><i class="fa-solid fa-download"></i></a>
+                        {% if candidature.userPostulant.cv %}
+                            <a style="margin-right: 10px;" title="Télécharger le CV" href="{{ path('download_cv', {'userId': candidature.userPostulant.id}) }}"><i class="fa-solid fa-download"></i></a>
+                        {% else %}
+                            <a href="{{ asset('cv/' ~ candidature.cv) }}" target="_blank"><i class="fa-regular fa-file-pdf" style="font-size: 22px;"></i></a>
+                        {% endif %}
                         <i class="fa-solid fa-ellipsis"></i>
                         <div class="action">
                             {% if candidature.status is null %}

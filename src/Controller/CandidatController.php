@@ -231,9 +231,15 @@ class CandidatController extends AbstractController
 
     // Méthode pour postuler
     #[Route('/postuler/emploi/{id}', name: 'app_postuler')]
-    public function postuler(Emploi $emploi,Request $request, EntityManagerInterface $entityManager): Response
+    public function postuler(Emploi $emploi = null,Request $request, EntityManagerInterface $entityManager): Response
     {
         $this->denyAccessUnlessGranted('ROLE_CANDIDAT');
+
+        // Si l'emploi n'existe pas
+        if(!$emploi) {
+            // On renvoi vers la page d'erreur 404
+            return $this->redirectToRoute('app_error404');
+        }
 
         // Récupère l'utilisateur en session
         $user = $this->getUser();
@@ -263,11 +269,154 @@ class CandidatController extends AbstractController
 
     }
 
-    // Méthode pour sauvegarder un emploi
-    #[Route('/saveEmploi/{id}', name: 'app_emploi_save')]
-    public function sauvegarderEmploi(Emploi $emploi,Request $request, EntityManagerInterface $entityManager): JsonResponse
+    // Méthode pour postuler avec un CV
+    #[Route('/postulerAvecCurriculum/emploi/{id}', name: 'app_postuler_cv', methods: ['POST'])]
+    public function postulerAvecCv(Emploi $emploi = null, Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
         $this->denyAccessUnlessGranted('ROLE_CANDIDAT');
+
+        // Si l'emploi n'existe pas
+        if(!$emploi) {
+            // On renvoi vers la page d'erreur 404
+            return $this->redirectToRoute('app_error404');
+        }
+
+        // Récupère l'utilisateur en session
+        $user = $this->getUser();
+
+        // Vérifiez si l'utilisateur a déjà postulé à cet emploi
+        $dejaPostuler = $entityManager->getRepository(Postule::class)
+        ->findOneBy(['userPostulant' => $user, 'emploi' => $emploi]);
+
+        // Si l'utilisateur a déjà postulé
+        if ($dejaPostuler) {
+            $this->addFlash('error', 'Vous avez déjà postulé à cet emploi.');
+            return $this->redirectToRoute('app_show_emploi', ['id' => $emploi->getId()]);
+        }
+
+        // Si le CV n'est pas uploadé
+        if (!$request->files->has('cv')) {
+            $this->addFlash('error', 'Veuillez sélectionner un CV.');
+            return $this->redirectToRoute('app_show_emploi', ['id' => $emploi->getId()]);
+        }
+
+        $cv = $request->files->get('cv');
+        
+        // Récupère le message si il existe
+        if($request->request->get('message')) {
+            $message = $request->request->get('message');
+        } else {
+            $message = null;
+        }
+
+        // Vérifie si le fichier est bien un PDF
+        if($cv->getMimeType() !== 'application/pdf') {
+            $this->addFlash('error', 'Veuillez sélectionner un fichier PDF.');
+            return $this->redirectToRoute('app_show_emploi', ['id' => $emploi->getId()]);
+        }
+
+        // Vérifie si le fichier ne dépasse pas 5Mo
+        if($cv->getSize() > 5000000) {
+            $this->addFlash('error', 'Le fichier ne doit pas dépasser 5Mo.');
+            return $this->redirectToRoute('app_show_emploi', ['id' => $emploi->getId()]);
+        }
+
+        // dd($message, $cv);
+
+        $originalFilename = pathinfo($cv->getClientOriginalName(), PATHINFO_FILENAME);
+        // this is needed to safely include the file name as part of the URL
+        $safeFilename = $slugger->slug($originalFilename);
+        // Utilisation de md5 pour générer un nom de fichier unique et ajout de l'extension .pdf
+        $newFilename = md5($safeFilename.'-'.uniqid()).'.pdf';
+        
+        try {
+            $cv->move(
+                $this->getParameter('cv_directory'),
+                $newFilename
+            );
+        } catch (FileException $e) {
+            // ... handle exception if something happens during file upload
+            $this->addFlash('error', 'Une erreur est survenue lors de l\'envoi de votre candidature.');
+        }
+    
+        // Suppression de l'ancien CV du serveur si un nouveau CV est uploadé
+        if($user->getCv()) {
+            $file_path = $this->getParameter('cv_directory').'/'.$user->getCv();
+            if (file_exists($file_path)) {
+                unlink($file_path);
+            }
+        }
+
+        $candidature = new Postule();
+        $candidature->setCv($newFilename);
+        $candidature->setMessage($message);
+        $candidature->setUserPostulant($user);
+        $candidature->setEmploi($emploi);
+        $candidature->setDatePostulation(new \DateTime());
+
+        $entityManager->persist($candidature);
+        $entityManager->flush();
+
+        $this->addFlash('success', 'Votre candidature est envoyée');
+
+        // Redirigez si tout ce passe bien
+        return $this->redirectToRoute('app_show_emploi', ['id' => $emploi->getId()]);
+    }
+
+    // Méthode pour supprimer une candidature avec un CV et un message
+    #[Route('/delete/candidatureAvecCurriculum/{id}/{origin}', name: 'app_candidature_cv_delete')]
+    public function deleteCandidatureCv(Postule $candidature, string $origin, Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_CANDIDAT');
+
+        // Récupère l'utilisateur en session
+        $user = $this->getUser();
+
+        // Si la candidature n'existe pas
+        if(!$candidature) {
+            // On renvoi vers la page d'erreur 404
+            return $this->redirectToRoute('app_error404');
+        }
+
+        // Si l'utilisateur courant est différent de l'utilisateur dont on veut supprimer la candidature
+        if($this->getUser() !== $candidature->getUserPostulant()) {
+            // On renvoi vers la page d'accueil
+            return $this->redirectToRoute('app_home');
+        }
+
+        // Suppression du CV du serveur si il existe
+        $file_path = $this->getParameter('cv_directory').'/'.$candidature->getCv();
+        if (file_exists($file_path)) {
+            unlink($file_path);
+        }
+
+        // Suppression de la candidature
+        $entityManager->remove($candidature);
+        $entityManager->flush();
+
+        // Message de succès
+        $this->addFlash('success', 'Candidature retirer avec succès.');
+
+        // On renvoi vers la page de la liste des candidatures
+        if($origin === 'dashboard') {
+            return $this->redirectToRoute('app_candidatures');
+        } else if ($origin === 'detail') {
+            return $this->redirectToRoute('app_show_emploi', ['id' => $candidature->getEmploi()->getId()]);
+        } else {
+            return $this->redirectToRoute('app_home');
+        }
+    }
+
+    // Méthode pour sauvegarder un emploi
+    #[Route('/saveEmploi/{id}', name: 'app_emploi_save')]
+    public function sauvegarderEmploi(Emploi $emploi = null,Request $request, EntityManagerInterface $entityManager): JsonResponse
+    {
+        $this->denyAccessUnlessGranted('ROLE_CANDIDAT');
+
+        // Si l'emploi n'existe pas
+        if(!$emploi) {
+            return new JsonResponse(['error' => 'Emploi non trouvé.'], 404);
+        }
 
         $user = $this->getUser();
 
@@ -360,6 +509,12 @@ class CandidatController extends AbstractController
     #[Route('/profil_candidat/{id}', name: 'app_show_profil')]
     public function showCandidat($id,Request $request, EntityManagerInterface $entityManager, UserRepository $ur): Response
     {
+        // Si l'utilisateur n'existe pas
+        if(!$ur->find($id)) {
+            // On renvoi vers la page 404
+            return $this->redirectToRoute('app_error404');
+        }
+
         // Récupère l'utilisateur en session
         $user = $this->getUser();
         

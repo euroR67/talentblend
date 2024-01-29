@@ -26,6 +26,12 @@ class Postule
     #[ORM\ManyToOne(inversedBy: 'postulations')]
     private ?Emploi $emploi = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $cv = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $message = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -80,6 +86,30 @@ class Postule
     public function setEmploi(?Emploi $emploi): static
     {
         $this->emploi = $emploi;
+
+        return $this;
+    }
+
+    public function getCv(): ?string
+    {
+        return $this->cv;
+    }
+
+    public function setCv(?string $cv): static
+    {
+        $this->cv = $cv;
+
+        return $this;
+    }
+
+    public function getMessage(): ?string
+    {
+        return $this->message;
+    }
+
+    public function setMessage(?string $message): static
+    {
+        $this->message = $message;
 
         return $this;
     }

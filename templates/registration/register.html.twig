@@ -25,8 +25,8 @@
                 </div>
 
                 {% if form_errors(registrationForm.email) %}
-                    <ul>
-                        <li class="form-error-message"><i class="fa-solid fa-triangle-exclamation"></i> {{ form_errors(registrationForm.email) }}</li>
+                    <ul class="form-error-message">
+                        <li><i class="fa-solid fa-triangle-exclamation"></i> {{ form_errors(registrationForm.email) }}</li>
                     </ul>
                 {% endif %}
 
@@ -67,10 +67,9 @@
                         </div>
                     </div>
                 </div>
-
                 {% if form_errors(registrationForm.plainPassword.first) %}
-                    <ul>
-                        <li class="form-error-message"><i class="fa-solid fa-triangle-exclamation"></i> {{ form_errors(registrationForm.plainPassword.first) }}</li>
+                    <ul class="form-error-message">
+                        <li><i class="fa-solid fa-triangle-exclamation"></i> {{ form_errors(registrationForm.plainPassword.first) }}</li>
                     </ul>
                 {% endif %}
 

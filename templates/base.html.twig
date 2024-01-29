@@ -87,20 +87,22 @@
                         <a href="{{ path('app_home') }}"><img class="logo" src="{{ asset('img/logo.png') }}" alt="logo"></a>
                     </li>
                     <li class="notif">
-                        <div class="notification">
-                            <i class="fa-regular fa-bell"></i>
-                            {% set unreadMessagesCount = app.user.countAllUnreadMessages %}
-                            {% if unreadMessagesCount > 0 %}
-                                <span class="notif-number">{{ unreadMessagesCount }}</span>
-                                <div class="show-unread">
-                                    <article>
-                                        <i class="fa-regular fa-message"></i>
-                                        <p>Vous avez <strong>{{ unreadMessagesCount }}</strong> nouveaux messages</p>
-                                    </article>
-                                    <a href="{{ path('app_discussions') }}">Voir les messages</a>
-                                </div>
-                            {% endif %}
-                        </div>
+                        {% if app.user %}
+                            <div class="notification">
+                                <i class="fa-regular fa-bell"></i>
+                                {% set unreadMessagesCount = app.user.countAllUnreadMessages %}
+                                {% if unreadMessagesCount > 0 %}
+                                    <span class="notif-number">{{ unreadMessagesCount }}</span>
+                                    <div class="show-unread">
+                                        <article>
+                                            <i class="fa-regular fa-message"></i>
+                                            <p>Vous avez <strong>{{ unreadMessagesCount }}</strong> nouveaux messages</p>
+                                        </article>
+                                        <a href="{{ path('app_discussions') }}">Voir les messages</a>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        {% endif %}
                         <i class="fa-solid fa-magnifying-glass" style="color: #5d5d5d; cursor: pointer;" data-action="click->search#open"></i>
                     </li>
                 </ul>
@@ -255,7 +257,6 @@
                 <div>
                     <div class="mt4">
                         <ul>
-                            <li><a href="{{ path('app_error404') }}">Error 404</a></li>
                             <li><a href="{{ path('app_home')}}" data-turbo="false">Offres d'emploi</a></li>
                             <li><a href="{{ path('app_categories')}}" data-turbo="false">Catégories</a></li>
                             <li><a href="#" data-turbo="false">Entreprises</a></li>

@@ -26,8 +26,14 @@ class EmploiController extends AbstractController
 {
     // Méthode pour lister les offres d'emplois par catégorie
     #[Route('/categorie/{id}', name: 'app_emplois_par_categorie')]
-    public function emploisParCategorie(Categorie $categorie, EntityManagerInterface $entityManager, Request $request, PaginatorInterface $paginator, FormFactoryInterface $formFactory): Response
+    public function emploisParCategorie(Categorie $categorie = null, EntityManagerInterface $entityManager, Request $request, PaginatorInterface $paginator, FormFactoryInterface $formFactory): Response
     {
+
+        // Si la catégorie n'existe pas, renvoyez une erreur 404
+        if (!$categorie) {
+            return $this->redirectToRoute('app_error404');
+        }
+
         // Créez le formulaire de filtre
         $form = $formFactory->create(FiltreType::class);
         $form->handleRequest($request);
@@ -66,8 +72,14 @@ class EmploiController extends AbstractController
 
     // Méthode pour lister les offres d'emplois par entreprise
     #[Route('/entreprise/{id}', name: 'app_emplois_par_entreprise')]
-    public function emploisParEntreprise(Entreprise $entreprise, EntityManagerInterface $entityManager, Request $request, PaginatorInterface $paginator, FormFactoryInterface $formFactory): Response
+    public function emploisParEntreprise(Entreprise $entreprise = null, EntityManagerInterface $entityManager, Request $request, PaginatorInterface $paginator, FormFactoryInterface $formFactory): Response
     {
+
+        // Si l'entreprise n'existe pas, renvoyez une erreur 404
+        if (!$entreprise) {
+            return $this->redirectToRoute('app_error404');
+        }
+
         // Créez le formulaire de filtre
         $form = $formFactory->create(FiltreType::class);
         $form->handleRequest($request);
@@ -108,6 +120,11 @@ class EmploiController extends AbstractController
     #[Route('/detail/{id}', name: 'app_show_emploi')]
     public function showEmploi($id, EntityManagerInterface $entityManager, EmploiRepository $er): Response
     {
+        // Si l'emploi n'existe pas, renvoyez une erreur 404
+        if (!$er->find($id)) {
+            return $this->redirectToRoute('app_error404');
+        }
+
         // Récupère l'emploi en question
         $emploi = $er->find($id);
 
