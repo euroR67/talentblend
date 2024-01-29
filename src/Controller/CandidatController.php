@@ -89,8 +89,11 @@ class CandidatController extends AbstractController
             }
 
             if($deletePhoto) {
-                // Suppression de l'ancienne photo du serveur
-                unlink($this->getParameter('photo_profil').'/'.$user->getPhoto());
+                // Suppression de l'ancienne photo du serveur si elle existe
+                $photoPath = $this->getParameter('photo_profil').'/'.$user->getPhoto();
+                if($user->getPhoto() && file_exists($photoPath)) {
+                    unlink($photoPath);
+                }
                 // Suppression de la photo dans la BDD
                 $user->setPhoto(null);
             }
@@ -105,8 +108,9 @@ class CandidatController extends AbstractController
             
             if($deleteCV) {
                 // Suppression de l'ancien CV du serveur si il existe
-                if($user->getCv()) {
-                    unlink($this->getParameter('cv_directory').'/'.$user->getCv());
+                $cvPath = $this->getParameter('cv_directory').'/'.$user->getCv();
+                if($user->getCv() && file_exists($cvPath)) {
+                    unlink($cvPath);
                 }
                 // Suppression du CV dans la BDD
                 $user->setCv(null);
