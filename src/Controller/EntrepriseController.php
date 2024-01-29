@@ -236,6 +236,23 @@ class EntrepriseController extends AbstractController
             unlink($kbisPath);
         }
 
+        // Suppression de tout les candidature (Postule) des emplois de l'entreprise
+        foreach($entreprise->getEmplois() as $emploi) {
+            foreach($emploi->getPostulations() as $postule) {
+                $entityManager->remove($postule);
+            }
+        }
+
+        // Suppression de tout les objects Represente de l'entreprise
+        foreach($entreprise->getRepresentants() as $representant) {
+            $entityManager->remove($representant);
+        }
+
+        // Suppression de tout les emplois de l'entreprise
+        foreach($entreprise->getEmplois() as $emploi) {
+            $entityManager->remove($emploi);
+        }
+
         $entityManager->flush();
 
         // Ajoute un message de succès

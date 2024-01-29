@@ -20,7 +20,7 @@ body {
     background-color: #d80101;
     color: #fff!important;
     border-radius: 50%;
-    padding: 2px 7px;
+    padding: 2px 6px;
     font-size: 12px;
     font-weight: 500;
     transition: all 0.2s ease-in-out;
@@ -974,6 +974,9 @@ div.motif div a:hover {
         margin-left: 0;
     }
     
+    td.td-action {
+        background-color: transparent;
+    }
 }
 
 @media screen and (min-width: 900px) {

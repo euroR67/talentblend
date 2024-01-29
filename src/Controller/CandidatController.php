@@ -384,9 +384,9 @@ class CandidatController extends AbstractController
             return $this->redirectToRoute('app_home');
         }
 
-        // Suppression du CV du serveur si il existe
+        // Suppression du CV de la candidature si il existe
         $file_path = $this->getParameter('cv_directory').'/'.$candidature->getCv();
-        if (file_exists($file_path)) {
+        if ($candidature->getCv() && file_exists($file_path)) {
             unlink($file_path);
         }
 

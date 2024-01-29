@@ -394,22 +394,26 @@
         <script src="{{asset('js/likeEmploi.js')}}"></script>
         <script>
             document.addEventListener('turbo:load', function() {
-                const openWindow = document.querySelector('.fa-bell');
-                const window = document.querySelector('.show-unread');
-
-                openWindow.addEventListener('click', function() {
-                    window.classList.toggle('active');
-                })
-                
-                // Fermer la fenêtre de notification en cliquant en dehors
-                document.addEventListener('click', function(e) {
-                    if (e.target != openWindow) {
-                        window.classList.remove('active');
-                    }
-                })
-
-                window.addEventListener('click', function(e) {
-                    e.stopPropagation();
+                const openWindows = document.querySelectorAll('.fa-bell');
+                const windows = document.querySelectorAll('.show-unread');
+            
+                openWindows.forEach((openWindow, index) => {
+                    const window = windows[index];
+            
+                    openWindow.addEventListener('click', function() {
+                        window.classList.toggle('active');
+                    })
+            
+                    // Fermer la fenêtre de notification en cliquant en dehors
+                    document.addEventListener('click', function(e) {
+                        if (e.target != openWindow) {
+                            window.classList.remove('active');
+                        }
+                    })
+            
+                    window.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                    })
                 })
             })
         </script>
