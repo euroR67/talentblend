@@ -4,33 +4,40 @@
 
 {% block body %}
 <div class="wrapper">
-    <h2>{{ entreprise }}</h2>
+    <h2 class="title">Vérification de {{ entreprise }}</h2>
     <div class="section-wrapper">
-        <p>KBIS : <a href="{{ asset('kbis/' ~ entreprise.kbis) }}" target="_blank">Voir le KBIS</a><br><br>
-        <a href="{{ path('app_valider_entreprise', {'id': entreprise.id}) }}">Valider l'entreprise</a>
-        <p>Refuser l'entreprise</p>
-        <form action="{{ path('app_refuser_entreprise', {'id': entreprise.id}) }}" method="post">
-            <input type="text" name="motifRefus" placeholder="Motif du refus">
-            <input type="submit" value="Envoyer">
-        </form>
+        <div class="kbis">
+            <p>Vérifier le kbis <a href="{{ asset('kbis/' ~ entreprise.kbis) }}" target="_blank" class="kbis-link"><i class="fa-solid fa-file-pdf"></i> Voir le KBIS</a></p>
+            <div class="accept">
+                <a href="{{ path('app_valider_entreprise', {'id': entreprise.id}) }}" class="validation-link"><i class="fa-solid fa-clipboard-check"></i> Valider l'entreprise</a>
+            </div>
+            <div class="refusal">
+                <p>Refuser l'entreprise</p>
+                <form action="{{ path('app_refuser_entreprise', {'id': entreprise.id}) }}" method="post">
+                    <input type="text" name="motifRefus" placeholder="Motif du refus" class="refusal-input">
+                    <button type="submit" value="Envoyer" class="refusal-submit"><i class="fa-solid fa-xmark"></i> Refuser</button>
+                </form>
+            </div>
+        </div>
 
-        <div>
+        <div class="history">
             <h3>Historique</h3>
             {% if entreprise.motifRefus %}
-                <p>L'entreprise a été refusé pour la raison suivante : {{ entreprise.motifRefus }}</p>
+                <p>L'entreprise a été refusé pour la raison suivante :</p>
+                <p class="motif">{{ entreprise.motifRefus }}</p>
             {% else %}
                 <p>L'entreprise n'a pas encore été refusé</p>
             {% endif %}
         </div>
-        <br>
+
         <div class="entreprise-info">
-            <p>{{ entreprise.raisonSocial }}</p>
-            <p>{{ entreprise.secteur }}</p>
-            <p>{{ entreprise.website }}</p>
-            <p>{{ entreprise.ville }}</p>
-            <p>{{ entreprise.tailles }}</p>
-            <p>{{ entreprise.description }}</p>
-            <p>{{ entreprise.dateCreation|date("Y") }}</p>
+            <p><span><i class="fas fa-building"></i> Raison sociale :</span>{{ entreprise.raisonSocial }}</p>
+            <p><span><i class="fas fa-industry"></i> Secteur :</span> {{ entreprise.secteur }}</p>
+            <p><span><i class="fas fa-globe"></i> Site web :</span> <a href="{{ entreprise.website }}" class="website-link">{{ entreprise.website }}</a></p>
+            <p><span><i class="fas fa-map-marker-alt"></i> Ville :</span> {{ entreprise.ville }}</p>
+            <p><span><i class="fas fa-users"></i> Taille :</span> {{ entreprise.tailles }}</p>
+            <p><span><i class="fas fa-info-circle"></i> Description :</span> {{ entreprise.description }}</p>
+            <p><span><i class="fas fa-calendar-alt"></i> Date de création :</span> {{ entreprise.dateCreation|date("Y") }}</p>
         </div>
     </div>
 </div>

@@ -173,13 +173,13 @@ class EntrepriseController extends AbstractController
             // Message dans le cas ou l'entreprise vient d'être ajoutée
             $message = 'L\'Entreprise a bien été ajoutée, elle est en cours de vérification.';
 
-            // Dans le cas ou le recruteur demande une réexamination de l'entreprise
+            // Dans le cas ou le recruteur demande une réexamen de l'entreprise
             // On remet le statut de l'entreprise à NULL (en attente de vérification)
             if($entreprise->isIsVerified() == 0) {
                 $entreprise->setIsVerified(NULL);
                 $entityManager->flush();
-                // Message dans le cas ou il s'agit d'une réexamination
-                $message = 'La demande de réexamination de l\'entreprise a bien été envoyée.';
+                // Message dans le cas ou il s'agit d'une réexamen
+                $message = 'La demande de réexamen de l\'entreprise a bien été envoyée.';
             } elseif ($entreprise->getId()) {
                 // Message dans le cas ou l'entreprise vient d'être modifiée
                 $message = 'L\'Entreprise a bien été modifiée.';

@@ -24,9 +24,15 @@ class CandidatController extends AbstractController
 {
     // Méthode pour modifier le profil du candidat
     #[Route('/edit/{id}', name: 'app_candidat_edit')]
-    public function edit(Request $request, User $user, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
+    public function edit(Request $request, User $user = null, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
         $this->denyAccessUnlessGranted('ROLE_CANDIDAT');
+
+        // Si l'utilisateur n'existe pas
+        if(!$user) {
+            // On renvoi vers la page d'erreur 404
+            return $this->redirectToRoute('app_error404');
+        }
 
         // Si l'utilisateur n'est pas connecté
         if(!$this->getUser()) {
@@ -468,7 +474,7 @@ class CandidatController extends AbstractController
         // On enregistre les modifications
         $entityManager->flush();
 
-        return new JsonResponse(['success' => 'Emploi retirer des favoris avec succès']);
+        return new JsonResponse(['success' => 'Emploi retiré des favoris avec succès']);
     }
 
     // Méthode pour supprimer une candidature

@@ -67,6 +67,7 @@ class EntrepriseType extends AbstractType
                 ]
             ])
             ->add('website', TextType::class, [
+                'label' => 'Site web',
                 'attr' => [
                     'class' => 'form-control'
                 ]
@@ -93,7 +94,7 @@ class EntrepriseType extends AbstractType
                     'class' => 'form-control'
                 ]
             ])
-            ->add('Description', TextareaType::class, [
+            ->add('description', TextareaType::class, [
                 'attr' => [
                     'class' => 'form-control'
                 ],
@@ -105,6 +106,7 @@ class EntrepriseType extends AbstractType
                 ],
             ])
             ->add('kbis', FileType::class, [
+                'label' => 'Kbis (PDF uniquement)',
                 'attr' => [
                     'class' => 'form-control'
                 ],
@@ -121,7 +123,6 @@ class EntrepriseType extends AbstractType
                     ])
                 ],
             ])
-            ->add('submit', SubmitType::class)
         ;
     }
 

@@ -6,9 +6,52 @@
     <div class="wrapper">
         <div class="section-wrapper">
             <h2>Représenter une entreprise</h2>
-            {{form(form)}}
-            <p>Votre entreprise ne figure par dans la liste ?</p>
-            <a href="{{ path('app_new_entreprise') }}">Ajouter une entreprise</a>
+            {{form_start(form)}}
+
+            <div class="form-group">
+                <div>
+                    {{ form_label(form.entreprise) }}
+                    {{ form_widget(form.entreprise, {'attr': {'class': 'form-control'}}) }}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div>
+                    {{ form_label(form.kbis) }}
+                    {{ form_widget(form.kbis, {'attr': {'class': 'form-control'}}) }}
+                </div>
+            </div>
+            
+            
+            <p>
+                Votre entreprise ne figure par dans la liste ?
+                <a href="{{ path('app_new_entreprise') }}"><i class="fa-regular fa-square-plus"></i> Ajouter une entreprise</a>
+            </p>
+            <button type="submit" class="btn-primary">Valider</button>
+
+            {{ form_end(form)}}
         </div>
     </div>
+
+<style>
+    div.section-wrapper p {
+        margin-block: 20px;
+        border-left: 3px solid #007456;
+        background-color: aliceblue;
+        padding: 10px;
+        width: fit-content;
+        box-shadow: 0 0 5px #0074554f;
+        display: flex;
+        flex-direction: column;
+    }
+
+    div.section-wrapper a {
+        color: #007456;
+        margin-top: 5px;
+    }
+
+    div.section-wrapper a i {
+        color: #007456;
+    }
+</style>
 {% endblock %}

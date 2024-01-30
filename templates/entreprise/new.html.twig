@@ -5,25 +5,102 @@
 {% block body %}
     <div class="wrapper">
         <div class="section-wrapper">
-            <h2>Ajouter une entreprise</h2>
+            <h2>{% if edit %}Modifier une entreprise{% else %}Ajouter une entreprise{% endif %}</h2>
             {{form_start(form)}}
+
             <div class="form-group">
-                <div class="input-group">
-                    <span class="input-group-text" id="basic-addon">https://</span>
-                    {{ form_widget(
-                        form.website,
-                        {
-                            'attr': {
-                                'class': 'form-control',
-                                'placeholder': 'www.exemple.com',
-                                'aria-describedby': 'basic-addon'
-                            }
-                        }
-                    ) }}
+                <div>
+                    {{ form_label(form.raisonSocial) }}
+                    {{ form_widget(form.raisonSocial, {'attr': {'class': 'form-control', 'placeholder': 'Nom de votre entreprise'}}) }}
+                </div>
+                <div>
+                    {{ form_label(form.secteur) }}
+                    {{ form_widget(form.secteur, {'attr': {'class': 'form-control', 'placeholder': 'Secteur d\'activité'}}) }}
                 </div>
             </div>
-            <button type="submit" class="btn btn-primary">Ajouter</button>
+
+            <div class="form-group">
+                <div>
+                    {{ form_label(form.ville) }}
+                    {{ form_widget(form.ville, {'attr': {'class': 'form-control'}}) }}
+                </div>
+                <div>
+                    {{ form_label(form.tailles) }}
+                    {{ form_widget(form.tailles, {'attr': {'class': 'form-control'}}) }}
+                </div>
+            </div>
+
+            <div class="form-group web">
+                <div>
+                    {{ form_label(form.dateCreation) }}
+                    {{ form_widget(form.dateCreation, {'attr': {'class': 'form-control'}}) }}
+                </div>
+                <div>
+                    {{ form_label(form.website) }}
+                    <div class="https">
+                        <input type="text" value="https://" class="form-control" id="basic-addon" disabled="disabled" required="required">
+                        {{ form_widget(form.website,{'attr': {'class': 'form-control','placeholder': 'www.exemple.com','aria-describedby': 'basic-addon'}}) }}
+                    </div>
+                </div>
+            </div>
+
+            <style>
+                .https {
+                    display: flex!important;
+                    position: relative;
+                }
+
+                .https input:first-child {
+                    position: absolute;
+                    left: 0;
+                    top: 0;
+                    width: 80px;
+                    background: transparent;
+                    text-align: center;
+                    z-index: 1;
+                }
+
+                .https input:last-child {
+                    padding-left: 90px;
+                }
+
+                .form-group.web div:last-child {
+                    margin-top: 5px;
+                }
+            </style>
+
+            <div class="form-group">
+                <div>
+                    {{ form_label(form.logo) }}
+                    {{ form_widget(form.logo, {'attr': {'class': 'form-control'}}) }}
+                </div>
+                <div>
+                    {{ form_label(form.kbis) }}
+                    {{ form_widget(form.kbis, {'attr': {'class': 'form-control'}}) }}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div>
+                    <div>
+                        {{ form_label(form.banniere) }}
+                        {{ form_widget(form.banniere, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div>
+                    <div>
+                        {{ form_label(form.description) }}
+                        {{ form_widget(form.description, {'attr': {'class': 'form-control','rows': '10', 'placeholder': 'Description de l\'entreprise...'}}) }}
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">{% if edit %}Modifier{% else %}Ajouter{% endif %}</button>
             {{form_end(form)}}
         </div>
     </div>
+
 {% endblock %}

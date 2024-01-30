@@ -15,6 +15,23 @@ document.addEventListener('turbo:load', function () {
     });
 });
 
+// ============================ Onglet dashboard tables ============================ //
+
+document.addEventListener('turbo:load', function() {
+    const tabItems = document.querySelectorAll('.tab li');
+    const tabPanes = document.querySelectorAll('.table-wrapper > div');
+
+    tabItems.forEach((item, index) => {
+        item.addEventListener('click', () => {
+            tabItems.forEach((tab) => tab.classList.remove('active'));
+            tabPanes.forEach((pane) => pane.style.display = 'none');
+
+            item.classList.add('active');
+            tabPanes[index].style.display = 'block';
+        });
+    });
+});
+
 // ============================ Action edit / delet emploi ============================ //
 
 document.addEventListener('turbo:load', function () {

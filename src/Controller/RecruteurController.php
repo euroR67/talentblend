@@ -211,7 +211,12 @@ class RecruteurController extends AbstractController
 
             $entityManager->flush();
 
-            $this->addFlash('success', 'Le nouvelle emploi a bien été ajouter.');
+            // Vérifie si l'emploi a déjà un ID
+            if($emploi->getId()) {
+                $this->addFlash('success', 'L\'emploi a bien été modifié.');
+            } else {
+                $this->addFlash('success', 'L\'offre d\'emploi a bien été ajouté.');
+            }
 
             return $this->redirectToRoute('app_emplois');
 

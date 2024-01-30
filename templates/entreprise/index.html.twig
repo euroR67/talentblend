@@ -5,104 +5,119 @@
 {% block body %}
 <div class="wrapper">
     <h2>Gérez vos Entreprise</h2>
+
+    <ul class="tab">
+        <li class="active">Entreprise actives</li>
+        <li>Entreprise non vérifié</li>
+    </ul>
+
     <div class="table-wrapper">
-        <table>
-            <colgroup span="4"></colgroup>
-            <thead>
-                <tr>
-                    <th>Entreprise</th>
-                    <th>Status représentation</th>
-                    <th>Emploi active</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-            {% for entreprise in entrepriseRepresenter %}
-                {% if entreprise.entreprise.isVerified == true %}
-                <tr>
-                    <td>{{ entreprise }} {{ entreprise.entreprise.id }}</td>
-                    <td>
-                        {% if entreprise.status == true %}
-                            <span style="color: green;">Approuvé</span>
-                        {% elseif entreprise.status is null %}
-                            <span style="color: rgb(245, 205, 47);">Vérification</span>
-                        {% elseif entreprise.status == 0 %}
-                            <span style="color: rgb(243, 63, 63);">
-                                Rejeter 
-                                <i class="fa-solid fa-circle-info"></i>
-                                <div class="motif">
-                                    <div>
-                                        <strong>Motif de rejet :</strong>
-                                        <p>- {{ entreprise.motifRefus }}</p>
-                                        <p><em>Vous pouvez demander une nouvelle vérification en cliquant sur le bouton ci-dessous.</em></p>
-                                        <a href="{{ path('app_reverify_represente', {'id': entreprise.id}) }}">Demander une nouvelle vérification</a>
-                                    </div>
-                                </div>
-                                <div class="overlay"></div>
-                            </span>
-                        {% endif %}
-                    </td>
-
-                    {# Filtrer les emplois par l'utilisateur en session #}
-                    {# Afficher le nombre d'emplois créés par l'utilisateur en session #}
-                    <td>{{ entreprise.entreprise.emplois|filter(emploi => emploi.user.id == app.user.id)|length }}</td>
-
-                    <td class="td-action">
-                        <i class="fa-solid fa-ellipsis"></i>
-                        <div class="action">
-                            {% if entreprise.entreprise.user == app.user %}
-                                <a href="{{ path('app_edit_entreprise', {'id': entreprise.entreprise.id}) }}"><i class="fa-solid fa-pen-to-square"></i> Modifier</a>
-                                <a href="{{ path('app_delete_entreprise', {'id': entreprise.entreprise.id}) }}"><i class="fa-solid fa-xmark"></i> Supprimer</a>
-                            {% endif %}
-                        </div>
-                    </td>
-                </tr>
-                {% endif %}
-            {% endfor %}
-            </tbody>
-        </table>
-        <table>
-            <colgroup span="2"></colgroup>
-            <thead>
-                <tr>
-                    <th><i class="fa-regular fa-clock" style="color: #ebd805;"></i> Entreprise non vérifié</th>
-                    <th>Status Entreprise</th>
-                </tr>
-            </thead>
-            <tbody>
+        <div class="entreprise">
+            <table>
+                <colgroup span="4"></colgroup>
+                <thead>
+                    <tr>
+                        <th>Entreprise</th>
+                        <th>Status représentation</th>
+                        <th>Emploi active</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
                 {% for entreprise in entrepriseRepresenter %}
-                    {% if entreprise.entreprise.isVerified is null %}
-                        <tr>
-                            <td>{{ entreprise }}</td>
-                            <td><span style="color: rgb(245, 205, 47);">Vérification</span></td>
-                        </tr>
-                    {% elseif entreprise.entreprise.isVerified == 0 %}
-                        <tr>
-                            <td>{{ entreprise }}</td>
-                            <td>
+                    {% if entreprise.entreprise.isVerified == true %}
+                    <tr>
+                        <td>{{ entreprise }} {{ entreprise.entreprise.id }}</td>
+                        <td>
+                            {% if entreprise.status == true %}
+                                <span style="color: green;">Approuvé</span>
+                            {% elseif entreprise.status is null %}
+                                <span style="color: rgb(245, 205, 47);">Vérification</span>
+                            {% elseif entreprise.status == 0 %}
                                 <span style="color: rgb(243, 63, 63);">
                                     Rejeter 
                                     <i class="fa-solid fa-circle-info"></i>
                                     <div class="motif">
                                         <div>
                                             <strong>Motif de rejet :</strong>
-                                            <p>- {{ entreprise.entreprise.motifRefus }}</p>
+                                            <p>- {{ entreprise.motifRefus }}</p>
                                             <p><em>Vous pouvez demander une nouvelle vérification en cliquant sur le bouton ci-dessous.</em></p>
-                                            <a href="{{ path('app_edit_entreprise', {'id': entreprise.entreprise.id}) }}">Demander une nouvelle vérification</a>
+                                            <a href="{{ path('app_reverify_represente', {'id': entreprise.id}) }}">Demander une nouvelle vérification</a>
                                         </div>
                                     </div>
                                     <div class="overlay"></div>
                                 </span>
-                            </td>
-                        </tr>
+                            {% endif %}
+                        </td>
+    
+                        {# Filtrer les emplois par l'utilisateur en session #}
+                        {# Afficher le nombre d'emplois créés par l'utilisateur en session #}
+                        <td>{{ entreprise.entreprise.emplois|filter(emploi => emploi.user.id == app.user.id)|length }}</td>
+    
+                        <td class="td-action">
+                            <i class="fa-solid fa-ellipsis"></i>
+                            <div class="action">
+                                {% if entreprise.entreprise.user == app.user %}
+                                    <a href="{{ path('app_edit_entreprise', {'id': entreprise.entreprise.id}) }}"><i class="fa-solid fa-pen-to-square"></i> Modifier</a>
+                                    <a href="{{ path('app_delete_entreprise', {'id': entreprise.entreprise.id}) }}"><i class="fa-solid fa-xmark"></i> Supprimer</a>
+                                {% endif %}
+                            </div>
+                        </td>
+                    </tr>
                     {% endif %}
                 {% endfor %}
-            </tbody>
-        </table>
+                </tbody>
+            </table>
+        </div>
+        <div class="entreprise-verification" style="display: none;">
+            <table>
+                <colgroup span="2"></colgroup>
+                <thead>
+                    <tr>
+                        <th><i class="fa-regular fa-clock" style="color: #ebd805;"></i> Entreprise non vérifié</th>
+                        <th>Status Entreprise</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for entreprise in entrepriseRepresenter %}
+                        {% if entreprise.entreprise.isVerified is null %}
+                            <tr>
+                                <td>{{ entreprise }}</td>
+                                <td><span style="color: rgb(245, 205, 47);">Vérification</span></td>
+                            </tr>
+                        {% elseif entreprise.entreprise.isVerified == 0 %}
+                            <tr>
+                                <td>{{ entreprise }}</td>
+                                <td>
+                                    <span style="color: rgb(243, 63, 63);">
+                                        Rejeter 
+                                        <i class="fa-solid fa-circle-info"></i>
+                                        <div class="motif">
+                                            <div>
+                                                <strong>Motif de rejet :</strong>
+                                                <p>- {{ entreprise.entreprise.motifRefus }}</p>
+                                                <p><em>Vous pouvez demander une nouvelle vérification en cliquant sur le bouton ci-dessous.</em></p>
+                                                <a href="{{ path('app_edit_entreprise', {'id': entreprise.entreprise.id}) }}">Demander une nouvelle vérification</a>
+                                            </div>
+                                        </div>
+                                        <div class="overlay"></div>
+                                    </span>
+                                </td>
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </div>
-    <a href="{{ path('app_new_represente') }}">Ajouter une entreprise</a>
+    <a class="post-offre" href="{{ path('app_new_represente') }}">Ajouter une entreprise</a>
 </div>
-    
+<style>
+    .post-offre {
+        display: inline-block;
+        width: fit-content;
+    }
+</style>
 <script>
 
     const motif = document.querySelectorAll('.fa-circle-info');
@@ -123,5 +138,23 @@
         });
     });
 
+</script>
+<script>
+    // ============================ Onglet dashboard ============================ //
+
+    document.addEventListener('turbo:load', function() {
+        const tabItems = document.querySelectorAll('.tab li');
+        const tabPanes = document.querySelectorAll('.table-wrapper > div');
+
+        tabItems.forEach((item, index) => {
+            item.addEventListener('click', () => {
+                tabItems.forEach((tab) => tab.classList.remove('active'));
+                tabPanes.forEach((pane) => pane.style.display = 'none');
+
+                item.classList.add('active');
+                tabPanes[index].style.display = 'block';
+            });
+        });
+    });
 </script>
 {% endblock %}

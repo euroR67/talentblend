@@ -72,6 +72,23 @@ form.search-form-modal button.submit-search:hover {
     background-color: #018c67;
 }
 
+.btn-primary {
+    background-color: #007456;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 30px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #fff;
+    transition: all 0.2s ease-in-out;
+    outline: none;
+    cursor: pointer;
+}
+
+.btn-primary:hover {
+    background-color: #018c67;
+}
+
 @media screen and (min-width: 800px) {
     form.search-form-modal {
         display: flex;

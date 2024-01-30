@@ -5,13 +5,13 @@
 {% block body %}
     <div class="wrapper">
         <div class="section-wrapper">
-            <h2>Ajouter un emploi</h2>
+            <h2>{% if edit %}Modifier un emploi{% else %}Ajouter un emploi{% endif %}</h2>
             {{form_start(form)}}
 
             <div class="form-group">
                 <div>
                     <label for="inputPoste">Titre du poste</label>
-                    {{ form_widget(form.poste, {'attr': {'class': 'form-control'}, 'id': 'inputPoste'}) }}
+                    {{ form_widget(form.poste, {'attr': {'class': 'form-control', 'id': 'inputPoste', 'placeholder': 'ex: Assistant(e) comptable'}}) }}
                 </div>
             </div>
 
@@ -33,7 +33,7 @@
                 </div>
                 <div>
                     <label for="inputDisponibilite">Disponibilité</label>
-                    {{ form_widget(form.disponibilite, {'attr': {'class': 'form-control'}, 'id': 'inputDisponibilite'}) }}
+                    {{ form_widget(form.disponibilite, {'attr': {'class': 'form-control', 'id': 'inputDisponibilite', 'placeholder': 'ex: Dès que possible'}}) }}
                 </div>
             </div>
 
@@ -59,7 +59,7 @@
             </div>
 
             {# Si l'utilisateur choisi l'échelle #}
-            <div class="form-group" id="echelle">
+            <div class="form-group" id="echelle" style="gap: 10px;">
                 <div>
                     <label for="minimum">Minimum</label>
                     {{ form_widget(form.salaireMinimum, {'attr': {'class': 'form-control'}, 'id': 'minimum'}) }}
@@ -84,10 +84,14 @@
                 </div>
             </div>
 
-            {{ form_row(form.entreprise) }}
-            {{ form_row(form.description) }}
+            <div class="form-group">
+                {{ form_row(form.entreprise) }}
+            </div>
+            <div class="form-group">
+                {{ form_row(form.description, {'attr': {'class': 'form-control', 'id': 'description', 'placeholder': 'ex: Description du poste', 'rows': '5', 'maxlength': '500'}}) }}
+            </div>
 
-            <button type="submit" class="btn btn-primary">Ajouter</button>
+            <button type="submit" class="btn-primary">{% if edit %}Modifier{% else %}Ajouter{% endif %}</button>
             {{form_end(form)}}
         </div>
     </div>
