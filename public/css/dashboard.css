@@ -604,17 +604,8 @@ div.table-wrapper table tr td:nth-child(2) {
     min-width: 200px;
 }
 
-.td-action {
-    min-width: 80px;
-}
-
 td.td-action {
-    position: sticky;
-    right: 0;
-    padding-left: 24px;
-    background-color: #fff;
-    min-width: 60px;
-    text-align: right;
+    position: relative;
 }
 
 div.action {
@@ -1010,6 +1001,7 @@ div.motif div a:hover {
         width: 30px;
         height: 30px;
         border-radius: 50%;
+        object-fit: cover;
     }
 
     .post-offre {

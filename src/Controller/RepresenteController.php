@@ -84,11 +84,16 @@ class RepresenteController extends AbstractController
 
             // Dans le cas ou le recruteur demande une réexamination de la représentation
             // On remet le statut de la représentation à null
-            if($represente->isStatus() == 0) {
-                $represente->setStatus(NULL);
-                $entityManager->flush();
-                // Message dans le cas ou il s'agit d'une réexamination
-                $message = 'La demande de réexamination de la représentation a bien été envoyée.';
+            if ($represente->getId()) {
+                if($represente->isStatus() == 0) {
+                    $represente->setStatus(NULL);
+                    $entityManager->flush();
+                    // Message dans le cas ou il s'agit d'une réexamination
+                    $message = 'La demande de réexamination de la représentation a bien été envoyée.';
+                }
+            } else {
+                // Message dans le cas ou il s'agit d'une nouvelle représentation
+                $message = 'La demande de représentation a bien été prise en compte, elle est en cours de vérification.';
             }
 
             $entityManager->persist($represente);

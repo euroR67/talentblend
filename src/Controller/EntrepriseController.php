@@ -51,6 +51,7 @@ class EntrepriseController extends AbstractController
             $represantant->setUserEntreprise($user);
 
             $entreprise = new Entreprise();
+            $entreprise->setIsVerified(NULL);
             $entreprise->setUser($user);
             $entreprise->addRepresentant($represantant);
         }
@@ -170,19 +171,18 @@ class EntrepriseController extends AbstractController
                 $entreprise->setKbis($newFilename);
             }
 
-            // Message dans le cas ou l'entreprise vient d'être ajoutée
-            $message = 'L\'Entreprise a bien été ajoutée, elle est en cours de vérification.';
-
             // Dans le cas ou le recruteur demande un réexamen de l'entreprise
             // On remet le statut de l'entreprise à NULL (en attente de vérification)
-            if($entreprise->isIsVerified() == 0) {
-                $entreprise->setIsVerified(NULL);
-                $entityManager->flush();
-                // Message dans le cas ou il s'agit d'une réexamen
-                $message = 'La demande de réexamen de l\'entreprise a bien été envoyée.';
-            } elseif ($entreprise->getId()) {
-                // Message dans le cas ou l'entreprise vient d'être modifiée
-                $message = 'L\'Entreprise a bien été modifiée.';
+            if ($entreprise->getId()) {
+                if($entreprise->isIsVerified() == 0) {
+                    $entreprise->setIsVerified(NULL);
+                    $entityManager->flush();
+                    $message = 'La demande de réexamen de l\'entreprise a bien été envoyée.';
+                } else {
+                    $message = 'L\'Entreprise a bien été modifiée.';
+                }
+            } else {
+                $message = 'L\'Entreprise a bien été ajoutée, elle est en cours de vérification.';
             }
 
             $entityManager->persist($entreprise);

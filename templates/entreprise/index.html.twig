@@ -28,7 +28,7 @@
                     {% for entreprise in entrepriseRepresenter %}
                         {% if entreprise.entreprise.isVerified == true %}
                         <tr>
-                            <td>{{ entreprise }} {{ entreprise.entreprise.id }}</td>
+                            <td>{{ entreprise }}</td>
                             <td>
                                 {% if entreprise.status == true %}
                                     <span style="color: green;">Approuvé</span>
@@ -46,7 +46,6 @@
                                                 <a href="{{ path('app_reverify_represente', {'id': entreprise.id}) }}">Demander une nouvelle vérification</a>
                                             </div>
                                         </div>
-                                        <div class="overlay"></div>
                                     </span>
                                 {% endif %}
                             </td>
@@ -89,7 +88,7 @@
                         {% for entreprise in entrepriseRepresenter %}
                             {% if entreprise.entreprise.isVerified is null %}
                                 <tr>
-                                    <td>{{ entreprise }}</td>
+                                    <td><img src="{{ asset('logo') ~ '/' ~ entreprise.entreprise.logo }}" alt="{{ entreprise.entreprise }}" height="40">{{ entreprise }}</td>
                                     <td><span style="color: rgb(245, 205, 47);">Vérification</span></td>
                                 </tr>
                             {% elseif entreprise.entreprise.isVerified == 0 %}
@@ -107,7 +106,6 @@
                                                     <a href="{{ path('app_edit_entreprise', {'id': entreprise.entreprise.id}) }}">Demander une nouvelle vérification</a>
                                                 </div>
                                             </div>
-                                            <div class="overlay"></div>
                                         </span>
                                     </td>
                                 </tr>
@@ -122,6 +120,7 @@
             </table>
         </div>
     </div>
+    <div class="modal-overlay" style="z-index: 2;"></div>
     <a class="post-offre" href="{{ path('app_new_represente') }}">Ajouter une entreprise</a>
 </div>
 <style>
@@ -130,27 +129,6 @@
         width: fit-content;
     }
 </style>
-<script>
-
-    const motif = document.querySelectorAll('.fa-circle-info');
-    const overlay = document.querySelectorAll('.overlay');
-    const motifDiv = document.querySelectorAll('.motif div');
-
-    motif.forEach((el, index) => {
-        el.addEventListener('click', () => {
-            motifDiv[index].classList.toggle('active');
-            overlay[index].classList.toggle('active-overlay');
-        });
-    });
-
-    overlay.forEach((el, index) => {
-        el.addEventListener('click', () => {
-            motifDiv[index].classList.toggle('active');
-            overlay[index].classList.toggle('active-overlay');
-        });
-    });
-
-</script>
 <script>
     // ============================ Onglet dashboard ============================ //
 
@@ -167,6 +145,26 @@
                 tabPanes[index].style.display = 'block';
             });
         });
+
+        // ============================ Voir motif de refus ============================ //
+        const motif = document.querySelectorAll('.fa-circle-info');
+        const overlay = document.querySelectorAll('.modal-overlay');
+        const motifDiv = document.querySelectorAll('.motif div');
+
+        motif.forEach((el, index) => {
+            el.addEventListener('click', () => {
+                motifDiv[index].classList.toggle('active');
+                overlay[index].classList.toggle('active-overlay');
+            });
+        });
+
+        overlay.forEach((el, index) => {
+            el.addEventListener('click', () => {
+                motifDiv[index].classList.toggle('active');
+                overlay[index].classList.toggle('active-overlay');
+            });
+        });
     });
+    
 </script>
 {% endblock %}

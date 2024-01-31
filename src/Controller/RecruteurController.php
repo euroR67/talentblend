@@ -178,6 +178,27 @@ class RecruteurController extends AbstractController
             $this->addFlash('warning', 'Vous devez d\'abord créer une entreprise ou une représentation.');
             return $this->redirectToRoute('app_new_represente');
         }
+
+        // Vérifiez si l'entreprise ou la représentation de l'utilisateur est vérifiée
+        $isVerified = false;
+        foreach ($user->getEntrepriseRepresenter() as $representation) {
+            if ($representation->getEntreprise()->isIsVerified()) {
+                $isVerified = true;
+                break;
+            }
+        }
+        if (!$isVerified) {
+            foreach ($user->getEntrepriseCreator() as $entreprise) {
+                if ($entreprise->isIsVerified()) {
+                    $isVerified = true;
+                    break;
+                }
+            }
+        }
+        if (!$isVerified) {
+            $this->addFlash('warning', 'Votre entreprise ou représentation doit être vérifiée avant de pouvoir ajouter un emploi.');
+            return $this->redirectToRoute('app_entreprises');
+        }
         
         // Vérifie si l'emploi existe, sinon on en crée un nouveau
         if(!$emploi) {
@@ -216,15 +237,17 @@ class RecruteurController extends AbstractController
                 $emploi->setShowBy('montantMaximum');
             }
 
-            $entityManager->persist($emploi);
+            // Vérifie si l'emploi a déjà un ID avant de l'enregistrer
+            $isNew = $emploi->getId() === null;
 
+            $entityManager->persist($emploi);
             $entityManager->flush();
 
             // Vérifie si l'emploi a déjà un ID
-            if($emploi->getId()) {
-                $this->addFlash('success', 'L\'emploi a bien été modifié.');
-            } else {
+            if ($isNew) {
                 $this->addFlash('success', 'L\'offre d\'emploi a bien été ajouté.');
+            } else {
+                $this->addFlash('success', 'L\'emploi a bien été modifié.');
             }
 
             return $this->redirectToRoute('app_emplois');
