@@ -173,7 +173,7 @@ class EntrepriseController extends AbstractController
             // Message dans le cas ou l'entreprise vient d'être ajoutée
             $message = 'L\'Entreprise a bien été ajoutée, elle est en cours de vérification.';
 
-            // Dans le cas ou le recruteur demande une réexamen de l'entreprise
+            // Dans le cas ou le recruteur demande un réexamen de l'entreprise
             // On remet le statut de l'entreprise à NULL (en attente de vérification)
             if($entreprise->isIsVerified() == 0) {
                 $entreprise->setIsVerified(NULL);

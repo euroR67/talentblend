@@ -50,6 +50,24 @@ nav.dash-submenu-dash ul li a i {
     margin-block: 5px;
 }
 
+.soon {
+    color: #e6e6e6!important;
+    background-color: #026c96;
+    font-size: 12px;
+    font-weight: 600;
+    margin-left: 5px;
+    padding: 2px 5px;
+}
+
+.dash-submenu-dash ul li a.active {
+    color: #007456;
+    background-color: rgba(0,116,86,0.05);
+}
+
+.dash-submenu-dash ul li a.active i {
+    color: #007456;
+}
+
 .dash-submenu-dash ul li a:hover {
     color: #007456;
     background-color: rgba(0,116,86,0.05);

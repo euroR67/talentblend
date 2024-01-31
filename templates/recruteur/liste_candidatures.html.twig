@@ -17,48 +17,54 @@
                 </tr>
             </thead>
             <tbody>
-            {% for candidature in candidatures %}
-                <tr>
-                    <td>
-                        {% if candidature.userPostulant.active %}
-                            <a href="{{ path('app_show_candidat', {'id': candidature.userPostulant.id}) }}" data-turbo="false">{{ candidature }}</a>
-                        {% else %}
-                            <p>{{ candidature }}</p>
-                        {% endif %}
-                        <span>Postulé pour : <a style="color: #007456;" href="">{{ candidature.emploi }}</a></span>
-                    </td>
-                    <td>
-                        {% if candidature.status is null %}
-                            Vérification
-                        {% elseif candidature.status == 1 %}
-                            Approuvé
-                        {% elseif candidature.status == 0 %}
-                            Rejeter
-                        {% endif %}
-                    </td>
-                    
-                    <td>{{ candidature.datePostulation|format_datetime('long', 'none', locale='fr') }}</td>
-                    <td class="td-action">
-                        {# Icon download pour télécharger le CV du candidat #}
-                        {% if candidature.userPostulant.cv %}
-                            <a style="margin-right: 10px;" title="Voir le CV" href="{{ asset('cv/' ~ candidature.userPostulant.cv) }}" target="_blank"><i class="fa-regular fa-file-pdf" style="font-size: 22px;"></i></a>
-                        {% else %}
-                            <a href="{{ asset('cv/' ~ candidature.cv) }}" target="_blank"><i class="fa-regular fa-file-pdf" style="font-size: 22px;"></i></a>
-                        {% endif %}
-                        <i class="fa-solid fa-ellipsis"></i>
-                        <div class="action">
-                            {% if candidature.status is null %}
-                                <a href={{ path('app_approuver', {'id': candidature.id}) }}>Approuvé</a>
-                                <a href="{{ path('app_rejeter', {'id': candidature.id}) }}">Rejeter</a>
-                            {% elseif candidature.status == 1 %}
-                                <a href="{{ path('app_rejeter', {'id': candidature.id}) }}">Rejeter</a>
-                            {% elseif candidature.status == 0 %}
-                                <a href={{ path('app_approuver', {'id': candidature.id}) }}>Approuvé</a>
+            {% if candidatures is not empty %}
+                {% for candidature in candidatures %}
+                    <tr>
+                        <td>
+                            {% if candidature.userPostulant.active %}
+                                <a href="{{ path('app_show_candidat', {'id': candidature.userPostulant.id}) }}" data-turbo="false">{{ candidature }}</a>
+                            {% else %}
+                                <p>{{ candidature }}</p>
                             {% endif %}
-                        </div>
-                    </td>
-                </tr>
+                            <span>Postulé pour : <a style="color: #007456;" href="">{{ candidature.emploi }}</a></span>
+                        </td>
+                        <td>
+                            {% if candidature.status is null %}
+                                Vérification
+                            {% elseif candidature.status == 1 %}
+                                Approuvé
+                            {% elseif candidature.status == 0 %}
+                                Rejeter
+                            {% endif %}
+                        </td>
+                        
+                        <td>{{ candidature.datePostulation|format_datetime('long', 'none', locale='fr') }}</td>
+                        <td class="td-action">
+                            {# Icon download pour télécharger le CV du candidat #}
+                            {% if candidature.userPostulant.cv %}
+                                <a style="margin-right: 10px;" title="Voir le CV" href="{{ asset('cv/' ~ candidature.userPostulant.cv) }}" target="_blank"><i class="fa-regular fa-file-pdf" style="font-size: 22px;"></i></a>
+                            {% else %}
+                                <a href="{{ asset('cv/' ~ candidature.cv) }}" target="_blank"><i class="fa-regular fa-file-pdf" style="font-size: 22px;"></i></a>
+                            {% endif %}
+                            <i class="fa-solid fa-ellipsis"></i>
+                            <div class="action">
+                                {% if candidature.status is null %}
+                                    <a href={{ path('app_approuver', {'id': candidature.id}) }}>Approuvé</a>
+                                    <a href="{{ path('app_rejeter', {'id': candidature.id}) }}">Rejeter</a>
+                                {% elseif candidature.status == 1 %}
+                                    <a href="{{ path('app_rejeter', {'id': candidature.id}) }}">Rejeter</a>
+                                {% elseif candidature.status == 0 %}
+                                    <a href={{ path('app_approuver', {'id': candidature.id}) }}>Approuvé</a>
+                                {% endif %}
+                            </div>
+                        </td>
+                    </tr>
                 {% endfor %}
+            {% else %}
+                <tr>
+                    <td colspan="4" style="text-align: center;">Aucune candidature pour le moment</td>
+                </tr>
+            {% endif %}
             </tbody>
         </table>
     </div>

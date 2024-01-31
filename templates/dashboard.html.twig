@@ -147,9 +147,9 @@
                 <nav class="dash-submenu-dash">
                     <span>Tableau de bord</span>
                     <ul>
+                        <li><a href="#"><i class="fa-solid fa-gauge"></i> Aperçu <span class="soon">Bientôt</span></a></li>
                         {% set unreadMessagesCount = app.user.countAllUnreadMessages %}
                         {% if is_granted('ROLE_RECRUTEUR') %}
-                        <li><a href="{{ path('app_emplois') }}" data-turbo="false"><i class="fa-solid fa-gauge"></i> Tableau de bord</a></li>
                         <li><a href="{{ path('app_emplois') }}" data-turbo="false"><i class="fa-solid fa-briefcase"></i> Emplois</a></li>
                         <li><a href="{{ path('app_candidatures_recu') }}" data-turbo="false"><i class="fa-solid fa-list"></i> Candidatures</a></li>
                         <li><a href="{{ path('app_entreprises') }}" data-turbo="false"><i class="fa-solid fa-building-shield"></i> Entreprise</a></li>
@@ -167,7 +167,6 @@
                         <li><a href="{{ path('app_edit_password') }}" data-turbo="false"><i class="fa-solid fa-gear"></i> Paramètre</a></li>
                         {% endif %}
                         {% if is_granted('ROLE_ADMIN') %}
-                        <li><a href="{{ path('app_admin_entreprise') }}" data-turbo="false"><i class="fa-solid fa-gauge"></i> Tableau de bord</a></li>
                         <li><a href="{{ path('app_admin_entreprise') }}" data-turbo="false"><i class="fa-solid fa-building"></i> Entreprise</a></li>
                         <li><a href="{{ path('app_admin_representant') }}" data-turbo="false"><i class="fa-solid fa-building-user"></i> Représentation</a></li>
                         <li><a href="#" data-turbo="false"><i class="fa-solid fa-flag"></i> Signalement</a></li>
@@ -221,10 +220,8 @@
             <script>
                 var errorAlert = document.querySelector('.alert-danger');
                 setTimeout(function() {
+                    errorAlert.style.animationFillMode = 'forwards';
                     errorAlert.classList.add('slideToTop');
-                    setTimeout(function() {
-                        errorAlert.style.display = 'none';
-                    }, 600);
                 }, 6000); // Masquer le message après 6 secondes (6000 millisecondes)
             </script>
         {% endif %}
@@ -240,13 +237,38 @@
             <script>
                 var successAlert = document.querySelector('.alert-success');
                 setTimeout(function() {
+                    successAlert.style.animationFillMode = 'forwards';
                     successAlert.classList.add('slideToTop');
-                    setTimeout(function() {
-                        successAlert.style.display = 'none';
-                    }, 600);
                 }, 6000); // Masquer le message après 6 secondes (6000 millisecondes)
             </script>
         {% endif %}
+
+        {# Vérifier et afficher le message flash de warning #}
+        {% set warningFlashes = app.flashes('warning') %}
+        {% if warningFlashes is not empty %}
+            <div class="alert-warning">
+                <i class="fa-solid fa-exclamation"></i>
+                <p><strong>{{ warningFlashes[0] }}</strong></p>
+            </div>
+            {# Masquer le message après 6 secondes #}
+            <script>
+                var warningAlert = document.querySelector('.alert-warning');
+                setTimeout(function() {
+                    warningAlert.style.animationFillMode = 'forwards';
+                    warningAlert.classList.add('slideToTop');
+                }, 6000); // Masquer le message après 6 secondes (6000 millisecondes)
+            </script>
+        {% endif %}
+
+        <script>
+            var links = document.querySelectorAll('.dash-submenu-dash ul li a');
+            var currentUrl = window.location.href;
+            links.forEach(function(link) {
+                if (link.href === currentUrl) {
+                    link.classList.add('active');
+                }
+            });
+        </script>
         <script src="{{asset('js/likeEmploi.js')}}"></script>
     </body>
 </html>

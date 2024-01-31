@@ -44,31 +44,6 @@
                 </div>
             </div>
 
-            <style>
-                .https {
-                    display: flex!important;
-                    position: relative;
-                }
-
-                .https input:first-child {
-                    position: absolute;
-                    left: 0;
-                    top: 0;
-                    width: 80px;
-                    background: transparent;
-                    text-align: center;
-                    z-index: 1;
-                }
-
-                .https input:last-child {
-                    padding-left: 90px;
-                }
-
-                .form-group.web div:last-child {
-                    margin-top: 5px;
-                }
-            </style>
-
             <div class="form-group">
                 <div>
                     {{ form_label(form.logo) }}
@@ -93,7 +68,8 @@
                 <div>
                     <div>
                         {{ form_label(form.description) }}
-                        {{ form_widget(form.description, {'attr': {'class': 'form-control','rows': '10', 'placeholder': 'Description de l\'entreprise...'}}) }}
+                        {{ form_widget(form.description, {'attr': {'class': 'form-control','rows': '10', 'placeholder': 'Description de l\'entreprise...', 'maxlength': '255'}}) }}
+                        <p>Maximum 255 caractères</p>
                     </div>
                 </div>
             </div>
@@ -102,5 +78,28 @@
             {{form_end(form)}}
         </div>
     </div>
+    <style>
+        .https {
+            display: flex!important;
+            position: relative;
+        }
 
+        .https input:first-child {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 80px;
+            background: transparent;
+            text-align: center;
+            z-index: 1;
+        }
+
+        .https input:last-child {
+            padding-left: 90px;
+        }
+
+        .form-group.web div:last-child {
+            margin-top: 5px;
+        }
+    </style>
 {% endblock %}

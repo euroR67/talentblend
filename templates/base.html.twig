@@ -262,6 +262,8 @@
                             <li><a href="#" data-turbo="false">Entreprises</a></li>
                             {% if not app.user %}
                                 <li><a href="{{ path('app_register') }}" data-turbo="false">Déposer mon CV</a></li>
+                            {% elseif is_granted('ROLE_RECRUTEUR') %}
+                                <li><a href="{{ path('app_new_emploi') }}">Poster une offre</a></li>
                             {% endif %}
                         </ul>
 

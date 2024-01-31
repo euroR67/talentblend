@@ -1,58 +1,61 @@
-.alert-danger {
+.alert-danger,
+.alert-success,
+.alert-warning {
     background-color: #fff;
     max-width: 500px;
     border-radius: 3px;
-    animation: slideFromTop 0.6s ease-in-out;
+    animation: slideFromTop 0.6s ease-in-out forwards;
     position: fixed;
     top: 2%;
     left: 50%;
     transform: translateX(-50%);
     display: flex;
     align-items: center;
-    box-shadow: 0 0 10px rgba(81, 0, 0, 0.458);
     z-index: 9999;
 }
 
-.alert-danger i {
+.alert-danger i,
+.alert-success i,
+.alert-warning i {
     font-size: 20px;
-    background-color: #d53d3d;
     padding: 20px;
     color: #fff;
 }
 
-.alert-danger p {
-    padding: 10px 20px;
-}
-
-.alert-success {
-    background-color: #fff;
-    max-width: 500px;
-    border-radius: 3px;
-    animation: slideFromTop 0.6s ease-in-out;
-    position: fixed;
-    top: 2%;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    align-items: center;
-    box-shadow: 0 0 10px rgba(0, 48, 10, 0.458);
-    z-index: 9999;
-}
-
-.alert-success i {
-    font-size: 22px;
-    background-color: #3dd575;
-    padding: 20px;
-    color: #fff;
-}
-
-.alert-success p {
+.alert-success p,
+.alert-danger p,
+.alert-warning p{
     padding: 10px 20px;
 }
 
 .alert-success.slideToTop,
-.alert-danger.slideToTop {
+.alert-danger.slideToTop,
+.alert-warning.slideToTop {
     animation: slideToTop 0.6s ease-in-out;
+}
+
+.alert-success i {
+    background-color: #3dd575;
+}
+
+.alert-danger i {
+    background-color: #d53d3d;
+}
+
+.alert-warning i {
+    background-color: #d5c03d;
+}
+
+.alert-danger {
+    box-shadow: 0 0 10px rgba(81, 0, 0, 0.458);
+}
+
+.alert-success {
+    box-shadow: 0 0 10px rgba(0, 48, 10, 0.458);
+}
+
+.alert-warning {
+    box-shadow: 0 0 10px rgba(81, 81, 0, 0.458);
 }
 
 @keyframes slideFromTop {

@@ -19,43 +19,48 @@
                 </div>
                 <ul>
                     {# Liste des discussions de l'utilisateur #}
-                    {% for user in discussedUsers %}
-                    <li {% if app.request.get('receiverId') == user.id %}class="active"{% endif %}>
-                            <a href="{{ path('discussions', {'receiverId': user.id}) }}">
-                                <div class="user-picture">
-                                    {% set unreadMessagesCount = app.user.countUnreadMessagesFromUser(user) %}
-                                    {% if unreadMessagesCount > 0 %}
-                                    <div class="notif">
-                                        <span class="unread">{{ unreadMessagesCount }}</span>
+                    {% if discussedUsers is not empty %}
+                        {% for user in discussedUsers %}
+                            <li {% if app.request.get('receiverId') == user.id %}class="active"{% endif %}>
+                                <a href="{{ path('discussions', {'receiverId': user.id}) }}">
+                                    <div class="user-picture">
+                                        {% set unreadMessagesCount = app.user.countUnreadMessagesFromUser(user) %}
+                                        {% if unreadMessagesCount > 0 %}
+                                        <div class="notif">
+                                            <span class="unread">{{ unreadMessagesCount }}</span>
+                                        </div>
+                                        {% endif %}
+                                        {% if user.photo %}
+                                            <img src="{{ asset('pdp/' ~ user.photo) }}" alt="avatar">
+                                        {% else %}
+                                            <img src="{{ asset('img/profil.jpg') }}" alt="avatar">
+                                        {% endif %}
                                     </div>
-                                    {% endif %}
-                                    {% if user.photo %}
-                                        <img src="{{ asset('pdp/' ~ user.photo) }}" alt="avatar">
-                                    {% else %}
-                                        <img src="{{ asset('img/profil.jpg') }}" alt="avatar">
-                                    {% endif %}
-                                </div>
-                                <div class="message-item">
-                                    <div class="message-item-head">
-                                        <span>{{ user.nom }} {{ user.prenom }}</span>
-                                        {# Date du dernier message #}
-                                        <p>{{ lastMessages[user.id].date|date_format_special }}</p>
+                                    <div class="message-item">
+                                        <div class="message-item-head">
+                                            <span>{{ user.nom }} {{ user.prenom }}</span>
+                                            {# Date du dernier message #}
+                                            <p>{{ lastMessages[user.id].date|date_format_special }}</p>
+                                        </div>
+                                        <div class="message-item-body">
+                                            <span class="lastMessage">
+                                                {# Afficher 20 caractères du dernier message de cette discussion #}
+                                                {% set message = lastMessages[user.id].message|slice(0, 25) %}
+                                                {% if lastMessages[user.id].sender.id == app.user.id %}
+                                                    <span class="byYou">Vous : {{ message }}{% if message|length >= 20 %}...{% endif %}</span>
+                                                {% else %}
+                                                    {{ message }}{% if message|length >= 25 %}...{% endif %}
+                                                {% endif %}
+                                            </span>
+                                        </div>
                                     </div>
-                                    <div class="message-item-body">
-                                        <span class="lastMessage">
-                                            {# Afficher 20 caractères du dernier message de cette discussion #}
-                                            {% set message = lastMessages[user.id].message|slice(0, 25) %}
-                                            {% if lastMessages[user.id].sender.id == app.user.id %}
-                                                <span class="byYou">Vous : {{ message }}{% if message|length >= 20 %}...{% endif %}</span>
-                                            {% else %}
-                                                {{ message }}{% if message|length >= 25 %}...{% endif %}
-                                            {% endif %}
-                                        </span>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                    {% endfor %}
+                                </a>
+                            </li>
+                        {% endfor %}
+                    {% else %}
+                        <p style="text-align: center; margin-top: 20px;">Vous n'avez aucune discussion.</p>
+                    {% endif %}
+
                 </ul>
             </nav>
             {% if selectedMessages is defined and selectedMessages is not null %}
@@ -121,43 +126,47 @@
                     </div>
                     <ul>
                         {# Liste des discussions de l'utilisateur #}
-                        {% for user in discussedUsers %}
-                            <li {% if app.request.get('receiverId') == user.id %}class="active"{% endif %}>
-                                <a href="{{ path('discussions', {'receiverId': user.id}) }}">
-                                    <div class="user-picture">
-                                        {% set unreadMessagesCount = app.user.countUnreadMessagesFromUser(user) %}
-                                        {% if unreadMessagesCount > 0 %}
-                                        <div class="notif">
-                                            <span class="unread">{{ unreadMessagesCount }}</span>
+                        {% if discussedUsers is not empty %}
+                            {% for user in discussedUsers %}
+                                <li {% if app.request.get('receiverId') == user.id %}class="active"{% endif %}>
+                                    <a href="{{ path('discussions', {'receiverId': user.id}) }}">
+                                        <div class="user-picture">
+                                            {% set unreadMessagesCount = app.user.countUnreadMessagesFromUser(user) %}
+                                            {% if unreadMessagesCount > 0 %}
+                                            <div class="notif">
+                                                <span class="unread">{{ unreadMessagesCount }}</span>
+                                            </div>
+                                            {% endif %}
+                                            {% if user.photo %}
+                                                <img src="{{ asset('pdp/' ~ user.photo) }}" alt="avatar">
+                                            {% else %}
+                                                <img src="{{ asset('img/profil.jpg') }}" alt="avatar">
+                                            {% endif %}
                                         </div>
-                                        {% endif %}
-                                        {% if user.photo %}
-                                            <img src="{{ asset('pdp/' ~ user.photo) }}" alt="avatar">
-                                        {% else %}
-                                            <img src="{{ asset('img/profil.jpg') }}" alt="avatar">
-                                        {% endif %}
-                                    </div>
-                                    <div class="message-item">
-                                        <div class="message-item-head">
-                                            <span>{{ user.nom }} {{ user.prenom }}</span>
-                                            {# Date du dernier message #}
-                                            <p>{{ lastMessages[user.id].date|date_format_special }}</p>
+                                        <div class="message-item">
+                                            <div class="message-item-head">
+                                                <span>{{ user.nom }} {{ user.prenom }}</span>
+                                                {# Date du dernier message #}
+                                                <p>{{ lastMessages[user.id].date|date_format_special }}</p>
+                                            </div>
+                                            <div class="message-item-body">
+                                                <span class="lastMessage">
+                                                    {# Afficher 20 caractères du dernier message de cette discussion #}
+                                                    {% set message = lastMessages[user.id].message|slice(0, 25) %}
+                                                    {% if lastMessages[user.id].sender.id == app.user.id %}
+                                                        <span class="byYou">Vous : {{ message }}{% if message|length >= 20 %}...{% endif %}</span>
+                                                    {% else %}
+                                                        {{ message }}{% if message|length >= 25 %}...{% endif %}
+                                                    {% endif %}
+                                                </span>
+                                            </div>
                                         </div>
-                                        <div class="message-item-body">
-                                            <span class="lastMessage">
-                                                {# Afficher 20 caractères du dernier message de cette discussion #}
-                                                {% set message = lastMessages[user.id].message|slice(0, 25) %}
-                                                {% if lastMessages[user.id].sender.id == app.user.id %}
-                                                    <span class="byYou">Vous : {{ message }}{% if message|length >= 20 %}...{% endif %}</span>
-                                                {% else %}
-                                                    {{ message }}{% if message|length >= 25 %}...{% endif %}
-                                                {% endif %}
-                                            </span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                        {% endfor %}
+                                    </a>
+                                </li>
+                            {% endfor %}
+                        {% else %}
+                            <p style="text-align: center; margin-top: 20px;">Vous n'avez aucune discussion.</p>
+                        {% endif %}
                     </ul>
                 </nav>
             </aside>

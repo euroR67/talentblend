@@ -89,6 +89,21 @@ form.search-form-modal button.submit-search:hover {
     background-color: #018c67;
 }
 
+.form-error-message {
+    margin-bottom: 30px;
+}
+
+.form-error-message i,
+.form-error-message li {
+    color: rgb(255, 0, 0);
+}
+
+.form-error-message li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
 @media screen and (min-width: 800px) {
     form.search-form-modal {
         display: flex;

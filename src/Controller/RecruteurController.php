@@ -170,6 +170,15 @@ class RecruteurController extends AbstractController
     {
         $this->denyAccessUnlessGranted('ROLE_RECRUTEUR');
 
+        // Obtenez l'utilisateur actuel
+        $user = $this->getUser();
+
+        // Vérifiez si l'utilisateur a une entreprise ou représente une entreprise
+        if ($user->getEntrepriseRepresenter()->isEmpty() && $user->getEntrepriseCreator()->isEmpty()) {
+            $this->addFlash('warning', 'Vous devez d\'abord créer une entreprise ou une représentation.');
+            return $this->redirectToRoute('app_new_represente');
+        }
+        
         // Vérifie si l'emploi existe, sinon on en crée un nouveau
         if(!$emploi) {
             $emploi = new Emploi();

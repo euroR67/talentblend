@@ -80,7 +80,7 @@ class UserController extends AbstractController
 
             // Si le nouveau mot de passe est identique à l'ancien
             if($currentPassword === $form->get('plainPassword')->getData()) {
-                $this->addFlash('error', 'Le nouveau mot de passe doit être différent de l\'ancien.');
+                $form->get('plainPassword')->addError(new FormError('Le nouveau mot de passe doit être différent de l\'ancien.'));
                 return $this->render('security/edit_password.html.twig', [
                     'form' => $form->createView(),
                 ]);
