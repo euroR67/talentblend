@@ -13,22 +13,29 @@ document.querySelectorAll('.save-emploi-link').forEach(function(link) {
         })
         .then(response => response.json())
         .then(data => {
-            const MySwal = Swal.mixin({scrollbarPadding: false});
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.onmouseenter = Swal.stopTimer;
+                    toast.onmouseleave = Swal.resumeTimer;
+                }
+            });
+        
             if (data.error) {
-                MySwal.fire({
+                Toast.fire({
                     icon: 'error',
-                    title: data.error,
-                    showConfirmButton: false,
-                    timer: 2500
+                    title: data.error
                 });
             } else {
-                MySwal.fire({
+                Toast.fire({
                     icon: 'success',
-                    title: data.success,
-                    showConfirmButton: false,
-                    timer: 2500
+                    title: data.success
                 });
-
+        
                 if (link.dataset.saved === 'false') {
                     link.innerHTML = '<i class="fa-solid fa-heart"></i>';
                     link.dataset.saved = 'true';
@@ -64,22 +71,29 @@ document.querySelectorAll('.action2').forEach(function(link) {
         })
         .then(response => response.json())
         .then(data => {
-            const MySwal = Swal.mixin({scrollbarPadding: false});
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.onmouseenter = Swal.stopTimer;
+                    toast.onmouseleave = Swal.resumeTimer;
+                }
+            });
+        
             if (data.error) {
-                MySwal.fire({
+                Toast.fire({
                     icon: 'error',
-                    title: data.error,
-                    showConfirmButton: false,
-                    timer: 2500
+                    title: data.error
                 });
             } else {
-                MySwal.fire({
+                Toast.fire({
                     icon: 'success',
-                    title: data.success,
-                    showConfirmButton: false,
-                    timer: 2500
+                    title: data.success
                 });
-
+        
                 // Supprimer la ligne du tableau et la classe 'saved'
                 row.parentNode.removeChild(row);
             }
