@@ -2,6 +2,9 @@
 
 {% block title %}Détail de {{ candidat }}{% endblock %}
 
+{# Meta description #}
+{% block meta_description %}Détail du profil de {{ candidat }}{% endblock %}
+
 {% block body %}
 
     <main class="show show-candidat">
@@ -30,6 +33,7 @@
                         <div class="modal">
                             <p>Message</p>
                             <form method="post" action="{{ path('send_message', {'id': candidat.id}) }}">
+                                <input type="hidden" name="csrf_token" value="{{ csrf_token('send_message') }}">
                                 <textarea name="content" placeholder="Votre message ici..." required></textarea>
                                 <div class="action">
                                     <button type="submit">Envoyer</button>

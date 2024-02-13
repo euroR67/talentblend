@@ -19,6 +19,13 @@ class ChatController extends AbstractController
     #[Route('recruteur/startChat/{id}', name: 'send_message', methods: ['POST'])]
     public function sendMessage(Request $request, EntityManagerInterface $em, UserRepository $userRepository, $id)
     {
+        $csrfToken = $request->request->get('csrf_token');
+
+        // Vérifiez si le jeton CSRF est valide
+        if (!$this->isCsrfTokenValid('send_message', $csrfToken)) {
+            throw $this->createAccessDeniedException('Invalid CSRF token.');
+        }
+
         $user = $userRepository->find($id);
 
         if (!$user) {
@@ -26,7 +33,8 @@ class ChatController extends AbstractController
         }
 
         $message = new Message();
-        $message->setContent($request->request->get('content'));
+        $content = $request->request->get('content');
+        $message->setContent(htmlspecialchars($content, ENT_QUOTES, 'UTF-8'));
         $message->setSender($this->getUser());
         $message->setReceiver($user);
         $em->persist($message);
