@@ -31,7 +31,10 @@
                     {% for emploi in emplois %}
                         <tr>
                             <td>
-                                <a href="{{ path('app_show_emploi', {'id': emploi.id}) }}"><img src="{{ asset('logo') ~ '/' ~ emploi.entreprise.logo }}" alt="{{ emploi.entreprise }}" height="40"> {{ emploi.poste }}</a>
+                                <a href="{{ path('app_show_emploi', {'id': emploi.id}) }}">
+                                    <img src="{{ asset('logo') ~ '/' ~ emploi.entreprise.logo }}" alt="{{ emploi.entreprise }}" height="40"> 
+                                    {{ emploi.poste }}
+                                </a>
                                 {% if emploi.status == true %}
                                     <span>
                                         "Pourvu"

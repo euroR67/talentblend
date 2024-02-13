@@ -977,6 +977,18 @@ div.motif div a:hover {
     border: 1px solid #01a70194;
 }
 
+.offre-en-ligne table tbody tr td a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.offre-en-ligne table tbody tr td a img {
+    width: 40px;
+    aspect-ratio: 1/1;
+    object-fit: contain;
+}
+
 @media screen and (min-width: 530px) {
     .modal {
         width: 32rem;
@@ -1034,6 +1046,10 @@ div.motif div a:hover {
 
     .wrapper > h2 {
         margin-block: 0;
+    }
+
+    div.table-wrapper {
+        overflow-x: unset;
     }
     
     /* Menu navigation */
