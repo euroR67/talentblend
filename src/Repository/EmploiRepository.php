@@ -6,6 +6,7 @@ use App\Entity\Emploi;
 use App\Model\SearchData;
 use Doctrine\Persistence\ManagerRegistry;
 use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Component\Security\Core\Security;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
@@ -21,10 +22,13 @@ class EmploiRepository extends ServiceEntityRepository
 {
     public function __construct(
         ManagerRegistry $registry,
-        private PaginatorInterface $paginatorInterface
+        private PaginatorInterface $paginatorInterface,
+        Security $security
     ) {
         parent::__construct($registry, Emploi::class);
+        $this->security = $security;
     }
+    
 
 
     /** Fonction de recherche offre d'emploi par poste et ville
@@ -115,8 +119,11 @@ class EmploiRepository extends ServiceEntityRepository
     }
 
     // Trouver les emplois non expirés de l'utilisateur en session
-    public function findEmploiNonExpirer($emplois)
+    public function findEmploiNonExpirer()
     {
+        // Récupère l'utilisateur en session
+        $user = $this->security->getUser();
+
         // On crée un queryBuilder
         $qb = $this->createQueryBuilder('e');
 
@@ -124,49 +131,47 @@ class EmploiRepository extends ServiceEntityRepository
         $qb->andWhere('e.dateExpiration > :date')
             // Exclure les emploi qui sont en pause
             ->andWhere('e.pause = :isPause')
+            // On récupère les emplois de l'utilisateur en session uniquement
+            ->andWhere('e.user = :user')
             // Permet de récupérer la date du jour
             ->setParameter('date', new \DateTime('now'))
             // Permet de trier les emplois par date d'expiration
             ->setParameter('isPause', false)
-            ->orderBy('e.dateExpiration', 'DESC');
-
-        // On récupère les emplois de l'utilisateur en session
-        $qb->andWhere('e IN (:emplois)')
-            ->setParameter('emplois', $emplois)
-            // Permet de trier les emplois par date d'expiration
+            ->setParameter('user', $user)
             ->orderBy('e.dateExpiration', 'DESC');
 
         // On retourne les résultats
         return $qb->getQuery()->getResult();
     }
 
-    // Trouver d'emploi dont la date d'expiration est supérieur à la date du jour et qui appartient a l'utilisateur en session
-    public function findEmploiExpirer($emplois)
+    public function findEmploiExpirer()
     {
+        // Récupère l'utilisateur en session
+        $user = $this->security->getUser();
+
         $qb = $this->createQueryBuilder('e');
 
         $qb->andWhere('e.dateExpiration < :date')
+            ->andWhere('e.user = :user')
             ->setParameter('date', new \DateTime('now'))
-            ->orderBy('e.dateExpiration', 'DESC');
-
-        $qb->andWhere('e IN (:emplois)')
-            ->setParameter('emplois', $emplois)
+            ->setParameter('user', $user)
             ->orderBy('e.dateExpiration', 'DESC');
 
         return $qb->getQuery()->getResult();
     }
 
     // Trouver les emploi qui sont mise en pause
-    public function findEmploiPaused($emplois)
+    public function findEmploiPaused()
     {
+        // Récupère l'utilisateur en session
+        $user = $this->security->getUser();
+
         $qb = $this->createQueryBuilder('e');
 
         $qb->andWhere('e.pause = :isPause')
+            ->andWhere('e.user = :user')
             ->setParameter('isPause', true)
-            ->orderBy('e.dateExpiration', 'DESC');
-
-        $qb->andWhere('e IN (:emplois)')
-            ->setParameter('emplois', $emplois)
+            ->setParameter('user', $user)
             ->orderBy('e.dateExpiration', 'DESC');
 
         return $qb->getQuery()->getResult();

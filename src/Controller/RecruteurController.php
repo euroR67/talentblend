@@ -144,17 +144,14 @@ class RecruteurController extends AbstractController
     {
         $this->denyAccessUnlessGranted('ROLE_RECRUTEUR');
 
-        // Récupère l'utilisateur en session
-        $user = $this->getUser();
-
         // Récupère les emplois non expirés créés par l'utilisateur
-        $emplois = $entityManager->getRepository(Emploi::class)->findEmploiNonExpirer($user->getEmplois());
+        $emplois = $entityManager->getRepository(Emploi::class)->findEmploiNonExpirer();
 
         // Récupère les emplois dont dateExpiration est supérieur à la date du jour
-        $emploisExpirer = $entityManager->getRepository(Emploi::class)->findEmploiExpirer($user->getEmplois());
+        $emploisExpirer = $entityManager->getRepository(Emploi::class)->findEmploiExpirer();
 
         // Récupère les emplois qui sont mis en pause
-        $emploiPaused = $entityManager->getRepository(Emploi::class)->findEmploiPaused($user->getEmplois());
+        $emploiPaused = $entityManager->getRepository(Emploi::class)->findEmploiPaused();
 
         return $this->render('recruteur/index.html.twig', [
             'emplois' => $emplois,
